@@ -23,6 +23,7 @@ std::map<int, std::map<int, int>> skl_count;
 
 // init: 玩家信息的初始化
 void init() {
+    players = new std::vector<int>(player_num); // 修复后续 for 循环中出现 vector 段错误的 bug
     for (int i = 0; i < player_num; i++) {
         (*players)[i] = i;
         qi[(*players)[i]] = 0;
@@ -451,6 +452,8 @@ int main() {
     // players = new std::vector<int>(player_num);  // 预分配空间
 
     // std::cout << player_num << std::endl;
+
+    do_test1_assert();
 
     std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
 

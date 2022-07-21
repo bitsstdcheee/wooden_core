@@ -46,7 +46,7 @@ inline const std::vector<T> gen_vector(const int player_num, const std::initiali
     int cnt = 0;
     auto* vec = new std::vector<T>(player_num);
     for (auto i: list) {
-        (*vec)[++cnt] = i;
+        (*vec)[cnt++] = i;
     }
     return (*vec);
 }
@@ -61,7 +61,7 @@ inline const std::map<T1, T2> gen_map(const int player_num, const std::initializ
     auto a1 = list1.begin();
     auto a2 = list2.begin();
     for (;
-        a1 != list1.end() && a2 != list2.begin();
+        a1 != list1.end() && a2 != list2.end();
         a1++, a2++
     ) {
         mp[(*a1)] = (*a2);
@@ -199,3 +199,12 @@ const TESTN test1 = TESTN(4,
     gen_map<int, int>(4, {1, 2, 3, 4}, {0, 0, 0, 0}),
     gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false}),
     gen_map<int, float>(4, {1, 2, 3, 4}, {1, 0, 1, 0}));
+
+void do_test1_assert() {
+    // tag_died
+    assert(test1.tag_died.at(1) == false);
+    assert(test1.tag_died.at(2) == false);
+    assert(test1.tag_died.at(3) == false);
+    assert(test1.tag_died.at(4) == false);
+
+}
