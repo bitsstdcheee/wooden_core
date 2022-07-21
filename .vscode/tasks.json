@@ -21,7 +21,7 @@
             ]
         },
         {
-            "label": "build judge (debug)",
+            "label": "build judge (debug) -> GBK",
             "type": "shell",
             "windows": {
                 "command": "g++",
@@ -31,7 +31,32 @@
                     "wooden_judge.exe",
                     "-Wall",
                     "-ggdb",
-                    "-g3"
+                    "-g3",
+                    "-Ddebug",
+                    "-DDEBUG",
+                    "-fexec-charset=GBK",
+                    "-finput-charset=UTF-8"
+                ],
+                "group": "build"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build judge (debug) -> UTF-8",
+            "type": "shell",
+            "windows": {
+                "command": "g++",
+                "args": [
+                    "${workspaceFolder}/wooden_judge.cpp",
+                    "-o",
+                    "wooden_judge.exe",
+                    "-Wall",
+                    "-ggdb",
+                    "-g3",
+                    "-Ddebug",
+                    "-DDEBUG",
                 ],
                 "group": "build"
             },
