@@ -43,10 +43,10 @@
             "type": "shell",
             "windows": {
                 "command": "${workspaceFolder}/wooden_judge.exe",
-                "args": [
-                ],
+                "args": [],
                 "group": "run"
-            }
+            },
+            "problemMatcher": []
         }
     ]
 }
