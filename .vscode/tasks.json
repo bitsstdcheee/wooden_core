@@ -21,6 +21,24 @@
             ]
         },
         {
+            "label": "build judge (debug)",
+            "type": "shell",
+            "windows": {
+                "command": "g++",
+                "args": [
+                    "${workspaceFolder}/wooden_judge.cpp",
+                    "-o",
+                    "wooden_judge.exe",
+                    "-Wall",
+                    "-g"
+                ],
+                "group": "build"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
             "label": "run judge",
             "type": "shell",
             "windows": {
