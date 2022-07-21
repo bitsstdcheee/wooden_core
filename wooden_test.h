@@ -154,25 +154,39 @@ struct TESTN {
         }
         std::cout << std::endl;
         std::cout << "died:      ";
+        bool flag = false; // 标记是否输出过死亡玩家的 id
         for (int player : players) {
             if (tag_died.at(player) == false) std::cout << " ";
-            else std::cout << "*";
+            else {
+                std::cout << "*";
+                flag = true;
+            }
             std::cout << "\t";
         }
+        if (flag == false) {
+            std::cout << "\tEmpty!";
+        } 
         std::cout << std::endl;
         std::cout << "skl_count: " << std::endl;
         for (int player: players) {
+            flag = false;
             std::cout << "\tPlayer " << player << ": ";
             if (skl_count.at(player).empty()) {
+                // 理论上来说不可能出现
+                assert(skl_count.at(player).empty() == false);
                 std::cout << "Empty" << std::endl;
                 break;
             }
-            std::cout << std::endl;
             for (auto i: skl_count.at(player)) {
                 if (i.second == 0) continue;
+                flag = true;
+                std::cout << std::endl;
                 std::cout << "\t\t- " << i.first << "\t: " << i.second << " time";
                 if (i.second > 1) std::cout << "s";
                 std::cout << std::endl;
+            }
+            if (flag == false) {
+                std::cout << "Empty" << std::endl;
             }
         }
         std::cout << "skill:    " << std::endl;

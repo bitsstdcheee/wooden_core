@@ -397,18 +397,19 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
 }
 
 // pretty_print_result_died: 格式化打印玩家死亡信息
+// _id: 玩家 id 列表
 // _tag_died: 玩家死亡信息, 格式应与 tag_died 相同
 // comment: 可选, 作为输出辅助信息
-void pretty_print_result_died(const std::map<int, bool>& _tag_died, const std::string& comment = "") {
-    std::cout << "\tDied Players";
+void pretty_print_result_died(const std::vector<int> &_id, const std::map<int, bool>& _tag_died, const std::string& comment = "") {
+    std::cout << "--\tDied Players";
     if (comment != "") {
         std::cout << " - " << comment;
     }
     std::cout << std::endl;
     bool flag = false; // 记录是否输出过已经死去的玩家 id
-    for (auto player: _tag_died) {
-        if (player.second == false) continue;
-        std::cout << player.first << "\t";
+    for (auto player: _id) {
+        if (_tag_died.at(player) == false) continue;
+        std::cout << player << "\t";
         flag = true;
     }
     if (flag == false) {
@@ -418,20 +419,21 @@ void pretty_print_result_died(const std::map<int, bool>& _tag_died, const std::s
 }
 
 // pretty_print_result_qi: 格式化打印玩家气数信息
+// _id: 玩家 id 列表
 // _qi: 玩家气数信息, 格式应与 qi 相同
 // comment: 可选, 作为输出辅助信息
-void pretty_print_result_qi(const std::map<int, float>& _qi, const std::string& comment = "") {
-    std::cout << "\tQi of Players";
+void pretty_print_result_qi(const std::vector<int> &_id, const std::map<int, float>& _qi, const std::string& comment = "") {
+    std::cout << "--\tQi of Players";
     if (comment != "") {
         std::cout << " - " << comment;
     }
     std::cout << std::endl;
-    for (auto player: _qi) {
-        std::cout << player.first << "\t";
+    for (auto player: _id) {
+        std::cout << player << "\t";
     }
     std::cout << std::endl;
-    for (auto player: _qi) {
-        std::cout << player.second << "\t";
+    for (auto player: _id) {
+        std::cout << _qi.at(player) << "\t";
     }
     std::cout << std::endl;
 }
@@ -479,8 +481,8 @@ void passon(const TESTN &test) {
     do_main(*_dirty_choices);
 
     // Step 2.5 打印结果
-    pretty_print_result_died(tag_died);
-    pretty_print_result_qi(qi);
+    pretty_print_result_died((*players), tag_died);
+    pretty_print_result_qi((*players), qi);
 
     // Step 3. 判断结果
     assert(_res_tag_died == tag_died);
