@@ -150,19 +150,19 @@ struct TESTN {
         std::cout << "player:    " << player_num << " persons" << std::endl;
         std::cout << "id:        ";
         for (int player : players) {
-            std::cout << player << "\b";
+            std::cout << player << "\t";
         }
         std::cout << std::endl;
         std::cout << "died:      ";
         for (int player : players) {
             if (tag_died.at(player) == false) std::cout << " ";
             else std::cout << "*";
-            std::cout << "\b";
+            std::cout << "\t";
         }
         std::cout << std::endl;
         std::cout << "skl_count: " << std::endl;
         for (int player: players) {
-            std::cout << "\bPlayer " << player << ": ";
+            std::cout << "\tPlayer " << player << ": ";
             if (skl_count.at(player).empty()) {
                 std::cout << "Empty" << std::endl;
                 break;
@@ -170,14 +170,14 @@ struct TESTN {
             std::cout << std::endl;
             for (auto i: skl_count.at(player)) {
                 if (i.second == 0) continue;
-                std::cout << "\b\b- " << i.first << "\b: " << i.second << " time";
+                std::cout << "\t\t- " << i.first << "\t: " << i.second << " time";
                 if (i.second > 1) std::cout << "s";
                 std::cout << std::endl;
             }
         }
         std::cout << "skill:    " << std::endl;
         for (int player: players) {
-            std::cout << "\bPlayer " << player << ": ";
+            std::cout << "\tPlayer " << player << ": ";
             if (using_skill.at(player) == test::none) {
                 std::cout << "None";
             }

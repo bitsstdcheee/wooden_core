@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <iostream>
+#include <ostream>
 #include <utility>
 #include <vector>
 #include <map>
@@ -395,6 +396,46 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     }
 }
 
+// pretty_print_result_died: 格式化打印玩家死亡信息
+// _tag_died: 玩家死亡信息, 格式应与 tag_died 相同
+// comment: 可选, 作为输出辅助信息
+void pretty_print_result_died(const std::map<int, bool>& _tag_died, const std::string& comment = "") {
+    std::cout << "\tDied Players";
+    if (comment != "") {
+        std::cout << " - " << comment;
+    }
+    std::cout << std::endl;
+    bool flag = false; // 记录是否输出过已经死去的玩家 id
+    for (auto player: _tag_died) {
+        if (player.second == false) continue;
+        std::cout << player.first << "\t";
+        flag = true;
+    }
+    if (flag == false) {
+        std::cout << "Empty!";
+    }
+    std::cout << std::endl;
+}
+
+// pretty_print_result_qi: 格式化打印玩家气数信息
+// _qi: 玩家气数信息, 格式应与 qi 相同
+// comment: 可选, 作为输出辅助信息
+void pretty_print_result_qi(const std::map<int, float>& _qi, const std::string& comment = "") {
+    std::cout << "\tQi of Players";
+    if (comment != "") {
+        std::cout << " - " << comment;
+    }
+    std::cout << std::endl;
+    for (auto player: _qi) {
+        std::cout << player.first << "\t";
+    }
+    std::cout << std::endl;
+    for (auto player: _qi) {
+        std::cout << player.second << "\t";
+    }
+    std::cout << std::endl;
+}
+
 // passon: 传递测试参数并运行测试的函数
 void passon(const TESTN &test) {
     const int &_player_num = test.player_num;
@@ -436,6 +477,10 @@ void passon(const TESTN &test) {
 
     // Step 2. 运行测试
     do_main(*_dirty_choices);
+
+    // Step 2.5 打印结果
+    pretty_print_result_died(tag_died);
+    pretty_print_result_qi(qi);
 
     // Step 3. 判断结果
     assert(_res_tag_died == tag_died);
