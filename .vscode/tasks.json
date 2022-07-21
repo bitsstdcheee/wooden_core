@@ -19,6 +19,16 @@
             "problemMatcher": [
                 "$gcc"
             ]
+        },
+        {
+            "label": "run judge",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/wooden_judge.exe",
+                "args": [
+                ],
+                "group": "run"
+            }
         }
     ]
 }
