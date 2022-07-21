@@ -39,6 +39,19 @@
             ]
         },
         {
+            "label": "build & run judge (debug)",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/wooden_judge.exe",
+                "args": [
+
+                ],
+                "group": "build & run"
+            },
+            "problemMatcher": [],
+            "dependsOn": ["build judge (debug)"]
+        },
+        {
             "label": "run judge",
             "type": "shell",
             "windows": {
