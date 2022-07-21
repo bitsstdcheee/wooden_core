@@ -30,7 +30,7 @@
                     "-o",
                     "wooden_judge.exe",
                     "-Wall",
-                    "-g"
+                    "-ggdb"
                 ],
                 "group": "build"
             },
