@@ -46,7 +46,7 @@ void dprint(const char* msg, bool need_endl = true) {
 // init: 玩家信息的初始化
 void init() {
     dprint("[Init] player_num = " + std::to_string(player_num));
-    try {
+    /* try {
         std::cout << "Address: " << new std::vector<int>(player_num) << std::endl;
         // players = new std::vector<int>(player_num); // 修复后续 for 循环中出现 vector 段错误的 bug
         // players = new std::vector<int>(4);
@@ -59,13 +59,16 @@ void init() {
     catch (std::exception &e) {
         dprint("Exp!: ", false);
         dprint(e.what());
-    }
+    } */
     
     // if (players == 0) {
     //     dprint("players is 0!");
     //     assert(players != 0);
     // }
+
+    players = new std::vector<int>(player_num);
     dprint("After new vector players");
+
     for (int i = 0; i < player_num; i++) {
         dprint("i = " + std::to_string(i));
         (*players)[i] = 0;   // 此处默认改成 0
@@ -543,7 +546,8 @@ void passon(const TESTN &test) {
     auto* _dirty_choices = new std::vector<std::pair<int, Skill>>(_player_num);
     int cnt = 0;
     for (auto i: _using_skill) {
-        (*_dirty_choices)[++cnt] = std::make_pair(i.first, Skill(i.second, _target.at(i.first)));  // VS 调试中发现该语句的 vector 容器触发 assert 错误
+        dprint("[P0] In for: i = <" + std::to_string(i.first) + ", " + std::to_string(i.second) + ">, cnt = " + std::to_string(cnt));
+         (*_dirty_choices)[cnt++] = std::make_pair(i.first, Skill(i.second, _target.at(i.first)));  // VS 调试中发现该语句的 vector 容器触发 assert 错误 (已修复)
     }
     dprint("[P0] After test::skill -> choices");
 
@@ -595,8 +599,6 @@ int main() {
     do_test1_assert();
 
     std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-
-    char* a = "Hello World!";
 
     test1.info();
     passon(test1);
