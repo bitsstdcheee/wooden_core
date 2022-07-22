@@ -1,6 +1,11 @@
 #include <cstdio>
+#include <exception>
 #include <iostream>
+#include <new>
 #include <ostream>
+#include <stdlib.h>
+#include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 #include <map>
@@ -13,6 +18,7 @@ int player_num;
 // players: 记录每位玩家的 id, 无序
 // 指向 vector 的指针, 用于明确 player_num 后分配空间大小
 std::vector<int>* players;
+// std::vector<int> *players = new std::vector<int>(4);
 // qi: 记录每位玩家 (id) 对应当前的气数
 std::map<int, float> qi;  
 // tag_died: 记录每位玩家 (id) 对应的死亡状态
@@ -22,15 +28,55 @@ std::map<int, bool> tag_died;
 // skl_count: 记录每位玩家 (id) 对应技能 (skl) 使用次数
 std::map<int, std::map<int, int>> skl_count;
 
+//dprint: debug 输出
+void dprint(const std::string &msg, bool need_endl = true) {
+    #ifdef debug
+    std::cout << msg << std::endl;
+    #endif
+}
+
+//dprint: debug 输出
+void dprint(const char* msg, bool need_endl = true) {
+    #ifdef debug
+    std::cout << msg << std::endl;
+    #endif
+}
+
+
 // init: 玩家信息的初始化
 void init() {
-    players = new std::vector<int>(player_num); // 修复后续 for 循环中出现 vector 段错误的 bug
+    dprint("[Init] player_num = " + std::to_string(player_num));
+    try {
+        std::cout << "Address: " << new std::vector<int>(player_num) << std::endl;
+        // players = new std::vector<int>(player_num); // 修复后续 for 循环中出现 vector 段错误的 bug
+        // players = new std::vector<int>(4);
+    }
+    // catch (std::bad_alloc &memExp) {
+    //     dprint("Exp!: ", false);
+    //     dprint(memExp.what());
+    //     abort();
+    // }
+    catch (std::exception &e) {
+        dprint("Exp!: ", false);
+        dprint(e.what());
+    }
+    
+    // if (players == 0) {
+    //     dprint("players is 0!");
+    //     assert(players != 0);
+    // }
+    dprint("After new vector players");
     for (int i = 0; i < player_num; i++) {
-        (*players)[i] = i;
+        dprint("i = " + std::to_string(i));
+        (*players)[i] = 0;   // 此处默认改成 0
+        dprint("After 1");
         qi[(*players)[i]] = 0;
+        dprint("After 2");
         tag_died[(*players)[i]] = false;
+        dprint("After 3");
         // (抛弃) 此处的 tag_died 应先预设为 true, 当玩家确认开始游戏时更改为 false
         skl_count[(*players)[i]].clear();
+        dprint("After 4");
     }
 }
 
@@ -199,6 +245,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
     return true;
 }
 
+
 void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // do_main：主小局判定程序
     // choices: player_id, skill
@@ -219,6 +266,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             // 不合法
             tag_died[player_choice.first] = true;
             has_died_er = true;
+            dprint("[Step 0] 玩家 " + std::to_string(player_choice.first) + " 检测出招不合法, tag_died 设为 true");
         } 
     }
     if (has_died_er == true) {
@@ -230,6 +278,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     for (const auto & player: choices) {
         assert(tag_died[player.first] == false);
         skl_count[player.first][player.second.skl] ++;
+        dprint("[Step 0.5] 玩家 " + std::to_string(player.first) + " 技能为 " + std::to_string(player.second.skl));
     }
 
     // Step 1. 处理拍气
@@ -237,9 +286,11 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // 当前小局中是否有人拍气, 用于木镐判定
     for (const auto & player_choice : choices) {
         if (tag_died[player_choice.first] == true) {
+            dprint("[Step 1] 玩家 " + std::to_string(player_choice.first) + " 已死亡, 跳过");
             continue;
         }
         if (player_choice.second.skl == clap) {
+            dprint("[Step 1] 玩家 " + std::to_string(player_choice.first) + " 出 clap, qi_add++");
             qi_add[player_choice.first] ++;
             has_clap = true;
         }
@@ -371,7 +422,8 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             continue;
         }
         if (player.second.skl == clap) {
-            qi_add[player.first] ++;
+            // qi_add[player.first] ++;
+            // 这里在 Step 1 中已经加过气了, 不需要再加了
         }
         else {
             // 剩余的为镐类, Step 0 中已经处理了爆气的情况, 所以不需要判断是否会爆气 
@@ -393,6 +445,16 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
                 qi_add[id] += 6;
             }
         }
+    }
+
+    // Step 5. qi_add -> qi
+    for (auto player: *players) {
+        if (qi_add[player] == 0) {
+            dprint("[Step 5] 玩家 " + std::to_string(player) + " 无加气, 现有气数为 " + std::to_string(qi[player]));
+            continue;
+        }
+        qi[player] += qi_add[player];
+        dprint("[Step 5] 玩家 " + std::to_string(player) + " 加气结算: delta 为 " + std::to_string(qi_add[player])+ ", 现有气数为 " + std::to_string(qi[player]));
     }
 }
 
@@ -438,8 +500,21 @@ void pretty_print_result_qi(const std::vector<int> &_id, const std::map<int, flo
     std::cout << std::endl;
 }
 
+// equal_map: 用于测试用例和实际结果的 map 容器比较
+// _id: 玩家 id 列表
+// _mp1: 待比较的 _mp1
+// _mp2: 待比较的 _mp2
+template <typename T> // 调用模板函数不一定需要写出此处模板函数定义的 T
+bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1, const std::map<int, T> &_mp2) {
+    for (auto player: _id) {
+        if (_mp1.at(player) != _mp2.at(player)) return false;
+    }
+    return true;
+}
+
 // passon: 传递测试参数并运行测试的函数
 void passon(const TESTN &test) {
+    dprint("[P*] Entering passon()");
     const int &_player_num = test.player_num;
     assert(_player_num >= 2); // 玩家数量需大于或等于 2
 
@@ -453,6 +528,7 @@ void passon(const TESTN &test) {
     const std::map<int, int> &_target = test.target;
 
     // Step 0. 传入数据 -- 玩家个数断言
+    dprint("[P0] Before importing data");
     assert(_players.size() == _player_num);
     assert(_qi.size() == _player_num);
     assert(_tag_died.size() == _player_num);
@@ -462,32 +538,48 @@ void passon(const TESTN &test) {
     assert(_using_skill.size() == _player_num);
     assert(_target.size() == _player_num);
 
-    // 转换 test:skill -> choices
+    // 转换 test::skill -> choices
+    dprint("[P0] Before test::skill -> choices");
     auto* _dirty_choices = new std::vector<std::pair<int, Skill>>(_player_num);
     int cnt = 0;
     for (auto i: _using_skill) {
-        (*_dirty_choices)[++cnt] = std::make_pair(i.first, Skill(i.second, _target.at(i.first)));
+        (*_dirty_choices)[++cnt] = std::make_pair(i.first, Skill(i.second, _target.at(i.first)));  // VS 调试中发现该语句的 vector 容器触发 assert 错误
     }
+    dprint("[P0] After test::skill -> choices");
 
     // Step 1. 拷贝数据
+    dprint("[P1] Before copying data");
     player_num = _player_num;
+    dprint("[P1] Before entering init()");
     init();
+    dprint("[P1] After entering init()");
     (*players) = _players;
     qi = _qi;
     tag_died = _tag_died;
     skl_count = _skl_count;
+    dprint("[P2] After copying data");
 
     // Step 2. 运行测试
+    dprint("[P2] Before do_main()");
     do_main(*_dirty_choices);
+    dprint("[P2] After do_main()");
 
     // Step 2.5 打印结果
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
+    pretty_print_result_died((*players), _res_tag_died, "In test1");
+    pretty_print_result_qi((*players), _res_qi, "In test1");
+    dprint("[P2.5] After pretty printing");
+
     // Step 3. 判断结果
-    assert(_res_tag_died == tag_died);
-    assert(_res_qi == qi);
+    // assert(_res_tag_died == tag_died);
+    // assert(_res_qi == qi);
+    dprint("[P3] Before assert result");
+    assert(equal_map(*players, _res_tag_died, tag_died));
+    assert(equal_map(*players, _res_qi, qi));
     
+    std::cout << "Test success: " << test.comment << std::endl;
 }
 
 int main() {

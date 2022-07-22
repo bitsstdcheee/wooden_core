@@ -9,6 +9,8 @@
 
 #define enum2str(val) #val
 
+// #define debug
+
 const int MIN_SKILL_NUM = 0;
 const int MAX_SKILL_NUM = 17;
 
@@ -212,7 +214,8 @@ const TESTN test1 = TESTN(4,
     gen_map<int, test::skill>(4, {1, 2, 3, 4}, {test::clap, test::none, test::clap, test::none}),
     gen_map<int, int>(4, {1, 2, 3, 4}, {0, 0, 0, 0}),
     gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false}),
-    gen_map<int, float>(4, {1, 2, 3, 4}, {1, 0, 1, 0}));
+    gen_map<int, float>(4, {1, 2, 3, 4}, {1, 0, 1, 0}),
+    "纯拍气");
 
 void do_test1_assert() {
     // tag_died
