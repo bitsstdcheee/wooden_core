@@ -1,9 +1,10 @@
+#include <array>
 #include <cstdio>
 #include <exception>
 #include <iostream>
 #include <new>
 #include <ostream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -118,6 +119,7 @@ using skill = enum {
     ashiba = 16, // 阿西巴 0~5 每小局 2 次
     zd = 17, // zd 0~无限 每小局 1 次
 };
+const int NUM_SKL = 18;
 
 
 // Skill: 带有对象的招术封装
@@ -189,7 +191,7 @@ std::vector<std::pair<int, Skill>> clean_choices(const std::vector<std::pair<int
 }
 
 // maxd: 记录 skill 对应防御的最大值
-const float maxd[] = {0, 
+const std::array<float, NUM_SKL> maxd = {0, 
     0, 0, 0.5, 1, 2.5, 
     1, 2.5, 2, 3, 4, 
     5, 6, 3, 5, 6, 
@@ -197,7 +199,7 @@ const float maxd[] = {0,
 };
 
 // mind: 记录 skill 对应防御的最小值
-const float mind[] = {0,
+const std::array<float, NUM_SKL> mind = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 1, 1,
@@ -205,7 +207,7 @@ const float mind[] = {0,
 };
 
 // attk: 记录 skill 对应攻击
-const float attk[] = {0,
+const std::array<float, NUM_SKL> attk = {0,
     0, 0, 0, 0, 0,
     1, 2.5, 2, 3, 4,
     5, 6, 0, 0, 0,
@@ -213,7 +215,7 @@ const float attk[] = {0,
 };
 
 // sklqi: 记录 skill 对应使用的气数
-const float sklqi[] = {0,
+const std::array<float, NUM_SKL> sklqi = {0,
     0, 1, 2, 3, 6,
     1, 1, 2, 3, 4,
     5, 6, 0, 0, 0,
@@ -350,8 +352,8 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             float att1, att2;
             // att1, att2: 定义为当前 player1 和 player2 所发出的攻击值
             // 只有当 target 命中时才有攻击
-            att1 = get_attack(player1.second.skl) * int(bool(player1.second.target == player2.first));
-            att2 = get_attack(player2.second.skl) * int(bool(player2.second.target == player1.first));
+            att1 = get_attack(player1.second.skl) * bool(player1.second.target == player2.first);
+            att2 = get_attack(player2.second.skl) * bool(player2.second.target == player1.first);
             if (def1.second == -1) {
                 // 玩家1 拥有无限防御, 双方无实际伤害, 伤害判定跳过
             }
@@ -415,7 +417,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
 
     // TODO: 镐类等值爆
     // Step 4. 拍气, 镐子
-    bool has_died_in_clap = false;
+    // bool has_died_in_clap = false; // 该变量暂时不需要
     for (const auto & player: choices) {
         if (tag_died[player.first]) {
             // player 已经死去
@@ -436,10 +438,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             const int& ps = player.second.skl;
             // id: 对玩家 first 的临时引用
             const int& id = player.first;
-            if (ps == wooden_axe) {
-                qi_add[id] += 2;
-            }
-            else if (ps == normal_axe) {
+            if (ps == wooden_axe || ps == normal_axe) {
                 qi_add[id] += 2;
             }
             else if (ps == diamond_axe) {
@@ -541,14 +540,14 @@ void passon(const TESTN &test) {
 
     // Step 0. 传入数据 -- 玩家个数断言
     dprint("[P0] Before importing data");
-    assert(_players.size() == _player_num);
-    assert(_qi.size() == _player_num);
-    assert(_tag_died.size() == _player_num);
-    assert(_skl_count.size() == _player_num);
-    assert(_res_tag_died.size() == _player_num);
-    assert(_res_qi.size() == _player_num);
-    assert(_using_skill.size() == _player_num);
-    assert(_target.size() == _player_num);
+    assert(_players.size() == (long long unsigned int)_player_num);
+    assert(_qi.size() == (long long unsigned int)_player_num);
+    assert(_tag_died.size() == (long long unsigned int)_player_num);
+    assert(_skl_count.size() == (long long unsigned int)_player_num);
+    assert(_res_tag_died.size() == (long long unsigned int)_player_num);
+    assert(_res_qi.size() == (long long unsigned int)_player_num);
+    assert(_using_skill.size() == (long long unsigned int)_player_num);
+    assert(_target.size() == (long long unsigned int)_player_num);
 
     // 转换 test::skill -> choices
     dprint("[P0] Before test::skill -> choices");
@@ -613,7 +612,7 @@ int main() {
     #endif
 
     // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-    do_test(3);
+    do_test(4);
     
     return 0;
 }

@@ -84,8 +84,8 @@ inline const std::map<T1, T2> gen_map(const int player_num, const std::initializ
 // gen_map: 生成 map 形式
 template <typename T1, typename T2>
 inline const std::map<T1, T2> gen_map(const int player_num, const std::vector<T1> vec1, const std::vector<T2> vec2) {
-    assert(vec1.size() == player_num);
-    assert(vec2.size() == player_num);
+    assert(vec1.size() == (long long unsigned int)player_num);
+    assert(vec2.size() == (long long unsigned int)player_num);
     std::map<T1, T2> mp;
     mp.clear();
     for (int i = 0; i < player_num; i++) {
@@ -292,6 +292,17 @@ const TESTN test3 = TESTN(4,
     gen_map<int, bool>(4, gen_default_player(4), {false, false, false, true}),
     gen_map<int, float>(4, gen_default_player(4), {4, 5, 12, 0}),
     "镐局 1");
+
+const TESTN test4 = TESTN(2,
+    gen_default_player(2),
+    gen_map<int, float>(2, gen_default_player(2), {1, 0}),
+    gen_all_alive(gen_default_player(2)),
+    gen_map<int, std::map<int, int>>(2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
+    gen_map<int, test::skill>(2, gen_default_player(2), {test::wooden_axe, test::clap}),
+    gen_map<int, int>(2, gen_default_player(2), gen_repeated_vec(0, 2)),
+    gen_map<int, bool>(2, gen_default_player(2), {true, false}),
+    gen_map<int, float>(2, gen_default_player(2), {0, 1}),
+    "镐局 2");
 
 // const TESTN test3 = TESTN()
 
