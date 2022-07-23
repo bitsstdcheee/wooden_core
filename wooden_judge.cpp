@@ -33,14 +33,16 @@ std::map<int, std::map<int, int>> skl_count;
 //dprint: debug 输出
 void dprint(const std::string &msg, bool need_endl = true) {
     #ifdef debug
-    std::cout << msg << std::endl;
+    std::cout << msg;
+    if (need_endl) std::cout << std::endl;
     #endif
 }
 
 //dprint: debug 输出
 void dprint(const char* msg, bool need_endl = true) {
     #ifdef debug
-    std::cout << msg << std::endl;
+    std::cout << msg;
+    if (need_endl) std::cout << std::endl;
     #endif
 }
 
@@ -275,8 +277,13 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             dprint("[Step 0] 玩家 " + std::to_string(player_choice.first) + " 检测出招不合法, tag_died 设为 true");
         } 
     }
+    dprint("[Step 0] 完成, has_died = ", false);
     if (has_died_er == true) {
         choices = clean_choices(choices);
+        dprint("true");
+    }
+    else {
+        dprint("false");
     }
 
     // Step 0.5. 添加计数器
@@ -305,15 +312,29 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // Step 2. 拍气导致木镐触发判定
     bool has_died_wooden_axe = false;
     if (has_clap == true) {
+        dprint("[Step 2] 存在 Clap, 进入判定");
         for (const auto & player_choice: choices) {
+            dprint("[Step 2] 玩家 " + std::to_string(player_choice.first)+ ": ", false);
             if (player_choice.second.skl == wooden_axe) {
                 tag_died[player_choice.first] = true;
                 has_died_wooden_axe = true;
+                dprint("出木镐, 判死");
+            }
+            else {
+                dprint("跳过");
             }
         }
     }
+    else {
+        dprint("[Step 2] 不存在 Clap, 跳过");
+    }
+    dprint("[Step 2] 完成, has died = ", false);
     if(has_died_wooden_axe == true) {
         choices = clean_choices(choices);
+        dprint("true");
+    }
+    else {
+        dprint("false");
     }
 
     // Step 3. 对于每两个不同的玩家之间进行对决判定
@@ -321,25 +342,30 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // has_died_in_att: 是否有人在对决阶段死去, 用于剪枝
     for (const auto & player1 : choices) {
         if (tag_died[player1.first] == true) {
+            dprint("[Step 3] P1 = " + std::to_string(player1.first) + ", 已死亡, 跳过");
             // player1 已经死了
             continue;
         }
         for (const auto & player2 : choices) {
+            dprint("[Step 3] \tP1 = " + std::to_string(player1.first) + ", P2 = " + std::to_string(player2.first) + ": ", false);
             //// 初始剪枝 - 开始
             if (player1.first == player2.first) {
                 // 相同的两个玩家, 跳过
+                dprint("相同玩家, 跳过");
                 continue;
             }
             if (tag_died[player2.first == true]) {
                 // player2 已经死了
+                dprint("P2(" + std::to_string(player2.first) +") 已经死亡, 跳过");
                 continue;
             }
             if (have_att(player1) == 0 && have_att(player2) == 0) {
                 // 两人同时没有攻击类
+                dprint("P1 与 P2 均没有出攻击类, 跳过");
                 continue;
             }
             //// 初始剪枝 - 结束
-
+            dprint("[Step 3] \t初始剪枝: 结束");
 
             // TODO: 当前并没有考虑多人围攻一人的情况 (单人可以防御, 但叠加后超过防御最大值)
             //// 伤害判定 - 开始
@@ -349,41 +375,52 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             def1 = def2 = std::make_pair(0, 0);
             def1 = get_defense(player1.second.skl);
             def2 = get_defense(player2.second.skl);
+            dprint("[Step 3] \t获取玩家 " + std::to_string(player1.first) + " 的防御值为 [" + std::to_string(def1.first) + ", " + std::to_string(def1.second) + "], 玩家 " + std::to_string(player2.first) + " 的防御值为 [" + std::to_string(def2.first) + ", " + std::to_string(def2.second) + "]");
             float att1, att2;
             // att1, att2: 定义为当前 player1 和 player2 所发出的攻击值
             // 只有当 target 命中时才有攻击
             att1 = get_attack(player1.second.skl) * bool(player1.second.target == player2.first);
             att2 = get_attack(player2.second.skl) * bool(player2.second.target == player1.first);
+            dprint("[Step 3] \t获取玩家 " + std::to_string(player1.first) + " 的攻击值为 " + std::to_string(att1) + ", 玩家 " + std::to_string(player2.first) + " 的攻击值为 " + std::to_string(att2));
             if (def1.second == -1) {
+                dprint("[Step 3] \t 玩家 " + std::to_string(player1.first) + " 具有无限防御, 跳过");
                 // 玩家1 拥有无限防御, 双方无实际伤害, 伤害判定跳过
             }
             else if (def2.second == -1) {
+                dprint("[Step 3] \t 玩家 " + std::to_string(player2.first) + " 具有无限防御, 跳过");
                 // 玩家2 拥有无限防御, 双方无实际伤害, 伤害判定跳过
             }
             else {
+                dprint("[Step 3] \t 进入对战状态: ", false);
                 if (att1 > att2) {
                     float dd = att1 - att2;
+                    dprint("P1 攻击值大于 P2, 差值为 " + std::to_string(dd) + ", ", false);
                     if (!((dd >= def2.first) && (dd <= def2.second))) {    
                         tag_died[player2.first] = true;
                         has_died_in_att = true;
+                        dprint("P2 被攻击致死");
                         // player2 被攻击致死
                     }
                 }
                 else if (att1 < att2) {
                     float dd = att2 - att1;
+                    dprint("P1 攻击值小于 P2, 差值为 " + std::to_string(dd) + ", ", false);
                     if (!((dd >= def1.first) && (dd <= def1.second))) {    
                         tag_died[player1.first] = true;
                         has_died_in_att = true;
+                        dprint("P1 被攻击致死");
                         // player1 被攻击致死
                     }
                 }
                 else {
+                    dprint("[Step 3] \t双方抵消, 继续");
                     // 双方抵消, 游戏继续进行
                 }
             }
             //// 伤害判定 - 结束
             
             //// 黄剑判定部分 - 开始
+            dprint("[Step 3] \t黄剑判定部分: 开始");
             bool tmp_make_1_died, tmp_make_2_died;
             // tmp_make_X_died: 标记因黄剑而死亡的玩家, 而双方同时出黄剑时同时死,
             // 因此死亡标记修改应在判定完成之后
@@ -392,19 +429,25 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
                 // player1 未能使用黄剑杀死 player2
                 tmp_make_1_died = true;
                 has_died_in_att = true;
+                dprint("[Step 3] \tP1 出黄剑, P2 上阶段未死, P1 置死");
             }
             if (player2.second.skl == yellow_sword && tag_died[player1.first] == false) {
                 // player2 未能使用黄剑杀死 player1
                 tmp_make_2_died = true;
                 has_died_in_att = true;
+                dprint("[Step 3] \tP2 出黄剑, P1 上阶段未死, P2 置死");
             }
             tag_died[player1.first] |= tmp_make_1_died;
             tag_died[player2.first] |= tmp_make_2_died;
+            dprint("[Step 3] \t更新死亡状态, P1(" + std::to_string(player1.first) + ") = " + (tag_died[player1.first] == true ? "true": "false") + ", P2(" + std::to_string(player2.first) + ") = " + (tag_died[player2.first] == true ? "true": "false"));
+            dprint("[Step 3] \t黄剑判定部分: 结束");
             //// 黄剑判定部分 - 结束
 
             //// 剪枝优化部分 - 开始
+            dprint("[Step 3] \t剪枝优化部分: 开始");
             if (tag_died[player1.first] == true) {
                 // player1 已经判死, 第二层循环可以剪枝跳过
+                dprint("[Step 3] \t此时 P1(" + std::to_string(player1.first) + ") 已经死亡, break");
                 break;
             }
             //// 剪枝优化部分 - 结束
@@ -412,7 +455,11 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     }
     if (has_died_in_att) {
         // 有玩家在这个步骤中死去, 清理
+        dprint("[Step 3] has died = true");
         choices = clean_choices(choices);
+    }
+    else {
+        dprint("[Step 3] has died = false");
     }
 
     // TODO: 镐类等值爆
@@ -450,7 +497,15 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         }
     }
 
-    // Step 5. qi_add -> qi
+    // Step 5. qi_add -> qi, 处理 skill 扣气
+    for (auto & player: choices) {
+        if (tag_died[player.first] == true) {
+            dprint("[Step 5] 玩家 " + std::to_string(player.first) + " 已死亡, 跳过扣气");
+            continue;
+        }
+        qi_add[player.first] -= sklqi[player.second.skl];
+        dprint("[Step 5] 玩家 " + std::to_string(player.first) + " 出招 " + std::to_string(player.second.skl) + ", 扣气 " + std::to_string(sklqi[player.second.skl]) + ", qi_add = " + std::to_string(qi_add[player.first]));
+    }
     for (auto player: *players) {
         if (qi_add[player] == 0) {
             dprint("[Step 5] 玩家 " + std::to_string(player) + " 无加气, 现有气数为 " + std::to_string(qi[player]));
@@ -612,7 +667,7 @@ int main() {
     #endif
 
     // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-    do_test(6);
+    do_test(8);
     
     return 0;
 }
