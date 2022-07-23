@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 #include <cassert>
+
 #include "wooden_test.h"
 
 // using namespace std;
@@ -67,19 +68,19 @@ void init() {
     // }
 
     players = new std::vector<int>(player_num);
-    dprint("After new vector players");
+    // dprint("After new vector players");
 
     for (int i = 0; i < player_num; i++) {
-        dprint("i = " + std::to_string(i));
+        // dprint("i = " + std::to_string(i));
         (*players)[i] = 0;   // 此处默认改成 0
-        dprint("After 1");
+        // dprint("After 1");
         qi[(*players)[i]] = 0;
-        dprint("After 2");
+        // dprint("After 2");
         tag_died[(*players)[i]] = false;
-        dprint("After 3");
+        // dprint("After 3");
         // (抛弃) 此处的 tag_died 应先预设为 true, 当玩家确认开始游戏时更改为 false
         skl_count[(*players)[i]].clear();
-        dprint("After 4");
+        // dprint("After 4");
     }
 }
 
@@ -459,6 +460,14 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         qi[player] += qi_add[player];
         dprint("[Step 5] 玩家 " + std::to_string(player) + " 加气结算: delta 为 " + std::to_string(qi_add[player])+ ", 现有气数为 " + std::to_string(qi[player]));
     }
+
+    // Step 6. 死去玩家 qi = 0
+    for (auto player: *players) {
+        if (tag_died[player] == true) {
+            qi[player] = 0;
+            dprint("[Step 6] 玩家 " + std::to_string(player) + " 已死去, 气置 0");
+        }
+    }
 }
 
 // pretty_print_result_died: 格式化打印玩家死亡信息
@@ -586,22 +595,26 @@ void passon(const TESTN &test) {
     std::cout << "Test success: " << test.comment << std::endl;
 }
 
+#define do_test(x) passon(test##x)
+
 int main() {
     static_assert(sizeof(void *) == 8, "This program only support 64 bit.");
     assert(sizeof(void *) == 8); // 保证运行时的 64 位环境
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
+    std::cout << "This program was built on " << __DATE__ << ", " << __TIME__ << std::endl;
     // player_num = 5;
     // players = new std::vector<int>(player_num);  // 预分配空间
 
     // std::cout << player_num << std::endl;
 
+    #ifdef ASSERT_TEST1
     do_test1_assert();
+    #endif
 
-    std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-
-    test1.info();
-    passon(test1);
+    // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
+    do_test(3);
+    
     return 0;
 }
 

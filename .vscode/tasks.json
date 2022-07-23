@@ -65,7 +65,7 @@
             ]
         },
         {
-            "label": "build & run judge (debug)",
+            "label": "build & run judge (debug) -> GBK",
             "type": "shell",
             "windows": {
                 "command": "${workspaceFolder}/wooden_judge.exe",
@@ -75,7 +75,20 @@
                 "group": "build & run"
             },
             "problemMatcher": [],
-            "dependsOn": ["build judge (debug)"]
+            "dependsOn": ["build judge (debug) -> GBK"]
+        },
+        {
+            "label": "build & run judge (debug) -> UTF-8",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/wooden_judge.exe",
+                "args": [
+
+                ],
+                "group": "build & run"
+            },
+            "problemMatcher": [],
+            "dependsOn": ["build judge (debug) -> UTF-8"]
         },
         {
             "label": "run judge",

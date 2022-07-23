@@ -1,3 +1,6 @@
+#ifndef WOODEN_TEST_H
+#define WOODEN_TEST_H
+
 #include <array>
 #include <initializer_list>
 #include <map>
@@ -6,6 +9,8 @@
 #include <vector>
 #include <iostream>
 #include <cassert>
+
+#include "wooden_macro.h"
 
 #define enum2str(val) #val
 
@@ -42,6 +47,7 @@ namespace test {
 }
 
 // gen_vector: 生成 vector 形式
+/* 本函数形式被删除, 原因是 initializer_list 可以隐式转换为 vector, 以适配 vector 容器类型
 template <typename T>
 inline const std::vector<T> gen_vector(const int player_num, const std::initializer_list<T> list) {
     assert(list.size() == player_num);
@@ -52,8 +58,11 @@ inline const std::vector<T> gen_vector(const int player_num, const std::initiali
     }
     return (*vec);
 }
+*/
+
 
 // gen_map: 生成 map 形式
+/* 本函数形式被删除, 原因是 initializer_list 可以隐式转换为 vector, 以适配 vector 容器类型
 template <typename T1, typename T2>
 inline const std::map<T1, T2> gen_map(const int player_num, const std::initializer_list<T1> list1, std::initializer_list<T2> list2) {
     assert(list1.size() == player_num);
@@ -70,6 +79,41 @@ inline const std::map<T1, T2> gen_map(const int player_num, const std::initializ
     }
     return mp;
 }
+*/
+
+// gen_map: 生成 map 形式
+template <typename T1, typename T2>
+inline const std::map<T1, T2> gen_map(const int player_num, const std::vector<T1> vec1, const std::vector<T2> vec2) {
+    assert(vec1.size() == player_num);
+    assert(vec2.size() == player_num);
+    std::map<T1, T2> mp;
+    mp.clear();
+    for (int i = 0; i < player_num; i++) {
+        mp[vec1[i]] = vec2[i];
+    }
+    return mp;
+}
+
+// gen_repeated_vec: 生成重复一个对象的 vec
+template <typename T>
+inline const std::vector<T> gen_repeated_vec(const T obj, const int times) {
+    auto* vec = new std::vector<T>(times);
+    // vector clear() 会导致 size 变为 0
+    // vec->clear();
+    for (int i = 0; i < times; i++) {
+        (*vec)[i] = obj;
+    }
+    return *vec;
+}
+
+inline const std::vector<int> gen_default_player(const int player_num) {
+    auto* vec = new std::vector<int>(player_num);
+    // vec->clear();
+    for (int i = 0; i < player_num; i++) {
+        (*vec)[i] = i + 1;
+    }
+    return *vec;
+} 
 
 /*
 // gen_qi: 生成带 float 的 map 形式
@@ -99,6 +143,16 @@ inline const std::map<int, int> gen_cleared_skl() {
     }
     return mp;
 }
+
+inline const std::map<int, bool> gen_all_alive(const std::vector<int>& players) {
+    std::map<int, bool> mp;
+    mp.clear();
+    for (auto player : players) {
+        mp[player] = false;
+    }
+    return mp;
+}
+
 
 // TESTN: 打包测试样例的结构
 struct TESTN {
@@ -207,21 +261,48 @@ struct TESTN {
 };
 
 const TESTN test1 = TESTN(4,
-    gen_vector<int>(4, {1, 2, 3, 4}),
-    gen_map<int, float>(4, {1, 2, 3, 4}, {0, 0, 0, 0}),
-    gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false}),
-    gen_map<int, std::map<int, int>>(4, {1, 2, 3, 4}, {gen_cleared_skl(), gen_cleared_skl(), gen_cleared_skl(), gen_cleared_skl()}),
-    gen_map<int, test::skill>(4, {1, 2, 3, 4}, {test::clap, test::none, test::clap, test::none}),
-    gen_map<int, int>(4, {1, 2, 3, 4}, {0, 0, 0, 0}),
-    gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false}),
-    gen_map<int, float>(4, {1, 2, 3, 4}, {1, 0, 1, 0}),
+    gen_default_player(4),
+    gen_map<int, float>(4, gen_default_player(4), gen_repeated_vec<float>(0, 4)),
+    gen_all_alive(gen_default_player(4)),
+    gen_map<int, std::map<int, int>>(4, gen_default_player(4), gen_repeated_vec(gen_cleared_skl(), 4)),
+    gen_map<int, test::skill>(4, gen_default_player(4), {test::clap, test::none, test::clap, test::none}),
+    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)),
+    gen_map<int, bool>(4, gen_default_player(4), gen_repeated_vec(false, 4)),
+    gen_map<int, float>(4, gen_default_player(4), {1, 0, 1, 0}),
     "纯拍气");
 
+const TESTN test2 = TESTN(4, 
+    gen_default_player(4), 
+    gen_map<int, float>(4, gen_default_player(4), gen_repeated_vec<float>(0, 4)), 
+    gen_all_alive(gen_default_player(4)), 
+    gen_map<int, std::map<int, int>>(4, gen_default_player(4), gen_repeated_vec(gen_cleared_skl(), 4)), 
+    gen_map<int, test::skill>(4, gen_default_player(4), gen_repeated_vec(test::none, 4)), 
+    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)), 
+    gen_map<int, bool>(4, gen_default_player(4), gen_repeated_vec(false, 4)), 
+    gen_map<int, float>(4, gen_default_player(4), gen_repeated_vec<float>(0, 4)), 
+    "Null 局");
+
+const TESTN test3 = TESTN(4, 
+    gen_default_player(4),
+    gen_map<int, float>(4, gen_default_player(4), {2, 3, 6, 3}),
+    gen_all_alive(gen_default_player(4)),
+    gen_map<int, std::map<int, int>>(4, gen_default_player(4), gen_repeated_vec(gen_cleared_skl(), 4)),
+    gen_map<int, test::skill>(4, gen_default_player(4), {test::wooden_axe, test::normal_axe, test::enchanted_axe, test::enchanted_axe}),
+    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)),
+    gen_map<int, bool>(4, gen_default_player(4), {false, false, false, true}),
+    gen_map<int, float>(4, gen_default_player(4), {4, 5, 12, 0}),
+    "镐局 1");
+
+// const TESTN test3 = TESTN()
+
+#ifdef ASSERT_TEST1
 void do_test1_assert() {
     // tag_died
     assert(test1.tag_died.at(1) == false);
     assert(test1.tag_died.at(2) == false);
     assert(test1.tag_died.at(3) == false);
     assert(test1.tag_died.at(4) == false);
-
 }
+#endif
+
+#endif
