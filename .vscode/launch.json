@@ -8,7 +8,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/wooden_judge.exe",
+            "program": "${workspaceRoot}/build/wooden_game.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

@@ -12,7 +12,7 @@
                     "${workspaceFolder}/wooden_judge.cpp",
                     "${workspaceFolder}/wooden_test.cpp",
                     "-o",
-                    "wooden_judge.exe",
+                    "wooden_game.exe",
                     "-Wall"
                 ],
                 "group": "build"
@@ -30,7 +30,7 @@
                     "${workspaceFolder}/wooden_judge.cpp",
                     "${workspaceFolder}/wooden_test.cpp",
                     "-o",
-                    "wooden_judge.exe",
+                    "wooden_game.exe",
                     "-Wall",
                     "-ggdb",
                     "-g3",
@@ -54,12 +54,12 @@
                     "${workspaceFolder}/wooden_judge.cpp",
                     "${workspaceFolder}/wooden_test.cpp",
                     "-o",
-                    "wooden_judge.exe",
+                    "wooden_game.exe",
                     "-Wall",
                     "-ggdb",
                     "-g3",
                     "-Ddebug",
-                    "-DDEBUG",
+                    "-DDEBUG"
                 ],
                 "group": "build"
             },
@@ -71,37 +71,93 @@
             "label": "build & run judge (debug) -> GBK",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/wooden_judge.exe",
-                "args": [
-
-                ],
+                "command": "${workspaceFolder}/wooden_game.exe",
+                "args": [],
                 "group": "build & run"
             },
             "problemMatcher": [],
-            "dependsOn": ["build judge (debug) -> GBK"]
+            "dependsOn": [
+                "build judge (debug) -> GBK"
+            ]
         },
         {
             "label": "build & run judge (debug) -> UTF-8",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/wooden_judge.exe",
-                "args": [
-
-                ],
+                "command": "${workspaceFolder}/wooden_game.exe",
+                "args": [],
                 "group": "build & run"
             },
             "problemMatcher": [],
-            "dependsOn": ["build judge (debug) -> UTF-8"]
+            "dependsOn": [
+                "build judge (debug) -> UTF-8"
+            ]
         },
         {
             "label": "run judge",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/wooden_judge.exe",
+                "command": "${workspaceFolder}/wooden_game.exe",
                 "args": [],
                 "group": "run"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "CMake . (GBK On)",
+            "type": "shell",
+            "windows": {
+                "command": "C:/Program Files/CMake/bin/cmake.exe",
+                "args": [
+                    "${workspaceFolder}/build/",
+                    "-DGBK=ON"
+                ]
+            }
+        },
+        {
+            "label": "CMake . (GBK Off)",
+            "type": "shell",
+            "windows": {
+                "command": "C:/Program Files/CMake/bin/cmake.exe",
+                "args": [
+                    "${workspaceFolder}/build/",
+                    "-DGBK=OFF"
+                ]
+            }
+        },
+        {
+            "label": "Make (GBK On)",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "windows": {
+                "command": "D:/mingw64/bin/make.exe",
+                "args": []
+            },
+            "dependsOn": [
+                "CMake . (GBK On)"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Make (GBK Off)",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build"
+            },
+            "windows": {
+                "command": "D:/mingw64/bin/make.exe",
+                "args": []
+            },
+            "dependsOn": [
+                "CMake . (GBK Off)"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }
