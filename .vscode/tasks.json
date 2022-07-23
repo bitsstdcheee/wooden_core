@@ -81,10 +81,10 @@
             ]
         },
         {
-            "label": "build & run judge (debug) -> UTF-8",
+            "label": "build & run game (debug) -> UTF-8",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/wooden_game.exe",
+                "command": "${workspaceFolder}/build/wooden_game.exe",
                 "args": [],
                 "group": "build & run"
             },
@@ -94,10 +94,10 @@
             ]
         },
         {
-            "label": "run judge",
+            "label": "run game",
             "type": "shell",
             "windows": {
-                "command": "${workspaceFolder}/wooden_game.exe",
+                "command": "${workspaceFolder}/build/wooden_game.exe",
                 "args": [],
                 "group": "run"
             },
@@ -157,6 +157,29 @@
             ],
             "problemMatcher": [
                 "$gcc"
+            ]
+        },
+        {
+            "label": "Make & Run (GBK On)",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/build/wooden_game.exe",
+                "args": []
+            },
+            "dependsOn": [
+                "Make (GBK On)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Make & Run (GBK Off)",
+            "type": "shell",
+            "windows": {
+                "command": "${workspaceFolder}/build/wooden_game.exe",
+                "args": []
+            },
+            "dependsOn": [
+                "Make (GBK Off)"
             ]
         }
     ]

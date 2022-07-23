@@ -612,7 +612,7 @@ int main() {
     #endif
 
     // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-    do_test(4);
+    do_test(6);
     
     return 0;
 }

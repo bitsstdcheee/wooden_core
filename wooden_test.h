@@ -162,5 +162,7 @@ extern const TESTN test1;
 extern const TESTN test2;
 extern const TESTN test3;
 extern const TESTN test4;
+extern const TESTN test5;
+extern const TESTN test6;
 
 #endif

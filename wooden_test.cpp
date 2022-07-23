@@ -191,3 +191,25 @@ const TESTN test4 = TESTN(2,
     gen_map<int, bool>(2, gen_default_player(2), {true, false}),
     gen_map<int, float>(2, gen_default_player(2), {0, 1}),
     "镐局 2");
+
+const TESTN test5 = TESTN(3, 
+    gen_default_player(3),
+    gen_map<int, float>(3, gen_default_player(3), {1, 2, 0}),
+    gen_all_alive(gen_default_player(3)),
+    gen_map<int, std::map<int, int>>(3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+    gen_map<int, test::skill>(3, gen_default_player(3), {test::wooden_axe, test::wooden_axe, test::clap}),
+    gen_map<int, int>(3, gen_default_player(3), gen_repeated_vec(0, 3)),
+    gen_map<int, bool>(3, gen_default_player(3), {true, true, false}),
+    gen_map<int, float>(3, gen_default_player(3), {0, 0, 1}),
+    "镐局 3");
+
+const TESTN test6 = TESTN(3,
+    gen_default_player(3),
+    gen_map<int, float>(3, gen_default_player(3), {1, 2, 1}),
+    gen_map<int, bool>(3, gen_default_player(3), gen_repeated_vec(false, 3)),
+    gen_map<int, std::map<int, int>>(3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+    gen_map<int, test::skill>(3, gen_default_player(3), {test::wooden_axe, test::normal_axe, test::clap}),
+    gen_map<int, int>(3, gen_default_player(3), gen_repeated_vec(0, 3)),
+    gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
+    gen_map<int, float>(3, gen_default_player(3), {0, 4, 2}),
+    "镐局 4");
