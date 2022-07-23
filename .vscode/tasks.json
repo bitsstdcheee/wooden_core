@@ -10,6 +10,7 @@
                 "command": "g++",
                 "args": [
                     "${workspaceFolder}/wooden_judge.cpp",
+                    "${workspaceFolder}/wooden_test.cpp",
                     "-o",
                     "wooden_judge.exe",
                     "-Wall"
@@ -27,6 +28,7 @@
                 "command": "g++",
                 "args": [
                     "${workspaceFolder}/wooden_judge.cpp",
+                    "${workspaceFolder}/wooden_test.cpp",
                     "-o",
                     "wooden_judge.exe",
                     "-Wall",
@@ -50,6 +52,7 @@
                 "command": "g++",
                 "args": [
                     "${workspaceFolder}/wooden_judge.cpp",
+                    "${workspaceFolder}/wooden_test.cpp",
                     "-o",
                     "wooden_judge.exe",
                     "-Wall",

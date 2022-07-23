@@ -1,2 +1,7 @@
 # 可执行文件
 *.exe
+
+# CMake 相关
+CMakeCache.txt
+build/
+Makefile
