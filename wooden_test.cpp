@@ -1,5 +1,6 @@
 #include <map>
 #include <cassert>
+#include <new>
 #include <vector>
 #include "wooden_test.h"
 
@@ -246,3 +247,14 @@ const TESTN test9 = TESTN(2,
     gen_map<int, bool>(2, gen_default_player(2), {false, false}),
     gen_map<int, float>(2, gen_default_player(2), {0, 0}),
     "单剑局 3");
+
+const TESTN test10 = TESTN(3,
+    gen_default_player(3),
+    gen_map<int, float>(3, gen_default_player(3), {3, 1, 1}),
+    gen_map<int, bool>(3, gen_default_player(3), gen_repeated_vec(false, 3)),
+    gen_map<int, std::map<int, int>>(3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+    gen_map<int, test::skill>(3, gen_default_player(3), {test::diamond_axe, test::wooden_sword, test::wooden_sword}),
+    gen_map<int, int>(3, gen_default_player(3), {0, 1, 1}),
+    gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
+    gen_map<int, float>(3, gen_default_player(3), {0, 0, 0}),
+    "单剑局 4");
