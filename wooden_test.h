@@ -166,4 +166,5 @@ extern const TESTN test5;
 extern const TESTN test6;
 extern const TESTN test7;
 extern const TESTN test8;
+extern const TESTN test9;
 #endif

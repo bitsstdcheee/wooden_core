@@ -5,3 +5,4 @@
 CMakeCache.txt
 build/
 Makefile
+clangd_trace

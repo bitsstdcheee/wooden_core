@@ -110,7 +110,8 @@
                 "command": "C:/Program Files/CMake/bin/cmake.exe",
                 "args": [
                     "${workspaceFolder}/build/",
-                    "-DGBK=ON"
+                    "-DGBK=ON",
+                    "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
                 ]
             }
         },
@@ -121,7 +122,8 @@
                 "command": "C:/Program Files/CMake/bin/cmake.exe",
                 "args": [
                     "${workspaceFolder}/build/",
-                    "-DGBK=OFF"
+                    "-DGBK=OFF",
+                    "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
                 ]
             }
         },

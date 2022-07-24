@@ -235,3 +235,14 @@ const TESTN test8 = TESTN(3,
     gen_map<int, bool>(3, gen_default_player(3), {false, false, true}),
     gen_map<int, float>(3, gen_default_player(3), {1, 1, 0}),
     "单剑局 2");
+
+const TESTN test9 = TESTN(2,
+    gen_default_player(2),
+    gen_map<int, float>(2, gen_default_player(2), {3, 1}),
+    gen_all_alive(gen_default_player(2)),
+    gen_map<int, std::map<int, int>>(2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
+    gen_map<int, test::skill>(2, gen_default_player(2), {test::diamond_axe, test::wooden_sword}),
+    gen_map<int, int>(2, gen_default_player(2), {0, 1}),
+    gen_map<int, bool>(2, gen_default_player(2), {false, false}),
+    gen_map<int, float>(2, gen_default_player(2), {0, 0}),
+    "单剑局 3");

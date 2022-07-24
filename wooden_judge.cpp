@@ -16,6 +16,14 @@
 
 // using namespace std;
 
+#ifndef debug
+
+// CMT_HOLD: 宏函数更换为注释, 用于占位避免注释符号比宏更先处理
+#define CMT_HOLD
+#define dprint(x,y) /CMT_HOLD*dprint(x,y)*CMT_HOLD/
+#undef CMT_HOLD
+#endif
+
 int player_num;
 // players: 记录每位玩家的 id, 无序
 // 指向 vector 的指针, 用于明确 player_num 后分配空间大小
@@ -31,20 +39,22 @@ std::map<int, bool> tag_died;
 std::map<int, std::map<int, int>> skl_count;
 
 //dprint: debug 输出
+#ifdef debug
 void dprint(const std::string &msg, bool need_endl = true) {
-    #ifdef debug
     std::cout << msg;
     if (need_endl) std::cout << std::endl;
-    #endif
 }
+#endif
 
 //dprint: debug 输出
+#ifdef debug
 void dprint(const char* msg, bool need_endl = true) {
     #ifdef debug
     std::cout << msg;
-    if (need_endl) std::cout << std::endl;
+    if (need_endl) std::cout << std::endl;  
     #endif
 }
+#endif
 
 
 // init: 玩家信息的初始化
@@ -164,14 +174,26 @@ bool have_att(const std::pair<int, Skill> &choice) {
     return false;
 }
 
-// have_clap_axe: 检测玩家是否有拍气 / 镐子招术
-// true: 有
-// false: 无
-bool have_clap_axe(const std::pair<int, Skill> &choice) {
+// have_axe: 检测玩家是否有镐子招术
+bool have_axe(const std::pair<int, Skill> &choice) {
     switch (choice.second.skl) {
         case clap: case wooden_axe:
         case normal_axe: case diamond_axe:
         case enchanted_axe:
+            return true;
+        default:
+            break;
+    }
+    return false;
+}
+
+// have_clap_axe: 检测玩家是否有拍气 / 镐子招术
+// true: 有
+// false: 无
+bool have_clap_axe(const std::pair<int, Skill> &choice) {
+    if (have_axe(choice)) return true;
+    switch (choice.second.skl) {
+        case clap:
             return true;
         default:
             break;
@@ -339,6 +361,9 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
 
     // Step 3. 对于每两个不同的玩家之间进行对决判定
     bool has_died_in_att = false;
+    // axe_lose: 标记玩家是否有镐类等值爆现象
+    std::map<int, bool> axe_lose;
+    axe_lose.clear();
     // has_died_in_att: 是否有人在对决阶段死去, 用于剪枝
     for (const auto & player1 : choices) {
         if (tag_died[player1.first] == true) {
@@ -347,11 +372,15 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             continue;
         }
         for (const auto & player2 : choices) {
-            dprint("[Step 3] \tP1 = " + std::to_string(player1.first) + ", P2 = " + std::to_string(player2.first) + ": ", false);
+            dprint("[Step 3] P1 = " + std::to_string(player1.first) + ", P2 = " + std::to_string(player2.first) + ": ", false);
             //// 初始剪枝 - 开始
             if (player1.first == player2.first) {
                 // 相同的两个玩家, 跳过
                 dprint("相同玩家, 跳过");
+                continue;
+            }
+            if (player1.first > player2.first) {
+                dprint("重复枚举, 跳过");
                 continue;
             }
             if (tag_died[player2.first == true]) {
@@ -364,6 +393,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
                 dprint("P1 与 P2 均没有出攻击类, 跳过");
                 continue;
             }
+            dprint("");
             //// 初始剪枝 - 结束
             dprint("[Step 3] \t初始剪枝: 结束");
 
@@ -383,23 +413,33 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             att2 = get_attack(player2.second.skl) * bool(player2.second.target == player1.first);
             dprint("[Step 3] \t获取玩家 " + std::to_string(player1.first) + " 的攻击值为 " + std::to_string(att1) + ", 玩家 " + std::to_string(player2.first) + " 的攻击值为 " + std::to_string(att2));
             if (def1.second == -1) {
-                dprint("[Step 3] \t 玩家 " + std::to_string(player1.first) + " 具有无限防御, 跳过");
+                dprint("[Step 3] \t玩家 " + std::to_string(player1.first) + " 具有无限防御, 跳过");
                 // 玩家1 拥有无限防御, 双方无实际伤害, 伤害判定跳过
             }
             else if (def2.second == -1) {
-                dprint("[Step 3] \t 玩家 " + std::to_string(player2.first) + " 具有无限防御, 跳过");
+                dprint("[Step 3] \t玩家 " + std::to_string(player2.first) + " 具有无限防御, 跳过");
                 // 玩家2 拥有无限防御, 双方无实际伤害, 伤害判定跳过
             }
             else {
-                dprint("[Step 3] \t 进入对战状态: ", false);
+                dprint("[Step 3] \t进入对战状态: ", false);
                 if (att1 > att2) {
                     float dd = att1 - att2;
                     dprint("P1 攻击值大于 P2, 差值为 " + std::to_string(dd) + ", ", false);
                     if (!((dd >= def2.first) && (dd <= def2.second))) {    
                         tag_died[player2.first] = true;
                         has_died_in_att = true;
-                        dprint("P2 被攻击致死");
+                        dprint("P2 被攻击致死", false);
                         // player2 被攻击致死
+                    }
+                    else if (have_axe(player2)) {
+                        dprint("检测到 P2 有镐类, ", false);
+                        if (def2.second == dd) {
+                            axe_lose[player2.first] = true;
+                            dprint("P2 等值爆", false);
+                        }
+                        else {
+                            dprint("P2 镐类未爆", false);
+                        }
                     }
                 }
                 else if (att1 < att2) {
@@ -408,17 +448,29 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
                     if (!((dd >= def1.first) && (dd <= def1.second))) {    
                         tag_died[player1.first] = true;
                         has_died_in_att = true;
-                        dprint("P1 被攻击致死");
+                        dprint("P1 被攻击致死", false);
                         // player1 被攻击致死
+                    }
+                    else if (have_axe(player1)) {
+                        dprint("检测到 P1 有镐类, ", false);
+                        if (def1.second == dd) {
+                            axe_lose[player1.first] = true;
+                            dprint("P1 等值爆", false);
+                        }
+                        else {
+                            dprint("P1 镐类未爆", false);
+                        }
                     }
                 }
                 else {
-                    dprint("[Step 3] \t双方抵消, 继续");
+                    dprint("[Step 3] \t双方抵消, 继续", false);
                     // 双方抵消, 游戏继续进行
                 }
             }
             //// 伤害判定 - 结束
             
+            dprint("");
+
             //// 黄剑判定部分 - 开始
             dprint("[Step 3] \t黄剑判定部分: 开始");
             bool tmp_make_1_died, tmp_make_2_died;
@@ -466,33 +518,48 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // Step 4. 拍气, 镐子
     // bool has_died_in_clap = false; // 该变量暂时不需要
     for (const auto & player: choices) {
+        dprint("[Step 4] 玩家 " + std::to_string(player.first) + ": ", false);
         if (tag_died[player.first]) {
             // player 已经死去
+            dprint("玩家已死去, 跳过");
             continue;
         }
         if (have_clap_axe(player) == false) {
             // 玩家没有加气类招术
+            dprint("玩家没有加气类, 跳过");
             continue;
         }
         if (player.second.skl == clap) {
             // qi_add[player.first] ++;
             // 这里在 Step 1 中已经加过气了, 不需要再加了
+            dprint("玩家出拍气, 不再加气");
         }
         else {
+            dprint("玩家出镐类, ", false);
             // 剩余的为镐类, Step 0 中已经处理了爆气的情况, 所以不需要判断是否会爆气 
-
+            if (axe_lose[player.first]) {
+                dprint("在上阶段等值爆, 不加气");
+                continue;
+            }
             // ps: 对玩家 skl 的临时引用
             const int& ps = player.second.skl;
             // id: 对玩家 first 的临时引用
             const int& id = player.first;
             if (ps == wooden_axe || ps == normal_axe) {
                 qi_add[id] += 2;
+                dprint("+2");
             }
             else if (ps == diamond_axe) {
                 qi_add[id] += 3;
+                dprint("+3");
             }
             else if (ps == enchanted_axe) {
                 qi_add[id] += 6;
+                dprint("+6");
+            }
+            else {
+                // 未知错误
+                assert(false);
             }
         }
     }
@@ -667,7 +734,7 @@ int main() {
     #endif
 
     // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-    do_test(8);
+    do_test(9);
     
     return 0;
 }
