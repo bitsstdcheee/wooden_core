@@ -258,3 +258,25 @@ const TESTN test10 = TESTN(3,
     gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
     gen_map<int, float>(3, gen_default_player(3), {0, 0, 0}),
     "单剑局 4");
+
+const TESTN test11 = TESTN(3,
+    gen_default_player(3),
+    gen_map<int, float>(3, gen_default_player(3), {6, 1, 1}),
+    gen_all_alive(gen_default_player(3)),
+    gen_map<int, std::map<int, int>>(3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+    gen_map<int, test::skill>(3, gen_default_player(3), {test::enchanted_axe, test::wooden_sword, test::wooden_sword}),
+    gen_map<int, int>(3, gen_default_player(3), {0, 1, 1}),
+    gen_map<int, bool>(3, gen_default_player(3), {false, false, false}),
+    gen_map<int, float>(3, gen_default_player(3), {12, 0, 0}),
+    "单剑局 5");
+
+const TESTN test12 = TESTN(2,
+    gen_default_player(2),
+    gen_map<int, float>(2, gen_default_player(2), {0, 1}),
+    gen_all_alive(gen_default_player(2)),
+    gen_map<int, std::map<int, int>>(2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
+    gen_map<int, test::skill>(2, gen_default_player(2), {test::clap, test::yellow_sword}),
+    gen_map<int, int>(2, gen_default_player(2), {0, 1}),
+    gen_map<int, bool>(2, gen_default_player(2), {true, false}),
+    gen_map<int, float>(2, gen_default_player(2), {0, 0}),
+    "单黄局 1");

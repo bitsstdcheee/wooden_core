@@ -168,4 +168,6 @@ extern const TESTN test7;
 extern const TESTN test8;
 extern const TESTN test9;
 extern const TESTN test10;
+extern const TESTN test11;
+extern const TESTN test12;
 #endif

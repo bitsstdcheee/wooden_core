@@ -829,17 +829,18 @@ int main() {
     #endif
 
     // std::map<int, bool> d1 = gen_map<int, bool>(4, {1, 2, 3, 4}, {false, false, false, false});
-    do_test(1);
-    do_test(2);
-    do_test(3);
-    do_test(4);
-    do_test(5);
-    do_test(6);
-    do_test(7);
-    do_test(8);
-    do_test(9);
-    do_test(10);
-
+    // do_test(1);
+    // do_test(2);
+    // do_test(3);
+    // do_test(4);
+    // do_test(5);
+    // do_test(6);
+    // do_test(7);
+    // do_test(8);
+    // do_test(9);
+    // do_test(10);
+    // do_test(11);
+    do_test(12);
     
     return 0;
 }
