@@ -6,3 +6,6 @@ CMakeCache.txt
 build/
 Makefile
 clangd_trace
+
+# CLion 相关
+.idea

@@ -13,6 +13,7 @@
 #include <cassert>
 
 #include "wooden_test.h"
+#include "wooden_status.h"
 
 // using namespace std;
 
@@ -737,6 +738,49 @@ bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1, const 
         if (_mp1.at(player) != _mp2.at(player)) return false;
     }
     return true;
+}
+
+// continue_game: 大局中两个小局间的衔接
+// now: 当前每个玩家的状况
+// n: 当前即将进行的局数
+game_status continue_game(int n, game_status now, const std::vector<std::pair<int, Skill>>& choices) {
+    // Step 1. 转移数据
+    players = now.players;
+    player_num = now.player_num;
+    qi = now.qi;
+    tag_died = now.tag_died;
+    skl_count = now.skl_count;
+
+    // Step 2. 进行小局
+    do_main(choices);
+
+    // Step 3. 获取结果
+    game_status changed(player_num, players, qi, tag_died, skl_count);
+
+    // Step 4. 对比
+    dprint("The " + std::to_string(n) + "th game: ");
+    bool has_died = false;
+    for (auto player: *players) {
+        if (now.tag_died[player] != changed.tag_died[player]) {
+            has_died = true;
+            dprint(std::to_string(player) + "\t", false);
+        }
+    }
+    if (has_died == false) {
+        dprint("No player");
+    } else {
+        dprint("", true);
+    }
+    dprint("Qi of players: ");
+    for (auto player: *players) {
+        dprint(std::to_string(player) + "\t", false);
+    }
+    dprint("", true);
+    for (auto player: *players) {
+        dprint(std::to_string(changed.qi[player]) + "\t", false);
+    }
+    dprint("", true);
+    return changed;
 }
 
 // passon: 传递测试参数并运行测试的函数
