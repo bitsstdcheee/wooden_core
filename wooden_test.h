@@ -41,6 +41,8 @@ namespace test {
         large_defense = 15, // 大防 1~6
         ashiba = 16, // 阿西巴 0~5 每小局 2 次
         zd = 17, // zd 0~无限 每小局 1 次
+
+        hither = 18 // Hither 全场 1 攻 每小局 1 次
     };
 }
 
@@ -170,4 +172,33 @@ extern const TESTN test9;
 extern const TESTN test10;
 extern const TESTN test11;
 extern const TESTN test12;
+extern const TESTN test13;
+extern const TESTN test14;
+
+// gdp => gen_default_player
+#define gdp gen_default_player
+
+// gq => 生成气形式的 map => gen_map<int, float>
+#define gq gen_map<int, float>
+
+// grv => gen_repeated_vec
+#define grv gen_repeated_vec
+
+// gsc => 生成技能计数形式的 map => gen_map<int, std::map<int, int>>
+#define gsc gen_map<int, std::map<int, int>>
+
+// gal => gen_all_alive
+#define gal gen_all_alive
+
+// gu => 生成使用技能的计数形式的 map => gen_map<int, test::skill>
+#define gu gen_map<int, test::skill>
+
+// gcs => gen_cleared_skl()
+#define gcs gen_cleared_skl()
+
+// gmap(x) => gen_map<int, x>
+#define gmap(x) gen_map<int, x>
+
+extern const TESTN test13;
+
 #endif

@@ -280,3 +280,25 @@ const TESTN test12 = TESTN(2,
     gen_map<int, bool>(2, gen_default_player(2), {true, false}),
     gen_map<int, float>(2, gen_default_player(2), {0, 0}),
     "单黄局 1");
+
+const TESTN test13 = TESTN(3,
+    gdp(3),
+    gq(3, gdp(3), {0, 0, 0}),
+    gal(gdp(3)),
+    gsc(3, gdp(3), grv(gcs, 3)),
+    gu(3, gdp(3), {test::defense, test::hither, test::hither}),
+    gmap(int)(3, gdp(3), {0, 0, 0}),
+    gmap(bool)(3, gdp(3), {false, true, true}),
+    gq(3, gdp(3), {0, 0, 0}),
+    "Hither 1");
+
+const TESTN test14 = TESTN(2,
+    gen_default_player(2),
+    gen_map<int, float>(2, gen_default_player(2), {0, 1}),
+    gen_all_alive(gen_default_player(2)),
+    gen_map<int, std::map<int, int>>(2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
+    gen_map<int, test::skill>(2, gen_default_player(2), {test::defense, test::yellow_sword}),
+    gen_map<int, int>(2, gen_default_player(2), {0, 1}),
+    gen_map<int, bool>(2, gen_default_player(2), {false, true}),
+    gen_map<int, float>(2, gen_default_player(2),{0, 0}),
+    "单黄局 2");

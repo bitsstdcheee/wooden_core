@@ -131,8 +131,10 @@ using skill = enum {
     large_defense = 15, // 大防 1~6
     ashiba = 16, // 阿西巴 0~5 每小局 2 次
     zd = 17, // zd 0~无限 每小局 1 次
+
+    hither = 18 // Hither 全场 1 攻 每小局 1 次
 };
-const int NUM_SKL = 18;
+const int NUM_SKL = 19;
 
 
 // Skill: 带有对象的招术封装
@@ -167,6 +169,7 @@ bool have_att(const std::pair<int, Skill> &choice) {
         case stone_sword: case iron_sword:
         case gold_sword: case diamond_sword:
         case enchanted_sword:
+        case hither:
             return true;
 
         default:
@@ -220,7 +223,7 @@ const std::array<float, NUM_SKL> maxd = {0,
     0, 0, 0.5, 1, 2.5, 
     1, 2.5, 2, 3, 4, 
     5, 6, 3, 5, 6, 
-    5, -1  // -1 为无限
+    5, -1, 0  // -1 为无限
 };
 
 // mind: 记录 skill 对应防御的最小值
@@ -228,7 +231,7 @@ const std::array<float, NUM_SKL> mind = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 1, 1,
-    0, 0
+    0, 0, 0
 };
 
 // attk: 记录 skill 对应攻击
@@ -236,7 +239,7 @@ const std::array<float, NUM_SKL> attk = {0,
     0, 0, 0, 0, 0,
     1, 2.5, 2, 3, 4,
     5, 6, 0, 0, 0,
-    0, 0
+    0, 0, 1
 };
 
 // sklqi: 记录 skill 对应使用的气数
@@ -244,7 +247,7 @@ const std::array<float, NUM_SKL> sklqi = {0,
     0, 1, 2, 3, 6,
     1, 1, 2, 3, 4,
     5, 6, 0, 0, 0,
-    0, 0
+    0, 0, 0
 };
 
 std::pair<float, float> get_defense(const skill &skl) {
@@ -271,6 +274,9 @@ bool check_available(const std::pair<int, Skill> &choice) {
     } 
     if (cskl == zd && skl_count[id][cskl.skl] >= 1) {
         // 泽东 每小局限制 1 次
+        return false;
+    }
+    if (cskl == hither && skl_count[id][cskl.skl] >= 1) {
         return false;
     }
     return true;
@@ -538,14 +544,35 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         get_def.clear();
 
         // Step 3.1: 累计玩家受到攻击, 获取玩家防御值
+        int overallHither = 0; // 全场累计 Hither 次数
         for (const auto & player: choices) {
             if (tag_died[player.first] == true) {
                 // 死去的玩家不被考虑发出的攻击值
                 continue;
             }
-            get_att[player.second.target] += get_attack(player.second.skl);  // 该玩家的目标s
             get_def[player.first] = get_defense(player.second.skl);
-            dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 拥有防御值: [" + std::to_string(get_def[player.first].first) + ", " + std::to_string(get_def[player.first].second) + "], 发出攻击: " + std::to_string(get_attack(player.second.skl)) + " -> " + "玩家 " + std::to_string(player.second.target));
+            dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 拥有防御值: [" + std::to_string(get_def[player.first].first) + ", " + std::to_string(get_def[player.first].second) + "], ", false);
+            if (player.second.skl == hither) {
+                // Hither 特判
+                overallHither++;
+                dprint("发出 Hither");
+            } 
+            else {
+                get_att[player.second.target] += get_attack(player.second.skl);  // 该玩家的目标s
+                dprint("发出攻击: " + std::to_string(get_attack(player.second.skl)) + " -> " + "玩家 " + std::to_string(player.second.target));
+            }
+        }
+        // Step 3.15: 处理 Hither
+        dprint("[Step 3.15] 现有 Hither: " + std::to_string(overallHither));
+        for (const auto & player: choices) {
+            if (player.second.skl == hither) {
+                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 有 Hither, 受到攻击: " + std::to_string((overallHither - 1) * get_attack(hither)));
+                get_att[player.first] += (overallHither - 1) * get_attack(hither);
+            }
+            else {
+                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 没有 Hither, 受到攻击: " + std::to_string(overallHither * get_attack(hither)));
+                get_att[player.first] += overallHither * get_attack(hither);
+            }
         }
         for (const auto & player: choices) {
             dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 受到攻击: " + std::to_string(get_att[player.first]));
@@ -584,13 +611,14 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         }
         // Step 3.3: 黄剑判定
         for (const auto & player: choices) {
-            if (player.second.skl == gold_sword) {
+            if (player.second.skl == yellow_sword) {
                 // 有黄剑
                 if (tag_died[player.second.target] == true) {
                     // 攻击对象已死
                 }
                 else {
                     // 攻击对象未死, 自己死
+                    dprint("[Step 3.3] 玩家 " + std::to_string(player.first) + " 出黄剑, 对象为 " + std::to_string(player.second.target) + ", 判定失败, 置死");
                     tag_died[player.first] = true;
                     has_died_in_att = true;
                 }
@@ -884,7 +912,9 @@ int main() {
     // do_test(9);
     // do_test(10);
     // do_test(11);
-    do_test(12);
+    // do_test(12);
+    // do_test(13);
+    do_test(14);
     
     return 0;
 }

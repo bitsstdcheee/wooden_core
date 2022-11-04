@@ -12,7 +12,7 @@ struct game_status {
     game_status();
     game_status(int);
     game_status(int&, const std::vector<int>*, const std::map<int, float>&, const std::map<int, bool>&, const std::map<int, std::map<int, int>>&);
-    const int NUM_SKL = 18;
+    const int NUM_SKL = 19;
 };
 
 #endif
