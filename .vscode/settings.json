@@ -1,3 +1,15 @@
 {
-    "clangd.trace": "clangd_trace"
+  "clangd.trace": "clangd_trace",
+  "clangd.path": "C:\\mingw64\\bin\\clangd.exe",
+  "clangd.fallbackFlags": [
+    "-IC:\\mingw64\\include",
+    "-IC:\\mingw64\\lib\\clang\\15.0.7\\include",
+    "-std=c++11",
+    "-Wall",
+    "-ggdb",
+    "-g3",
+    "-Ddebug",
+    "-DDEBUG",
+    "-m64"
+  ]
 }
