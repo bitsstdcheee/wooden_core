@@ -2,6 +2,9 @@
 # 指定 CMake 版本
 cmake_minimum_required(VERSION 3.15.0)
 
+# 指定项目名称
+PROJECT(wooden_game)
+
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 # set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -20,15 +23,19 @@ else()
 endif()
 SET(CMAKE_CXX_FLAGS_RELEASE "-Wall")
 
-# 指定项目名称
-PROJECT(wooden_game)
 
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 
 # 获取所有源代码文件
-INCLUDE_DIRECTORIES(.)
-AUX_SOURCE_DIRECTORY(. ALL_SRCS)
+# file (GLOB HEADERS
+    # .)
+# INCLUDE_DIRECTORIES(.)
+# AUX_SOURCE_DIRECTORY(. ALL_SRCS)
+
+file (GLOB SOURCES
+    *.cpp
+)
 
 # .cpp 生成可执行文件
-add_executable(${PROJECT_NAME} ${ALL_SRCS})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
