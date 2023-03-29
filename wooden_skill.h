@@ -21,7 +21,7 @@ namespace tskl {
 
         defense = 13,  // 普防 0~3
         mid_defense = 14, // 中防 1~5
-        large_defense = 15, // 大防 1~6
+        large_defense = 15, // 大防 1~6 花1气
         ashiba = 16, // 阿西巴 0~5 每小局 2 次
         zd = 17, // zd 0~无限 每小局 1 次
 
