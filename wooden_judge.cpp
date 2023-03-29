@@ -15,6 +15,7 @@
 #include "wooden_test.h"
 #include "wooden_status.h"
 
+using namespace tutil; // 直接 using namespace 省去前缀
 // using namespace std;
 
 #ifndef debug
@@ -107,57 +108,32 @@ void init() {
 // TODO: [MOD] Fire
 // TODO: [Future] 代码生成混淆
 
-// 暂时不支持多选 skill
-using skill = enum {
-    none = 0,  // 无
-
-    clap = 1,  // 拍气
-
-    wooden_axe = 2,   // 木镐 1->3 0    // 换气数 自带防御数
-    normal_axe = 3,   // 镐子 2->4 0.5
-    diamond_axe = 4,  // 钻镐 3->6 1
-    enchanted_axe = 5,  // 附魔钻镐 6->12 2.5
-
-    wooden_sword = 6,  // 木剑 1 1     // 气数 攻击数
-    yellow_sword = 7,  // 黄剑 1 2.5 特殊判定
-    stone_sword = 8,   // 石剑 2 2
-    iron_sword = 9,    // 铁剑 3 3
-    gold_sword = 10,   // 金剑 4 4
-    diamond_sword = 11, // 钻剑 5 5
-    enchanted_sword = 12, // 附魔钻剑 6 6
-
-    defense = 13,  // 普防 0~3
-    mid_defense = 14, // 中防 1~5
-    large_defense = 15, // 大防 1~6
-    ashiba = 16, // 阿西巴 0~5 每小局 2 次
-    zd = 17, // zd 0~无限 每小局 1 次
-
-    hither = 18 // Hither 全场 1 攻 每小局 1 次
-};
 const int NUM_SKL = 19;
 
 
 // Skill: 带有对象的招术封装
 struct Skill {  
-    skill skl;
+    tutil::skill skl;
     int target;
     // 显式转换 Skill -> skill
-    operator skill() {
+    operator tutil::skill() {
         // 无招术, 自动转换
         return skl;
     }
     Skill() {
-        skl = none;
+        skl = tutil::none;
         target = 0;
     }
-    Skill(skill _skl, int _target) {
+    Skill(tutil::skill _skl, int _target) {
         skl = _skl;
         target = _target;
     }
-    Skill(test::skill _skl, int _target) {
+    /*
+    Skill(tutil::skill _skl, int _target) {
         skl = skill(_skl);
         target = _target;
     }
+    */
 };
 
 // have_att: 检测玩家是否发出了攻击性招术
@@ -823,7 +799,7 @@ void passon(const TESTN &test) {
     const std::map<int, std::map<int, int>> &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
     const std::map<int, float> &_res_qi = test.res_qi;
-    const std::map<int, test::skill> &_using_skill = test.using_skill;
+    const std::map<int, tutil::skill> &_using_skill = test.using_skill;
     const std::map<int, int> &_target = test.target;
     const std::string &_comment = test.comment;
 

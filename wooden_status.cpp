@@ -28,7 +28,7 @@ game_status::game_status(int& _player_num,
     player_num = _player_num;
     // (*players) = std::move(_players);
     players = new std::vector<int>(_player_num);
-    for (int i = 0; i < _players->size(); i++) {
+    for (int i = 0; i < int(_players->size()); i++) {
         (*players)[i] = (*_players).at(i);
     }
     (qi) = _qi;

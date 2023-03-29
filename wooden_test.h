@@ -18,32 +18,6 @@ const int MIN_SKILL_NUM = 0;
 const int MAX_SKILL_NUM = 17;
 
 namespace test {
-    using skill = enum {
-        none = 0,  // 无
-
-        clap = 1,  // 拍气
-
-        wooden_axe = 2,   // 木镐 1->3 0    // 换气数 自带防御数
-        normal_axe = 3,   // 镐子 2->4 0.5
-        diamond_axe = 4,  // 钻镐 3->6 1
-        enchanted_axe = 5,  // 附魔钻镐 6->12 2.5
-
-        wooden_sword = 6,  // 木剑 1 1     // 气数 攻击数
-        yellow_sword = 7,  // 黄剑 1 2.5 特殊判定
-        stone_sword = 8,   // 石剑 2 2
-        iron_sword = 9,    // 铁剑 3 3
-        gold_sword = 10,   // 金剑 4 4
-        diamond_sword = 11, // 钻剑 5 5
-        enchanted_sword = 12, // 附魔钻剑 6 6
-
-        defense = 13,  // 普防 0~3
-        mid_defense = 14, // 中防 1~5
-        large_defense = 15, // 大防 1~6
-        ashiba = 16, // 阿西巴 0~5 每小局 2 次
-        zd = 17, // zd 0~无限 每小局 1 次
-
-        hither = 18 // Hither 全场 1 攻 每小局 1 次
-    };
 }
 
 // gen_vector: 生成 vector 形式
@@ -116,36 +90,64 @@ const std::map<int, int> gen_cleared_skl();
 const std::map<int, bool> gen_all_alive(const std::vector<int>&);
 
 
-// TESTN: 打包测试样例的结构
-struct TESTN {
-    int player_num;  // 测试中的玩家个数
-    std::vector<int> players;  // 测试初始的玩家 id
-    std::map<int, float> qi;  // 测试初始的气数列表
-    std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息
-    std::map<int, std::map<int, int>> skl_count;  // 测试初始值的招术使用情况
-    std::map<int, test::skill> using_skill;  // 测试小局中玩家的出招
-    std::map<int, int> target;  // 测试小局中玩家出招的对手
-    std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
-    std::map<int, float> res_qi;  // 测试期望的气数列表
+namespace tutil {
+    enum skill {
+        none = 0,  // 无
 
-    std::string comment;  // 备注
+        clap = 1,  // 拍气
 
-    TESTN();
+        wooden_axe = 2,   // 木镐 1->3 0    // 换气数 自带防御数
+        normal_axe = 3,   // 镐子 2->4 0.5
+        diamond_axe = 4,  // 钻镐 3->6 1
+        enchanted_axe = 5,  // 附魔钻镐 6->12 2.5
 
-    // TESTN: 玩家人数, 玩家id, 气数, 死亡标记, 招术计数器, 期望死亡标记, 期望气数, 备注
-    TESTN(int _player_num,
-        std::vector<int> _players,
-        std::map<int, float> _qi,
-        std::map<int, bool> _tag_died,
-        std::map<int, std::map<int, int>> _skl_count,
-        std::map<int, test::skill> _using_skill,
-        std::map<int, int> _target,
-        std::map<int, bool> _res_tag_died,
-        std::map<int, float> _res_qi,
-        std::string _comment);
+        wooden_sword = 6,  // 木剑 1 1     // 气数 攻击数
+        yellow_sword = 7,  // 黄剑 1 2.5 特殊判定
+        stone_sword = 8,   // 石剑 2 2
+        iron_sword = 9,    // 铁剑 3 3
+        gold_sword = 10,   // 金剑 4 4
+        diamond_sword = 11, // 钻剑 5 5
+        enchanted_sword = 12, // 附魔钻剑 6 6
 
-    void info() const;
-};
+        defense = 13,  // 普防 0~3
+        mid_defense = 14, // 中防 1~5
+        large_defense = 15, // 大防 1~6
+        ashiba = 16, // 阿西巴 0~5 每小局 2 次
+        zd = 17, // zd 0~无限 每小局 1 次
+
+        hither = 18 // Hither 全场 1 攻 每小局 1 次
+    };
+    // TESTN: 打包测试样例的结构
+    struct TESTN {
+        int player_num;  // 测试中的玩家个数
+        std::vector<int> players;  // 测试初始的玩家 id
+        std::map<int, float> qi;  // 测试初始的气数列表
+        std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息
+        std::map<int, std::map<int, int>> skl_count;  // 测试初始值的招术使用情况
+        std::map<int, skill> using_skill;  // 测试小局中玩家的出招
+        std::map<int, int> target;  // 测试小局中玩家出招的对手
+        std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
+        std::map<int, float> res_qi;  // 测试期望的气数列表
+
+        std::string comment;  // 备注
+
+        TESTN();
+
+        // TESTN: 玩家人数, 玩家id, 气数, 死亡标记, 招术计数器, 期望死亡标记, 期望气数, 备注
+        TESTN(int _player_num,
+                std::vector<int> _players,
+                std::map<int, float> _qi,
+                std::map<int, bool> _tag_died,
+                std::map<int, std::map<int, int>> _skl_count,
+                std::map<int, skill> _using_skill,
+                std::map<int, int> _target,
+                std::map<int, bool> _res_tag_died,
+                std::map<int, float> _res_qi,
+                std::string _comment);
+
+        void info() const;
+    };
+}
 
 
 // const TESTN test3 = TESTN()
@@ -160,20 +162,20 @@ void do_test1_assert() {
 }
 #endif
 
-extern const TESTN test1;
-extern const TESTN test2;
-extern const TESTN test3;
-extern const TESTN test4;
-extern const TESTN test5;
-extern const TESTN test6;
-extern const TESTN test7;
-extern const TESTN test8;
-extern const TESTN test9;
-extern const TESTN test10;
-extern const TESTN test11;
-extern const TESTN test12;
-extern const TESTN test13;
-extern const TESTN test14;
+extern const tutil::TESTN test1;
+extern const tutil::TESTN test2;
+extern const tutil::TESTN test3;
+extern const tutil::TESTN test4;
+extern const tutil::TESTN test5;
+extern const tutil::TESTN test6;
+extern const tutil::TESTN test7;
+extern const tutil::TESTN test8;
+extern const tutil::TESTN test9;
+extern const tutil::TESTN test10;
+extern const tutil::TESTN test11;
+extern const tutil::TESTN test12;
+extern const tutil::TESTN test13;
+extern const tutil::TESTN test14;
 
 // gdp => gen_default_player
 #define gdp gen_default_player
@@ -190,8 +192,8 @@ extern const TESTN test14;
 // gal => gen_all_alive
 #define gal gen_all_alive
 
-// gu => 生成使用技能的计数形式的 map => gen_map<int, test::skill>
-#define gu gen_map<int, test::skill>
+// gu => 生成使用技能的计数形式的 map => gen_map<int, tutil::skill>
+#define gu gen_map<int, tutil::skill>
 
 // gcs => gen_cleared_skl()
 #define gcs gen_cleared_skl()
@@ -199,6 +201,6 @@ extern const TESTN test14;
 // gmap(x) => gen_map<int, x>
 #define gmap(x) gen_map<int, x>
 
-extern const TESTN test13;
+extern const tutil::TESTN test13;
 
 #endif
