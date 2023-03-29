@@ -273,7 +273,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
         return false;
     } 
     if (cskl == zd && skl_count[id][cskl.skl] >= 1) {
-        // 泽东 每小局限制 1 次
+        // zd 每小局限制 1 次
         return false;
     }
     if (cskl == hither && skl_count[id][cskl.skl] >= 1) {
