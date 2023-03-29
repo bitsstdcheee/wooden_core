@@ -14,8 +14,10 @@
 
 #include "wooden_test.h"
 #include "wooden_status.h"
+#include "wooden_skill.h"
 
 using namespace tutil; // 直接 using namespace 省去前缀
+using namespace tskl;
 // using namespace std;
 
 #ifndef debug
@@ -113,23 +115,23 @@ const int NUM_SKL = 19;
 
 // Skill: 带有对象的招术封装
 struct Skill {  
-    tutil::skill skl;
+    tskl::skill skl;
     int target;
     // 显式转换 Skill -> skill
-    operator tutil::skill() {
+    operator tskl::skill() {
         // 无招术, 自动转换
         return skl;
     }
     Skill() {
-        skl = tutil::none;
+        skl = tskl::none;
         target = 0;
     }
-    Skill(tutil::skill _skl, int _target) {
+    Skill(tskl::skill _skl, int _target) {
         skl = _skl;
         target = _target;
     }
     /*
-    Skill(tutil::skill _skl, int _target) {
+    Skill(tskl::skill _skl, int _target) {
         skl = skill(_skl);
         target = _target;
     }
@@ -542,12 +544,12 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         dprint("[Step 3.15] 现有 Hither: " + std::to_string(overallHither));
         for (const auto & player: choices) {
             if (player.second.skl == hither) {
-                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 有 Hither, 受到攻击: " + std::to_string((overallHither - 1) * get_attack(hither)));
-                get_att[player.first] += (overallHither - 1) * get_attack(hither);
+                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 有 Hither, 受到攻击: " + std::to_string(float(overallHither - 1) * get_attack(hither)));
+                get_att[player.first] += float(overallHither - 1) * get_attack(hither);
             }
             else {
-                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 没有 Hither, 受到攻击: " + std::to_string(overallHither * get_attack(hither)));
-                get_att[player.first] += overallHither * get_attack(hither);
+                dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 没有 Hither, 受到攻击: " + std::to_string(float(overallHither) * get_attack(hither)));
+                get_att[player.first] += float(overallHither) * get_attack(hither);
             }
         }
         for (const auto & player: choices) {
@@ -799,7 +801,7 @@ void passon(const TESTN &test) {
     const std::map<int, std::map<int, int>> &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
     const std::map<int, float> &_res_qi = test.res_qi;
-    const std::map<int, tutil::skill> &_using_skill = test.using_skill;
+    const std::map<int, tskl::skill> &_using_skill = test.using_skill;
     const std::map<int, int> &_target = test.target;
     const std::string &_comment = test.comment;
 

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cassert>
 
+#include "wooden_skill.h"
 #include "wooden_macro.h"
 
 // #define debug
@@ -91,32 +92,6 @@ const std::map<int, bool> gen_all_alive(const std::vector<int>&);
 
 
 namespace tutil {
-    enum skill {
-        none = 0,  // 无
-
-        clap = 1,  // 拍气
-
-        wooden_axe = 2,   // 木镐 1->3 0    // 换气数 自带防御数
-        normal_axe = 3,   // 镐子 2->4 0.5
-        diamond_axe = 4,  // 钻镐 3->6 1
-        enchanted_axe = 5,  // 附魔钻镐 6->12 2.5
-
-        wooden_sword = 6,  // 木剑 1 1     // 气数 攻击数
-        yellow_sword = 7,  // 黄剑 1 2.5 特殊判定
-        stone_sword = 8,   // 石剑 2 2
-        iron_sword = 9,    // 铁剑 3 3
-        gold_sword = 10,   // 金剑 4 4
-        diamond_sword = 11, // 钻剑 5 5
-        enchanted_sword = 12, // 附魔钻剑 6 6
-
-        defense = 13,  // 普防 0~3
-        mid_defense = 14, // 中防 1~5
-        large_defense = 15, // 大防 1~6
-        ashiba = 16, // 阿西巴 0~5 每小局 2 次
-        zd = 17, // zd 0~无限 每小局 1 次
-
-        hither = 18 // Hither 全场 1 攻 每小局 1 次
-    };
     // TESTN: 打包测试样例的结构
     struct TESTN {
         int player_num;  // 测试中的玩家个数
@@ -124,7 +99,7 @@ namespace tutil {
         std::map<int, float> qi;  // 测试初始的气数列表
         std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息
         std::map<int, std::map<int, int>> skl_count;  // 测试初始值的招术使用情况
-        std::map<int, skill> using_skill;  // 测试小局中玩家的出招
+        std::map<int, tskl::skill> using_skill;  // 测试小局中玩家的出招
         std::map<int, int> target;  // 测试小局中玩家出招的对手
         std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
         std::map<int, float> res_qi;  // 测试期望的气数列表
@@ -139,7 +114,7 @@ namespace tutil {
                 std::map<int, float> _qi,
                 std::map<int, bool> _tag_died,
                 std::map<int, std::map<int, int>> _skl_count,
-                std::map<int, skill> _using_skill,
+                std::map<int, tskl::skill> _using_skill,
                 std::map<int, int> _target,
                 std::map<int, bool> _res_tag_died,
                 std::map<int, float> _res_qi,
@@ -193,7 +168,7 @@ extern const tutil::TESTN test14;
 #define gal gen_all_alive
 
 // gu => 生成使用技能的计数形式的 map => gen_map<int, tutil::skill>
-#define gu gen_map<int, tutil::skill>
+#define gu gen_map<int, tskl::skill>
 
 // gcs => gen_cleared_skl()
 #define gcs gen_cleared_skl()
