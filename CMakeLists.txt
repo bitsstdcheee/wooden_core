@@ -11,7 +11,6 @@ set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 # 指定编译器
 SET(CMAKE_C_COMPILER "gcc")
 SET(CMAKE_CXX_COMPILER "g++")
-SET(CMAKE_BUILD_TYPE "Debug")
 if (GBK)
     SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -o0 -Ddebug -DDEBUG -finput-charset=UTF-8 -fexec-charset=GBK")
     SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -finput-charset=UTF-8 -fexec-charset=GBK")
