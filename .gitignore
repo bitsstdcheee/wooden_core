@@ -9,3 +9,5 @@ clangd_trace
 
 # CLion 相关
 .idea
+cmake-build-debug/
+cmake-build-release/
