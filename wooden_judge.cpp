@@ -228,13 +228,13 @@ const std::array<float, NUM_SKL> sklqi = {0,
     0, 0, 0
 };
 
-std::pair<float, float> get_defense(const skill &skl) {
-    // get_defense: 获取并返回 skl 对应拥有的防御值
+std::pair<float, float> get_skl_defense(const skill &skl) {
+    // get_skl_defense: 获取并返回 skl 对应拥有的防御值
     return std::make_pair(mind[skl], maxd[skl]);
 }
 
-float get_attack(const skill &skl) {
-    // get_attack: 获取并返回 skl 对应拥有的攻击值
+float get_skl_attack(const skill &skl) {
+    // get_skl_attack: 获取并返回 skl 对应拥有的攻击值
     return attk[skl];
 }
 
@@ -401,13 +401,13 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             // def1, def2: 定义为当前 player1 和 player2 所拥有的防御值, 下限与上限
             def1 = def2 = std::make_pair(0, 0);
             def1 = get_defense(player1.second.skl);
-            def2 = get_defense(player2.second.skl);
+            def2 = get_skl_defense(player2.second.skl);
             dprint("[Step 3] \t获取玩家 " + std::to_string(player1.first) + " 的防御值为 [" + std::to_string(def1.first) + ", " + std::to_string(def1.second) + "], 玩家 " + std::to_string(player2.first) + " 的防御值为 [" + std::to_string(def2.first) + ", " + std::to_string(def2.second) + "]");
             float att1, att2;
             // att1, att2: 定义为当前 player1 和 player2 所发出的攻击值
             // 只有当 target 命中时才有攻击
             att1 = get_attack(player1.second.skl) * bool(player1.second.target == player2.first);
-            att2 = get_attack(player2.second.skl) * bool(player2.second.target == player1.first);
+            att2 = get_skl_attack(player2.second.skl) * bool(player2.second.target == player1.first);
             dprint("[Step 3] \t获取玩家 " + std::to_string(player1.first) + " 的攻击值为 " + std::to_string(att1) + ", 玩家 " + std::to_string(player2.first) + " 的攻击值为 " + std::to_string(att2));
             if (def1.second == -1) {
                 dprint("[Step 3] \t玩家 " + std::to_string(player1.first) + " 具有无限防御, 跳过");
@@ -521,14 +521,14 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     std::map<int, bool> axe_lose;
 
     axe_lose.clear();
-    // get_att: 记录该玩家总共受到的伤害
-    std::map<int, float> get_att;
+    // suffer_att: 记录该玩家总共受到的伤害
+    std::map<int, float> suffer_att;
 
-    // get_def: 记录该玩家拥有防御的 max 和 min
-    std::map<int, std::pair<float, float>> get_def;
+    // has_def: 记录该玩家拥有防御的 max 和 min
+    std::map<int, std::pair<float, float>> has_def;
 
-    get_att.clear();
-    get_def.clear();
+    suffer_att.clear();
+    has_def.clear();
 
     // Step 3.1: 累计玩家受到攻击, 获取玩家防御值
     int overallHither = 0; // 全场累计 Hither 次数
@@ -537,46 +537,52 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             // 死去的玩家不被考虑发出的攻击值
             continue;
         }
-        get_def[player.first] = get_defense(player.second.skl);
-        dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 拥有防御值: [" + std::to_string(get_def[player.first].first) + ", " + std::to_string(get_def[player.first].second) + "], ", false);
+        has_def[player.first] = get_skl_defense(player.second.skl);
+        dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 拥有防御值: [" + std::to_string(has_def[player.first].first) + ", " + std::to_string(has_def[player.first].second) + "], ", false);
         if (player.second.skl == hither) {
             // Hither 特判
             overallHither++;
             dprint("发出 Hither");
         }
         else {
-            get_att[player.second.target] += get_attack(player.second.skl);  // 该玩家的目标s
-            dprint("发出攻击: " + std::to_string(get_attack(player.second.skl)) + " -> " + "玩家 " + std::to_string(player.second.target));
+            suffer_att[player.second.target] += get_skl_attack(player.second.skl);  // 该玩家的目标s
+            dprint("发出攻击: " + std::to_string(get_skl_attack(player.second.skl)) + " -> " + "玩家 " + std::to_string(player.second.target));
         }
     }
+
     // Step 3.15: 处理 Hither
     dprint("[Step 3.15] 现有 Hither: " + std::to_string(overallHither));
     for (const auto & player: choices) {
         if (player.second.skl == hither) {
-            dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 有 Hither, 受到攻击: " + std::to_string(float(overallHither - 1) * get_attack(hither)));
-            get_att[player.first] += float(overallHither - 1) * get_attack(hither);
+            dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 有 Hither, 受到攻击: " + std::to_string(float(overallHither - 1) *
+                                                                                                                          get_skl_attack(
+                                                                                                                                  hither)));
+            suffer_att[player.first] += float(overallHither - 1) * get_skl_attack(hither);
         }
         else {
-            dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 没有 Hither, 受到攻击: " + std::to_string(float(overallHither) * get_attack(hither)));
-            get_att[player.first] += (float)overallHither * get_attack(hither);
+            dprint("[Step 3.15] 玩家 " + std::to_string(player.first) + " 没有 Hither, 受到攻击: " + std::to_string(float(overallHither) *
+                                                                                                                            get_skl_attack(
+                                                                                                                                    hither)));
+            suffer_att[player.first] += (float)overallHither * get_skl_attack(hither);
         }
     }
     for (const auto & player: choices) {
-        dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 受到攻击: " + std::to_string(get_att[player.first]));
+        dprint("[Step 3.1] 玩家 " + std::to_string(player.first) + " 受到攻击: " + std::to_string(suffer_att[player.first]));
     }
+
     // Step 3.2: 攻击-防御对抗
     for (const auto & player: choices) {
-        if (get_att[player.first] == 0) {
+        if (suffer_att[player.first] == 0) {
             dprint("[Step 3.2] 玩家 " + std::to_string(player.first) + " 没有受到攻击");
             continue;
         }
-        if ((get_att[player.first] >= get_def[player.first].first) &&
-            get_att[player.first] <= get_def[player.first].second) {
+        if ((suffer_att[player.first] >= has_def[player.first].first) &&
+            suffer_att[player.first] <= has_def[player.first].second) {
             dprint("[Step 3.2] 玩家 " + std::to_string(player.first) + " 可以防, ", false);
             // 可以防得住
             if (have_axe(player)) {
                 dprint("有镐子, ", false);
-                if (get_def[player.first].second == get_att[player.first]) {
+                if (has_def[player.first].second == suffer_att[player.first]) {
                     // 有镐子且等值爆
                     axe_lose[player.first] = true;
                     dprint("等值爆");
@@ -602,6 +608,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
             // 有黄剑
             if (tag_died[player.second.target] == true) {
                 // 攻击对象已死
+                continue;
             }
             else {
                 // 攻击对象未死, 自己死
@@ -612,9 +619,9 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         }
     }
     if (has_died_in_att == true) {
-#ifndef debug
-        choices = clean_choices(choices);
-#endif
+        #ifndef debug
+            choices = clean_choices(choices);
+        #endif
     }
 #endif
 
