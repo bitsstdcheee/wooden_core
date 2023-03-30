@@ -20,13 +20,15 @@ using namespace tutil; // 直接 using namespace 省去前缀
 using namespace tskl;
 // using namespace std;
 
+/*
 #ifndef debug
 
 // CMT_HOLD: 宏函数更换为注释, 用于占位避免注释符号比宏更先处理
-#define CMT_HOLD
+#define CMT_HOLD 
 #define dprint(x,...) /CMT_HOLD*dprint(x)*CMT_HOLD/
 #undef CMT_HOLD
 #endif
+*/
 
 int player_num;
 // players: 记录每位玩家的 id, 无序
@@ -48,15 +50,21 @@ void dprint(const std::string &msg, bool need_endl = true) {
     std::cout << msg;
     if (need_endl) std::cout << std::endl;
 }
+#else
+void dprint(const std::string &msg, bool need_endl = true) {
+    return;
+}
 #endif
 
 //dprint: debug 输出
 #ifdef debug
 void dprint(const char* msg, bool need_endl = true) {
-    #ifdef debug
     std::cout << msg;
     if (need_endl) std::cout << std::endl;  
-    #endif
+}
+#else
+void dprint(const char** &msg, bool need_endl = true) {
+    return;
 }
 #endif
 
