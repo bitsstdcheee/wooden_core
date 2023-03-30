@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Build (Debug)'
+        working-directory: $GITHUB_WORKSPACE
         run: |
           mkdir build-debug
           cd build-debug
@@ -15,36 +16,35 @@ jobs:
           cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug
           ls
           make
-        working-directory: $GITHUB_WORKSPACE
       - name: 'Upload Artifact'
+        working-directory: $GITHUB_WORKSPACE
         uses: actions/upload-artifact@v3
         with:
           name: build_debug_ubuntu
           path: ./build-debug/wooden_game
-        working-directory: $GITHUB_WORKSPACE
   build-release:
     runs-on: ubuntu-latest
     steps:
       - name: 'Build (Release)'
+        working-directory: $GITHUB_WORKSPACE
         run: |
           mkdir build-release
           cd build-release
           cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release
           make
-        working-directory: $GITHUB_WORKSPACE
       - name: 'Upload Artifact'
+        working-directory: $GITHUB_WORKSPACE
         uses: actions/upload-artifact@v3
         with:
           name: build_release_ubuntu
           path: ./build-release/wooden_game
-        working-directory: $GITHUB_WORKSPACE
   test:
     runs-on: ubuntu-latest
     steps:
       - name: 'Test Build'
+        working-directory: $GITHUB_WORKSPACE
         run: |
           mkdir build && cd build
           cmake ..
           cmake --build .
-        working-directory: $GITHUB_WORKSPACE
 
