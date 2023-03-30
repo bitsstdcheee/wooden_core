@@ -18,10 +18,11 @@ jobs:
           make
       - name: 'Upload Artifact'
         working-directory: $GITHUB_WORKSPACE
-        uses: actions/upload-artifact@v3
-        with:
-          name: build_debug_ubuntu
-          path: ./build-debug/wooden_game
+        run: |
+          uses: actions/upload-artifact@v3
+          with:
+            name: build_debug_ubuntu
+            path: ./build-debug/wooden_game
   build-release:
     runs-on: ubuntu-latest
     steps:
@@ -34,10 +35,11 @@ jobs:
           make
       - name: 'Upload Artifact'
         working-directory: $GITHUB_WORKSPACE
-        uses: actions/upload-artifact@v3
-        with:
-          name: build_release_ubuntu
-          path: ./build-release/wooden_game
+        run: |
+          uses: actions/upload-artifact@v3
+          with:
+            name: build_release_ubuntu
+            path: ./build-release/wooden_game
   test:
     runs-on: ubuntu-latest
     steps:
