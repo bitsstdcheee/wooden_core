@@ -4,28 +4,40 @@ on:
     branches:
       - master
 jobs:
-  build:
+  build-debug:
     runs-on: ubuntu-latest
     steps:
       - name: 'Build (Debug)'
         run: |
-          mkdir build
+          mkdir build-debug
           cd build
-          cmake .. -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=debug
+          cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=debug
           make
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
       - name: 'Build (Release)'
         run: |
-          mkdir build
+          mkdir build-release
           cd build
-          cmake .. -G "MinGW Makefiles" -D CMAKE_BUILD_TYPE=release
+          cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=release
           make
-  upload:
+  upload-debug:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-debug
     steps:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
           name: build_debug_ubuntu
-          path: ./build/wooden_game
+          path: ./build-debug/wooden_game
+  upload-release:
+    runs-on: ubuntu-latest
+    needs: build-release
+    steps:
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: build_release_ubuntu
+          path: ./build-release/wooden_game
 
