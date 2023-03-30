@@ -12,7 +12,7 @@ jobs:
           mkdir build-debug
           cd build-debug
           ls
-          cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=debug
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug
           ls
           make
   build-release:
@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir build-release
           cd build-release
-          cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=release
+          cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release
           make
   test:
     runs-on: ubuntu-latest
