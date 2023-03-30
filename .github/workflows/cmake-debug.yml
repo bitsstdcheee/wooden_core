@@ -8,7 +8,7 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
 
 jobs:
   build-gbk-off:
@@ -32,7 +32,7 @@ jobs:
     - name: Upload Artifact 
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-release-gbk-on
+        name: wooden_core-debug-gbk-off
         path:
           build/
   
@@ -57,7 +57,7 @@ jobs:
     - name: Upload Artifact 
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-release-gbk-on
+        name: wooden_core-debug-gbk-on
         path:
           build/
 
