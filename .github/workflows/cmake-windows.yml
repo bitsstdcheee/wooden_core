@@ -35,7 +35,7 @@ jobs:
       with:
         name: wooden_core-release-gbk-on-windows.exe
         path:
-          build/
+          build/wooden_game.exe
   
   build-gbk-on-release:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -60,7 +60,7 @@ jobs:
       with:
         name: wooden_core-release-gbk-on-windows.exe
         path:
-          build/
+          build/wooden_game.exe
 
   build-gbk-off-debug:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -85,7 +85,7 @@ jobs:
       with:
         name: wooden_core-debug-gbk-on-windows.exe
         path:
-          build/
+          build/wooden_game.exe
   
   build-gbk-on-debug:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -110,4 +110,4 @@ jobs:
       with:
         name: wooden_core-debug-gbk-on-windows.exe
         path:
-          build/
+          build/wooden_game.exe
