@@ -11,7 +11,9 @@ jobs:
         run: |
           mkdir build-debug
           cd build-debug
+          ls
           cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=debug
+          ls
           make
   build-release:
     runs-on: windows-latest
