@@ -10,7 +10,7 @@ jobs:
       - name: 'Build (Debug)'
         run: |
           mkdir build-debug
-          cd build
+          cd build-debug
           cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=debug
           make
   build-release:
@@ -19,7 +19,7 @@ jobs:
       - name: 'Build (Release)'
         run: |
           mkdir build-release
-          cd build
+          cd build-release
           cmake .. -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=release
           make
   upload-debug:
