@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Build (Debug)'
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir build-debug
           cd build-debug
@@ -17,7 +17,7 @@ jobs:
           ls
           make
       - name: 'Upload Artifact'
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: ${{ github.workspace }}
         run: |
           uses: actions/upload-artifact@v3
           with:
@@ -27,14 +27,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Build (Release)'
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir build-release
           cd build-release
           cmake .. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release
           make
       - name: 'Upload Artifact'
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: ${{ github.workspace }}
         run: |
           uses: actions/upload-artifact@v3
           with:
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Test Build'
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir build && cd build
           cmake ..
