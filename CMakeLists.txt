@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.15.0)
 PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
-# set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # 指定编译器
 SET(CMAKE_C_COMPILER "gcc")
