@@ -1,7 +1,3 @@
-//
-// Created by STUDENT on 2023/3/31.
-//
-
 #include "wooden_test.h"
 #include "wooden_status.h"
 #include "wooden_skill.h"
