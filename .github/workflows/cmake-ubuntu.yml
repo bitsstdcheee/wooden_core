@@ -33,7 +33,7 @@ jobs:
     - name: Upload Artifact 
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-release-gbk-on-ubuntu
+        name: wooden_core-release-gbk-off-ubuntu
         path:
           build/wooden_game
   
@@ -83,7 +83,7 @@ jobs:
     - name: Upload Artifact 
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-debug-gbk-on-ubuntu
+        name: wooden_core-debug-gbk-off-ubuntu
         path:
           build/wooden_game
   
