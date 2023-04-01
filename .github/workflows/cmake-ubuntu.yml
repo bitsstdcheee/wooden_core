@@ -26,6 +26,11 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE_REL}} -DGBK=off
 
+    - name: Install LCOV
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov > /dev/null
+
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE_REL}}
@@ -36,7 +41,17 @@ jobs:
         name: wooden_core-release-gbk-off-ubuntu
         path:
           build/wooden_game
-  
+
+    - name: LCOV collection
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
+    - uses: codecov/codecov-action@v1
+      with:
+        file: build/cover.info
+
+
   build-gbk-on-release:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -51,6 +66,11 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE_REL}} -DGBK=on
 
+    - name: Install LCOV
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov > /dev/null
+
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE_REL}}
@@ -61,6 +81,15 @@ jobs:
         name: wooden_core-release-gbk-on-ubuntu
         path:
           build/wooden_game
+
+    - name: LCOV collection
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
+    - uses: codecov/codecov-action@v1
+      with:
+        file: build/cover.info
 
   build-gbk-off-debug:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -76,6 +105,11 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE_DEB}} -DGBK=off
 
+    - name: Install LCOV
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov > /dev/null
+
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE_DEB}}
@@ -86,7 +120,16 @@ jobs:
         name: wooden_core-debug-gbk-off-ubuntu
         path:
           build/wooden_game
-  
+
+    - name: LCOV collection
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
+    - uses: codecov/codecov-action@v1
+      with:
+        file: build/cover.info
+
   build-gbk-on-debug:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -101,6 +144,11 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE_DEB}} -DGBK=on
 
+    - name: Install LCOV
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov > /dev/null
+
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE_DEB}}
@@ -111,3 +159,12 @@ jobs:
         name: wooden_core-debug-gbk-on-ubuntu
         path:
           build/wooden_game
+
+    - name: LCOV collection
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
+    - uses: codecov/codecov-action@v1
+      with:
+        file: build/cover.info
