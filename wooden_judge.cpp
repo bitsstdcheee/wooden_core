@@ -21,6 +21,8 @@ using namespace tutil; // 直接 using namespace 省去前缀
 using namespace tskl;
 // using namespace std;
 
+// #define using_new_judger
+
 /*
 #ifndef debug
 
@@ -121,7 +123,6 @@ void init() {
 
 const int NUM_SKL = 19;
 
-
 // Skill: 带有对象的招术封装
 struct Skill {
     tskl::skill skl;
@@ -145,6 +146,37 @@ struct Skill {
         target = _target;
     }
     */
+};
+
+struct SkillPack {
+    std::vector<Skill> skills;
+    explicit operator std::vector<tskl::skill>() {
+        if (skills.empty()) {
+            std::vector<tskl::skill> res;
+            res.clear();
+            return res;
+        }
+        std::vector<tskl::skill> res(skills.size());
+        int idx = 0;
+        for (auto i = skills.begin(); i != skills.end(); i++, idx++) {
+            res[idx] = (tskl::skill)(skills[idx]);
+        }
+        return res;
+    }
+
+    SkillPack() {
+        skills.clear();
+    }
+
+    explicit SkillPack(std::vector<Skill> _skills) {
+        skills = std::move(_skills);
+    }
+
+    // 强制返回第一个 Skill 来缩减类型, 不推荐使用
+    Skill narrow_skill() {
+        if (skills.empty()) return {};
+        return skills[0];
+    }
 };
 
 // have_att: 检测玩家是否发出了攻击性招术
@@ -266,7 +298,29 @@ bool check_available(const std::pair<int, Skill> &choice) {
     return true;
 }
 
+#ifdef using_new_judger
+// check_delayed_player: 返回当前招式选择集中需要延迟选择的玩家 (评测, 管类), 排除爆气出局的
+std::vector<int> check_delayed_player(std::vector<std::pair<int, SkillPack>> &choices) {
 
+}
+
+std::vector<int> current_alive_players(std::vector<std::pair<int, SkillPack>> &choices) {
+    std::vector<int> res;
+    res.clear();
+    for (auto i : choices) {
+        if (!tag_died[i.first]) {
+            res.push_back(i.first);
+        }
+    }
+    return res;
+}
+
+// do_main: 主小局判定程序 (新方法)
+// dirty_choices: 玩家的招式选择
+void do_main(const std::vector<std::pair<int, SkillPack>> &dirty_choices) {
+
+}
+#else
 void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     // do_main：主小局判定程序
     // choices: player_id, skill
@@ -714,6 +768,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
         }
     }
 }
+#endif
 
 // pretty_print_result_died: 格式化打印玩家死亡信息
 // _id: 玩家 id 列表
