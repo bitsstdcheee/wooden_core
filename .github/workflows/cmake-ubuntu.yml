@@ -40,7 +40,7 @@ jobs:
       with:
         name: wooden_core-release-gbk-off-ubuntu
         path:
-          build/wooden_game
+          build/
 
     - name: LCOV collection
       shell: bash
@@ -80,7 +80,7 @@ jobs:
       with:
         name: wooden_core-release-gbk-on-ubuntu
         path:
-          build/wooden_game
+          build/
 
     - name: LCOV collection
       shell: bash
@@ -119,7 +119,7 @@ jobs:
       with:
         name: wooden_core-debug-gbk-off-ubuntu
         path:
-          build/wooden_game
+          build/
 
     - name: LCOV collection
       shell: bash
@@ -158,7 +158,7 @@ jobs:
       with:
         name: wooden_core-debug-gbk-on-ubuntu
         path:
-          build/wooden_game
+          build/
 
     - name: LCOV collection
       shell: bash
