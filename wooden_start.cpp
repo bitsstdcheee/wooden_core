@@ -1,4 +1,3 @@
-#include "wooden_start.h"
 #include <vector>
 #include <string>
 #include <memory>
