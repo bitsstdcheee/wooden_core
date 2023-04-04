@@ -9,20 +9,6 @@
 //dprint: debug 输出
 #ifdef debug
 
-void dprint(const std::string &msg, bool need_endl = true) {
-    std::cout << msg;
-    if (need_endl) std::cout << std::endl;
-}
-
-#else
-void dprint(const std::string &msg, bool need_endl = true) {
-    return;
-}
-#endif
-
-//dprint: debug 输出
-#ifdef debug
-
 void dprint(const char *msg, bool need_endl = true) {
     std::cout << msg;
     if (need_endl) std::cout << std::endl;
