@@ -31,19 +31,15 @@ bool check_internet_connect() {
             throw std::runtime_error("popen() failed!");
         }
         while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-            dprint(buffer.data());
             v.push_back(buffer.data());
         }
         //读取倒数第二行 2 packets transmitted, 2 received, 0% packet loss, time 1001ms
         if (v.size() > 1) {
             string data = v[v.size() - 2];
-            dprint(data);
             int iPos = data.find("received,");
             if (iPos != -1) {
                 data = data.substr(iPos - 3, 3);//截取字符串返回packet loss
-                dprint(data);
                 int n = atoi(data.c_str());
-                dprint(to_string(n));
                 if (n == 0)
                     return true;
                 else
@@ -52,9 +48,7 @@ bool check_internet_connect() {
                 int iPos2 = data.find("已接收");
                 if (iPos2 != -1) {
                     data = data.substr(iPos + 10, 3);//截取字符串返回packet loss
-                    dprint(data);
                     int n = atoi(data.c_str());
-                    dprint(to_string(n));
                     if (n == 0)
                         return true;
                     else
