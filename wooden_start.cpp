@@ -6,20 +6,6 @@
 #include <iostream>
 #include <cassert>
 
-//dprint: debug 输出
-#ifdef debug
-
-void dprint(const char *msg, bool need_endl = true) {
-    std::cout << msg;
-    if (need_endl) std::cout << std::endl;
-}
-
-#else
-void dprint(const char** &msg, bool need_endl = true) {
-    return;
-}
-#endif
-
 //通过ping检查公网连接，return 0表示ping成功
 bool check_internet_connect() {
     using namespace std;
@@ -60,7 +46,7 @@ bool check_internet_connect() {
         }
     } catch (std::exception e) {
         string error_info = e.what();
-        dprint(error_info);
+        cout<<error_info<<endl;
         assert(1);
         //ogWriteSql("1.checkNet() 判断是否有网络 error");
     }
@@ -71,7 +57,7 @@ bool check_internet_connect() {
 //核心初始化
 void wooden_initialization() {
     //检查公网连接
-    if (check_internet_connect())dprint("无法访问公网");
+    if (check_internet_connect())//无法访问公网
     {
         internet_connect = true;
         //检测内网连接
