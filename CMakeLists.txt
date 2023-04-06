@@ -43,5 +43,5 @@ file (GLOB HEADERS
 )
 
 # .cpp 生成可执行文件
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
 
