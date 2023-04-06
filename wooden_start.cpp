@@ -60,6 +60,7 @@ bool check_internet_connect() {
         //ogWriteSql("1.checkNet() 判断是否有网络 error");
     }
     //cout<<"checkNet 4444: "<<endl;
+    return false;
 }
 
 
