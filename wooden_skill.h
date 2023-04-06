@@ -57,9 +57,40 @@ namespace tskl {
         zd = 17,
 
         // Hither 全场 1 攻 每小局 1 次
-        hither = 18
+        hither = 18,
 
+        // 拳
+        fist = 19,
 
+        // 掌
+        palm = 20,
+        
+        // 波波剑
+        bo_sword = 21,
+
+        // 羊驼
+        alpaca = 22,
+
+        // 管
+        tube = 23,
+
+        // gulu
+        gulu = 24,
+
+        // 评测
+        judge = 25,
+
+        // 夹拳
+        fetch_fist = 26,
+
+        // 夹剑
+        fetch_sword = 27,
+        
+        // 夹波波剑
+        fetch_bo = 28,
+
+        // 空手
+        hands = 29,
     };
 }
 #endif
