@@ -8,6 +8,9 @@
 
 #include "wooden_start.h"
 #include "wooden_debug.h"
+
+
+#ifndef NOT_USE_CHECK_INTERNET_CONNECT
 bool internet_connect;
 //通过ping检查公网连接，return 0表示ping成功
 bool check_internet_connect() {
@@ -74,3 +77,4 @@ void wooden_initialization() {
     }
     return ;
 }
+#endif
