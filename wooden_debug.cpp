@@ -17,11 +17,11 @@ void dprint(const char *msg, bool need_endl) {
 }
 
 #else
-void dprint(const std::string &msg, bool need_endl = true) {
+void dprint(const std::string &msg, bool need_endl) {
     return;
 }
 
-void dprint(const char** &msg, bool need_endl = true) {
+void dprint(const char** &msg, bool need_endl) {
     return;
 }
 #endif
