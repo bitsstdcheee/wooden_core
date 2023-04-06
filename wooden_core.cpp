@@ -42,7 +42,10 @@ int main() {
     // do_test(13);
     do_test(14);
 #endif
+
+#ifndef NOT_USE_CHECK_INTERNET_CONNECT 
     wooden_initialization();
+#endif
 
     return 0;
 }
