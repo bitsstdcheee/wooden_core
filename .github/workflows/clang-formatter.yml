@@ -1,0 +1,15 @@
+on: push
+name: clang-format Code Formatter
+jobs:
+  lint:
+    name: clang-format Code Formatter
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add Safe Directory
+      shell: bash
+      run: |
+        git config --global --add safe.directory /github/workspace
+    - name: Clang Code Formatter
+      uses: ivanludvig/clang-format-action@v1.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
