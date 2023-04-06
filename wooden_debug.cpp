@@ -21,7 +21,7 @@ void dprint(const std::string &msg, bool need_endl) {
     return;
 }
 
-void dprint(const char** &msg, bool need_endl) {
+void dprint(const char *msg, bool need_endl) {
     return;
 }
 #endif
