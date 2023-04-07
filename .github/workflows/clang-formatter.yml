@@ -1,4 +1,4 @@
-on: push
+# on: push
 name: clang-format Code Formatter
 jobs:
   lint:
