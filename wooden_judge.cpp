@@ -297,9 +297,10 @@ void do_main(const std::vector<std::pair<int, SkillPack>> &dirty_choices) {
 
 }
 #else
+
+// do_main：主小局判定程序
+// choices: player_id, skill
 void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
-    // do_main：主小局判定程序
-    // choices: player_id, skill
 
     //// 定义区域 - 开始
     std::map<int, float> qi_add; // id -> qi
