@@ -19,7 +19,7 @@
 
 
 #### TODO
-- [ ] 小局新的判断程序（```wooden_judge.cpp```Line 277，```using_new_judger```）
+- [ ] 新的小局流程程序（```wooden_judge.cpp```Line 277，```using_new_judger```）
 - [ ] 初始化
   - [ ] 网络连接检测
   - [ ] 玩家互联
