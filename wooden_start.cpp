@@ -56,4 +56,5 @@ bool check_internet_connect() {
     if (res == -1) return false;
     return true;
     #endif
+    assert(0);
 }
