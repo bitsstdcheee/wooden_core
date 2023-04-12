@@ -11,6 +11,13 @@
 #include <windows.h>
 #endif
 
+#ifdef _linux
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+
 #include "wooden_start.h"
 #include "wooden_debug.h"
 
@@ -37,5 +44,16 @@ bool check_internet_connect() {
     DWORD flag;
     BOOL con = InternetGetConnectedState(&flag, 0);
     return con == TRUE;
+    #endif
+    #ifdef _linux
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(80);
+    addr.sin_addr.s_addr = inet_addr("114.114.114.114");
+    int res = connect(sockfd, (struct sockaddr*)&addr, sizeof(addr));
+    close(sockfd);
+    if (res == -1) return false;
+    return true;
     #endif
 }
