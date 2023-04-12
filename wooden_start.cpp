@@ -6,6 +6,11 @@
 #include <cassert>
 #include <array>
 
+#ifdef _WIN32
+#include <winsock2.h>
+#include <windows.h>
+#endif
+
 #include "wooden_start.h"
 #include "wooden_debug.h"
 
@@ -23,13 +28,14 @@ void wooden_initialization() {
     return;
 }
 
-#ifndef NOT_USE_CHECK_INTERNET_CONNECT
 bool internet_connect;
 
 // 通过ping检查公网连接，return 0表示ping成功
 bool check_internet_connect() {
-    throw -1;
-    return false;
+    
+    #ifdef _WIN32
+    DWORD flag;
+    BOOL con = InternetGetConnectedState(&flag, 0);
+    return con == TRUE;
+    #endif
 }
-
-#endif
