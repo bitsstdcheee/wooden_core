@@ -5,11 +5,13 @@
 #include <iostream>
 #include <cassert>
 #include <array>
+#include <winerror.h>
 
 #ifdef _WIN32
 #include <winsock2.h>
 #include <windows.h>
 #include <wininet.h>
+#include <netlistmgr.h>
 #endif
 
 #ifdef _linux
@@ -42,9 +44,25 @@ bool internet_connect;
 bool check_internet_connect() {
     
     #ifdef _WIN32
-    DWORD flag;
-    BOOL con = InternetGetConnectedState(&flag, 0);
-    return con == TRUE;
+    IUnknown *pUnknown = NULL;
+    HRESULT hr = CoCreateInstance(CLSID_NetworkListManager, NULL, CLSCTX_ALL, IID_INetworkCostManager, (void **)&pUnknown);
+    if (SUCCEEDED(hr)) {
+        INetworkListManager *pNetworkListManager = NULL;
+        hr = pUnknown->QueryInterface(IID_INetworkCostManager, (void **)&pNetworkListManager);
+        if (SUCCEEDED(hr)) {
+            NLM_CONNECTIVITY pConnect = NLM_CONNECTIVITY_DISCONNECTED;
+            hr = pNetworkListManager->GetConnectivity(&pConnect);
+            pNetworkListManager->Release();
+            if (pConnect == NLM_CONNECTIVITY_IPV4_INTERNET || pConnect == NLM_CONNECTIVITY_IPV6_INTERNET)
+                return true;
+            else
+                return false;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
     #endif
     #ifdef _linux
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);

@@ -64,6 +64,7 @@ file (GLOB HEADERS
 
 link_directories(
     Wininet.lib
+    ole32.lib
     )
 
 # .cpp 生成可执行文件
