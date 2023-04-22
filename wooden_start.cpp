@@ -5,9 +5,9 @@
 #include <iostream>
 #include <cassert>
 #include <array>
-#include <winerror.h>
 
 #ifdef _WIN32
+#include <winerror.h>
 #include <winsock2.h>
 #include <windows.h>
 #include <wininet.h>
