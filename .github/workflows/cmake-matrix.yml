@@ -27,7 +27,7 @@ jobs:
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }}
     - name: 安装 LCOV (仅限 Ubuntu)
-      if: matrix.os == ubuntu-latest
+      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
         sudo apt-get --assume-yes install lcov > /dev/null
@@ -40,6 +40,7 @@ jobs:
         path:
           build/
     - name: LCOV 数据收集 (仅限 Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       shell: bash
       run: |
         cd build
