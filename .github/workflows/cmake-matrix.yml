@@ -36,7 +36,7 @@ jobs:
     - name: 上传构件
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-on-${{ matrix.os }}-${{ matrix.profile }}
+        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
         path:
           build/
     - name: LCOV 数据收集 (仅限 Ubuntu)
