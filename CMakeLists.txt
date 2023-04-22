@@ -62,6 +62,11 @@ file (GLOB HEADERS
     *.h
 )
 
+link_directories(
+    Wininet.lib
+    ole32.lib
+    )
+
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
 

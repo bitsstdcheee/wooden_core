@@ -6,6 +6,21 @@
 #include <cassert>
 #include <array>
 
+#ifdef _WIN32
+#include <winerror.h>
+#include <winsock2.h>
+#include <windows.h>
+#include <wininet.h>
+#include <netlistmgr.h>
+#endif
+
+#ifdef _linux
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
+
 #include "wooden_start.h"
 #include "wooden_debug.h"
 
@@ -23,13 +38,42 @@ void wooden_initialization() {
     return;
 }
 
-#ifndef NOT_USE_CHECK_INTERNET_CONNECT
 bool internet_connect;
 
 // 通过ping检查公网连接，return 0表示ping成功
 bool check_internet_connect() {
-    throw -1;
-    return false;
+    
+    #ifdef _WIN32
+    IUnknown *pUnknown = NULL;
+    HRESULT hr = CoCreateInstance(CLSID_NetworkListManager, NULL, CLSCTX_ALL, IID_INetworkCostManager, (void **)&pUnknown);
+    if (SUCCEEDED(hr)) {
+        INetworkListManager *pNetworkListManager = NULL;
+        hr = pUnknown->QueryInterface(IID_INetworkCostManager, (void **)&pNetworkListManager);
+        if (SUCCEEDED(hr)) {
+            NLM_CONNECTIVITY pConnect = NLM_CONNECTIVITY_DISCONNECTED;
+            hr = pNetworkListManager->GetConnectivity(&pConnect);
+            pNetworkListManager->Release();
+            if (pConnect == NLM_CONNECTIVITY_IPV4_INTERNET || pConnect == NLM_CONNECTIVITY_IPV6_INTERNET)
+                return true;
+            else
+                return false;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    #endif
+    #ifdef _linux
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr;
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(80);
+    addr.sin_addr.s_addr = inet_addr("114.114.114.114");
+    int res = connect(sockfd, (struct sockaddr*)&addr, sizeof(addr));
+    close(sockfd);
+    if (res == -1) return false;
+    return true;
+    #endif
+    assert(0);
 }
-
-#endif
