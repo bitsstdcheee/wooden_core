@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     strategy:
-      continue-on-error: true
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest ]
         profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
