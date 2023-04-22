@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     strategy:
-      continue-on-error: true
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest , windows-latest ]
         profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
@@ -23,28 +23,29 @@ jobs:
 
     steps:
     - name: 下载分支
-        uses: actions/checkout@v3
+      uses: actions/checkout@v3
     - name: 配置 CMake (${{ matrix.os }})
-        run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }}
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }}
     - name: 安装 LCOV (仅限 Ubuntu)
-        if: matrix.os == ubuntu-latest
-        shell: bash
-        run: |
-          sudo apt-get --assume-yes install lcov > /dev/null
+      if: matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov > /dev/null
     - name: 编译
-        run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
     - name: 上传构件
-        uses: actions/upload-artifact@v3.1.2
-        with:
-          name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-on-${{ matrix.os }}-${{ matrix.profile }}
-          path:
-            build/
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-on-${{ matrix.os }}-${{ matrix.profile }}
+        path:
+          build/
     - name: LCOV 数据收集 (仅限 Ubuntu)
-        shell: bash
-        run: |
-          cd build
-          lcov -c -d ./ -o cover.info
+      if: matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
     - name: Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: build/cover.info
+      uses: codecov/codecov-action@v1
+      with:
+        file: build/cover.info
