@@ -46,6 +46,6 @@ jobs:
         cd build
         lcov -c -d ./ -o cover.info
     - name: Codecov
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3.1.3
       with:
         file: build/cover.info
