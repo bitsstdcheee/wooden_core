@@ -11,6 +11,26 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # 设置静态编译
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 
+# 输出 Worker 信息
+message("The basic infomation:")
+message("PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}")
+message("PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR}")
+message("PROJECT_NAME ${PROJECT_NAME}")
+message("CMAKE_CURRENT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}")
+message("CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
+message("CMAKE_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR}")
+message("EXECUTABLE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}")
+message("======= System =======")
+message("CMAKE_MAJOR_VERSION ${CMAKE_MAJOR_VERSION}")
+message("CMAKE_MINOR_VERSION ${CMAKE_MINOR_VERSION}")
+message("CMAKE_PATCH_VERSION ${CMAKE_PATCH_VERSION}")
+message("CMAKE_SYSTEM ${CMAKE_SYSTEM}")
+message("CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_PROCESSOR}")
+message("CMAKE_SYSTEM_VERSION ${CMAKE_SYSTEM_VERSION}")
+message("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
+message("UNIX ${UNIX}")
+message("WIN32 ${WIN32}")
+
 # 指定编译器
 SET(CMAKE_C_COMPILER "gcc")
 SET(CMAKE_CXX_COMPILER "g++")
@@ -42,6 +62,11 @@ file (GLOB HEADERS
     *.h
 )
 
+link_directories(
+    Wininet.lib
+    ole32.lib
+    )
+
 # .cpp 生成可执行文件
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
 

@@ -16,6 +16,7 @@
 #include "wooden_status.h"
 #include "wooden_skill.h"
 #include "wooden_judge.h"
+#include "wooden_debug.h"
 
 using namespace tutil; // 直接 using namespace 省去前缀
 using namespace tskl;
@@ -46,31 +47,6 @@ std::map<int, float> qi;
 std::map<int, bool> tag_died;
 // skl_count: 记录每位玩家 (id) 对应技能 (skl) 使用次数
 std::map<int, std::map<int, int>> skl_count;
-
-//dprint: debug 输出
-#ifdef debug
-void dprint(const std::string &msg, bool need_endl = true) {
-    std::cout << msg;
-    if (need_endl) std::cout << std::endl;
-}
-#else
-void dprint(const std::string &msg, bool need_endl = true) {
-    return;
-}
-#endif
-
-//dprint: debug 输出
-#ifdef debug
-void dprint(const char* msg, bool need_endl = true) {
-    std::cout << msg;
-    if (need_endl) std::cout << std::endl;  
-}
-#else
-void dprint(const char** &msg, bool need_endl = true) {
-    return;
-}
-#endif
-
 
 // init: 玩家信息的初始化
 void init() {
@@ -321,9 +297,10 @@ void do_main(const std::vector<std::pair<int, SkillPack>> &dirty_choices) {
 
 }
 #else
+
+// do_main：主小局判定程序
+// choices: player_id, skill
 void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
-    // do_main：主小局判定程序
-    // choices: player_id, skill
 
     //// 定义区域 - 开始
     std::map<int, float> qi_add; // id -> qi
