@@ -25,7 +25,7 @@ jobs:
     - name: 下载分支
       uses: actions/checkout@v3
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G ${{ matrix.profile }}
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
     - name: 安装 LCOV (仅限 Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       shell: bash
