@@ -2,12 +2,13 @@ name: CMake Matrix
 
 on:
   push:
-    branches: [ "master" , "dev"]
+    branches: [ "master" , "dev" ]
   pull_request:
-    branches: [ "master" , "dev"]
+    branches: [ "master" , "dev" ]
 
 jobs:
   build:
+    name: "Build"
     strategy:
       fail-fast: false
       matrix:
@@ -16,22 +17,47 @@ jobs:
         build_type: [ Release , Debug ]
         gbk: [ off , on ]
         exclude:
+          # Ubuntu
           - os: ubuntu-latest
             profile: Visual Studio 17 2022
           - os: ubuntu-latest
             profile: MinGW Makefiles
+
+          # Windows
           - os: windows-latest
             profile: Unix Makefiles
+
+          # MacOS Uses clang++ is only supported with UTF-8
+          - os: macos-13
+            gbk: on
+          - os: macos-13
+            profile: MinGW Makefiles
+          - os: macos-13
+            profile: Visual Studio 17 2022
+        include:
+          - os: macos-13
+            profile: Xcode
+            gbk: off
     
     runs-on: ${{ matrix.os }}
 
     steps:
     - name: 探测版本
       run: |
+        echo "G++ version"
         g++ --version
+        echo ""
+        echo "GCC version"
         gcc --version
+        echo ""
+        echo "Make version"
         make --version
+        echo ""
+        echo "CMake version"
         cmake --version
+    - name: 输出 CMake 支持 Generators
+      run: |
+        cmake --help
     - name: 下载分支
       uses: actions/checkout@v3
     - name: 配置 CMake (${{ matrix.os }})
