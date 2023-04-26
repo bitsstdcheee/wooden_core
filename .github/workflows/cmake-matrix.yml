@@ -6,37 +6,36 @@ on:
   pull_request:
     branches: [ "master" , "dev" ]
 
-strategy:
-  fail-fast: false
-  matrix:
-    os: [ ubuntu-latest , windows-latest, macos-13 ]
-    profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
-    build_type: [ Release , Debug ]
-    gbk: [ off , on ]
-    exclude:
-      # Ubuntu
-      - os: ubuntu-latest
-        profile: Visual Studio 17 2022
-      - os: ubuntu-latest
-        profile: MinGW Makefiles
-
-      # Windows
-      - os: windows-latest
-        profile: Unix Makefiles
-
-      # MacOS Uses clang++ is only supported with UTF-8
-      - os: macos-13
-        gbk: on
-      - os: macos-13
-        profile: MinGW Makefiles
-      - os: macos-13
-        profile: Visual Studio 17 2022
-    include:
-      - os: macos-13
-        profile: Xcode
-        gbk: off
-
 jobs:
+  strategy:
+    fail-fast: false
+    matrix:
+      os: [ ubuntu-latest , windows-latest, macos-13 ]
+      profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
+      build_type: [ Release , Debug ]
+      gbk: [ off , on ]
+      exclude:
+        # Ubuntu
+        - os: ubuntu-latest
+          profile: Visual Studio 17 2022
+        - os: ubuntu-latest
+          profile: MinGW Makefiles
+
+        # Windows
+        - os: windows-latest
+          profile: Unix Makefiles
+
+        # MacOS Uses clang++ is only supported with UTF-8
+        - os: macos-13
+          gbk: on
+        - os: macos-13
+          profile: MinGW Makefiles
+        - os: macos-13
+          profile: Visual Studio 17 2022
+      include:
+        - os: macos-13
+          profile: Xcode
+          gbk: off
   build:
     name: "Build"
     runs-on: ${{ matrix.os }}
@@ -80,11 +79,11 @@ jobs:
         file: build/cover.info
   upload:
     name: "Upload"
+    needs: build
+    if: always()
     runs-on: ${{ matrix.os }}
     steps:
     - name: Upload
-      needs: build
-      if: always()
       uses: actions/upload-artifact@v3.1.2
       with:
         name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
