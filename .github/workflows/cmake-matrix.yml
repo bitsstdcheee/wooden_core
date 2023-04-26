@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , windows-latest ]
+        os: [ ubuntu-latest , windows-latest, macos-13 ]
         profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
         build_type: [ Release , Debug ]
         gbk: [ off , on ]
@@ -26,6 +26,12 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+    - name: 探测版本
+      run: |
+        g++ --version
+        gcc --version
+        make --version
+        cmake --version
     - name: 下载分支
       uses: actions/checkout@v3
     - name: 配置 CMake (${{ matrix.os }})
