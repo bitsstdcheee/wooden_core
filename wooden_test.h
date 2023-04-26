@@ -161,8 +161,8 @@ extern const tutil::TESTN test14;
 // grv => gen_repeated_vec
 #define grv gen_repeated_vec
 
-// gsc => 生成技能计数形式的 map => gen_map<int, std::map<int, int>>
-#define gsc gen_map<int, std::map<int, int>>
+// gsc => 生成技能计数形式的 map => gen_map<int, std::map<int, int> >
+#define gsc gen_map<int, std::map<int, int> >
 
 // gal => gen_all_alive
 #define gal gen_all_alive
