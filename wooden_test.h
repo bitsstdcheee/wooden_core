@@ -98,7 +98,7 @@ namespace tutil {
         std::vector<int> players;  // 测试初始的玩家 id
         std::map<int, float> qi;  // 测试初始的气数列表
         std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息
-        std::map<int, std::map<int, int>> skl_count;  // 测试初始值的招术使用情况
+        std::map<int, std::map<int, int> > skl_count;  // 测试初始值的招术使用情况
         std::map<int, tskl::skill> using_skill;  // 测试小局中玩家的出招
         std::map<int, int> target;  // 测试小局中玩家出招的对手
         std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
@@ -113,7 +113,7 @@ namespace tutil {
                 std::vector<int> _players,
                 std::map<int, float> _qi,
                 std::map<int, bool> _tag_died,
-                std::map<int, std::map<int, int>> _skl_count,
+                std::map<int, std::map<int, int> > _skl_count,
                 std::map<int, tskl::skill> _using_skill,
                 std::map<int, int> _target,
                 std::map<int, bool> _res_tag_died,
