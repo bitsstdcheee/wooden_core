@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , windows-latest, macos-13-xl ]
+        os: [ ubuntu-latest , windows-latest, macos-13 ]
         profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
         build_type: [ Release , Debug ]
         gbk: [ off , on ]
