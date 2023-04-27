@@ -62,6 +62,9 @@ file (GLOB HEADERS
     *.h
 )
 
+# .cpp 生成可执行文件
+add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
+
 if (WIN32) 
     target_link_libraries(${PROJECT_NAME} 
         Wininet.lib
@@ -83,7 +86,4 @@ elseif (APPLE)
 elseif (UNIX)
 link_directories()
 endif ()
-
-# .cpp 生成可执行文件
-add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
 
