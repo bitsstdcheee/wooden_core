@@ -62,10 +62,16 @@ file (GLOB HEADERS
     *.h
 )
 
+if (WIN32) 
 link_directories(
     Wininet.lib
     ole32.lib
     )
+ELSEIF (APPLE)
+link_directories()
+ELSEIF (UNIX)
+link_directories()
+ENDIF ()
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES} wooden_debug.h wooden_debug.cpp)
