@@ -80,7 +80,7 @@ elseif (APPLE)
     link_directories(
         /usr/lib
         )
-    target_link_libraries(
+    target_link_libraries(${PROJECT_NAME} 
         -lcrt0.o
         )
 elseif (UNIX)
