@@ -36,7 +36,11 @@ jobs:
         include:
           - os: macos-13
             profile: Xcode
-            build_type: [ Release, Debug ]
+            build_type: Release
+            gbk: off
+          - os: macos-13
+            profile: Xcode
+            build_type: Debug
             gbk: off
 
     name: "Build"
