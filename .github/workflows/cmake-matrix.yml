@@ -81,13 +81,14 @@ jobs:
         echo "The Current Exec Path:"
         for /r build %%i in (wooden_game.exe*) do @echo %%i
         for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
-    - name: LCOV 数据收集 (仅限 Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
+    - name: LCOV 数据收集 (仅限 Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
       run: |
         cd build
         lcov -c -d ./ -o cover.info
-    - name: Codecov
+    - name: Codecov (仅限 Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       uses: codecov/codecov-action@v3.1.3
       with:
         file: build/cover.info
