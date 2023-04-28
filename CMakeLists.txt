@@ -7,6 +7,7 @@ PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
+set(ENABLE_COVERAGE ON)
 
 if (APPLE)
 # MacOS 系统不支持静态编译, 因为该平台上提供的库文件并没有进行静态编译
