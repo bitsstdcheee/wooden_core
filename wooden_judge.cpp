@@ -46,7 +46,7 @@ std::map<int, float> qi;
 // true: 当前已死亡 / 出局 / 隐退
 std::map<int, bool> tag_died;
 // skl_count: 记录每位玩家 (id) 对应技能 (skl) 使用次数
-std::map<int, std::map<int, int>> skl_count;
+std::map<int, std::map<int, int> > skl_count;
 
 // init: 玩家信息的初始化
 void init() {
@@ -150,7 +150,7 @@ struct SkillPack {
 
     // 强制返回第一个 Skill 来缩减类型, 不推荐使用
     Skill narrow_skill() {
-        if (skills.empty()) return {};
+        if (skills.empty()) return Skill();
         return skills[0];
     }
 };
@@ -201,8 +201,8 @@ bool have_clap_axe(const std::pair<int, Skill> &choice) {
 }
 
 // clean_choices: 清洗玩家选择: 对于已死去的玩家的技能清除
-std::vector<std::pair<int, Skill>> clean_choices(const std::vector<std::pair<int, Skill>> &choices) {
-    std::vector<std::pair<int, Skill>> res;
+std::vector<std::pair<int, Skill> > clean_choices(const std::vector<std::pair<int, Skill> > &choices) {
+    std::vector<std::pair<int, Skill> > res;
     res.clear();
     for (const auto & player: choices) {
         if (tag_died[player.first] == true) {
@@ -276,11 +276,11 @@ bool check_available(const std::pair<int, Skill> &choice) {
 
 #ifdef using_new_judger
 // check_delayed_player: 返回当前招式选择集中需要延迟选择的玩家 (评测, 管类), 排除爆气出局的
-std::vector<int> check_delayed_player(std::vector<std::pair<int, SkillPack>> &choices) {
+std::vector<int> check_delayed_player(std::vector<std::pair<int, SkillPack> > &choices) {
 
 }
 
-std::vector<int> current_alive_players(std::vector<std::pair<int, SkillPack>> &choices) {
+std::vector<int> current_alive_players(std::vector<std::pair<int, SkillPack> > &choices) {
     std::vector<int> res;
     res.clear();
     for (auto i : choices) {
@@ -293,21 +293,21 @@ std::vector<int> current_alive_players(std::vector<std::pair<int, SkillPack>> &c
 
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择
-void do_main(const std::vector<std::pair<int, SkillPack>> &dirty_choices) {
+void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
 }
 #else
 
 // do_main：主小局判定程序
 // choices: player_id, skill
-void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
+void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
 
     //// 定义区域 - 开始
     std::map<int, float> qi_add; // id -> qi
     // qi_add: 记录当前小局该玩家应得的气数, 但未加到计数器
     qi_add.clear();
 
-    std::vector<std::pair<int, Skill>> choices = clean_choices(dirty_choices);
+    std::vector<std::pair<int, Skill> > choices = clean_choices(dirty_choices);
 
     //// 定义区域 - 结束
 
@@ -565,7 +565,7 @@ void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     std::map<int, float> suffer_att;
 
     // has_def: 记录该玩家拥有防御的 max 和 min
-    std::map<int, std::pair<float, float>> has_def;
+    std::map<int, std::pair<float, float> > has_def;
 
     suffer_att.clear();
     has_def.clear();
@@ -806,7 +806,7 @@ bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1, const 
 // continue_game: 大局中两个小局间的衔接
 // now: 当前每个玩家的状况
 // n: 当前即将进行的局数
-game_status continue_game(int n, game_status now, const std::vector<std::pair<int, Skill>>& choices) {
+game_status continue_game(int n, game_status now, const std::vector<std::pair<int, Skill> >& choices) {
     // Step 1. 转移数据
     players = now.players;
     player_num = now.player_num;
@@ -855,7 +855,7 @@ void passon(const TESTN &test) {
     const std::vector<int> &_players = test.players;
     const std::map<int, float> &_qi = test.qi;
     const std::map<int, bool> &_tag_died = test.tag_died;
-    const std::map<int, std::map<int, int>> &_skl_count = test.skl_count;
+    const std::map<int, std::map<int, int> > &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
     const std::map<int, float> &_res_qi = test.res_qi;
     const std::map<int, tskl::skill> &_using_skill = test.using_skill;
@@ -875,7 +875,7 @@ void passon(const TESTN &test) {
 
     // 转换 test::skill -> choices
     dprint("[P0] Before test::skill -> choices");
-    auto* _dirty_choices = new std::vector<std::pair<int, Skill>>(_player_num);
+    auto* _dirty_choices = new std::vector<std::pair<int, Skill> >(_player_num);
     int cnt = 0;
     for (auto i: _using_skill) {
         dprint("[P0] In for: i = <" + std::to_string(i.first) + ", " + std::to_string(i.second) + ">, cnt = " + std::to_string(cnt));
