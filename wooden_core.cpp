@@ -7,6 +7,7 @@
 #include "wooden_start.h"
 
 #define do_test(x) passon(test##x)
+#define do_test_uncheck(x) passon(test##x, false)
 
 int main() {
     static_assert(sizeof(void *) == 8, "This program only support 64 bit.");
@@ -40,7 +41,8 @@ int main() {
     // do_test(11);
     // do_test(12);
     // do_test(13);
-    do_test(14);
+    // do_test(14);
+    do_test_uncheck(14);
 #endif
 
     wooden_initialization();

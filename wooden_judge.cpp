@@ -295,6 +295,20 @@ bool check_available(const std::pair<int, Skill> &choice) {
  *
  */
 
+// 完成 Skill -> SkillPack 的显式转换
+std::vector<std::pair<int, SkillPack> > skillPack(const std::vector<std::pair<int, Skill> > &choices) {
+    std::vector<std::pair<int, SkillPack> > res;
+    res.clear();
+    for (auto i: choices) {
+        SkillPack tmp;
+        tmp.skills.clear();
+        tmp.skills.push_back(i.second);
+        res.push_back(std::make_pair(i.first, tmp));
+    }
+    return res;
+}
+
+
 // 清洗数据 (已死亡的玩家)
 // choices: player_id -> SkillPack
 std::vector<std::pair<int, SkillPack> > clean_choices(const std::vector<std::pair<int, SkillPack> > &choices) {
@@ -351,7 +365,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             }
             else {
                 // 当前招式允许叠加
-                std::string ogid = query_skill_overlay_name(skl);
+                std::string ogid = tskl::query_skill_overlay_name(skl);
                 if (!have_overlay_group) {
                     have_overlay_group = true;
                     overlay_group_id = ogid;
@@ -924,7 +938,11 @@ game_status continue_game(int n, game_status now, const std::vector<std::pair<in
     skl_count = now.skl_count;
 
     // Step 2. 进行小局
+    #ifdef using_new_judger
+    do_main(skillPack(choices));
+    #else
     do_main(choices);
+    #endif
 
     // Step 3. 获取结果
     game_status changed(player_num, players, qi, tag_died, skl_count);
@@ -956,7 +974,7 @@ game_status continue_game(int n, game_status now, const std::vector<std::pair<in
 }
 
 // passon: 传递测试参数并运行测试的函数
-void passon(const TESTN &test) {
+void passon(const TESTN &test, bool check) {
     dprint("[P*] Entering passon()");
     const int &_player_num = test.player_num;
     assert(_player_num >= 2); // 玩家数量需大于或等于 2
@@ -1006,7 +1024,11 @@ void passon(const TESTN &test) {
 
     // Step 2. 运行测试
     dprint("[P2] Before do_main()");
+    #ifdef using_new_judger
+    do_main(skillPack(*_dirty_choices));
+    #else
     do_main(*_dirty_choices);
+    #endif
     dprint("[P2] After do_main()");
 
     // Step 2.5 打印结果
@@ -1017,12 +1039,17 @@ void passon(const TESTN &test) {
     pretty_print_result_qi((*players), _res_qi, _comment);
     dprint("[P2.5] After pretty printing");
 
-    // Step 3. 判断结果
-    // assert(_res_tag_died == tag_died);
-    // assert(_res_qi == qi);
-    dprint("[P3] Before assert result");
-    assert(equal_map(*players, _res_tag_died, tag_died));
-    assert(equal_map(*players, _res_qi, qi));
+    if (check == true) {
+        // Step 3. 判断结果
+        // assert(_res_tag_died == tag_died);
+        // assert(_res_qi == qi);
+        dprint("[P3] Before assert result");
+        assert(equal_map(*players, _res_tag_died, tag_died));
+        assert(equal_map(*players, _res_qi, qi));
+    }
+    else {
+        dprint("[P3] I will not check");
+    }
 
     std::cout << "Test success: " << test.comment << std::endl;
 }

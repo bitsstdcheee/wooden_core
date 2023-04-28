@@ -1,7 +1,5 @@
 #include "wooden_skill.h"
 
-using tskl::skill;
-
 string tskl::query_skill_overlay_name(skill skl) {
     if (skl == wooden_sword ||
         skl == fist ||
