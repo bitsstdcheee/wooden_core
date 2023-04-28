@@ -33,15 +33,6 @@ jobs:
             profile: MinGW Makefiles
           - os: macos-13
             profile: Visual Studio 17 2022
-        include:
-          - os: macos-13
-            profile: Xcode
-            build_type: Release
-            gbk: off
-          - os: macos-13
-            profile: Xcode
-            build_type: Debug
-            gbk: off
 
     name: "Build"
     runs-on: ${{ matrix.os }}
