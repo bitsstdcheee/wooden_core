@@ -22,7 +22,7 @@ using namespace tutil; // 直接 using namespace 省去前缀
 using namespace tskl;
 // using namespace std;
 
-// #define using_new_judger
+#define using_new_judger
 
 /*
 #ifndef debug
@@ -275,26 +275,135 @@ bool check_available(const std::pair<int, Skill> &choice) {
 }
 
 #ifdef using_new_judger
-// check_delayed_player: 返回当前招式选择集中需要延迟选择的玩家 (评测, 管类), 排除爆气出局的
-std::vector<int> check_delayed_player(std::vector<std::pair<int, SkillPack> > &choices) {
 
-}
+/* 在新的 Judger using_new_judger 中, 使用新的数据输入方式和处理方式
+ * 
+ * 在每次小局开始时, 需要调用 init_judge() 来初始化
+ * 
+ * 在一个小局中, 考虑到延迟招式的存在, 调用者需要不断通过获取 check_need_more() 函数
+ * 来判断是否需要继续向玩家询问延迟招式, 并获取当前需要询问出招的玩家 (若还有相较更晚决定
+ * 招式的玩家则需要在下一次调用相同函数时处理, 而本次不会返回这些玩家)
+ * 
+ * do_main() 是游戏主逻辑函数, 无论是小局开始的第一次还是延迟出招, 都要交给这个函数处理,
+ * 这意味着 do_main() 在新的判定方式中带有状态性 (原来的判定方式并不支持延迟出招, 因此
+ * 以无状态的方式实现, 也便于调用), 但是调用者并不需要特意处理状态性带来的问题, 但调用着
+ * 应遵守一个原则: 只往参数中传递新的招式. "以不变应万变", do_main() 不需要额外的提示
+ * 即可自动处理小局起始出招或者接续出招.
+ * 
+ * do_main() 只是一个处理函数, 不返回任何值, 调用者需通过 query_player_status() 
+ * 来获取当前每个玩家的状态 (存活/死亡) 、气数和死亡原因
+ *
+ */
 
-std::vector<int> current_alive_players(std::vector<std::pair<int, SkillPack> > &choices) {
-    std::vector<int> res;
+// 清洗数据 (已死亡的玩家)
+// choices: player_id -> SkillPack
+std::vector<std::pair<int, SkillPack> > clean_choices(const std::vector<std::pair<int, SkillPack> > &choices) {
+    std::vector<std::pair<int, SkillPack> > res;
     res.clear();
-    for (auto i : choices) {
-        if (!tag_died[i.first]) {
-            res.push_back(i.first);
+    for (auto & player : choices) {
+        if (tag_died[player.first] == true) {
+            continue;
         }
+        res.push_back(player);
     }
     return res;
 }
 
+// 记录当前小局中玩家上一次出招
+std::map<int, skill> player_last_skill;
+
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择
 void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
+    // Step 1: 清洗数据
+    std::vector<std::pair<int, SkillPack> > choices = clean_choices(dirty_choices);
 
+    // Step 2: 检查是否有空出招
+    for (auto player: choices) {
+        if (player.second.skills.size() < 1) {
+            dprint("[Step 2] 玩家 " + std::to_string(player.first) + " 没有任何出招但出现在参数中");
+        }
+    }
+
+    // Step 2: 处理招式叠加是否允许
+    for (auto player: choices) {
+        auto& pid = player.first;
+        auto& psp = player.second;
+        auto& pls = player_last_skill[pid];
+
+        // 扫描一遍招式叠加情况
+
+        // 是否含有不可叠加的招式
+        bool have_unoverlay = false;
+        bool have_failed = false;
+        bool have_overlay_group = false;
+        std::string overlay_group_id = "";
+        for (auto skl: psp.skills) {
+            if (query_skill_can_overlay(skl) == false) {
+                // 当前招式不允许叠加
+                have_unoverlay = true;
+                if (psp.skills.size() > 1) {
+                    // 同时出的不同种类招式数 > 1 并且有不可叠加的招式时, 必不合法
+                    dprint("[Step 2] 检测到不合法输入 (player: " + std::to_string(pid) + "), 不同种类招式数:" + std::to_string(psp.skills.size()) + ", 不可叠加 skill_id:" + std::to_string(skl));
+                    have_failed = true;
+                    break;
+                }
+            }
+            else {
+                // 当前招式允许叠加
+                std::string ogid = query_skill_overlay_name(skl);
+                if (!have_overlay_group) {
+                    have_overlay_group = true;
+                    overlay_group_id = ogid;
+                }
+                else {
+                    if (overlay_group_id != ogid) {
+                        // 之前已有允许叠加的招式且叠加组 id 不一致
+                        dprint("[Step 2] 检测到不合法输入 (player: " +
+                        std::to_string(pid) + "), 多个叠加组 id, 新 id:" + ogid + ", 旧 id:" + overlay_group_id);
+                        have_failed = true;
+                        break;
+                    }
+                }
+            }
+        }
+        dprint("[Step 2] 玩家" + std::to_string(pid) + " " + (std::string)(have_unoverlay ? "有" : "没有") + "不可叠加的招式");
+        if (have_failed) {
+            dprint("[Step 2] 玩家 " + std::to_string(pid) + " " + "不合法出招, 判死");
+            tag_died[pid] = true;
+        }
+    }
+
+    choices = clean_choices(choices);
+    
+    // Step 2: 处理不合法输出 (多次咕噜咕噜, 管类后出无关招式)
+    for (auto player : choices) {
+        auto& pid = player.first;
+        auto& psp = player.second;
+        assert(psp.skills.size() > 0);
+        auto& default_skl = psp.skills[0]; // 假设第一个就是玩家选的 (通常招式列表只有一个)
+        auto& pls = player_last_skill[pid];
+        if (!pls) continue;
+        if (pls == tskl::none) continue;
+        if (pls == tskl::gulu) {
+            // 上一次使用咕噜咕噜, 本次禁用咕噜咕噜
+            if (default_skl == tskl::gulu) {
+                dprint("[Step 2] 玩家 " + std::to_string(pid) + " 连续使用咕噜咕噜, 判死");
+                tag_died[pid] = true;
+                continue;
+            }
+        }
+        if (pls == tskl::tube) {
+            // 上一次使用管类, 这次只能出管
+            // 管类中, 第一次传递的管类不含对象, 代表该玩家使用管类; 第二次传递的管类包含使用对象, 代表玩家延迟决定后的使用对象;
+            // 在第一次管类中, last_skill 设为 tube; 在第二次管类决定对象后, last_skill 设为 none
+            if (default_skl != tskl::tube) {
+                dprint("[Step 2] 玩家 " + std::to_string(pid) + " 在上一次使用了管类延迟, 但在这次中并没有正确向攻击对象发出管, 而是使用招式 id=" + std::to_string(default_skl) + ", 判死");
+                tag_died[pid] = true;
+                continue;
+            }
+        }
+    }
 }
 #else
 

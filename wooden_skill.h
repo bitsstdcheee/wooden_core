@@ -1,5 +1,7 @@
 #ifndef WOODEN_SKILL
 #define WOODEN_SKILL
+#include <string>
+using std::string;
 namespace tskl {
     enum skill {
         // 无
@@ -92,5 +94,11 @@ namespace tskl {
         // 空手
         hands = 29,
     };
+
+    // 获取招式对应的叠加组 id
+    string query_skill_overlay_name(skill);
+
+    // 查询招式是否可以叠加
+    bool query_skill_can_overlay(skill);
 }
 #endif
