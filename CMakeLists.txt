@@ -8,8 +8,15 @@ PROJECT(wooden_game)
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+if (APPLE)
+# MacOS 系统不支持静态编译, 因为该平台上提供的库文件并没有进行静态编译
+# Error Message: (in https://github.com/bitsstdcheee/wooden_core/actions/runs/4820579102/jobs/8585266114)
+# ld: library not found for -lcrt0.o
+# Stack Overflow: https://stackoverflow.com/questions/3801011/ld-library-not-found-for-lcrt0-o-on-osx-10-6-with-gcc-clang-static-flag
+else ()
 # 设置静态编译
-set(CMAKE_EXE_LINKER_FLAGS "-static")
+    set(CMAKE_EXE_LINKER_FLAGS "-static")
+endif ()
 
 # 输出 Worker 信息
 message("The basic infomation:")
