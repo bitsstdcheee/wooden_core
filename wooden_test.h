@@ -16,7 +16,7 @@
 // #define debug
 
 const int MIN_SKILL_NUM = 0;
-const int MAX_SKILL_NUM = 17;
+const int MAX_SKILL_NUM = 29;
 
 namespace test {
 }

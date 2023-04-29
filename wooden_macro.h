@@ -3,5 +3,7 @@
 
 #undef ASSERT_TEST1  // 选择是否开启 test1 的 assert 测试
 
+#define using_new_judger
+#define str(x) std::to_string(x)
 
 #endif

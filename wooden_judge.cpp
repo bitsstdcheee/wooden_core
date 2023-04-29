@@ -22,7 +22,6 @@ using namespace tutil; // 直接 using namespace 省去前缀
 using namespace tskl;
 // using namespace std;
 
-#define using_new_judger
 
 /*
 #ifndef debug
@@ -97,7 +96,8 @@ void init() {
 // TODO: [MOD] Fire
 // TODO: [Future] 代码生成混淆
 
-const int NUM_SKL = 19;
+// NUM_SKL: 当前招式个数 (id 最大值)
+const int NUM_SKL = 29;
 
 // Skill: 带有对象的招术封装
 struct Skill {
@@ -295,6 +295,18 @@ bool check_available(const std::pair<int, Skill> &choice) {
  *
  */
 
+// 记录每个技能在大局中的最高可用次数 (-1 为无限,)
+const int max_skl_count[NUM_SKL] = {
+    -1,
+    -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1,
+    -1, -1, -1, -1, -1,
+    // ashiba(16) 1 次, zd(17) 1 次, Hither(18) 1 次
+    1, 1, 1, -1, -1,
+    -1, -1, -1, -1, -1,
+    -1, -1, -1
+};
+
 // 完成 Skill -> SkillPack 的显式转换
 std::vector<std::pair<int, SkillPack> > skillPack(const std::vector<std::pair<int, Skill> > &choices) {
     std::vector<std::pair<int, SkillPack> > res;
@@ -381,7 +393,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 }
             }
         }
-        dprint("[Step 2] 玩家" + std::to_string(pid) + " " + (std::string)(have_unoverlay ? "有" : "没有") + "不可叠加的招式");
+        dprint("[Step 2] 玩家 " + std::to_string(pid) + " " + (std::string)(have_unoverlay ? "有" : "没有") + "不可叠加的招式");
         if (have_failed) {
             dprint("[Step 2] 玩家 " + std::to_string(pid) + " " + "不合法出招, 判死");
             tag_died[pid] = true;
@@ -416,6 +428,56 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 tag_died[pid] = true;
                 continue;
             }
+        }
+    }
+
+    choices = clean_choices(choices);
+
+    // Step 2: 处理使用次数达到上限的情况
+    for (auto player: choices) {
+        auto& pid = player.first;
+        auto& psp = player.second;
+        for (auto skl: psp.skills) {
+            int ncnt = skl_count[pid][skl]; // 现在已使用的
+            int lcnt = max_skl_count[skl]; // 限制次数
+            dprint("[Step 2] 玩家 " + str(pid) + " 出招 id=" + str(skl) + ", 已使用 " + str(ncnt) + "次, ", false);
+            if (lcnt == -1) {
+                // 该技能无限使用
+                dprint("该招数无使用次数限制");
+            } else {
+                dprint("该招数限制使用 " + str(lcnt) + "次, ", false);
+                if (ncnt <= lcnt) {
+                    // 没有超出限制
+                    dprint("没有超出限制");
+                } else {
+                    // 超出了限制
+                    dprint("超出限制, 判死");
+                    tag_died[pid] = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Step 2: 处理爆气
+    for (auto player: choices) {
+        auto& pid = player.first;
+        auto& psp = player.second;
+        // 需要支出的气数
+        int consume_qi = 0;
+        for (auto skl: psp.skills) {
+            // 遍历该玩家所出的每个招式
+            consume_qi += sklqi[skl];
+        }
+        dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " + std::to_string(consume_qi) + " 当前有气数为 " + std::to_string(qi[pid]) + ", ", false);
+        if (consume_qi > qi[pid]) {
+            // 爆气了
+            dprint("爆气了, 处死");
+            tag_died[pid] = true;
+            continue;
+        } else {
+            // 没爆气
+            dprint("没爆气");
         }
     }
 }
