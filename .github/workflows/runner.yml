@@ -18,6 +18,6 @@ jobs:
 
     cmake_matrix:
         name: CMake 矩阵编译
-        needs: clang-format
-        if: ${{ success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success' }}
+        needs: [clang-format, static-checks]
+        if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' }}
         uses: ./.github/workflows/cmake-matrix.yml
