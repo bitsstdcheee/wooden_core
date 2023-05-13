@@ -1,5 +1,11 @@
 #!/bin/bash
-files=$(git ls-files -- '*.c' '*.h' '*.cpp')
+echo "当前脚本工作目录: $(pwd)"
+if [[ -n "$GITHUB_ACTIONS" ]]; then
+    files=$(git ls-files -- *.c *.h *.cpp)
+    # Github Actions 的默认工作目录在项目根目录
+else
+    files=$(git ls-files -- ../../*.c ../../*.h ../../*.cpp)
+fi
 result=0
 for f in $files; do
     echo "进行代码文件 ${f} 的格式检查"
