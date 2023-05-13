@@ -13,7 +13,7 @@ jobs:
             checks: read
             contents: write
         needs: static-checks
-        if: ${{ failure() }}
+        if: ${{ success() && needs.static-checks.outputs.exit_code != 0 }}
         uses: ./.github/workflows/clang-format.yml
 
     cmake_matrix:

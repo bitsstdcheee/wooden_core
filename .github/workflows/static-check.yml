@@ -1,10 +1,16 @@
 name: 代码静态检查
 on:
     workflow_call:
+        outputs:
+            exit_code:
+                description: "表明代码格式化检查是否通过"
+                value: ${{ jobs.static-checks.outputs.exit_code }}
 jobs:
     static-checks:
         name: C++ 代码格式检查 (clang-format)
         runs-on: ubuntu-latest
+        outputs:
+            exit_code: ${{ steps.check_code_format.outputs.check_result }}
         steps:
           - name: 探测版本
             run: |
@@ -15,9 +21,12 @@ jobs:
                 fetch-depth: 3
             
           - name: 检查代码格式
+            id: check_code_format
             run: |
                 bash ./.github/scripts/check_clang_format.sh
-          
+                echo "check_result=$?" >> $GITHUB_OUTPUT
+                exit 0
+
           - name: 上传 Log
             if: always()
             uses: actions/upload-artifact@v3.1.2
