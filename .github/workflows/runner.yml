@@ -4,7 +4,7 @@ on: [ push, pull_request ]
 jobs:
     static-checks:
         name: 📊 静态检查
-        uses: ./.github/workflows/static_check.yml
+        uses: ./.github/workflows/static-check.yml
     
     cmake_matrix:
         name: CMake 矩阵编译
