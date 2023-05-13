@@ -1,0 +1,27 @@
+name: 代码静态检查
+on:
+    workflow_call:
+jobs:
+    static-checks:
+        name: C++ 代码格式检查 (clang-format)
+        runs-on: ubuntu-latest
+        steps:
+          - name: 下载分支
+            uses: actions/checkout@v3
+            with:
+                fetch-depth: 3
+            
+          - name: 检查代码格式
+            run: |
+                bash ./.github/scripts/check_clang_format.sh
+          
+          - name: 上传 Log
+            if: always()
+            uses: actions/upload-artifact@v3.1.2
+            with:
+                name: clang-format-check
+                path:
+                    .github/scripts/clang-format
+                    
+
+            

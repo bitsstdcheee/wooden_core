@@ -11,3 +11,8 @@ clangd_trace
 # CLion 相关
 .idea
 cmake-build-*
+
+# 脚本相关
+**/clang-format/
+**/clang-format-output.log
+**/clang-format-error.log
