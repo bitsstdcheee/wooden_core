@@ -6,7 +6,14 @@ jobs:
         name: 📊 静态检查
         uses: ./.github/workflows/static-check.yml
     
+    clang-format:
+        name: 代码格式化
+        needs: static-checks
+        if: ${{ needs.static-checks.result == 'failure' }}
+        uses: ./.github/workflows/clang-format.yml
+
     cmake_matrix:
         name: CMake 矩阵编译
-        needs: static-checks
+        needs: clang-format
+        if: ${{ needs.clang-format.result == 'success' || needs.clang-format.result == 'skipped' }}
         uses: ./.github/workflows/cmake-matrix.yml

@@ -24,6 +24,6 @@ if [ -z "$diff" ]; then
 else
     echo "❌代码不符合格式, 需要更改"
     git diff --color --color-words
-    git diff --no-color > clang-format-run.log
+    git diff --no-color > ./clang-format/clang-format-run.log
     exit 1
 fi
