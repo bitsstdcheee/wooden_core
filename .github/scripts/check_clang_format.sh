@@ -8,7 +8,7 @@ else
 fi
 result=0
 rm -f ./clang-format/clang-format-output.log
-rm -f ./clang-format/lang-format-error.log
+rm -f ./clang-format/clang-format-error.log
 mkdir -p ./clang-format
 for f in $files; do
     echo "进行代码文件 ${f} 的格式检查"

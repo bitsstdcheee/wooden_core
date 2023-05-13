@@ -7,6 +7,8 @@ else
     files=$(git ls-files -- ../../*.c ../../*.h ../../*.cpp)
 fi
 result=0
+rm -f ./clang-format/clang-format-run.log
+mkdir -p ./clang-format
 for f in $files; do
     echo "进行代码文件 ${f} 的格式检查"
     # result=$command_failed|$result
@@ -22,6 +24,6 @@ if [ -z "$diff" ]; then
 else
     echo "❌代码不符合格式, 需要更改"
     git diff --color --color-words
-    git diff --no-color > clang-format-ouput.log
+    git diff --no-color > clang-format-run.log
     exit 1
 fi
