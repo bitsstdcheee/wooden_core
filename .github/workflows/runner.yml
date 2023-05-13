@@ -15,5 +15,5 @@ jobs:
     cmake_matrix:
         name: CMake 矩阵编译
         needs: clang-format
-        if: ${{ needs.clang-format.result == 'success' || needs.clang-format.result == 'skipped' }}
+        if: ${{ needs.clang-format.result != 'failure'}}
         uses: ./.github/workflows/cmake-matrix.yml
