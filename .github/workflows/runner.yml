@@ -8,6 +8,10 @@ jobs:
     
     clang-format:
         name: 代码格式化
+        permissions:
+            actions: read
+            checks: read
+            contents: write
         needs: static-checks
         if: ${{ failure() }}
         uses: ./.github/workflows/clang-format.yml
