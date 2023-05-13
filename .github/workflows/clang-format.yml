@@ -22,4 +22,4 @@ jobs:
             with:
                 name: clang-format-run
                 path:
-                    .github/scripts/clang-format
+                    ./clang-format

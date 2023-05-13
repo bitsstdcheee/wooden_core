@@ -24,7 +24,7 @@ jobs:
             with:
                 name: clang-format-check
                 path:
-                    .github/scripts/clang-format
+                    ./clang-format
                     
 
             
