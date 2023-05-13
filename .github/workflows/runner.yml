@@ -9,7 +9,7 @@ jobs:
     clang-format:
         name: 代码格式化
         needs: static-checks
-        if: ${{ needs.static-checks.result == 'failure' }}
+        if: ${{ failure() }}
         uses: ./.github/workflows/clang-format.yml
 
     cmake_matrix:

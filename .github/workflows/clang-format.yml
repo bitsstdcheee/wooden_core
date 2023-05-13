@@ -11,11 +11,18 @@ jobs:
                 clang-format --version
           - name: 下载分支
             uses: actions/checkout@v3
-            with:
-                fetch-depth: 3
           - name: 运行格式化程序
             run: |
                 bash ./.github/scripts/run_clang_format.sh
+          - name: 提交更改
+            run: |
+                git diff --color
+                git add .
+                git commit -m "[skip cl] (Bot) 格式化代码 (C++) 于提交 $(log -1 --format='%H')"
+          - name: 推送更改
+            uses: actions-js/push@master
+            with:
+                github_token: ${{ secrets.GITHUB_TOKEN }}
           - name: 上传 Log
             if: always()
             uses: actions/upload-artifact@v3.1.2
