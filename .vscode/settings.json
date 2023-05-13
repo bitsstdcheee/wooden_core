@@ -11,5 +11,8 @@
     "-Ddebug",
     "-DDEBUG",
     "-m64"
-  ]
+  ],
+  "[cpp]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  }
 }
