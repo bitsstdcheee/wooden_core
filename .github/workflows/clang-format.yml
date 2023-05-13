@@ -1,6 +1,10 @@
 name: Clang Format
 on:
     workflow_call:
+permissions:
+    actions: read
+    checks: read
+    contents: write
 jobs:
     clang-format:
         name: C++ 代码格式化 (clang-format)
