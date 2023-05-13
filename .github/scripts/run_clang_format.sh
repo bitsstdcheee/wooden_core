@@ -10,7 +10,7 @@ result=0
 rm -f ./clang-format/clang-format-run.log
 mkdir -p ./clang-format
 for f in $files; do
-    echo "进行代码文件 ${f} 的格式检查"
+    echo "进行代码文件 ${f} 的格式检查及修改"
     # result=$command_failed|$result
     clang-format -style=file --sort-includes -i $f
 done
@@ -22,8 +22,8 @@ if [ -z "$diff" ]; then
     echo "✅没有需要更改的代码"
     exit 0
 else
-    echo "❌代码不符合格式, 需要更改"
+    echo "❗代码不符合格式, 已更改"
     git diff --color --color-words
     git diff --no-color > ./clang-format/clang-format-run.log
-    exit 1
+    exit 0
 fi
