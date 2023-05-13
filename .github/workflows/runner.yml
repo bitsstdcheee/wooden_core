@@ -14,6 +14,6 @@ jobs:
 
     cmake_matrix:
         name: CMake 矩阵编译
-        needs: clang-format
-        if: ${{ needs.clang-format.result != 'failure'}}
+        needs: static-checks
+        if: ${{ always() }}
         uses: ./.github/workflows/cmake-matrix.yml
