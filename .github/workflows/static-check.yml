@@ -6,6 +6,9 @@ jobs:
         name: C++ 代码格式检查 (clang-format)
         runs-on: ubuntu-latest
         steps:
+          - name: 探测版本
+            run: |
+                clang-format --version
           - name: 下载分支
             uses: actions/checkout@v3
             with:
