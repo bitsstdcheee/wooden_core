@@ -11,18 +11,22 @@ jobs:
                 clang-format --version
           - name: 下载分支
             uses: actions/checkout@v3
+          - name: 获取当前分支
+            run: |
+                echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
+            id: extract_branch
           - name: 运行格式化程序
             run: |
                 bash ./.github/scripts/run_clang_format.sh
-          - name: 提交更改
+          - name: 输出更改
             run: |
                 git diff --color
-                git add .
-                git commit -m "[skip cl] (Bot) 格式化代码 (C++) 于提交 $(log -1 --format='%H')"
-          - name: 推送更改
-            uses: actions-js/push@master
+          - name: 提交更改并推送
+            uses: Andro999b/push@v1.3
             with:
                 github_token: ${{ secrets.GITHUB_TOKEN }}
+                message: "[skip cl] (Bot) 格式化代码 (C++) 于提交 ${{ github.sha }} (${{ steps.extract_branch.outputs.branch }})"
+                branch: ${{ steps.extract_branch.outputs.branch }}
           - name: 上传 Log
             if: always()
             uses: actions/upload-artifact@v3.1.2
