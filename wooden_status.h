@@ -1,7 +1,7 @@
 #ifndef WOODEN_STATUS_H
 #define WOODEN_STATUS_H
-#include <vector>
 #include <map>
+#include <vector>
 // game_status: 大局中的记录状态结构体
 struct game_status {
     int player_num;
@@ -11,7 +11,9 @@ struct game_status {
     std::map<int, std::map<int, int> > skl_count;
     game_status();
     game_status(int);
-    game_status(int&, const std::vector<int>*, const std::map<int, float>&, const std::map<int, bool>&, const std::map<int, std::map<int, int> >&);
+    game_status(int&, const std::vector<int>*, const std::map<int, float>&,
+                const std::map<int, bool>&,
+                const std::map<int, std::map<int, int> >&);
     const int NUM_SKL = 19;
 };
 

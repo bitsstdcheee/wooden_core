@@ -6,7 +6,6 @@
 #include "wooden_status.h"
 #include "wooden_test.h"
 
-
 #define do_test(x) passon(test##x)
 #define do_test_uncheck(x) passon(test##x, false)
 

@@ -2,7 +2,6 @@
 #include "wooden_status.h"
 #include "wooden_test.h"
 
-
 #ifndef WOODEN_GAME_WOODEN_JUDGE_H
 #define WOODEN_GAME_WOODEN_JUDGE_H
 

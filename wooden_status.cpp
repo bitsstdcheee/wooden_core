@@ -3,7 +3,6 @@
 #include <utility>
 #include <vector>
 
-
 game_status::game_status() {
     player_num = 0;
     players = new std::vector<int>;
