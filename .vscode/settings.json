@@ -14,5 +14,6 @@
   ],
   "[cpp]": {
     "editor.defaultFormatter": "xaver.clang-format"
-  }
+  },
+  "editor.defaultFormatter": "xaver.clang-format"
 }

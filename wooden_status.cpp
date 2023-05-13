@@ -1,6 +1,8 @@
 #include "wooden_status.h"
+
 #include <utility>
 #include <vector>
+
 
 game_status::game_status() {
     player_num = 0;
@@ -16,15 +18,13 @@ game_status::game_status(int _player_num) {
         for (int j = 0; j <= NUM_SKL; j++) {
             skl_count[i][j] = 0;
         }
-
     }
 }
 
-game_status::game_status(int& _player_num, 
-    const std::vector<int>* _players, 
-    const std::map<int, float>& _qi, 
-    const std::map<int, bool>& _tag_died, 
-    const std::map<int, std::map<int, int> >& _skl_count) {
+game_status::game_status(int& _player_num, const std::vector<int>* _players,
+                         const std::map<int, float>& _qi,
+                         const std::map<int, bool>& _tag_died,
+                         const std::map<int, std::map<int, int> >& _skl_count) {
     player_num = _player_num;
     // (*players) = std::move(_players);
     players = new std::vector<int>(_player_num);

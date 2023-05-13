@@ -20,7 +20,6 @@ class UnifiedIO {
     char* name;
     void read(char* buf, int size) {
         if (input == file_in) {
-            
         }
     }
 };
