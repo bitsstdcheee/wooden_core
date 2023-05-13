@@ -23,8 +23,8 @@ jobs:
           - name: 检查代码格式
             id: check_code_format
             run: |
-                bash ./.github/scripts/check_clang_format.sh
-                echo "check_result=$?" >> $GITHUB_OUTPUT
+                bash ./.github/scripts/check_clang_format.sh || result=$?
+                echo "check_result=$result >> $GITHUB_OUTPUT
                 exit 0
 
           - name: 上传 Log
