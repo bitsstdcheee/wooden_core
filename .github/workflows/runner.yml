@@ -5,6 +5,9 @@ jobs:
     static-checks:
         name: 📊 静态检查
         uses: ./.github/workflows/static-check.yml
+        with:
+            trigger_condition: ${{ github.event_name }}
+            pr_id: ${{ github.event.pull_request.number }}
     
     clang-format:
         name: 代码格式化
@@ -12,6 +15,7 @@ jobs:
             actions: read
             checks: read
             contents: write
+            pull-requests: write
         needs: static-checks
         if: ${{ success() && needs.static-checks.outputs.exit_code != 0 }}
         uses: ./.github/workflows/clang-format.yml
