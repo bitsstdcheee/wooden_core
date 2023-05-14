@@ -25,7 +25,7 @@ jobs:
             run: |
                 echo "当前 Action 因 ${{ inputs.trigger_condition }} 而被间接调用"
           - name: PR 检测
-            if: ${{ inputs.pr_id != -1 && inputs.pr_id != null }}
+            if: ${{ inputs.pr_id != null }}
             run: |
                 echo "传参 PR_id = ${{ inputs.pr_id }}"
           - name: 探测版本
