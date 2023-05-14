@@ -3,7 +3,7 @@ on: [ push, pull_request ]
 
 jobs:
     static-checks:
-        if: !github.event.pull_request
+        if: github.event_name != 'pull_request'
         name: 📊 静态检查
         uses: ./.github/workflows/static-check.yml
         with:
