@@ -3,12 +3,20 @@ on: [ push, pull_request ]
 
 jobs:
     static-checks:
+        if: !github.event.pull_request
         name: 📊 静态检查
         uses: ./.github/workflows/static-check.yml
         with:
             trigger_condition: ${{ github.event_name }}
-            pr_id: ${{ github.event.pull_request.number }}
-    
+            pr_id: ${{ -1 }}
+    static-checks-only:
+        if: github.event.pull_request
+        name: 📊 静态检查 (PR)
+        uses: ./.github/workflows/static-check.yml
+        with:
+            trigger_condition: ${{ github.event_name }}
+            # pr_id: ${{  github.event.pull_request.number }}
+            pr_id: ${{ github.event.pull_request }}
     clang-format:
         name: 代码格式化
         permissions:
