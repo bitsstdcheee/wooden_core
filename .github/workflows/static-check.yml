@@ -1,15 +1,6 @@
 name: 代码静态检查
 on:
     workflow_call:
-        inputs:
-            trigger_condition:
-                description: "表明当前 Action 是由 push 还是 pull request 触发的, 若为 PR, 则不需要进行代码格式化, 而是报错"
-                type: string
-                required: true
-            pr_id:
-                description: "表明当前 Action 由 PR 触发的 ID"
-                type: number
-                required: false
         outputs:
             exit_code:
                 description: "表明代码格式化检查是否通过"
@@ -21,13 +12,6 @@ jobs:
         outputs:
             exit_code: ${{ steps.check_code_format.outputs.check_result }}
         steps:
-          - name: 调用检测
-            run: |
-                echo "当前 Action 因 ${{ inputs.trigger_condition }} 而被间接调用"
-          - name: PR 检测
-            if: ${{ inputs.pr_id != null }}
-            run: |
-                echo "传参 PR_id = ${{ inputs.pr_id }}"
           - name: 探测版本
             run: |
                 clang-format --version
@@ -41,31 +25,8 @@ jobs:
             run: |
                 bash ./.github/scripts/check_clang_format.sh || result=$?
                 echo "check_result=$result" >> $GITHUB_OUTPUT
-                if [ "${{ inputs.trigger_condition }}" == "push" ]
-                then
-                    echo "当前触发条件为 Push, 正常返回"
-                    exit 0
-                else
-                    echo "当前非 Push, 原值返回"
-                    exit $result
-                fi
-          - name: 添加标签 (PR)
-            if: always() && ${{ inputs.trigger_condition }} == "pull_request"
-            env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                ID: ${{ inputs.pr_id }}
-                res: ${{ steps.check_code_format.outputs.check_result }}
-            run: |
-                gh pr edit $ID --remove-label 代码格式通过,代码需格式化
-                if [ "$res" == "0" ]
-                then
-                    echo "代码格式检查通过"
-                    gh pr edit $ID --add-label 代码格式通过
-                else
-                    echo "代码格式检查不通过"
-                    gh pr edit $ID --add-label 代码需格式化
-                fi
                 exit 0
+
           - name: 上传 Log
             if: always()
             uses: actions/upload-artifact@v3.1.2
