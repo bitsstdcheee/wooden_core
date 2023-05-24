@@ -585,7 +585,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
     // Step 5: 计算每名玩家的防御上下限 (注意攻击招数所带来的防御不算在内,
     // 使用方法检查出招是否为攻击招数).
-    int def_lower_bound[MAX_PLAYER_NUM + 1], def_upper_bound[MAX_PLAYER_NUM + 1];
+    int def_lower_bound[MAX_PLAYER_NUM + 1],
+        def_upper_bound[MAX_PLAYER_NUM + 1];
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
