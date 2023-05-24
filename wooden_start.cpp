@@ -80,5 +80,4 @@ bool check_internet_connect() {
 #endif
     // assert(0);
     return false;
-
 }
