@@ -286,6 +286,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
 
 #ifdef using_new_judger
 
+// clang-format off
 /* 在新的 Judger using_new_judger 中, 使用新的数据输入方式和处理方式
  *
  * 在每次小局开始时, 需要调用 init_judge() 来初始化
@@ -321,7 +322,6 @@ bool check_available(const std::pair<int, Skill> &choice) {
  * Step 12: 镐子加气, 拍手加气
  */
 
-// clang-format off
 // 记录每个技能在大局中的最高可用次数 (-1 为无限,)
 const int max_skl_count[NUM_SKL] = {
     -1,
