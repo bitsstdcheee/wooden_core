@@ -221,32 +221,32 @@ std::vector<std::pair<int, Skill> > clean_choices(
 
 // clang-format off
 
-// maxd: 记录 skill 对应防御的最大值
-const std::array<float, NUM_SKL> maxd = {0, 
+// skl_max_defense: 记录 skill 对应防御的最大值
+const std::array<float, NUM_SKL> skl_max_defense = {0, 
     0, 0, 0.5, 1, 2.5, 
     1, 2.5, 2, 3, 4, 
     5, 6, 3, 5, 6, 
     5, -1, 0  // -1 为无限
 };
 
-// mind: 记录 skill 对应防御的最小值
-const std::array<float, NUM_SKL> mind = {0,
+// skl_min_defense: 记录 skill 对应防御的最小值
+const std::array<float, NUM_SKL> skl_min_defense = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 1, 1,
     0, 0, 0
 };
 
-// attk: 记录 skill 对应攻击
-const std::array<float, NUM_SKL> attk = {0,
+// skl_attack: 记录 skill 对应攻击
+const std::array<float, NUM_SKL> skl_attack = {0,
     0, 0, 0, 0, 0,
     1, 2.5, 2, 3, 4,
     5, 6, 0, 0, 0,
     0, 0, 1
 };
 
-// sklqi: 记录 skill 对应使用的气数
-const std::array<float, NUM_SKL> sklqi = {0,
+// skl_qi: 记录 skill 对应使用的气数
+const std::array<float, NUM_SKL> skl_qi = {0,
     0, 1, 2, 3, 6,
     1, 1, 2, 3, 4,
     5, 6, 0, 0, 0,
@@ -257,17 +257,17 @@ const std::array<float, NUM_SKL> sklqi = {0,
 
 std::pair<float, float> get_skl_defense(const skill &skl) {
     // get_skl_defense: 获取并返回 skl 对应拥有的防御值
-    return std::make_pair(mind[skl], maxd[skl]);
+    return std::make_pair(skl_min_defense[skl], skl_max_defense[skl]);
 }
 
 float get_skl_attack(const skill &skl) {
     // get_skl_attack: 获取并返回 skl 对应拥有的攻击值
-    return attk[skl];
+    return skl_attack[skl];
 }
 
 bool check_available(const std::pair<int, Skill> &choice) {
     // check_available: 检查当前玩家的选择是否合法 (爆气, 超出次数限制)
-    if (qi[choice.first] < sklqi[choice.second.skl]) return false;  // 气不够
+    if (qi[choice.first] < skl_qi[choice.second.skl]) return false;  // 气不够
     Skill cskl = choice.second;
     int id = choice.first;
     if (cskl == ashiba && skl_count[id][cskl.skl] >= 2) {
@@ -515,7 +515,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         int consume_qi = 0;
         for (auto skl : psp.skills) {
             // 遍历该玩家所出的每个招式
-            consume_qi += sklqi[skl];
+            consume_qi += skl_qi[skl];
         }
         dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " +
                    std::to_string(consume_qi) + " 当前有气数为 " +
@@ -531,6 +531,145 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             dprint("没爆气");
         }
     }
+
+    // Step 3: 若存在管类(tskl::tube)或者咕噜咕噜 (tskl::gulu) -> 函数结束, 并等待下一次调用
+    // (Step 3 后已经没有还未出招的延迟类技能)
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            if (skl == tskl::tube || skl == tskl::gulu) {
+                // 存在管类或者咕噜咕噜
+                dprint("[Step 3] 玩家 " + std::to_string(pid) +
+                           " 出招 id=" + std::to_string(skl) +
+                           " 为管类或者咕噜咕噜, 函数结束, 等待下一次调用");
+                return;
+            }
+        }
+    }
+    
+    // Step 4: 计算直接出局类: 如果场上有人出拍气(tskl::clap)或者夹剑(tskl::fetch_sword), 那么出木稿的玩家出局
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            if (skl == tskl::clap || skl == tskl::fetch_sword) {
+                // 存在直接出局类
+                dprint("[Step 4] 玩家 " + std::to_string(pid) +
+                           " 出招 id=" + std::to_string(skl) +
+                           " 为直接出局类, ",
+                       false);
+                // 现在判定该玩家是否出木稿
+                bool tag_wooden = false;
+                for (auto skl2 : psp.skills) {
+                    if (skl2 == tskl::wooden_axe) {
+                        tag_wooden = true;
+                        break;
+                    }
+                }
+                if (tag_wooden) {
+                    // 出木稿了
+                    dprint("出木稿了, 出局");
+                    tag_died[pid] = true;
+                    continue;
+                } else {
+                    // 没出木稿
+                    dprint("没出木稿");
+                }
+            }
+        }
+    }
+
+    // Step 5: 计算每名玩家的防御上下限 (注意攻击招数所带来的防御不算在内, 使用方法检查出招是否为攻击招数)
+    int def_lower_bound[player_num + 1], def_upper_bound[player_num + 1];
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        int def_lower = 0, def_upper = 0;  // 防御上下限
+        for (auto skl : psp.skills) {
+            if (query_skill_is_defense(skl)) {
+                // 该招是防御招式
+                def_lower += skl_min_defense[skl];
+                def_upper += skl_max_defense[skl];
+            }
+        }
+        dprint("[Step 5] 玩家 " + std::to_string(pid) +
+                   " 的防御上下限分别为 " + std::to_string(def_lower) + " 和 " +
+                   std::to_string(def_upper) + ", ",
+               false);
+        if (def_lower > def_upper) {
+            // 防御下限大于防御上限, 说明防御上限为 -1, 将其改为最大值
+            dprint("防御下限大于防御上限, 将其改为最大值");
+            def_upper = INT_MAX;
+        }
+        // 将该玩家的防御上下限记录下来
+        def_lower_bound[pid] = def_lower;
+        def_upper_bound[pid] = def_upper;
+    }
+
+    // Step 6: 夹剑、夹拳、夹波波剑, 若夹成功, 因去除被夹的武器(或记为报废), 并加气
+
+    
+    // Step 7: 计算每位玩家收到的伤害 (估计时间复杂度 O(n^2)), 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家, 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量, 之后计算并出局不能承受伤害的玩家
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            if (query_skill_is_attack(skl)) {
+                // 该招是攻击招式
+                dprint("[Step 7] 玩家 " + std::to_string(pid) +
+                           " 出招 id=" + std::to_string(skl) +
+                           " 为攻击类, ",
+                       false);
+                // 现在判定该玩家是否出木稿
+                bool tag_wooden = false;
+                for (auto skl2 : psp.skills) {
+                    if (skl2 == tskl::wooden_axe) {
+                        tag_wooden = true;
+                        break;
+                    }
+                }
+                if (tag_wooden) {
+                    // 出木稿了
+                    dprint("出木稿了, 所以不会受到伤害");
+                    continue;
+                } else {
+                    // 没出木稿
+                    dprint("没出木稿");
+                }
+                int to_other_players_damage_sum = 0;
+                // 现在计算该玩家对其他玩家造成的伤害
+                for (auto player2 : choices) {
+                    auto &pid2 = player2.first;
+                    auto &psp2 = player2.second;
+                    if (pid == pid2) {
+                        // 是自己
+                        dprint("是自己, 跳过");
+                        continue;
+                    }
+                    if (tag_died[pid2]) {
+                        // 对手已经出局
+                        dprint("对手已经出局, 跳过");
+                        continue;
+                    }
+                    dprint("对玩家 " + std::to_string(pid2) + " 造成了 " +
+                               std::to_string(skl_attack[skl]) + " 点伤害");
+                    // 对该玩家造成了伤害
+                    to_other_players_damage_sum += skl_attack[skl];
+                }
+                // 给玩家添加一个防御值为其攻击量总和的盾
+                dprint("给玩家添加一个防御值为其攻击量总和的盾");
+                
+            }
+        }
+    }
+
+    // Step 8: 计算反弹: 对于每个带有反弹招式的玩家, 减免受伤害玩家的伤害, 并转换为对发起方的伤害
+    // Step 9: 对于一个玩家, 除了可能受到反弹回来的伤害, 还会受到其他玩家的普通形式的攻击伤害, 将这些伤害叠加, 出局不能承受伤害的玩家
+    // Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者: 受伤害数=最大防御数时, 镐子报废, 失去加气的功能
+
+    // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局, 注意黄剑的连锁判定情况
+    // Step 12: 镐子加气, 拍手加气
 }
 #else
 
@@ -993,10 +1132,10 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
                    " 已死亡, 跳过扣气");
             continue;
         }
-        qi_add[player.first] -= sklqi[player.second.skl];
+        qi_add[player.first] -= skl_qi[player.second.skl];
         dprint("[Step 5] 玩家 " + std::to_string(player.first) + " 出招 " +
                std::to_string(player.second.skl) + ", 扣气 " +
-               std::to_string(sklqi[player.second.skl]) +
+               std::to_string(skl_qi[player.second.skl]) +
                ", qi_add = " + std::to_string(qi_add[player.first]));
     }
     for (auto player : *players) {

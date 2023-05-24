@@ -24,3 +24,13 @@ string tskl::query_skill_overlay_name(skill skl) {
 bool tskl::query_skill_can_overlay(skill skl) {
     return query_skill_overlay_name(skl) != "none";
 }
+
+bool tskl::query_skill_is_attack(skill skl) {
+    return skl == wooden_sword || skl == fist || skl == palm ||
+           skl == bo_sword || skl == tube || skl == alpaca || skl == hither;
+}
+
+bool tskl::query_skill_is_defense(skill skl) {
+    return skl == defense || skl == mid_defense || skl == large_defense ||
+           skl == hands || skl == ashiba || skl == zd;
+}

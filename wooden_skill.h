@@ -100,5 +100,11 @@ string query_skill_overlay_name(skill);
 
 // 查询招式是否可以叠加
 bool query_skill_can_overlay(skill);
+
+// 查询该招式是否为攻击招式: sword, fist, palm, bo_sword, tube, alpaca, hither
+bool query_skill_is_attack(skill);
+
+// 查询该招式是否为防御招式: defense, mid_defense, large_defense, hands, ashiba, zd
+bool query_skill_is_defense(skill);
 }  // namespace tskl
 #endif

@@ -44,6 +44,7 @@ int main() {
 #endif
 
     wooden_initialization();
-
+    // 输出 Hello World
+    
     return 0;
 }
