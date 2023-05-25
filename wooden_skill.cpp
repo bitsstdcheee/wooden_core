@@ -27,9 +27,10 @@ bool tskl::query_skill_can_overlay(skill skl) {
 
 bool tskl::query_skill_is_attack(skill skl) {
     return skl == wooden_sword || skl == stone_sword || skl == iron_sword ||
-    skl == gold_sword || skl == diamond_sword || skl == enchanted_sword || 
-    skl == yellow_sword || skl == fist || skl == palm ||
-           skl == bo_sword || skl == tube || skl == alpaca || skl == hither;
+           skl == gold_sword || skl == diamond_sword ||
+           skl == enchanted_sword || skl == yellow_sword || skl == fist ||
+           skl == palm || skl == bo_sword || skl == tube || skl == alpaca ||
+           skl == hither;
 }
 
 bool tskl::query_skill_is_defense(skill skl) {
