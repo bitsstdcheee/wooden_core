@@ -84,6 +84,16 @@ jobs:
         echo "The Current Exec Path:"
         for /r build %%i in (wooden_game.exe*) do @echo %%i
         for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
+    - name: 输出结果 (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: cmd
+      run: |
+        type build/output.txt
+    - name: 输出结果 (Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+      shell: bash
+      run: |
+        cat build/output.txt
     - name: LCOV 数据收集 (仅限 Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
