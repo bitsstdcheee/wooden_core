@@ -88,7 +88,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: cmd
       run: |
-        type build/output.txt
+        type ".\build\output.txt"
     - name: 输出结果 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
