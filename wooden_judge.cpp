@@ -530,7 +530,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             continue;
         } else {
             // 没爆气
-            dprint("没爆气");
+            qi[pid] -= consume_qi;
+            dprint("没爆气, 还剩 " + std::to_string(qi[pid]));
         }
     }
 
@@ -626,7 +627,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家,
     // 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量,
     // 之后计算并出局不能承受伤害的玩家.
-    int player_get_damage_sum[MAX_PLAYER_NUM + 1];
+    float player_get_damage_sum[MAX_PLAYER_NUM + 1];
     // 初始化数组
     for (int i = 0; i < player_num; i++) {
         player_get_damage_sum[i] = 0;
