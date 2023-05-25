@@ -489,13 +489,13 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             int ncnt = skl_count[pid][skl];  // 现在已使用的
             int lcnt = max_skl_count[skl];   // 限制次数
             dprint("[Step 2] 玩家 " + str(pid) + " 出招 id=" + str(skl) +
-                       ", 已使用 " + str(ncnt) + "次, ",
+                       ", 已使用 " + str(ncnt) + " 次, ",
                    false);
             if (lcnt == -1) {
                 // 该技能无限使用
                 dprint("该招数无使用次数限制");
             } else {
-                dprint("该招数限制使用 " + str(lcnt) + "次, ", false);
+                dprint("该招数限制使用 " + str(lcnt) + " 次, ", false);
                 if (ncnt <= lcnt) {
                     // 没有超出限制
                     dprint("没有超出限制");
@@ -587,6 +587,10 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 使用方法检查出招是否为攻击招数).
     int def_lower_bound[MAX_PLAYER_NUM + 1],
         def_upper_bound[MAX_PLAYER_NUM + 1];
+    // 初始化数组
+    for (int i = 0; i < player_num; i++) {
+        def_lower_bound[i] = def_upper_bound[i] = 0;
+    }
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -600,12 +604,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
         dprint("[Step 5] 玩家 " + std::to_string(pid) + " 的防御上下限分别为 " +
                    std::to_string(def_lower) + " 和 " +
-                   std::to_string(def_upper) + ", ",
-               false);
+                   std::to_string(def_upper), false);
         if (def_lower > def_upper) {
             // 防御下限大于防御上限, 说明防御上限为 -1, 将其改为最大值
             dprint("防御下限大于防御上限, 将其改为最大值");
             def_upper = INT_MAX;
+        } else {
+            // 补齐换行
+            dprint("", true);
         }
         // 将该玩家的防御上下限记录下来
         def_lower_bound[pid] = def_lower;
@@ -619,6 +625,11 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家,
     // 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量,
     // 之后计算并出局不能承受伤害的玩家.
+    int player_get_damage_sum[MAX_PLAYER_NUM + 1];
+    // 初始化数组
+    for (int i = 0; i < player_num; i++) {
+        player_get_damage_sum[i] = 0;
+    }
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -663,21 +674,45 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                            std::to_string(skl_attack[skl]) + " 点伤害");
                     // 对该玩家造成了伤害
                     to_other_players_damage_sum += skl_attack[skl];
+                    // 该玩家累计伤害
+                    player_get_damage_sum[pid2] += skl_attack[skl];
+                    dprint("[Step 5] 现在玩家 " + std::to_string(pid2) + " 共受到了 " +
+                    std::to_string(player_get_damage_sum[pid2]) + " 伤害");
                 }
                 // 给玩家添加一个防御值为其攻击量总和的盾
-                dprint("给玩家添加一个防御值为其攻击量总和的盾");
+                def_lower_bound[pid] += to_other_players_damage_sum;
+                def_upper_bound[pid] += to_other_players_damage_sum;
+                dprint("[Step 5] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " + 
+                std::to_string(to_other_players_damage_sum) + ", 现在为 [" + 
+                std::to_string(def_lower_bound[pid]) + "," + 
+                std::to_string(def_upper_bound[pid]) + "]");
             }
         }
     }
 
     // Step 8: 计算反弹: 对于每个带有反弹招式的玩家, 减免受伤害玩家的伤害,
-    // 并转换为对发起方的伤害. Step 9: 对于一个玩家, 除了可能受到反弹回来的伤害,
+    // 并转换为对发起方的伤害.
+
+    // Step 9: 对于一个玩家, 除了可能受到反弹回来的伤害,
     // 还会受到其他玩家的普通形式的攻击伤害, 将这些伤害叠加,
-    // 出局不能承受伤害的玩家. Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者:
+    // 出局不能承受伤害的玩家.
+
+    for (auto player : choices) {
+        auto& pid = player.first;
+        auto& psp = player.second;
+        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 "
+        + std::to_string(player_get_damage_sum[pid]) + ", 防御值 []" +
+        std::to_string(def_lower_bound[pid]) + "," + 
+        std::to_string(def_upper_bound[pid]) + "]");
+    }
+
+    // Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者:
     // 受伤害数=最大防御数时, 镐子报废, 失去加气的功能.
 
     // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局,
-    // 注意黄剑的连锁判定情况. Step 12: 镐子加气, 拍手加气.
+    // 注意黄剑的连锁判定情况.
+    
+    // Step 12: 镐子加气, 拍手加气.
 }
 #else
 
