@@ -702,12 +702,19 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 出局不能承受伤害的玩家.
 
     for (auto player : choices) {
-        auto &pid = player.first;
-        auto &psp = player.second;
-        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 " +
-               std::to_string(player_get_damage_sum[pid]) + ", 防御值 []" +
-               std::to_string(def_lower_bound[pid]) + "," +
-               std::to_string(def_upper_bound[pid]) + "]");
+        auto& pid = player.first;
+        auto& psp = player.second;
+        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 "
+        + std::to_string(player_get_damage_sum[pid]) + ", 防御值 [" +
+        std::to_string(def_lower_bound[pid]) + "," + 
+        std::to_string(def_upper_bound[pid]) + "], ", false);
+        if (player_get_damage_sum[pid] >= def_lower_bound[pid]
+        && player_get_damage_sum[pid] <= def_upper_bound[pid]) {
+            dprint("可以承受伤害");
+        } else {
+            tag_died[pid] = true;
+            dprint("不能承受伤害, 出局");
+        }
     }
 
     // Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者:
