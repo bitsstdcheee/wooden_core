@@ -604,7 +604,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
         dprint("[Step 5] 玩家 " + std::to_string(pid) + " 的防御上下限分别为 " +
                    std::to_string(def_lower) + " 和 " +
-                   std::to_string(def_upper), false);
+                   std::to_string(def_upper),
+               false);
         if (def_lower > def_upper) {
             // 防御下限大于防御上限, 说明防御上限为 -1, 将其改为最大值
             dprint("防御下限大于防御上限, 将其改为最大值");
@@ -676,16 +677,19 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     to_other_players_damage_sum += skl_attack[skl];
                     // 该玩家累计伤害
                     player_get_damage_sum[pid2] += skl_attack[skl];
-                    dprint("[Step 5] 现在玩家 " + std::to_string(pid2) + " 共受到了 " +
-                    std::to_string(player_get_damage_sum[pid2]) + " 伤害");
+                    dprint("[Step 5] 现在玩家 " + std::to_string(pid2) +
+                           " 共受到了 " +
+                           std::to_string(player_get_damage_sum[pid2]) +
+                           " 伤害");
                 }
                 // 给玩家添加一个防御值为其攻击量总和的盾
                 def_lower_bound[pid] += to_other_players_damage_sum;
                 def_upper_bound[pid] += to_other_players_damage_sum;
-                dprint("[Step 5] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " + 
-                std::to_string(to_other_players_damage_sum) + ", 现在为 [" + 
-                std::to_string(def_lower_bound[pid]) + "," + 
-                std::to_string(def_upper_bound[pid]) + "]");
+                dprint(
+                    "[Step 5] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " +
+                    std::to_string(to_other_players_damage_sum) + ", 现在为 [" +
+                    std::to_string(def_lower_bound[pid]) + "," +
+                    std::to_string(def_upper_bound[pid]) + "]");
             }
         }
     }
@@ -698,12 +702,12 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 出局不能承受伤害的玩家.
 
     for (auto player : choices) {
-        auto& pid = player.first;
-        auto& psp = player.second;
-        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 "
-        + std::to_string(player_get_damage_sum[pid]) + ", 防御值 []" +
-        std::to_string(def_lower_bound[pid]) + "," + 
-        std::to_string(def_upper_bound[pid]) + "]");
+        auto &pid = player.first;
+        auto &psp = player.second;
+        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 " +
+               std::to_string(player_get_damage_sum[pid]) + ", 防御值 []" +
+               std::to_string(def_lower_bound[pid]) + "," +
+               std::to_string(def_upper_bound[pid]) + "]");
     }
 
     // Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者:
@@ -711,7 +715,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
     // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局,
     // 注意黄剑的连锁判定情况.
-    
+
     // Step 12: 镐子加气, 拍手加气.
 }
 #else
