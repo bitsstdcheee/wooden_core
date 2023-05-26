@@ -16,3 +16,6 @@ cmake-build-*
 **/clang-format/
 **/clang-format-output.log
 **/clang-format-error.log
+
+# Patch
+*.patch
