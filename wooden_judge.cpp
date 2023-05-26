@@ -566,19 +566,19 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 如果场上有人出拍气(tskl::clap)或者夹剑(tskl::fetch_sword),
     // 那么出木稿的玩家出局.
 
-    bool have_out = false; // 是否有直接出局类型
+    bool have_out = false;  // 是否有直接出局类型
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
         for (auto skl : psp.skills) {
             if (skl == tskl::clap || skl == tskl::fetch_sword) {
                 // 存在直接出局类
-                dprint("[Step 4] 玩家 " + std::to_string(pid) + " 出招 id=" +
-                           std::to_string(skl) + " 为直接出局类");
+                dprint("[Step 4] 玩家 " + std::to_string(pid) +
+                       " 出招 id=" + std::to_string(skl) + " 为直接出局类");
                 have_out = true;
-                #ifndef debug
-                break; // 非调试模式下直接跳出
-                #endif
+#ifndef debug
+                break;  // 非调试模式下直接跳出
+#endif
             }
         }
     }
@@ -589,7 +589,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             for (auto skl : psp.skills) {
                 if (skl == tskl::wooden_axe) {
                     // 出木稿
-                    dprint("[Step 4] 玩家 " + std::to_string(pid) + " 出了木镐, 出局");
+                    dprint("[Step 4] 玩家 " + std::to_string(pid) +
+                           " 出了木镐, 出局");
                     tag_died[pid] = true;
                 }
             }
@@ -768,7 +769,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         auto &pid = player;
         if (tag_died[pid]) {
             qi[pid] = 0;
-            dprint("[Step 13] 玩家 " + std::to_string(pid) + " 已死亡, 气数清零");
+            dprint("[Step 13] 玩家 " + std::to_string(pid) +
+                   " 已死亡, 气数清零");
         }
     }
 }
