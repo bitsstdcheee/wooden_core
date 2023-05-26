@@ -40,6 +40,19 @@ int main() {
     // do_test(12);
     // do_test(13);
     // do_test(14);
+    do_test_uncheck(1);
+    do_test_uncheck(2);
+    do_test_uncheck(3);
+    do_test_uncheck(4);
+    do_test_uncheck(5);
+    do_test_uncheck(6);
+    do_test_uncheck(7);
+    do_test_uncheck(8);
+    do_test_uncheck(9);
+    do_test_uncheck(10);
+    do_test_uncheck(11);
+    do_test_uncheck(12);
+    do_test_uncheck(13);
     do_test_uncheck(14);
 #endif
 
