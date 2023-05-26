@@ -733,14 +733,15 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
-        for (auto skl: psp.skills) {
-            if (skl == tskl::clap || skl == tskl::wooden_axe || 
-            skl == tskl::normal_axe || skl == tskl::diamond_axe || 
-            skl == tskl::enchanted_axe) {
-                dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类, ", false);
+        for (auto skl : psp.skills) {
+            if (skl == tskl::clap || skl == tskl::wooden_axe ||
+                skl == tskl::normal_axe || skl == tskl::diamond_axe ||
+                skl == tskl::enchanted_axe) {
+                dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类, ",
+                       false);
                 qi[pid] += skl_qi_add[skl];
-                dprint("加气 " + std::to_string(skl_qi_add[skl]) + 
-                ", 现在有 " + std::to_string(qi[pid]));
+                dprint("加气 " + std::to_string(skl_qi_add[skl]) + ", 现在有 " +
+                       std::to_string(qi[pid]));
             }
         }
     }
