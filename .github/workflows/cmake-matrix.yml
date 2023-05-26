@@ -82,8 +82,8 @@ jobs:
       shell: cmd
       run: |
         echo "The Current Exec Path:"
-        for /r build %%i in (wooden_game.exe) do @echo %%i
-        for /r build %%j in (wooden_game.exe) do @%%j > build/output.txt
+        for /r build %%i in (wooden_game.exe*) do @echo %%i
+        for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
     - name: 输出结果 (Windows)
       if: matrix.os == 'windows-latest'
       shell: cmd
