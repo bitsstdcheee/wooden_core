@@ -393,7 +393,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
-        auto &pls = player_last_skill[pid];
 
         // 扫描一遍招式叠加情况
 
@@ -678,7 +677,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 // 现在计算该玩家对其他玩家造成的伤害
                 for (auto player2 : choices) {
                     auto &pid2 = player2.first;
-                    auto &psp2 = player2.second;
                     if (pid == pid2) {
                         // 是自己
                         dprint("是自己, 跳过");
@@ -695,16 +693,15 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     to_other_players_damage_sum += skl_attack[skl];
                     // 该玩家累计伤害
                     player_get_damage_sum[pid2] += skl_attack[skl];
-                    dprint("[Step 5] 现在玩家 " + std::to_string(pid2) +
+                    dprint("[Step 7] 现在玩家 " + std::to_string(pid2) +
                            " 共受到了 " +
                            std::to_string(player_get_damage_sum[pid2]) +
                            " 伤害");
                 }
                 // 给玩家添加一个防御值为其攻击量总和的盾
-                def_lower_bound[pid] += to_other_players_damage_sum;
                 def_upper_bound[pid] += to_other_players_damage_sum;
                 dprint(
-                    "[Step 5] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " +
+                    "[Step 7] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " +
                     std::to_string(to_other_players_damage_sum) + ", 现在为 [" +
                     std::to_string(def_lower_bound[pid]) + "," +
                     std::to_string(def_upper_bound[pid]) + "]");
@@ -722,7 +719,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 出局不能承受伤害的玩家.
     for (auto player : choices) {
         auto &pid = player.first;
-        auto &psp = player.second;
         dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 " +
                    std::to_string(player_get_damage_sum[pid]) + ", 防御值 [" +
                    std::to_string(def_lower_bound[pid]) + "," +
