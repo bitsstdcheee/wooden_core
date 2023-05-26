@@ -326,6 +326,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
  * Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者: 受伤害数=最大防御数时, 镐子报废, 失去加气的功能
  * Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局, 注意黄剑的连锁判定情况
  * Step 12: 镐子加气, 拍手加气
+ * Step 13: 为所有已出局玩家的气数清零
  */
 
 // 记录每个技能在大局中的最高可用次数 (-1 为无限,)
@@ -513,6 +514,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
     }
 
+    choices = clean_choices(choices);
+
     // Step 2: 处理爆气
     for (auto player : choices) {
         auto &pid = player.first;
@@ -539,6 +542,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
     }
 
+    choices = clean_choices(choices);
+
     // Step 3: 若存在管类(tskl::tube)或者咕噜咕噜 (tskl::gulu) -> 函数结束,
     // 并等待下一次调用. (Step 3 后已经没有还未出招的延迟类技能)
     for (auto player : choices) {
@@ -555,9 +560,13 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
     }
 
+    choices = clean_choices(choices);
+
     // Step 4: 计算直接出局类:
     // 如果场上有人出拍气(tskl::clap)或者夹剑(tskl::fetch_sword),
     // 那么出木稿的玩家出局.
+
+    bool have_out = false; // 是否有直接出局类型
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -565,28 +574,29 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             if (skl == tskl::clap || skl == tskl::fetch_sword) {
                 // 存在直接出局类
                 dprint("[Step 4] 玩家 " + std::to_string(pid) + " 出招 id=" +
-                           std::to_string(skl) + " 为直接出局类, ",
-                       false);
-                // 现在判定该玩家是否出木稿
-                bool tag_wooden = false;
-                for (auto skl2 : psp.skills) {
-                    if (skl2 == tskl::wooden_axe) {
-                        tag_wooden = true;
-                        break;
-                    }
-                }
-                if (tag_wooden) {
-                    // 出木稿了
-                    dprint("出木稿了, 出局");
+                           std::to_string(skl) + " 为直接出局类");
+                have_out = true;
+                #ifndef debug
+                break; // 非调试模式下直接跳出
+                #endif
+            }
+        }
+    }
+    if (have_out) {
+        for (auto player : choices) {
+            auto &pid = player.first;
+            auto &psp = player.second;
+            for (auto skl : psp.skills) {
+                if (skl == tskl::wooden_axe) {
+                    // 出木稿
+                    dprint("[Step 4] 玩家 " + std::to_string(pid) + " 出了木镐, 出局");
                     tag_died[pid] = true;
-                    continue;
-                } else {
-                    // 没出木稿
-                    dprint("没出木稿");
                 }
             }
         }
     }
+
+    choices = clean_choices(choices);
 
     // Step 5: 计算每名玩家的防御上下限 (注意攻击招数所带来的防御不算在内,
     // 使用方法检查出招是否为攻击招数).
@@ -623,6 +633,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         def_lower_bound[pid] = def_lower;
         def_upper_bound[pid] = def_upper;
     }
+
+    choices = clean_choices(choices);
 
     // Step 6: 夹剑、夹拳、夹波波剑, 若夹成功, 因去除被夹的武器(或记为报废),
     // 并加气.
@@ -702,10 +714,11 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // Step 8: 计算反弹: 对于每个带有反弹招式的玩家, 减免受伤害玩家的伤害,
     // 并转换为对发起方的伤害.
 
+    choices = clean_choices(choices);
+
     // Step 9: 对于一个玩家, 除了可能受到反弹回来的伤害,
     // 还会受到其他玩家的普通形式的攻击伤害, 将这些伤害叠加,
     // 出局不能承受伤害的玩家.
-
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -729,6 +742,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局,
     // 注意黄剑的连锁判定情况.
 
+    choices = clean_choices(choices);
+
     // Step 12: 镐子加气, 拍手加气.
     for (auto player : choices) {
         auto &pid = player.first;
@@ -743,6 +758,17 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 dprint("加气 " + std::to_string(skl_qi_add[skl]) + ", 现在有 " +
                        std::to_string(qi[pid]));
             }
+        }
+    }
+
+    choices = clean_choices(choices);
+
+    // Step 13: 为所有已出局玩家的气数清零
+    for (auto player : *players) {
+        auto &pid = player;
+        if (tag_died[pid]) {
+            qi[pid] = 0;
+            dprint("[Step 13] 玩家 " + std::to_string(pid) + " 已死亡, 气数清零");
         }
     }
 }
