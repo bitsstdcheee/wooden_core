@@ -1425,11 +1425,12 @@ void passon(const TESTN &test, bool check) {
         assert(equal_map(*players, _res_qi, qi));
     } else {
         dprint("[P3] I will not using assert");
-        dprint("[P3] Check result: Died is " +
-               (equal_map(*players, _res_tag_died, tag_died) ? "Correct"
-                                                             : "Incorrect") +
-               ", Qi is " +
-               (equal_map(*players, _res_qi, qi) ? "Correct" : "Incorrect"));
+        dprint(string("[P3] Check result: Died is ") +
+               (equal_map(*players, _res_tag_died, tag_died) ? string("Correct")
+                                                             : string("Incorrect")) +
+               string(", Qi is ") +
+               (equal_map(*players, _res_qi, qi) ? string("Correct") : 
+               string("Incorrect")));
     }
 
     std::cout << "Test success: " << test.comment << std::endl;
