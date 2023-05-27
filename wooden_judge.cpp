@@ -665,7 +665,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 之后计算并出局不能承受伤害的玩家.
     int player_get_damage_sum[MAX_PLAYER_NUM + 1];
     // 初始化数组
-    for (int i = 0; i < player_num; i++) {
+    for (int i = 0; i <= player_num; i++) {
         player_get_damage_sum[i] = 0;
     }
     for (auto player : choices) {
