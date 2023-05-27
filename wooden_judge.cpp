@@ -627,7 +627,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     int def_lower_bound[MAX_PLAYER_NUM + 1],
         def_upper_bound[MAX_PLAYER_NUM + 1];
     // 初始化数组
-    for (int i = 0; i < player_num; i++) {
+    for (int i = 0; i <= player_num; i++) {
         def_lower_bound[i] = def_upper_bound[i] = 0;
     }
     for (auto player : choices) {
