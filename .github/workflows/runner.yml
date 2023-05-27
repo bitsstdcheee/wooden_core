@@ -39,5 +39,5 @@ jobs:
     cmake_matrix_release:
         name: CMake 矩阵编译 (Release)
         needs: [clang-format, static-checks, check-commit-release]
-        if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' && needs.check-commit-release.outputs.release == 'true' }}
+        if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' && (needs.check-commit-release.outputs.release == 'true' || needs.check-commit-release.outputs.release == true || needs.check-commit-release.outputs.release == 1) }}
         uses: ./.github/workflows/cmake-matrix-release.yml
