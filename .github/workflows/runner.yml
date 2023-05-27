@@ -20,6 +20,8 @@ jobs:
         name: 检查是否为发布状态
         if: always()
         runs-on: ubuntu-latest
+        outputs:
+            release: ${{ steps.check_commit_msg.outputs.release }}
         steps:
             - name: 检查 Commit 信息
               id: check_commit_msg
