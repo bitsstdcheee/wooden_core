@@ -6,11 +6,11 @@
 #include <cstdio>
 #include <cstdlib>
 #include <exception>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <new>
 #include <sstream>
-#include <iomanip>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -93,9 +93,7 @@ void init() {
     }
 }
 
-float formatx(int x) {
-    return (float)x / 100;
-}
+float formatx(int x) { return (float)x / 100; }
 
 string formatxstr(int x) {
     std::stringstream ss;
@@ -516,14 +514,16 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         for (auto skl : psp.skills) {
             int ncnt = skl_count[pid][skl];  // 现在已使用的
             int lcnt = max_skl_count[skl];   // 限制次数
-            dprint("[Step 2] 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skl) +
-                       ", 已使用 " + std::to_string(ncnt) + " 次, ",
+            dprint("[Step 2] 玩家 " + std::to_string(pid) +
+                       " 出招 id=" + std::to_string(skl) + ", 已使用 " +
+                       std::to_string(ncnt) + " 次, ",
                    false);
             if (lcnt == -1) {
                 // 该技能无限使用
                 dprint("该招数无使用次数限制");
             } else {
-                dprint("该招数限制使用 " + std::to_string(lcnt) + " 次, ", false);
+                dprint("该招数限制使用 " + std::to_string(lcnt) + " 次, ",
+                       false);
                 if (ncnt <= lcnt) {
                     // 没有超出限制
                     dprint("没有超出限制");
@@ -639,8 +639,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             def_upper += skl_max_defense[skl];
         }
         dprint("[Step 5] 玩家 " + std::to_string(pid) + " 的防御上下限分别为 " +
-                   formatxstr(def_lower) + " 和 " +
-                   formatxstr(def_upper),
+                   formatxstr(def_lower) + " 和 " + formatxstr(def_upper),
                false);
         if (def_lower > def_upper) {
             // 防御下限大于防御上限, 说明防御上限为 -1, 将其改为最大值
@@ -677,8 +676,9 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 auto &target = skl.target;
                 // 该招是攻击招式
                 dprint("[Step 7] 玩家 " + std::to_string(pid) +
-                           " 出招 id=" + std::to_string(skl) + " 为攻击类, 对玩家 " + std::to_string(target) + ", ", false
-                       );
+                           " 出招 id=" + std::to_string(skl) +
+                           " 为攻击类, 对玩家 " + std::to_string(target) + ", ",
+                       false);
                 // 现在判定该玩家是否出木稿
                 bool tag_wooden = false;
                 for (auto skl2 : psp.skills) {
@@ -698,7 +698,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 int to_other_players_damage_sum = 0;
                 if (target == pid) {
                     dprint("检测到玩家 " + std::to_string(pid) +
-                    " 的攻击对象为自己, 跳过");
+                           " 的攻击对象为自己, 跳过");
                     continue;
                 }
                 if (tag_died[target]) {
@@ -707,16 +707,16 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     continue;
                 }
                 dprint("");
-                dprint("[Step 7] 玩家 " + std::to_string(pid) + " 对玩家 " + std::to_string(target) + " 造成了 " +
-                        formatxstr(skl_attack[skl]) + " 点伤害");
+                dprint("[Step 7] 玩家 " + std::to_string(pid) + " 对玩家 " +
+                       std::to_string(target) + " 造成了 " +
+                       formatxstr(skl_attack[skl]) + " 点伤害");
                 // 对该玩家造成了伤害
                 to_other_players_damage_sum += skl_attack[skl];
                 // 该玩家累计伤害
                 player_get_damage_sum[target] += skl_attack[skl];
                 dprint("[Step 7] 现在玩家 " + std::to_string(target) +
-                        " 共受到了 " +
-                        formatxstr(player_get_damage_sum[target]) +
-                        " 伤害");
+                       " 共受到了 " +
+                       formatxstr(player_get_damage_sum[target]) + " 伤害");
                 // 给玩家添加一个防御值为其攻击量总和的盾
                 def_upper_bound[pid] += to_other_players_damage_sum;
                 dprint(
@@ -745,8 +745,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                false);
         if (player_get_damage_sum[pid] >= def_lower_bound[pid] &&
             (player_get_damage_sum[pid] <= def_upper_bound[pid] ||
-            def_upper_bound[pid] == -1
-            )) {
+             def_upper_bound[pid] == -1)) {
             dprint("可以承受伤害", false);
             if (def_upper_bound[pid] == -1) {
                 dprint(", 没有防御上限");
@@ -771,12 +770,12 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
-        for (auto skl: psp.skills) {
+        for (auto skl : psp.skills) {
             auto &target = skl.target;
             if (skl == tskl::yellow_sword) {
-                dprint("[Step 11] 玩家 " + std::to_string(pid) + 
-                " 出黄剑, 对手 " + std::to_string(target)
-                + " ", false);
+                dprint("[Step 11] 玩家 " + std::to_string(pid) +
+                           " 出黄剑, 对手 " + std::to_string(target) + " ",
+                       false);
                 if (tag_died[target]) {
                     dprint("已出局");
                 } else {
@@ -799,13 +798,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 skl == tskl::enchanted_axe) {
                 dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类, ",
                        false);
-                if (player_get_damage_sum[pid] && player_get_damage_sum[pid] == def_upper_bound[pid]) {
+                if (player_get_damage_sum[pid] &&
+                    player_get_damage_sum[pid] == def_upper_bound[pid]) {
                     // 镐子破了
                     dprint("受到攻击等于盾值, 镐子破");
                 } else {
                     qi[pid] += skl_qi_add[skl];
                     dprint("加气 " + formatxstr(skl_qi_add[skl]) + ", 现在有 " +
-                        formatxstr(qi[pid]));
+                           formatxstr(qi[pid]));
                 }
             }
         }
