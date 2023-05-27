@@ -25,6 +25,10 @@ jobs:
               id: check_commit_msg
               run: |
                 echo "release=${{ contains(github.event.head_commit.message, '[Release]') || contains(github.event.head_commit.message, '[All]') || github.event_name == 'pull_request' }}" >> $GITHUB_ENV
+            - name: 输出结果
+              run: |
+                echo "true 时打开 release, false 时仅运行 debug"
+                echo ${{ contains(github.event.head_commit.message, '[Release]') || contains(github.event.head_commit.message, '[All]') || github.event_name == 'pull_request' }}
 
     cmake_matrix_debug:
         name: CMake 矩阵编译 (Debug)
