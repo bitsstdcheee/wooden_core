@@ -9,6 +9,10 @@ set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(ENABLE_COVERAGE ON)
 
+# GoogleTest requires at least C++14
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 if (APPLE)
 # MacOS 系统不支持静态编译, 因为该平台上提供的库文件并没有进行静态编译
 # Error Message: (in https://github.com/bitsstdcheee/wooden_core/actions/runs/4820579102/jobs/8585266114)
@@ -40,8 +44,6 @@ message("UNIX ${UNIX}")
 message("WIN32 ${WIN32}")
 
 # 指定编译器
-SET(CMAKE_C_COMPILER "gcc")
-SET(CMAKE_CXX_COMPILER "g++")
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -std=c++17")
 if (GBK)
@@ -54,6 +56,15 @@ else()
     message("GBK is Off!")
 endif()
 
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip)
+
+
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 

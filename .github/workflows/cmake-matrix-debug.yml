@@ -56,6 +56,11 @@ jobs:
         echo "::group::CMake Version"
         cmake --version
         echo "::endgroup::"
+
+        echo "python version"
+        echo "::group::python version"
+        python --version
+        echo "::endgroup::"
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
