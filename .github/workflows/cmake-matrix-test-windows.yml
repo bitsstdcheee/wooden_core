@@ -1,0 +1,64 @@
+name: CMake Test (Windows)
+on:
+    workflow_call:
+jobs:
+    build:
+        strategy:
+            matrix:
+                os: [ windows-latest ]
+                profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
+                build_type: [ Debug ]
+        name: "Build"
+        runs-on: ${{ matrix.os }}
+        steps:
+          - name: 探测版本
+            run: |
+                echo "G++ version"
+                echo "::group::g++ version"
+                g++ --version
+                echo "::endgroup::"
+
+                echo "GCC version"
+                echo "::group::gcc version"
+                gcc --version
+                echo "::endgroup::"
+
+                echo "Make version"
+                echo "::group::Make version"
+                make --version
+                echo "::endgroup::"
+
+                echo "CMake version"
+                echo "::group::CMake Version"
+                cmake --version
+                echo "::endgroup::"
+
+                echo "python version"
+                echo "::group::python version"
+                python --version
+                echo "::endgroup::"
+
+                echo "tee"
+                echo "::group::tee"
+                tee
+                echo "::endgroup::"
+          - name: 下载分支
+            uses: actions/checkout@v3
+            with:
+                fetch-depth: 1
+          - name: 配置 CMake (${{ matrix.os }})
+            run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}" 
+          - name: 编译
+            run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target test-*
+          - name: 运行测试
+            run: |
+                echo "测试可执行文件路径"
+                for /r build %%i in (wooden_game.exe*) do @echo %%i
+                for /r build %%j in (wooden_game.exe*) do @%%j | tee build/output-%%j.txt
+          - name: 上传 Artifact
+            if: always()
+            uses: actions/upload-artifact@v3.1.2
+            with:
+                name: wooden_core-Test-${{ matrix.os }}-${{ matrix.profile }}
+                path:
+                    build/
