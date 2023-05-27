@@ -21,7 +21,7 @@ game_status::game_status(int _player_num) {
 }
 
 game_status::game_status(int& _player_num, const std::vector<int>* _players,
-                         const std::map<int, float>& _qi,
+                         const std::map<int, int>& _qi,
                          const std::map<int, bool>& _tag_died,
                          const std::map<int, std::map<int, int> >& _skl_count) {
     player_num = _player_num;

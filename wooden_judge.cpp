@@ -9,7 +9,8 @@
 #include <iostream>
 #include <map>
 #include <new>
-#include <ostream>
+#include <sstream>
+#include <iomanip>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -41,7 +42,7 @@ const int MAX_PLAYER_NUM = 2048;
 std::vector<int> *players;
 // std::vector<int> *players = new std::vector<int>(4);
 // qi: 记录每位玩家 (id) 对应当前的气数
-std::map<int, float> qi;
+std::map<int, int> qi;
 // tag_died: 记录每位玩家 (id) 对应的死亡状态
 // false: 当前未死亡
 // true: 当前已死亡 / 出局 / 隐退
@@ -90,6 +91,19 @@ void init() {
         skl_count[(*players)[i]].clear();
         // dprint("After 4");
     }
+}
+
+float formatx(int x) {
+    return (float)x / 100;
+}
+
+string formatxstr(int x) {
+    std::stringstream ss;
+    ss << std::setiosflags(std::ios::fixed);
+    ss << std::setprecision(2) << formatx(x) << std::endl;
+    string str;
+    ss >> str;
+    return str;
 }
 
 // TODO: 添加全局伤害招术 Hither, 羊驼
@@ -223,50 +237,51 @@ std::vector<std::pair<int, Skill> > clean_choices(
 
 // clang-format off
 
-// skl_max_defense: 记录 skill 对应防御的最大值
-const std::array<float, NUM_SKL> skl_max_defense = {0, 
-    0, 0, 0.5, 1, 2.5, 
-    1, 2.5, 2, 3, 4, 
-    5, 6, 3, 5, 6, 
-    5, -1, 0  // -1 为无限
+// skl_max_defense: 记录 skill 对应防御的最大值 (x100)
+// 此处不算攻击带来的防御
+const std::array<int, NUM_SKL> skl_max_defense = {0, 
+    0, 0, int(0.5 * 100), 1 * 100, int(2.5 * 100), 
+    0, 0, 0, 0, 0, 
+    0, 0, 3 * 100, 5 * 100, 6 * 100, 
+    5 * 100, -1, 0  // -1 为无限
 };
 
-// skl_min_defense: 记录 skill 对应防御的最小值
-const std::array<float, NUM_SKL> skl_min_defense = {0,
+// skl_min_defense: 记录 skill 对应防御的最小值 (x100)
+const std::array<int, NUM_SKL> skl_min_defense = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
-    0, 0, 0, 1, 1,
+    0, 0, 0, 1 * 100, 1 * 100,
     0, 0, 0
 };
 
-// skl_attack: 记录 skill 对应攻击
-const std::array<float, NUM_SKL> skl_attack = {0,
+// skl_attack: 记录 skill 对应攻击 (x100)
+const std::array<int, NUM_SKL> skl_attack = {0,
     0, 0, 0, 0, 0,
-    1, 2.5, 2, 3, 4,
-    5, 6, 0, 0, 0,
-    0, 0, 1
+    1 * 100, int(2.5 * 100), 2 * 100, 3 * 100, 4 * 100,
+    5 * 100, 6 * 100, 0, 0, 0,
+    0, 0, 1 * 100
 };
 
-// skl_qi: 记录 skill 对应使用的气数
-const std::array<float, NUM_SKL> skl_qi = {0,
-    0, 1, 2, 3, 6,
-    1, 1, 2, 3, 4,
-    5, 6, 0, 0, 0,
+// skl_qi: 记录 skill 对应使用的气数 (x100)
+const std::array<int, NUM_SKL> skl_qi = {0,
+    0, 1 * 100, 2 * 100, 3 * 100, 6 * 100,
+    1 * 100, 1 * 100, 2 * 100, 3 * 100, 4 * 100,
+    5 * 100, 6 * 100, 0, 0, 0,
     0, 0, 0
 };
 
-// skl_qi_add: 记录换气后应加的气
-const std::array<float, NUM_SKL> skl_qi_add = {0,
-    1, 3, 4, 6, 12};
+// skl_qi_add: 记录换气后应加的气 (x100)
+const std::array<int, NUM_SKL> skl_qi_add = {0,
+    1 * 100, 3 * 100, 4 * 100, 6 * 100, 12 * 100};
 
 // clang-format on
 
-std::pair<float, float> get_skl_defense(const skill &skl) {
+std::pair<int, int> get_skl_defense(const skill &skl) {
     // get_skl_defense: 获取并返回 skl 对应拥有的防御值
     return std::make_pair(skl_min_defense[skl], skl_max_defense[skl]);
 }
 
-float get_skl_attack(const skill &skl) {
+int get_skl_attack(const skill &skl) {
     // get_skl_attack: 获取并返回 skl 对应拥有的攻击值
     return skl_attack[skl];
 }
@@ -389,6 +404,15 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         }
     }
 
+    // Step 2: 招式计数
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            skl_count[pid][skl]++;
+        }
+    }
+
     // Step 2: 处理招式叠加是否允许
     for (auto player : choices) {
         auto &pid = player.first;
@@ -492,14 +516,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         for (auto skl : psp.skills) {
             int ncnt = skl_count[pid][skl];  // 现在已使用的
             int lcnt = max_skl_count[skl];   // 限制次数
-            dprint("[Step 2] 玩家 " + str(pid) + " 出招 id=" + str(skl) +
-                       ", 已使用 " + str(ncnt) + " 次, ",
+            dprint("[Step 2] 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skl) +
+                       ", 已使用 " + std::to_string(ncnt) + " 次, ",
                    false);
             if (lcnt == -1) {
                 // 该技能无限使用
                 dprint("该招数无使用次数限制");
             } else {
-                dprint("该招数限制使用 " + str(lcnt) + " 次, ", false);
+                dprint("该招数限制使用 " + std::to_string(lcnt) + " 次, ", false);
                 if (ncnt <= lcnt) {
                     // 没有超出限制
                     dprint("没有超出限制");
@@ -526,8 +550,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             consume_qi += skl_qi[skl];
         }
         dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " +
-                   std::to_string(consume_qi) + " 当前有气数为 " +
-                   std::to_string(qi[pid]) + ", ",
+                   formatxstr(consume_qi) + " 当前有气数为 " +
+                   formatxstr(qi[pid]) + ", ",
                false);
         if (consume_qi > qi[pid]) {
             // 爆气了
@@ -537,7 +561,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         } else {
             // 没爆气
             qi[pid] -= consume_qi;
-            dprint("没爆气, 还剩 " + std::to_string(qi[pid]));
+            dprint("没爆气, 还剩 " + formatxstr(qi[pid]));
         }
     }
 
@@ -611,15 +635,12 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         auto &psp = player.second;
         int def_lower = 0, def_upper = 0;  // 防御上下限
         for (auto skl : psp.skills) {
-            if (query_skill_is_defense(skl)) {
-                // 该招是防御招式
-                def_lower += skl_min_defense[skl];
-                def_upper += skl_max_defense[skl];
-            }
+            def_lower += skl_min_defense[skl];
+            def_upper += skl_max_defense[skl];
         }
         dprint("[Step 5] 玩家 " + std::to_string(pid) + " 的防御上下限分别为 " +
-                   std::to_string(def_lower) + " 和 " +
-                   std::to_string(def_upper),
+                   formatxstr(def_lower) + " 和 " +
+                   formatxstr(def_upper),
                false);
         if (def_lower > def_upper) {
             // 防御下限大于防御上限, 说明防御上限为 -1, 将其改为最大值
@@ -643,7 +664,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家,
     // 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量,
     // 之后计算并出局不能承受伤害的玩家.
-    float player_get_damage_sum[MAX_PLAYER_NUM + 1];
+    int player_get_damage_sum[MAX_PLAYER_NUM + 1];
     // 初始化数组
     for (int i = 0; i < player_num; i++) {
         player_get_damage_sum[i] = 0;
@@ -653,10 +674,11 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         auto &psp = player.second;
         for (auto skl : psp.skills) {
             if (query_skill_is_attack(skl)) {
+                auto &target = skl.target;
                 // 该招是攻击招式
                 dprint("[Step 7] 玩家 " + std::to_string(pid) +
-                           " 出招 id=" + std::to_string(skl) + " 为攻击类, ",
-                       false);
+                           " 出招 id=" + std::to_string(skl) + " 为攻击类, 对玩家 " + std::to_string(target) + ", ", false
+                       );
                 // 现在判定该玩家是否出木稿
                 bool tag_wooden = false;
                 for (auto skl2 : psp.skills) {
@@ -671,40 +693,37 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     continue;
                 } else {
                     // 没出木稿
-                    dprint("没出木稿");
+                    dprint("没出木稿, ", false);
                 }
                 int to_other_players_damage_sum = 0;
-                // 现在计算该玩家对其他玩家造成的伤害
-                for (auto player2 : choices) {
-                    auto &pid2 = player2.first;
-                    if (pid == pid2) {
-                        // 是自己
-                        dprint("是自己, 跳过");
-                        continue;
-                    }
-                    if (tag_died[pid2]) {
-                        // 对手已经出局
-                        dprint("对手已经出局, 跳过");
-                        continue;
-                    }
-                    dprint("对玩家 " + std::to_string(pid2) + " 造成了 " +
-                           std::to_string(skl_attack[skl]) + " 点伤害");
-                    // 对该玩家造成了伤害
-                    to_other_players_damage_sum += skl_attack[skl];
-                    // 该玩家累计伤害
-                    player_get_damage_sum[pid2] += skl_attack[skl];
-                    dprint("[Step 7] 现在玩家 " + std::to_string(pid2) +
-                           " 共受到了 " +
-                           std::to_string(player_get_damage_sum[pid2]) +
-                           " 伤害");
+                if (target == pid) {
+                    dprint("检测到玩家 " + std::to_string(pid) +
+                    " 的攻击对象为自己, 跳过");
+                    continue;
                 }
+                if (tag_died[target]) {
+                    // 对手已经出局
+                    dprint("对手已经出局, 跳过");
+                    continue;
+                }
+                dprint("");
+                dprint("[Step 7] 玩家 " + std::to_string(pid) + " 对玩家 " + std::to_string(target) + " 造成了 " +
+                        formatxstr(skl_attack[skl]) + " 点伤害");
+                // 对该玩家造成了伤害
+                to_other_players_damage_sum += skl_attack[skl];
+                // 该玩家累计伤害
+                player_get_damage_sum[target] += skl_attack[skl];
+                dprint("[Step 7] 现在玩家 " + std::to_string(target) +
+                        " 共受到了 " +
+                        formatxstr(player_get_damage_sum[target]) +
+                        " 伤害");
                 // 给玩家添加一个防御值为其攻击量总和的盾
                 def_upper_bound[pid] += to_other_players_damage_sum;
                 dprint(
                     "[Step 7] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " +
-                    std::to_string(to_other_players_damage_sum) + ", 现在为 [" +
-                    std::to_string(def_lower_bound[pid]) + "," +
-                    std::to_string(def_upper_bound[pid]) + "]");
+                    formatxstr(to_other_players_damage_sum) + ", 现在为 [" +
+                    formatxstr(def_lower_bound[pid]) + "," +
+                    formatxstr(def_upper_bound[pid]) + "]");
             }
         }
     }
@@ -720,24 +739,53 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     for (auto player : choices) {
         auto &pid = player.first;
         dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 " +
-                   std::to_string(player_get_damage_sum[pid]) + ", 防御值 [" +
-                   std::to_string(def_lower_bound[pid]) + "," +
-                   std::to_string(def_upper_bound[pid]) + "], ",
+                   formatxstr(player_get_damage_sum[pid]) + ", 防御值 [" +
+                   formatxstr(def_lower_bound[pid]) + "," +
+                   formatxstr(def_upper_bound[pid]) + "], ",
                false);
         if (player_get_damage_sum[pid] >= def_lower_bound[pid] &&
-            player_get_damage_sum[pid] <= def_upper_bound[pid]) {
-            dprint("可以承受伤害");
+            (player_get_damage_sum[pid] <= def_upper_bound[pid] ||
+            def_upper_bound[pid] == -1
+            )) {
+            dprint("可以承受伤害", false);
+            if (def_upper_bound[pid] == -1) {
+                dprint(", 没有防御上限");
+            } else {
+                dprint("");
+            }
         } else {
             tag_died[pid] = true;
             dprint("不能承受伤害, 出局");
         }
     }
 
-    // Step 10: 破镐: 对于钻镐, 附魔钻镐的出招者:
+    // Step 10: 破镐: 对于镐子, 钻镐, 附魔钻镐的出招者:
     // 受伤害数=最大防御数时, 镐子报废, 失去加气的功能.
+
+    choices = clean_choices(choices);
 
     // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局,
     // 注意黄剑的连锁判定情况.
+
+    // TODO: 黄剑的连锁判定
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl: psp.skills) {
+            auto &target = skl.target;
+            if (skl == tskl::yellow_sword) {
+                dprint("[Step 11] 玩家 " + std::to_string(pid) + 
+                " 出黄剑, 对手 " + std::to_string(target)
+                + " ", false);
+                if (tag_died[target]) {
+                    dprint("已出局");
+                } else {
+                    tag_died[pid] = true;
+                    dprint("未出局, 该玩家出局");
+                }
+            }
+        }
+    }
 
     choices = clean_choices(choices);
 
@@ -751,9 +799,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 skl == tskl::enchanted_axe) {
                 dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类, ",
                        false);
-                qi[pid] += skl_qi_add[skl];
-                dprint("加气 " + std::to_string(skl_qi_add[skl]) + ", 现在有 " +
-                       std::to_string(qi[pid]));
+                if (player_get_damage_sum[pid] && player_get_damage_sum[pid] == def_upper_bound[pid]) {
+                    // 镐子破了
+                    dprint("受到攻击等于盾值, 镐子破");
+                } else {
+                    qi[pid] += skl_qi_add[skl];
+                    dprint("加气 " + formatxstr(skl_qi_add[skl]) + ", 现在有 " +
+                        formatxstr(qi[pid]));
+                }
             }
         }
     }
@@ -1290,7 +1343,7 @@ void pretty_print_result_died(const std::vector<int> &_id,
 // _qi: 玩家气数信息, 格式应与 qi 相同
 // comment: 可选, 作为输出辅助信息
 void pretty_print_result_qi(const std::vector<int> &_id,
-                            const std::map<int, float> &_qi,
+                            const std::map<int, int> &_qi,
                             const std::string &comment = "") {
     std::cout << "------- Qi of Players";
     if (comment != "") {
@@ -1303,7 +1356,7 @@ void pretty_print_result_qi(const std::vector<int> &_id,
     }
     std::cout << std::endl;
     for (auto player : _id) {
-        std::cout << _qi.at(player) << "\t";
+        std::cout << formatxstr(_qi.at(player)) << "\t";
     }
     std::cout << std::endl;
 }
@@ -1376,11 +1429,11 @@ void passon(const TESTN &test, bool check) {
     assert(_player_num >= 2);  // 玩家数量需大于或等于 2
 
     const std::vector<int> &_players = test.players;
-    const std::map<int, float> &_qi = test.qi;
+    const std::map<int, int> &_qi = test.qi;
     const std::map<int, bool> &_tag_died = test.tag_died;
     const std::map<int, std::map<int, int> > &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
-    const std::map<int, float> &_res_qi = test.res_qi;
+    const std::map<int, int> &_res_qi = test.res_qi;
     const std::map<int, tskl::skill> &_using_skill = test.using_skill;
     const std::map<int, int> &_target = test.target;
     const std::string &_comment = test.comment;
