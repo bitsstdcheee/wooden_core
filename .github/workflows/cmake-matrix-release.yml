@@ -1,0 +1,116 @@
+name: CMake Matrix
+
+on:
+  # push:
+  #   branches: [ "master" , "dev" ]
+  # pull_request:
+  #   branches: [ "master" , "dev" ]
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest , windows-latest, macos-13 ]
+        profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
+        build_type: [ Release ]
+        gbk: [ off , on ]
+        exclude:
+          # Ubuntu
+          - os: ubuntu-latest
+            profile: Visual Studio 17 2022
+          - os: ubuntu-latest
+            profile: MinGW Makefiles
+
+          # Windows
+          - os: windows-latest
+            profile: Unix Makefiles
+
+          # MacOS Uses clang++ is only supported with UTF-8
+          - os: macos-13
+            gbk: on
+          - os: macos-13
+            profile: MinGW Makefiles
+          - os: macos-13
+            profile: Visual Studio 17 2022
+
+    name: "Build"
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: 探测版本
+      run: |
+        echo "G++ version"
+        g++ --version
+        echo ""
+        echo "GCC version"
+        gcc --version
+        echo ""
+        echo "Make version"
+        make --version
+        echo ""
+        echo "CMake version"
+        cmake --version
+    - name: 输出 CMake 支持 Generators
+      run: |
+        cmake --help
+    - name: 下载分支
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 1
+    - name: 配置 CMake (${{ matrix.os }})
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
+    - name: 安装 LCOV (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      shell: bash
+      run: |
+        sudo apt-get --assume-yes install lcov
+    - name: 安装 LCOV (MacOS)
+      if: matrix.os == 'macos-13'
+      run: |
+        brew install lcov
+    - name: 编译
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
+    - name: 执行 (Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+      run: |
+        echo "The Current Exec Path:"
+        find . -name "wooden_game" -exec ls '{}' ';'        
+        find . -name "wooden_game" -exec ./'{}' ';' > build/output.txt
+    - name: 执行 (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: cmd
+      run: |
+        echo "The Current Exec Path:"
+        for /r build %%i in (wooden_game.exe*) do @echo %%i
+        for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
+    - name: 输出结果 (Windows)
+      if: matrix.os == 'windows-latest'
+      shell: cmd
+      run: |
+        type ".\build\output.txt"
+    - name: 输出结果 (Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+      shell: bash
+      run: |
+        cat build/output.txt
+    - name: LCOV 数据收集 (仅限 Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+      shell: bash
+      run: |
+        cd build
+        lcov -c -d ./ -o cover.info
+    - name: Codecov (仅限 Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
+      uses: codecov/codecov-action@v3.1.3
+      with:
+        file: build/cover.info
+        verbose: true
+        name: ${{ matrix.os }} - ${{ matrix.profile }} - GBK ${{ matrix.gbk }}
+    - name: 上传 Artifact
+      if: always()
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
+        path:
+          build/

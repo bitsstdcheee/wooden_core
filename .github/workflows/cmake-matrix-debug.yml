@@ -14,8 +14,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest , windows-latest, macos-13 ]
         profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
-        build_type: [ Release , Debug ]
-        gbk: [ off , on ]
+        build_type: [ Debug ]
         exclude:
           # Ubuntu
           - os: ubuntu-latest
@@ -28,8 +27,6 @@ jobs:
             profile: Unix Makefiles
 
           # MacOS Uses clang++ is only supported with UTF-8
-          - os: macos-13
-            gbk: on
           - os: macos-13
             profile: MinGW Makefiles
           - os: macos-13
@@ -59,7 +56,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
     - name: 安装 LCOV (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       shell: bash
@@ -106,11 +103,11 @@ jobs:
       with:
         file: build/cover.info
         verbose: true
-        name: ${{ matrix.os }} - ${{ matrix.profile }} - GBK ${{ matrix.gbk }}
+        name: ${{ matrix.os }} - ${{ matrix.profile }}
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
+        name: wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}
         path:
           build/
