@@ -38,16 +38,24 @@ jobs:
     - name: 探测版本
       run: |
         echo "G++ version"
+        echo "::group::g++ version"
         g++ --version
-        echo ""
+        echo "::endgroup::"
+
         echo "GCC version"
+        echo "::group::gcc version"
         gcc --version
-        echo ""
+        echo "::endgroup::"
+
         echo "Make version"
+        echo "::group::Make version"
         make --version
-        echo ""
+        echo "::endgroup::"
+
         echo "CMake version"
+        echo "::group::CMake Version"
         cmake --version
+        echo "::endgroup::"
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
