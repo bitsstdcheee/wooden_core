@@ -85,7 +85,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
         echo "The Current Exec Path:"
-        find . -name "wooden_game" -exec ls '{}' ';'        
+        find . -name "wooden_game" -exec ls '{}' ';'
         find . -name "wooden_game" -exec ./'{}' ';' > build/output.txt
     - name: 执行 (Windows)
       if: matrix.os == 'windows-latest'

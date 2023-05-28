@@ -5,7 +5,7 @@ jobs:
     static-checks:
         name: 📊 静态检查
         uses: ./.github/workflows/static-check.yml
-    
+
     clang-format:
         name: 代码格式化
         permissions:
@@ -37,7 +37,7 @@ jobs:
         needs: [clang-format, static-checks]
         if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' }}
         uses: ./.github/workflows/cmake-matrix-debug.yml
-    
+
     cmake_matrix_release:
         name: CMake 矩阵编译 (Release)
         needs: [clang-format, static-checks, check-commit-release]
