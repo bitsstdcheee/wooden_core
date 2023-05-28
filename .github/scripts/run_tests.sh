@@ -6,7 +6,7 @@ error_tests=()
 # 运行测试
 for dir in tests/*/; do
   testname=$(basename "$dir")
-  executable="./build/tests/bin/test-$testname.exe"
+  executable="./build/tests/bin/test-$testname"
 
   if [ -x "$executable" ]; then
     echo "Running test: $testname"

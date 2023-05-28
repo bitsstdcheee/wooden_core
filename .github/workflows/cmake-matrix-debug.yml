@@ -6,9 +6,20 @@ on:
   # pull_request:
   #   branches: [ "master" , "dev" ]
   workflow_call:
+    outputs:
+      success_unix:
+        description: "表明是否通过了 Unix 编译"
+        value: ${{ jobs.build.outputs.success_unix }}
+      success_win:
+        description: "表明是否通过了 Windows 编译"
+        value: ${{ jobs.build.outputs.success_win }}
+
 
 jobs:
   build:
+    outputs:
+      success_unix: ${{ steps.mark-success-unix.outputs.success_unix }}
+      success_win: ${{ steps.mark-success-windows.outputs.success_win }}
     strategy:
       fail-fast: false
       matrix:
@@ -61,6 +72,10 @@ jobs:
         echo "::group::python version"
         python --version
         echo "::endgroup::"
+    - name: 配置变量
+      run: |
+        echo "success_unix=1" >> $GITHUB_OUTPUT
+        echo "success_win=1" >> $GITHUB_OUTPUT
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
@@ -81,6 +96,16 @@ jobs:
         brew install lcov
     - name: 编译
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
+    - name: 标记失败 (Unix)
+      id: mark-success-unix
+      if: failure() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
+      run: |
+        echo "success_unix=0" >> $GITHUB_OUTPUT
+    - name: 标记失败 (Windows)
+      id: mark-success-windows
+      if: failure() && (matrix.os == 'windows-latest')
+      run: |
+        echo "success_win=0" >> $GITHUB_OUTPUT
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |

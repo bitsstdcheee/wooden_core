@@ -61,9 +61,10 @@ jobs:
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target test-*
           - name: 运行测试
             run: |
-                echo "测试可执行文件路径"
-                find . -name "test-" -exec ls '{}' ';'        
-                find . -name "test-" -exec ./'{}' ';' > build/output.txt
+                result=0
+                bash ./.github/scripts/check_clang_format.sh || result=$?
+                echo "脚本返回值: $result"
+                exit $result
           - name: 上传 Artifact
             if: always()
             uses: actions/upload-artifact@v3.1.2
