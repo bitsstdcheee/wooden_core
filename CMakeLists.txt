@@ -7,7 +7,11 @@ PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(ENABLE_COVERAGE ON)
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message("代码覆盖分析已开启")
+    set(ENABLE_COVERAGE ON)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
 
 # 关闭测试
 set(DISABLE_TEST_failure on)
@@ -48,7 +52,7 @@ message("WIN32 ${WIN32}")
 
 # 指定编译器
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -std=c++17")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 if (GBK)
     SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -O0 -Ddebug -DDEBUG ${CMAKE_CXX_FLAGS_GBK}")
     SET(CMAKE_CXX_FLAGS_RELEASE "-Wall ${CMAKE_CXX_FLAGS_GBK}")
