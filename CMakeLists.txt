@@ -66,6 +66,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+add_subdirectory(tests)
+
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 
 # 获取所有源代码文件
