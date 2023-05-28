@@ -6,9 +6,20 @@ on:
   # pull_request:
   #   branches: [ "master" , "dev" ]
   workflow_call:
+    outputs:
+      success_unix:
+        description: "表明是否通过了 Unix 编译"
+        value: ${{ jobs.build.outputs.sunix }}
+      success_win:
+        description: "表明是否通过了 Windows 编译"
+        value: ${{ jobs.build.outputs.swin }}
+
 
 jobs:
   build:
+    outputs:
+      sunix: ${{ steps.result-unix.outputs.success_unix }}
+      swin: ${{ steps.result-windows.outputs.success_win }}
     strategy:
       fail-fast: false
       matrix:
@@ -80,7 +91,8 @@ jobs:
       run: |
         brew install lcov
     - name: 编译
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
+      id: compile
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
@@ -104,6 +116,28 @@ jobs:
       shell: bash
       run: |
         cat build/output.txt
+    - name: 变量统计 (Unix)
+      id: result-unix
+      if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
+      run: |
+        if [ "${{ steps.compile.outcome }}" == "success" ]; then
+          success_unix=1
+        else
+          success_unix=0
+        fi
+        echo $success_unix
+        echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
+    - name: 变量统计 (Windows)
+      id: result-windows
+      if: always() && (matrix.os == 'windows-latest')
+      run: |
+        if ("${{ steps.compile.outcome }}" -eq "success") {
+          $success_win=1
+        } else {
+          $success_win=0
+        }
+        echo $success_win
+        echo "success_win=$success_win" >> "$env:GITHUB_OUTPUT"
     - name: LCOV 数据收集 (仅限 Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
@@ -122,5 +156,6 @@ jobs:
       uses: actions/upload-artifact@v3.1.2
       with:
         name: wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}
-        path:
+        path: |
           build/
+          !build/_deps
