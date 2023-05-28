@@ -100,12 +100,12 @@ jobs:
       id: mark-success-unix
       if: failure() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
-        echo "success_unix=0" >> $GITHUB_OUTPUT
+        echo "success_unix=0" >> "$GITHUB_OUTPUT"
     - name: 标记失败 (Windows)
       id: mark-success-windows
       if: failure() && (matrix.os == 'windows-latest')
       run: |
-        echo "success_win=0" >> $GITHUB_OUTPUT
+        echo "success_win=0" >> "$GITHUB_OUTPT"
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
