@@ -49,6 +49,15 @@ jobs:
                 fetch-depth: 1
           - name: 配置 CMake (${{ matrix.os }})
             run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
+          - name: 安装 LCOV (Ubuntu)
+            if: matrix.os == 'ubuntu-latest'
+            shell: bash
+            run: |
+                sudo apt-get --assume-yes install lcov
+          - name: 安装 LCOV (MacOS)
+            if: matrix.os == 'macos-13'
+            run: |
+                brew install lcov
           - name: 编译
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target Tests
           - name: 运行测试
