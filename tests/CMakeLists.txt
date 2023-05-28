@@ -17,6 +17,7 @@ file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 # 获取当前目录的所有子目录
 file(GLOB SUBDIRECTORIES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *)
 
+
 # 关闭测试
 set(DISABLE_TEST_failure on)
 set(DISABLE_TEST_template on)

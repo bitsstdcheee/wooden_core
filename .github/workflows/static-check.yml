@@ -19,7 +19,7 @@ jobs:
             uses: actions/checkout@v3
             with:
                 fetch-depth: 3
-            
+
           - name: 检查代码格式
             id: check_code_format
             run: |
@@ -34,6 +34,5 @@ jobs:
                 name: clang-format-check
                 path:
                     ./clang-format
-                    
 
-            
+
