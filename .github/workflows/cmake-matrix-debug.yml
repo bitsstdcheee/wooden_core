@@ -131,7 +131,7 @@ jobs:
       id: result-windows
       if: always() && (matrix.os == 'windows-latest')
       run: |
-        if ("${{ steps.compile.outcome }}" == "success") {
+        if ("${{ steps.compile.outcome }}" -eq "success") {
           $success_win=1
         } else {
           $success_win=0
