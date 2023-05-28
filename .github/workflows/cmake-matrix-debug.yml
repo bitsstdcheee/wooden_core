@@ -72,10 +72,14 @@ jobs:
         echo "::group::python version"
         python --version
         echo "::endgroup::"
-    - name: 配置变量
+    - name: 配置变量 (Unix)
+      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
         success_unix=1
-        success_win=1
+    - name: 配置变量 (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        $success_win=1
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
@@ -105,7 +109,7 @@ jobs:
       id: mark-success-windows
       if: failure() && (matrix.os == 'windows-latest')
       run: |
-        success_win=0
+        $success_win=0
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
@@ -133,6 +137,7 @@ jobs:
       id: result-unix
       if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
+        echo $success_unix
         echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
     - name: 变量收集 (Windows)
       id: result-windows
