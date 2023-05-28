@@ -9,17 +9,17 @@ on:
     outputs:
       success_unix:
         description: "表明是否通过了 Unix 编译"
-        value: ${{ jobs.build.outputs.success_unix }}
+        value: ${{ jobs.build.outputs.sunix }}
       success_win:
         description: "表明是否通过了 Windows 编译"
-        value: ${{ jobs.build.outputs.success_win }}
+        value: ${{ jobs.build.outputs.swin }}
 
 
 jobs:
   build:
     outputs:
-      success_unix: ${{ steps.mark-success-unix.outputs.success_unix }}
-      success_win: ${{ steps.mark-success-windows.outputs.success_win }}
+      sunix: ${{ steps.mark-success-unix.outputs.success_unix }}
+      swin: ${{ steps.mark-success-windows.outputs.success_win }}
     strategy:
       fail-fast: false
       matrix:
