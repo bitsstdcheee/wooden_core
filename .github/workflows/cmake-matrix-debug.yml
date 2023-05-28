@@ -136,8 +136,8 @@ jobs:
         } else {
           $success_win=0
         }
-        echo $env:success_win
-        echo "success_win=$env:success_win" >> "$GITHUB_OUTPUT"
+        echo $success_win
+        echo "success_win=$success_win" >> "$GITHUB_OUTPUT"
     - name: LCOV 数据收集 (仅限 Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
