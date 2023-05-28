@@ -66,6 +66,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+add_custom_target(Tests)
 add_subdirectory(tests)
 
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")

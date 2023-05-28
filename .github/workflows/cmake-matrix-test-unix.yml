@@ -58,7 +58,7 @@ jobs:
             run: |
                 brew install lcov
           - name: 编译
-            run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target test-*
+            run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target Tests
           - name: 运行测试
             run: |
                 result=0
