@@ -72,15 +72,6 @@ jobs:
         echo "::group::python version"
         python --version
         echo "::endgroup::"
-    - name: 配置变量 (Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      run: |
-        export success_unix=1
-    - name: 配置变量 (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        [Environment]::SetEnvironmentVariable("success_win", 1, "User")
-        Write-Host $env:success_win
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
@@ -100,19 +91,8 @@ jobs:
       run: |
         brew install lcov
     - name: 编译
+      id: compile
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 标记失败 (Unix)
-      id: mark-success-unix
-      if: failure() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
-      run: |
-        success_unix=0
-        export $success_unix
-    - name: 标记失败 (Windows)
-      id: mark-success-windows
-      if: failure() && (matrix.os == 'windows-latest')
-      run: |
-        [Environment]::SetEnvironmentVariable("success_win", 0, "User")
-        Write-Host $env:success_win
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
@@ -136,16 +116,26 @@ jobs:
       shell: bash
       run: |
         cat build/output.txt
-    - name: 变量收集 (Unix)
+    - name: 变量统计 (Unix)
       id: result-unix
       if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
+        if [ "${{ steps.compile.outcome }}" == "success" ]; then
+          success_unix=1
+        else
+          success_unix=0
+        fi
         echo $success_unix
         echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
-    - name: 变量收集 (Windows)
+    - name: 变量统计 (Windows)
       id: result-windows
       if: always() && (matrix.os == 'windows-latest')
       run: |
+        if ("${{ steps.compile.outcome }}" == "success") {
+          $success_win=1
+        } else {
+          $success_win=0
+        }
         echo $env:success_win
         echo "success_win=$env:success_win" >> "$GITHUB_OUTPUT"
     - name: LCOV 数据收集 (仅限 Unix)
