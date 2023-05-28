@@ -29,5 +29,5 @@ if [ ${#error_tests[@]} -eq 0 ]; then
 else
   echo "Failed tests: ${error_tests[*]}"
   echo "::warning title=Test Failures::Some tests failed. Please check the logs for details."
-  exit -1
+  exit 255
 fi

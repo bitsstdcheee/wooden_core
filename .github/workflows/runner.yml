@@ -43,7 +43,7 @@ jobs:
         needs: [clang-format, static-checks, check-commit-release]
         if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' && (needs.check-commit-release.outputs.release == 'true' || needs.check-commit-release.outputs.release == true || needs.check-commit-release.outputs.release == 1) }}
         uses: ./.github/workflows/cmake-matrix-release.yml
-    
+
     test_output:
         name: 测试输出
         needs: [cmake_matrix_debug]
@@ -55,7 +55,7 @@ jobs:
                 echo "Windows: ${{ needs.cmake_matrix_debug.outputs.success_win }}"
                 echo "Unix: ${{ needs.cmake_matrix_debug.outputs.success_unix }}"
 
-    
+
     gtest_unix:
         name: gtest 测试 (Unix)
         needs: [cmake_matrix_debug]
