@@ -59,5 +59,5 @@ jobs:
     gtest_unix:
         name: gtest 测试 (Unix)
         needs: [cmake_matrix_debug]
-        if: ${{ success() || (needs.cmake_matrix_debug.result == 'success' && (needs.cmake_matrix_debug.outputs.success_unix == 1)) }}
+        if: ${{ success() || (needs.cmake_matrix_debug.outputs.success_unix == 1) }}
         uses: ./.github/workflows/cmake-matrix-test-unix.yml
