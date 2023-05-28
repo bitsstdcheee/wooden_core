@@ -13,8 +13,6 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
-# 关闭测试
-set(DISABLE_TEST_failure on)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
