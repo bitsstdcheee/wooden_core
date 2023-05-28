@@ -18,8 +18,8 @@ on:
 jobs:
   build:
     outputs:
-      sunix: ${{ steps.mark-success-unix.outputs.success_unix }}
-      swin: ${{ steps.mark-success-windows.outputs.success_win }}
+      sunix: ${{ steps.result-unix.outputs.success_unix }}
+      swin: ${{ steps.result-windows.outputs.success_win }}
     strategy:
       fail-fast: false
       matrix:
@@ -74,8 +74,8 @@ jobs:
         echo "::endgroup::"
     - name: 配置变量
       run: |
-        echo "success_unix=1" >> "$GITHUB_OUTPUT"
-        echo "success_win=1" >> "$GITHUB_OUTPUT"
+        success_unix=1
+        success_win=1
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
@@ -100,12 +100,12 @@ jobs:
       id: mark-success-unix
       if: failure() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
-        echo "success_unix=0" >> "$GITHUB_OUTPUT"
+        success_unix=0
     - name: 标记失败 (Windows)
       id: mark-success-windows
       if: failure() && (matrix.os == 'windows-latest')
       run: |
-        echo "success_win=0" >> "$GITHUB_OUTPUT"
+        success_win=0
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
@@ -129,6 +129,16 @@ jobs:
       shell: bash
       run: |
         cat build/output.txt
+    - name: 变量收集 (Unix)
+      id: result-unix
+      if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
+      run: |
+        echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
+    - name: 变量收集 (Windows)
+      id: result-windows
+      if: always() && (matrix.os == 'windows-latest')
+      run: |
+        echo "success_win=$success_win" >> "$GITHUB_OUTPUT"
     - name: LCOV 数据收集 (仅限 Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       shell: bash
