@@ -75,11 +75,12 @@ jobs:
     - name: 配置变量 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
-        success_unix=1
+        export success_unix=1
     - name: 配置变量 (Windows)
       if: matrix.os == 'windows-latest'
       run: |
-        $success_win=1
+        [Environment]::SetEnvironmentVariable("success_win", 1, "User")
+        Write-Host $env:success_win
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
@@ -105,11 +106,13 @@ jobs:
       if: failure() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
         success_unix=0
+        export $success_unix
     - name: 标记失败 (Windows)
       id: mark-success-windows
       if: failure() && (matrix.os == 'windows-latest')
       run: |
-        $success_win=0
+        [Environment]::SetEnvironmentVariable("success_win", 0, "User")
+        Write-Host $env:success_win
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
@@ -137,12 +140,13 @@ jobs:
       id: result-unix
       if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
       run: |
-        echo $success_unix
-        echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
+        echo $env:success_unix
+        echo "success_unix=$env:success_unix" >> "$GITHUB_OUTPUT"
     - name: 变量收集 (Windows)
       id: result-windows
       if: always() && (matrix.os == 'windows-latest')
       run: |
+        echo $success_win
         echo "success_win=$success_win" >> "$GITHUB_OUTPUT"
     - name: LCOV 数据收集 (仅限 Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
