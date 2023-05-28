@@ -1,5 +1,5 @@
-set(TEST_NAME hello)
-set(TEST_DESCRIPTION "Hello World 测试")
+set(TEST_NAME template)
+set(TEST_DESCRIPTION "单元测试模板, 不应该被包含在测试内")
 
 set(EXEC_NAME test-${TEST_NAME})
 file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
