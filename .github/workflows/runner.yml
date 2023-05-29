@@ -73,6 +73,6 @@ jobs:
           - name: 上传 Artifact
             uses: actions/upload-artifact@v3.1.2
             with:
-                name: code-${{ github.ref }}-${{ github.sha }}
+                name: code-${{ github.ref_name }}-${{github.event_name}}-${{ github.sha }}
                 path: ${{ github.workspace }}
           
