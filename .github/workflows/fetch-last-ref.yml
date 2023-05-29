@@ -5,6 +5,7 @@ on:
 
 jobs:
     fetch_code:
+        name: 获取代码
         runs-on: ubuntu-latest
         steps:
           - name: 下载分支代码
