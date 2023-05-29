@@ -15,7 +15,7 @@ jobs:
           - name: 处理 Artifact 名称
             id: pre_artifact
             # 将斜杠、反斜杠换为减号
-            run: echo ::set-output name=artifact_name::$(echo "code-${{ github.ref }}-${{ github.event_name }}-${{ github.sha }}" | sed 's/\//-/g' | sed 's/\\/-/g')
+            run: echo "artifact_name=$(echo code-${{ github.ref }}-${{ github.event_name }}-${{ github.sha }} | sed 's/\//-/g' | sed 's/\\/-/g')" >> $GITHUB_OUTPUT
           - name: 上传 Artifact
             uses: actions/upload-artifact@v3.1.2
             with:
