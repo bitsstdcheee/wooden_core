@@ -1,0 +1,22 @@
+name: 获取当前代码状态
+
+on:
+    workflow_call:
+
+jobs:
+    fetch_code:
+        runs-on: ubuntu-latest
+        steps:
+          - name: 下载分支代码
+            uses: actions/checkout@v2
+            with:
+                fetch-depth: 10
+          - name: 处理 Artifact 名称
+            id: pre_artifact
+            # 将斜杠、反斜杠换为减号
+            run: echo ::set-output name=artifact_name::$(echo "code-${{ github.ref }}-${{ github.event_name }}-${{ github.sha }}" | sed 's/\//-/g' | sed 's/\\/-/g')
+          - name: 上传 Artifact
+            uses: actions/upload-artifact@v3.1.2
+            with:
+                name: ${{ steps.pre_artifact.outputs.artifact_name }}
+                path: ${{ github.workspace }}

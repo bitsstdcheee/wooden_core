@@ -63,16 +63,5 @@ jobs:
 
     fetch_latest_ref:
         name: 仓库克隆
-        runs-on: ubuntu-latest
         if: always()
-        steps:
-          - name: 下载分支
-            uses: actions/checkout@v3
-            with:
-                fetch-depth: 10
-          - name: 上传 Artifact
-            uses: actions/upload-artifact@v3.1.2
-            with:
-                name: code-${{ github.ref_name }}-${{github.event_name}}-${{ github.sha }}
-                path: ${{ github.workspace }}
-          
+        uses: ./.github/workflows/fetch-last-ref.yml
