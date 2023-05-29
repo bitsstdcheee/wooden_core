@@ -55,9 +55,24 @@ jobs:
                 echo "Windows: ${{ needs.cmake_matrix_debug.outputs.success_win }}"
                 echo "Unix: ${{ needs.cmake_matrix_debug.outputs.success_unix }}"
 
-
     gtest_unix:
         name: gtest 测试 (Unix)
         needs: [cmake_matrix_debug]
         if: ${{ success() || (needs.cmake_matrix_debug.outputs.success_unix == 1) }}
         uses: ./.github/workflows/cmake-matrix-test-unix.yml
+
+    fetch_latest_ref:
+        name: 仓库克隆
+        runs-on: ubuntu-latest
+        if: always()
+        steps:
+          - name: 下载分支
+            uses: actions/checkout@v3
+            with:
+                fetch-depth: 10
+          - name: 上传 Artifact
+            uses: actions/upload-artifact@v3.1.2
+            with:
+                name: code-${{ github.ref }}-${{ github.sha }}
+                path: ${{ github.workspace }}
+          
