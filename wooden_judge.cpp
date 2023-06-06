@@ -141,9 +141,7 @@ SkillPack::operator std::vector<tskl::skill>() {
     return res;
 }
 
-SkillPack::SkillPack() {
-    skills.clear();
-}
+SkillPack::SkillPack() { skills.clear(); }
 
 SkillPack::SkillPack(std::vector<Skill> _skills) {
     skills = std::move(_skills);
@@ -249,9 +247,7 @@ std::pair<int, int> get_skl_defense(const skill &skl) {
     return std::make_pair(skl_min_defense[skl], skl_max_defense[skl]);
 }
 
-int get_skl_attack(const skill &skl) {
-    return skl_attack[skl];
-}
+int get_skl_attack(const skill &skl) { return skl_attack[skl]; }
 
 bool check_available(const std::pair<int, Skill> &choice) {
     if (qi[choice.first] < skl_qi[choice.second.skl]) return false;  // 气不够
@@ -1314,7 +1310,7 @@ void pretty_print_result_qi(const std::vector<int> &_id,
     std::cout << std::endl;
 }
 
-template <typename T> 
+template <typename T>
 bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1,
                const std::map<int, T> &_mp2) {
     for (auto player : _id) {

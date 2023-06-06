@@ -8,7 +8,8 @@ using namespace tutil;  // 直接 using namespace 省去前缀
 using namespace tskl;
 
 // NUM_SKL 的宏定义版本, 应该和 NUM_SKL 的值相等
-// 用于模板定义, 因为在定义和实现的分离的情况下的常量无法用作模板常量 (要求编译器时就应解析为常数, 而不是链接)
+// 用于模板定义, 因为在定义和实现的分离的情况下的常量无法用作模板常量
+// (要求编译器时就应解析为常数, 而不是链接)
 #define NUM_SKL_M 29
 
 extern int player_num;
@@ -54,7 +55,7 @@ struct Skill {
     operator tskl::skill();
 
     Skill();
-    
+
     Skill(tskl::skill, int);
 
     /*
@@ -78,19 +79,19 @@ struct SkillPack {
 // have_att: 检测玩家是否发出了攻击性招术
 // true: 有
 // false: 无
-bool have_att(const std::pair<int, Skill>&);
+bool have_att(const std::pair<int, Skill> &);
 
 // have_axe: 检测玩家是否有镐子招术
-bool have_axe(const std::pair<int, Skill>&);
+bool have_axe(const std::pair<int, Skill> &);
 
 // have_clap_axe: 检测玩家是否有拍气 / 镐子招术
 // true: 有
 // false: 无
-bool have_clap_axe(const std::pair<int, Skill>&);
+bool have_clap_axe(const std::pair<int, Skill> &);
 
 // clean_choices: 清洗玩家选择: 对于已死去的玩家的技能清除
 std::vector<std::pair<int, Skill> > clean_choices(
-    const std::vector<std::pair<int, Skill> >&);
+    const std::vector<std::pair<int, Skill> > &);
 
 // skl_max_defense: 记录 skill 对应防御的最大值 (x100)
 // 此处不算攻击带来的防御
@@ -109,7 +110,7 @@ extern const std::array<int, NUM_SKL_M> skl_qi;
 extern const std::array<int, NUM_SKL_M> skl_qi_add;
 
 // get_skl_defense: 获取并返回 skl 对应拥有的防御值
-std::pair<int, int> get_skl_defense(const skill&);
+std::pair<int, int> get_skl_defense(const skill &);
 
 // get_skl_attack: 获取并返回 skl 对应拥有的攻击值
 int get_skl_attack(const skill &skl);
@@ -124,24 +125,24 @@ extern const int max_skl_count[NUM_SKL_M];
 
 // 完成 Skill -> SkillPack 的显式转换
 std::vector<std::pair<int, SkillPack> > skillPack(
-    const std::vector<std::pair<int, Skill> >&);
+    const std::vector<std::pair<int, Skill> > &);
 
 // 清洗数据 (已死亡的玩家)
 // choices: player_id -> SkillPack
 std::vector<std::pair<int, SkillPack> > clean_choices(
-    const std::vector<std::pair<int, SkillPack> >&);
+    const std::vector<std::pair<int, SkillPack> > &);
 
 // 记录当前小局中玩家上一次出招
 extern std::map<int, skill> player_last_skill;
 
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择
-void do_main(const std::vector<std::pair<int, SkillPack> >&);
+void do_main(const std::vector<std::pair<int, SkillPack> > &);
 
-#else   // using_new_judger
+#else  // using_new_judger
 // do_main：主小局判定程序
 // choices: player_id, skill
-void do_main(const std::vector<std::pair<int, Skill> >&);
+void do_main(const std::vector<std::pair<int, Skill> > &);
 
 #endif  // using_new_judger
 
@@ -149,35 +150,33 @@ void do_main(const std::vector<std::pair<int, Skill> >&);
 // _id: 玩家 id 列表
 // _tag_died: 玩家死亡信息, 格式应与 tag_died 相同
 // comment: 可选, 作为输出辅助信息
-void pretty_print_result_died(const std::vector<int>&,
-                              const std::map<int, bool>&,
-                              const std::string& = "");
-
+void pretty_print_result_died(const std::vector<int> &,
+                              const std::map<int, bool> &,
+                              const std::string & = "");
 
 // pretty_print_result_qi: 格式化打印玩家气数信息
 // _id: 玩家 id 列表
 // _qi: 玩家气数信息, 格式应与 qi 相同
 // comment: 可选, 作为输出辅助信息
-void pretty_print_result_qi(const std::vector<int>&,
-                            const std::map<int, int>&,
-                            const std::string& = "");
+void pretty_print_result_qi(const std::vector<int> &,
+                            const std::map<int, int> &,
+                            const std::string & = "");
 
 // equal_map: 用于测试用例和实际结果的 map 容器比较
 // _id: 玩家 id 列表
 // _mp1: 待比较的 _mp1
 // _mp2: 待比较的 _mp2
 template <typename T>  // 调用模板函数不一定需要写出此处模板函数定义的 T
-bool equal_map(const std::vector<int>&, const std::map<int, T>&,
-               const std::map<int, T>&);
+bool equal_map(const std::vector<int> &, const std::map<int, T> &,
+               const std::map<int, T> &);
 
 // continue_game: 大局中两个小局间的衔接
 // now: 当前每个玩家的状况
 // n: 当前即将进行的局数
 game_status continue_game(int, game_status,
-                          const std::vector<std::pair<int, Skill> >&);
-
+                          const std::vector<std::pair<int, Skill> > &);
 
 // passon: 传递测试参数并运行测试的函数
-void passon(const TESTN&, bool);
+void passon(const TESTN &, bool);
 
 #endif  // WOODEN_GAME_WOODEN_JUDGE_H

@@ -83,4 +83,4 @@ bool check_internet_connect() {
     // assert(0);
     return false;
 }
-#endif // WOODEN_START_CPP
+#endif  // WOODEN_START_CPP
