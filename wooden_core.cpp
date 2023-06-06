@@ -20,7 +20,7 @@ int main() {
 #ifdef debug
 
     std::cout << "This program was built on " << __DATE__ << ", " << __TIME__
-              << std::endl;
+            << std::endl;
     // player_num = 5;
     // players = new std::vector<int>(player_num);  // 预分配空间
 
