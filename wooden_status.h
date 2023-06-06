@@ -17,4 +17,4 @@ struct game_status {
     const int NUM_SKL = 29;
 };
 
-#endif
+#endif  // WOODEN_STATUS_H

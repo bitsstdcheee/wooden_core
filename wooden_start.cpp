@@ -1,4 +1,5 @@
 #ifndef WOODEN_START_CPP
+#define WOODEN_START_CPP
 #include <array>
 #include <cassert>
 #include <iostream>
@@ -82,4 +83,4 @@ bool check_internet_connect() {
     // assert(0);
     return false;
 }
-#endif
+#endif // WOODEN_START_CPP

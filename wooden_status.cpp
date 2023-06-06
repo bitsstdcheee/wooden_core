@@ -1,4 +1,5 @@
 #ifndef WOODEN_STATUS_CPP
+#define WOODEN_STATUS_CPP
 #include "wooden_status.h"
 
 #include <utility>
@@ -35,4 +36,4 @@ game_status::game_status(int& _player_num, const std::vector<int>* _players,
     (tag_died) = _tag_died;
     (skl_count) = _skl_count;
 }
-#endif
+#endif  // WOODEN_STATUS_CPP

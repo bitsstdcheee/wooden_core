@@ -39,4 +39,4 @@ bool tskl::query_skill_is_defense(skill skl) {
     return skl == defense || skl == mid_defense || skl == large_defense ||
            skl == hands || skl == ashiba || skl == zd;
 }
-#endif
+#endif  // WOODEN_SKILL_CPP

@@ -1460,4 +1460,4 @@ void passon(const TESTN &test, bool check) {
 }
 
 // 编译环境: C++11
-#endif
+#endif  // WOODEN_JUDGE_CPP
