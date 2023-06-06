@@ -18,9 +18,11 @@ file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB SUBDIRECTORIES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *)
 
 
-# 关闭测试
-set(DISABLE_TEST_failure on)
-set(DISABLE_TEST_template on)
+if(NOT ENABLE_ALL_TEST)
+  # 关闭测试
+  set(DISABLE_TEST_failure on)
+  set(DISABLE_TEST_template on)
+endif()
 
 # 遍历子目录并添加
 foreach(SUBDIRECTORY ${SUBDIRECTORIES})
