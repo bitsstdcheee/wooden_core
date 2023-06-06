@@ -55,9 +55,13 @@ jobs:
                 echo "Windows: ${{ needs.cmake_matrix_debug.outputs.success_win }}"
                 echo "Unix: ${{ needs.cmake_matrix_debug.outputs.success_unix }}"
 
-
     gtest_unix:
         name: gtest 测试 (Unix)
         needs: [cmake_matrix_debug]
         if: ${{ success() || (needs.cmake_matrix_debug.outputs.success_unix == 1) }}
         uses: ./.github/workflows/cmake-matrix-test-unix.yml
+
+    fetch_latest_ref:
+        name: 仓库克隆
+        if: always()
+        uses: ./.github/workflows/fetch-last-ref.yml

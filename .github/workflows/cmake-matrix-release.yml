@@ -74,7 +74,7 @@ jobs:
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
     - name: 编译
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}"
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
     - name: 执行 (Unix)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
