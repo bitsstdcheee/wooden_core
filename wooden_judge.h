@@ -18,6 +18,7 @@
 
 #include "wooden_skill.h"
 #include "wooden_status.h"
+#include "wooden_macro.h"
 
 using namespace tskl;
 
