@@ -1,8 +1,5 @@
 #ifndef WOODEN_GAME_WOODEN_JUDGE_H
 #define WOODEN_GAME_WOODEN_JUDGE_H
-#include "wooden_skill.h"
-#include "wooden_status.h"
-
 #include <array>
 #include <cassert>
 #include <climits>
@@ -18,6 +15,9 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+
+#include "wooden_skill.h"
+#include "wooden_status.h"
 
 using namespace tskl;
 

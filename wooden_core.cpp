@@ -2,14 +2,13 @@
 #define WOODEN_CORE_CPP
 // 核心启动文件
 
+#include <cassert>
+
+#include "wooden_debug.h"
 #include "wooden_judge.h"
 #include "wooden_skill.h"
 #include "wooden_start.h"
 #include "wooden_status.h"
-#include "wooden_debug.h"
-
-#include <cassert>
-
 
 int main() {
     static_assert(sizeof(void *) == 8, "This program only support 64 bit.");

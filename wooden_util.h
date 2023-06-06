@@ -1,17 +1,17 @@
 #ifndef WOODEN_UTIL_H
 #define WOODEN_UTIL_H
 
-#include "wooden_skill.h"
-
 #include <array>
 #include <cassert>
 #include <initializer_list>
 #include <iostream>
 #include <map>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
-#include <new>
+
+#include "wooden_skill.h"
 
 // gen_map: 生成 map 形式
 template <typename T1, typename T2>
@@ -32,7 +32,7 @@ const std::vector<int> gen_default_player(const int);
 
 const std::map<int, int> gen_cleared_skl();
 
-const std::map<int, bool> gen_all_alive(const std::vector<int>&);
+const std::map<int, bool> gen_all_alive(const std::vector<int> &);
 
 // equal_map: 用于测试用例和实际结果的 map 容器比较
 // _id: 玩家 id 列表
@@ -44,4 +44,4 @@ bool equal_map(const std::vector<int> &, const std::map<int, T> &,
 
 #include "wooden_util.inl"
 
-#endif // WOODEN_UTIL_H
+#endif  // WOODEN_UTIL_H

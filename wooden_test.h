@@ -6,16 +6,16 @@
 #include <initializer_list>
 #include <iostream>
 #include <map>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
-#include <new>
 
-#include "wooden_util.h"
+#include "wooden_debug.h"
+#include "wooden_judge.h"
 #include "wooden_macro.h"
 #include "wooden_skill.h"
-#include "wooden_judge.h"
-#include "wooden_debug.h"
+#include "wooden_util.h"
 
 // #define debug
 

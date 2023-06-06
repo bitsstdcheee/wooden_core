@@ -1,6 +1,7 @@
 #ifndef WOODEN_JUDGE_CPP
 #define WOODEN_JUDGE_CPP
 #include "wooden_judge.h"
+
 #include "wooden_debug.h"
 #include "wooden_skill.h"
 #include "wooden_status.h"
@@ -1337,7 +1338,6 @@ game_status continue_game(int n, game_status now,
     dprint("", true);
     return changed;
 }
-
 
 // 编译环境: C++11
 #endif  // WOODEN_JUDGE_CPP
