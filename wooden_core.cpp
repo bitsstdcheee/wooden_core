@@ -2,14 +2,13 @@
 #define WOODEN_CORE_CPP
 // 核心启动文件
 
+#include <cassert>
+
+#include "wooden_debug.h"
 #include "wooden_judge.h"
 #include "wooden_skill.h"
 #include "wooden_start.h"
 #include "wooden_status.h"
-#include "wooden_test.h"
-
-#define do_test(x) passon(test##x)
-#define do_test_uncheck(x) passon(test##x, false)
 
 int main() {
     static_assert(sizeof(void *) == 8, "This program only support 64 bit.");
@@ -42,20 +41,20 @@ int main() {
     // do_test(12);
     // do_test(13);
     // do_test(14);
-    do_test_uncheck(1);
-    do_test_uncheck(2);
-    do_test_uncheck(3);
-    do_test_uncheck(4);
-    do_test_uncheck(5);
-    do_test_uncheck(6);
-    do_test_uncheck(7);
-    do_test_uncheck(8);
-    do_test_uncheck(9);
-    do_test_uncheck(10);
-    do_test_uncheck(11);
-    do_test_uncheck(12);
-    do_test_uncheck(13);
-    do_test_uncheck(14);
+    // do_test_uncheck(1);
+    // do_test_uncheck(2);
+    // do_test_uncheck(3);
+    // do_test_uncheck(4);
+    // do_test_uncheck(5);
+    // do_test_uncheck(6);
+    // do_test_uncheck(7);
+    // do_test_uncheck(8);
+    // do_test_uncheck(9);
+    // do_test_uncheck(10);
+    // do_test_uncheck(11);
+    // do_test_uncheck(12);
+    // do_test_uncheck(13);
+    // do_test_uncheck(14);
 #endif
 
     wooden_initialization();

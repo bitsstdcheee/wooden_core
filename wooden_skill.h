@@ -95,6 +95,9 @@ enum skill {
     hands = 29,
 };
 
+extern const int MIN_SKILL_NUM;
+extern const int MAX_SKILL_NUM;
+
 // 获取招式对应的叠加组 id
 string query_skill_overlay_name(skill);
 

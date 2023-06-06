@@ -6,17 +6,18 @@
 #include <initializer_list>
 #include <iostream>
 #include <map>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "wooden_debug.h"
+#include "wooden_judge.h"
 #include "wooden_macro.h"
 #include "wooden_skill.h"
+#include "wooden_util.h"
 
 // #define debug
-
-const int MIN_SKILL_NUM = 0;
-const int MAX_SKILL_NUM = 29;
 
 namespace test {}
 
@@ -54,17 +55,6 @@ std::initializer_list<T2> list2) { assert(list1.size() == player_num);
 }
 */
 
-// gen_map: 生成 map 形式
-template <typename T1, typename T2>
-const std::map<T1, T2> gen_map(const int player_num, const std::vector<T1> vec1,
-                               const std::vector<T2> vec2);
-
-// gen_repeated_vec: 生成重复一个对象的 vec
-template <typename T>
-const std::vector<T> gen_repeated_vec(const T obj, const int times);
-
-const std::vector<int> gen_default_player(const int);
-
 /*
 // gen_qi: 生成带 float 的 map 形式
 template <typename T1>
@@ -85,10 +75,6 @@ std::initializer_list<T1> list1, std::initializer_list<float> list2) {
     return mp;
 }
 */
-
-const std::map<int, int> gen_cleared_skl();
-
-const std::map<int, bool> gen_all_alive(const std::vector<int>&);
 
 namespace tutil {
 // TESTN: 打包测试样例的结构
@@ -132,21 +118,6 @@ void do_test1_assert() {
 }
 #endif
 
-extern const tutil::TESTN test1;
-extern const tutil::TESTN test2;
-extern const tutil::TESTN test3;
-extern const tutil::TESTN test4;
-extern const tutil::TESTN test5;
-extern const tutil::TESTN test6;
-extern const tutil::TESTN test7;
-extern const tutil::TESTN test8;
-extern const tutil::TESTN test9;
-extern const tutil::TESTN test10;
-extern const tutil::TESTN test11;
-extern const tutil::TESTN test12;
-extern const tutil::TESTN test13;
-extern const tutil::TESTN test14;
-
 // gdp => gen_default_player
 #define gdp gen_default_player
 
@@ -175,5 +146,7 @@ extern const tutil::TESTN test14;
 #define gmap(x) gen_map<int, x>
 
 extern const tutil::TESTN test13;
+
+void passon(const tutil::TESTN &, bool);
 
 #endif  // WOODEN_TEST_H
