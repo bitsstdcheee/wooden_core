@@ -38,21 +38,17 @@ using namespace tskl;
 */
 
 int player_num;
+
 const int MAX_PLAYER_NUM = 2048;
-// players: 记录每位玩家的 id, 无序
-// 指向 vector 的指针, 用于明确 player_num 后分配空间大小
+
 std::vector<int> *players;
-// std::vector<int> *players = new std::vector<int>(4);
-// qi: 记录每位玩家 (id) 对应当前的气数
+
 std::map<int, int> qi;
-// tag_died: 记录每位玩家 (id) 对应的死亡状态
-// false: 当前未死亡
-// true: 当前已死亡 / 出局 / 隐退
+
 std::map<int, bool> tag_died;
-// skl_count: 记录每位玩家 (id) 对应技能 (skl) 使用次数
+
 std::map<int, std::map<int, int> > skl_count;
 
-// init: 玩家信息的初始化
 void init() {
     dprint("[Init] player_num = " + std::to_string(player_num));
     /* try {
@@ -114,66 +110,50 @@ string formatxstr(int x) {
 // TODO: [MOD] Fire
 // TODO: [Future] 代码生成混淆
 
-// NUM_SKL: 当前招式个数 (id 最大值)
 const int NUM_SKL = 29;
 
-// Skill: 带有对象的招术封装
-struct Skill {
-    tskl::skill skl;
-    int target;  // 招数实施对象
-    // 显式转换 Skill -> skill
-    operator tskl::skill() {
-        // 无招术, 自动转换
-        return skl;
-    }
-    Skill() {
-        skl = tskl::none;
-        target = 0;
-    }
-    Skill(tskl::skill _skl, int _target) {
-        skl = _skl;
-        target = _target;
-    }
-    /*
-    Skill(tskl::skill _skl, int _target) {
-        skl = skill(_skl);
-        target = _target;
-    }
-    */
-};
+Skill::operator tskl::skill() {
+    // 无招术, 自动转换
+    return skl;
+}
 
-struct SkillPack {
-    std::vector<Skill> skills;
-    explicit operator std::vector<tskl::skill>() {
-        if (skills.empty()) {
-            std::vector<tskl::skill> res;
-            res.clear();
-            return res;
-        }
-        std::vector<tskl::skill> res(skills.size());
-        int idx = 0;
-        for (auto i = skills.begin(); i != skills.end(); i++, idx++) {
-            res[idx] = (tskl::skill)(skills[idx]);
-        }
+Skill::Skill() {
+    skl = tskl::none;
+    target = 0;
+}
+
+Skill::Skill(tskl::skill _skl, int _target) {
+    skl = _skl;
+    target = _target;
+}
+
+SkillPack::operator std::vector<tskl::skill>() {
+    if (skills.empty()) {
+        std::vector<tskl::skill> res;
+        res.clear();
         return res;
     }
-
-    SkillPack() { skills.clear(); }
-
-    explicit SkillPack(std::vector<Skill> _skills) {
-        skills = std::move(_skills);
+    std::vector<tskl::skill> res(skills.size());
+    int idx = 0;
+    for (auto i = skills.begin(); i != skills.end(); i++, idx++) {
+        res[idx] = (tskl::skill)(skills[idx]);
     }
+    return res;
+}
 
-    // 强制返回第一个 Skill 来缩减类型, 不推荐使用
-    Skill narrow_skill() {
-        if (skills.empty()) return Skill();
-        return skills[0];
-    }
-};
+SkillPack::SkillPack() {
+    skills.clear();
+}
 
-// have_att: 检测玩家是否发出了攻击性招术
-// true: 有
-// false: 无
+SkillPack::SkillPack(std::vector<Skill> _skills) {
+    skills = std::move(_skills);
+}
+
+Skill SkillPack::narrow_skill() {
+    if (skills.empty()) return Skill();
+    return skills[0];
+}
+
 bool have_att(const std::pair<int, Skill> &choice) {
     switch (choice.second.skl) {
         case wooden_sword:
@@ -192,7 +172,6 @@ bool have_att(const std::pair<int, Skill> &choice) {
     return false;
 }
 
-// have_axe: 检测玩家是否有镐子招术
 bool have_axe(const std::pair<int, Skill> &choice) {
     switch (choice.second.skl) {
         case clap:
@@ -207,9 +186,6 @@ bool have_axe(const std::pair<int, Skill> &choice) {
     return false;
 }
 
-// have_clap_axe: 检测玩家是否有拍气 / 镐子招术
-// true: 有
-// false: 无
 bool have_clap_axe(const std::pair<int, Skill> &choice) {
     if (have_axe(choice)) return true;
     switch (choice.second.skl) {
@@ -221,7 +197,6 @@ bool have_clap_axe(const std::pair<int, Skill> &choice) {
     return false;
 }
 
-// clean_choices: 清洗玩家选择: 对于已死去的玩家的技能清除
 std::vector<std::pair<int, Skill> > clean_choices(
     const std::vector<std::pair<int, Skill> > &choices) {
     std::vector<std::pair<int, Skill> > res;
@@ -237,57 +212,48 @@ std::vector<std::pair<int, Skill> > clean_choices(
 
 // clang-format off
 
-// skl_max_defense: 记录 skill 对应防御的最大值 (x100)
-// 此处不算攻击带来的防御
-const std::array<int, NUM_SKL> skl_max_defense = {0, 
+const std::array<int, NUM_SKL_M> skl_max_defense = {0, 
     0, 0, int(0.5 * 100), 1 * 100, int(2.5 * 100), 
     0, 0, 0, 0, 0, 
     0, 0, 3 * 100, 5 * 100, 6 * 100, 
     5 * 100, -1, 0  // -1 为无限
 };
 
-// skl_min_defense: 记录 skill 对应防御的最小值 (x100)
-const std::array<int, NUM_SKL> skl_min_defense = {0,
+const std::array<int, NUM_SKL_M> skl_min_defense = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 1 * 100, 1 * 100,
     0, 0, 0
 };
 
-// skl_attack: 记录 skill 对应攻击 (x100)
-const std::array<int, NUM_SKL> skl_attack = {0,
+const std::array<int, NUM_SKL_M> skl_attack = {0,
     0, 0, 0, 0, 0,
     1 * 100, int(2.5 * 100), 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
     0, 0, 1 * 100
 };
 
-// skl_qi: 记录 skill 对应使用的气数 (x100)
-const std::array<int, NUM_SKL> skl_qi = {0,
+const std::array<int, NUM_SKL_M> skl_qi = {0,
     0, 1 * 100, 2 * 100, 3 * 100, 6 * 100,
     1 * 100, 1 * 100, 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
     0, 0, 0
 };
 
-// skl_qi_add: 记录换气后应加的气 (x100)
-const std::array<int, NUM_SKL> skl_qi_add = {0,
+const std::array<int, NUM_SKL_M> skl_qi_add = {0,
     1 * 100, 3 * 100, 4 * 100, 6 * 100, 12 * 100};
 
 // clang-format on
 
 std::pair<int, int> get_skl_defense(const skill &skl) {
-    // get_skl_defense: 获取并返回 skl 对应拥有的防御值
     return std::make_pair(skl_min_defense[skl], skl_max_defense[skl]);
 }
 
 int get_skl_attack(const skill &skl) {
-    // get_skl_attack: 获取并返回 skl 对应拥有的攻击值
     return skl_attack[skl];
 }
 
 bool check_available(const std::pair<int, Skill> &choice) {
-    // check_available: 检查当前玩家的选择是否合法 (爆气, 超出次数限制)
     if (qi[choice.first] < skl_qi[choice.second.skl]) return false;  // 气不够
     Skill cskl = choice.second;
     int id = choice.first;
@@ -344,8 +310,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
  * Step 13: 为所有已出局玩家的气数清零
  */
 
-// 记录每个技能在大局中的最高可用次数 (-1 为无限,)
-const int max_skl_count[NUM_SKL] = {
+const int max_skl_count[NUM_SKL_M] = {
     -1,
     -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1,
@@ -357,7 +322,6 @@ const int max_skl_count[NUM_SKL] = {
 };
 // clang-format on
 
-// 完成 Skill -> SkillPack 的显式转换
 std::vector<std::pair<int, SkillPack> > skillPack(
     const std::vector<std::pair<int, Skill> > &choices) {
     std::vector<std::pair<int, SkillPack> > res;
@@ -371,8 +335,6 @@ std::vector<std::pair<int, SkillPack> > skillPack(
     return res;
 }
 
-// 清洗数据 (已死亡的玩家)
-// choices: player_id -> SkillPack
 std::vector<std::pair<int, SkillPack> > clean_choices(
     const std::vector<std::pair<int, SkillPack> > &choices) {
     std::vector<std::pair<int, SkillPack> > res;
@@ -386,11 +348,8 @@ std::vector<std::pair<int, SkillPack> > clean_choices(
     return res;
 }
 
-// 记录当前小局中玩家上一次出招
 std::map<int, skill> player_last_skill;
 
-// do_main: 主小局判定程序 (新方法)
-// dirty_choices: 玩家的招式选择
 void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // Step 1: 清洗数据
     std::vector<std::pair<int, SkillPack> > choices =
@@ -1315,13 +1274,9 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
 }
 #endif
 
-// pretty_print_result_died: 格式化打印玩家死亡信息
-// _id: 玩家 id 列表
-// _tag_died: 玩家死亡信息, 格式应与 tag_died 相同
-// comment: 可选, 作为输出辅助信息
 void pretty_print_result_died(const std::vector<int> &_id,
                               const std::map<int, bool> &_tag_died,
-                              const std::string &comment = "") {
+                              const std::string &comment) {
     std::cout << "------- Died Players";
     if (comment != "") {
         std::cout << " - " << comment;
@@ -1340,13 +1295,9 @@ void pretty_print_result_died(const std::vector<int> &_id,
     std::cout << std::endl;
 }
 
-// pretty_print_result_qi: 格式化打印玩家气数信息
-// _id: 玩家 id 列表
-// _qi: 玩家气数信息, 格式应与 qi 相同
-// comment: 可选, 作为输出辅助信息
 void pretty_print_result_qi(const std::vector<int> &_id,
                             const std::map<int, int> &_qi,
-                            const std::string &comment = "") {
+                            const std::string &comment) {
     std::cout << "------- Qi of Players";
     if (comment != "") {
         std::cout << " - " << comment;
@@ -1363,11 +1314,7 @@ void pretty_print_result_qi(const std::vector<int> &_id,
     std::cout << std::endl;
 }
 
-// equal_map: 用于测试用例和实际结果的 map 容器比较
-// _id: 玩家 id 列表
-// _mp1: 待比较的 _mp1
-// _mp2: 待比较的 _mp2
-template <typename T>  // 调用模板函数不一定需要写出此处模板函数定义的 T
+template <typename T> 
 bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1,
                const std::map<int, T> &_mp2) {
     for (auto player : _id) {
@@ -1376,9 +1323,6 @@ bool equal_map(const std::vector<int> &_id, const std::map<int, T> &_mp1,
     return true;
 }
 
-// continue_game: 大局中两个小局间的衔接
-// now: 当前每个玩家的状况
-// n: 当前即将进行的局数
 game_status continue_game(int n, game_status now,
                           const std::vector<std::pair<int, Skill> > &choices) {
     // Step 1. 转移数据
@@ -1388,7 +1332,7 @@ game_status continue_game(int n, game_status now,
     tag_died = now.tag_died;
     skl_count = now.skl_count;
 
-// Step 2. 进行小局
+    // Step 2. 进行小局
 #ifdef using_new_judger
     do_main(skillPack(choices));
 #else
@@ -1424,7 +1368,6 @@ game_status continue_game(int n, game_status now,
     return changed;
 }
 
-// passon: 传递测试参数并运行测试的函数
 void passon(const TESTN &test, bool check) {
     dprint("[P*] Entering passon()");
     const int &_player_num = test.player_num;
