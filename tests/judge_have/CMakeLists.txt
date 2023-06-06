@@ -11,7 +11,9 @@ endif()
 option(DISABLE_TEST_${TEST_NAME}, "Disable ${TEST_NAME} test" OFF)
 if(NOT DISABLE_TEST_${TEST_NAME})
     add_executable(${EXEC_NAME} ${CPP_SOURCES})
-    target_include_directories(${EXEC_NAME} PUBLIC ${GLOBAL_INCLUDE_DIRECTORY})
+    if(TEST_USES_ROOT)
+        target_include_directories(${EXEC_NAME} PUBLIC ${GLOBAL_INCLUDE_DIRECTORY})
+    endif()
     add_dependencies(Tests ${EXEC_NAME})
     set_target_properties(${EXEC_NAME} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests/bin"
