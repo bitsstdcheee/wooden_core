@@ -5,4 +5,4 @@
 
 #define using_new_judger
 
-#endif
+#endif  // WOODEN_MACRO_H

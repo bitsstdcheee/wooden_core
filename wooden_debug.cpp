@@ -1,3 +1,5 @@
+#ifndef WOODEN_DEBUG_CPP
+#define WOODEN_DEBUG_CPP
 #include "wooden_debug.h"
 
 #include <iostream>
@@ -20,3 +22,5 @@ void dprint(const std::string &msg, bool need_endl) { return; }
 
 void dprint(const char *msg, bool need_endl) { return; }
 #endif
+
+#endif  // WOODEN_DEBUG_CPP

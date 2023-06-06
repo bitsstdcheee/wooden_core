@@ -71,9 +71,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_custom_target(Tests)
-add_subdirectory(tests)
-
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 
 # 获取所有源代码文件
@@ -85,9 +82,21 @@ add_subdirectory(tests)
 file (GLOB SOURCES
     *.cpp
 )
+file(GLOB CORE_EXCLUDED_SOURCES
+    wooden_core.cpp
+)
 file (GLOB HEADERS
     *.h
 )
+
+set(GLOBAL_SOURCES "${SOURCES}")
+set(GLOBAL_SOURCES_CORE "${SOURCES}")
+list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
+set(GLOBAL_HEADERS "${HEADERS}")
+set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+
+add_custom_target(Tests)
+add_subdirectory(tests)
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})

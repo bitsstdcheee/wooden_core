@@ -176,4 +176,4 @@ extern const tutil::TESTN test14;
 
 extern const tutil::TESTN test13;
 
-#endif
+#endif  // WOODEN_TEST_H

@@ -1,8 +1,6 @@
-###  设置区
-set(TEST_NAME template)
-set(TEST_DESCRIPTION "单元测试模板, 不应该被包含在测试内")
-set(TEST_USES_ROOT TRUE)   # 是否使用 wooden 文件
-###  设置区
+set(TEST_NAME have_att)
+set(TEST_DESCRIPTION "测试 judge.cpp have_att, have_axe, have_clap_axe 函数")
+set(TEST_USES_ROOT TRUE) 
 
 set(EXEC_NAME test-${TEST_NAME})
 file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")

@@ -1,5 +1,5 @@
-#ifndef WOODEN_SKILL
-#define WOODEN_SKILL
+#ifndef WOODEN_SKILL_H
+#define WOODEN_SKILL_H
 #include <string>
 using std::string;
 namespace tskl {
@@ -108,4 +108,4 @@ bool query_skill_is_attack(skill);
 // zd.
 bool query_skill_is_defense(skill);
 }  // namespace tskl
-#endif
+#endif  // WOODEN_SKILL_H

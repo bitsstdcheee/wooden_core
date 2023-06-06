@@ -1,3 +1,5 @@
+#ifndef WOODEN_TEST_CPP
+#define WOODEN_TEST_CPP
 #include "wooden_test.h"
 
 #include <cassert>
@@ -329,3 +331,5 @@ const TESTN test14 =
           gen_map<int, int>(2, gen_default_player(2), {0, 1}),
           gen_map<int, bool>(2, gen_default_player(2), {false, true}),
           gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单黄局 2");
+
+#endif  // WOODEN_TEST_CPP

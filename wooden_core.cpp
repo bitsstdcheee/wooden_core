@@ -1,3 +1,5 @@
+#ifndef WOODEN_CORE_CPP
+#define WOODEN_CORE_CPP
 // 核心启动文件
 
 #include "wooden_judge.h"
@@ -61,3 +63,5 @@ int main() {
 
     return 0;
 }
+
+#endif  // WOODEN_CORE_CPP
