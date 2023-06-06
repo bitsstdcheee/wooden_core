@@ -1,0 +1,20 @@
+Github Actions:
+- .github/workflows/*
+
+Scripts:
+- .github/scripts/*
+
+PR Labeler:
+- .github/labeler.yml
+
+Core:
+- 'wooden_core.cpp'
+
+README:
+- 'README.md'
+
+Skill:
+- any: ['wooden_skill.h', 'wooden_skill.cpp']
+
+'Unit Test':
+- test/**
