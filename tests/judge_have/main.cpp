@@ -1,14 +1,11 @@
 #include <gtest/gtest.h>
 #include <utility>
+#include <wooden_judge.h>
 
 using std::make_pair;
 using namespace tskl;
 
 #define make_weapon(x) make_pair(0, Skill(x, 1))
-
-TEST(FirstTest, BasicAssertions) {
-    EXPECT_EQ(-1, 1);
-}
 
 TEST(have_att_test, BasicAssertions) {
     EXPECT_TRUE(have_att(make_weapon(tskl::wooden_sword)));
