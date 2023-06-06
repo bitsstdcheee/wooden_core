@@ -1,3 +1,5 @@
+#ifndef WOODEN_JUDGE_CPP
+#define WOODEN_JUDGE_CPP
 #include "wooden_judge.h"
 
 #include <array>
@@ -1515,3 +1517,4 @@ void passon(const TESTN &test, bool check) {
 }
 
 // 编译环境: C++11
+#endif

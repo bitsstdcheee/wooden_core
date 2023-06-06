@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <utility>
-#include "../../wooden_judge.cpp"
 
 using std::make_pair;
+using namespace tskl;
 
 #define make_weapon(x) make_pair(0, Skill(x, 1))
 

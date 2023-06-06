@@ -1,8 +1,12 @@
 set(TEST_NAME have_att)
 set(TEST_DESCRIPTION "测试 judge.cpp have_att, have_axe, have_clap_axe 函数")
+set(TEST_USES_ROOT TRUE) 
 
 set(EXEC_NAME test-${TEST_NAME})
 file(GLOB CPP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+if(TEST_USES_ROOT)
+    set(CPP_SOURCES "${CPP_SOURCES};${GLOBAL_SOURCES}")
+endif()
 
 option(DISABLE_TEST_${TEST_NAME}, "Disable ${TEST_NAME} test" OFF)
 if(NOT DISABLE_TEST_${TEST_NAME})
