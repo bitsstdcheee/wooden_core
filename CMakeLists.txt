@@ -82,12 +82,18 @@ FetchContent_MakeAvailable(googletest)
 file (GLOB SOURCES
     *.cpp
 )
+file(GLOB CORE_EXCLUDED_SOURCES
+    wooden_core.cpp
+)
 file (GLOB HEADERS
     *.h
 )
 
 set(GLOBAL_SOURCES "${SOURCES}")
+set(GLOBAL_SOURCES_CORE "${SOURCES}")
+list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
 set(GLOBAL_HEADERS "${HEADERS}")
+set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_custom_target(Tests)
 add_subdirectory(tests)
