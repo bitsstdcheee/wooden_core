@@ -2,9 +2,23 @@
 #define WOODEN_GAME_WOODEN_JUDGE_H
 #include "wooden_skill.h"
 #include "wooden_status.h"
-#include "wooden_test.h"
 
-using namespace tutil;  // 直接 using namespace 省去前缀
+#include <array>
+#include <cassert>
+#include <climits>
+#include <cstdio>
+#include <cstdlib>
+#include <exception>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <new>
+#include <sstream>
+#include <string>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
 using namespace tskl;
 
 // NUM_SKL 的宏定义版本, 应该和 NUM_SKL 的值相等
@@ -41,8 +55,6 @@ string formatxstr(int);
 
 // NUM_SKL: 当前招式个数 (id 最大值)
 extern const int NUM_SKL;
-
-void passon(const tutil::TESTN &test, bool check = false);
 
 // Skill: 带有对象的招术封装
 struct Skill {
@@ -162,21 +174,10 @@ void pretty_print_result_qi(const std::vector<int> &,
                             const std::map<int, int> &,
                             const std::string & = "");
 
-// equal_map: 用于测试用例和实际结果的 map 容器比较
-// _id: 玩家 id 列表
-// _mp1: 待比较的 _mp1
-// _mp2: 待比较的 _mp2
-template <typename T>  // 调用模板函数不一定需要写出此处模板函数定义的 T
-bool equal_map(const std::vector<int> &, const std::map<int, T> &,
-               const std::map<int, T> &);
-
 // continue_game: 大局中两个小局间的衔接
 // now: 当前每个玩家的状况
 // n: 当前即将进行的局数
 game_status continue_game(int, game_status,
                           const std::vector<std::pair<int, Skill> > &);
-
-// passon: 传递测试参数并运行测试的函数
-void passon(const TESTN &, bool);
 
 #endif  // WOODEN_GAME_WOODEN_JUDGE_H

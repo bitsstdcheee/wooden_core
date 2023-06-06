@@ -1,81 +1,12 @@
 #ifndef WOODEN_TEST_CPP
 #define WOODEN_TEST_CPP
+
 #include "wooden_test.h"
 
-#include <cassert>
-#include <map>
-#include <new>
-#include <vector>
+#define do_test(x) passon(test##x)
+#define do_test_uncheck(x) passon(test##x, false)
 
 using tutil::TESTN;
-
-// gen_map: 生成 map 形式
-template <typename T1, typename T2>
-const std::map<T1, T2> gen_map(const int player_num, const std::vector<T1> vec1,
-                               const std::vector<T2> vec2) {
-    assert(vec1.size() == (long long unsigned int)player_num);
-    assert(vec2.size() == (long long unsigned int)player_num);
-    std::map<T1, T2> mp;
-    mp.clear();
-    for (int i = 0; i < player_num; i++) {
-        mp[vec1[i]] = vec2[i];
-    }
-    return mp;
-}
-
-// gen_mapx: 生成 map 形式 (x100)
-template <typename T1, typename T2>
-const std::map<T1, T2> gen_mapx(const int player_num,
-                                const std::vector<T1> vec1,
-                                const std::vector<T2> vec2) {
-    assert(vec1.size() == (long long unsigned int)player_num);
-    assert(vec2.size() == (long long unsigned int)player_num);
-    std::map<T1, T2> mp;
-    mp.clear();
-    for (int i = 0; i < player_num; i++) {
-        mp[vec1[i]] = vec2[i] * 100;
-    }
-    return mp;
-}
-
-// gen_repeated_vec: 生成重复一个对象的 vec
-template <typename T>
-const std::vector<T> gen_repeated_vec(const T obj, const int times) {
-    auto* vec = new std::vector<T>(times);
-    // vector clear() 会导致 size 变为 0
-    // vec->clear();
-    for (int i = 0; i < times; i++) {
-        (*vec)[i] = obj;
-    }
-    return *vec;
-}
-
-const std::vector<int> gen_default_player(const int player_num) {
-    auto* vec = new std::vector<int>(player_num);
-    // vec->clear();
-    for (int i = 0; i < player_num; i++) {
-        (*vec)[i] = i + 1;
-    }
-    return *vec;
-}
-
-const std::map<int, int> gen_cleared_skl() {
-    std::map<int, int> mp;
-    mp.clear();
-    for (int i = MIN_SKILL_NUM; i <= MAX_SKILL_NUM; i++) {
-        mp[i] = 0;
-    }
-    return mp;
-}
-
-const std::map<int, bool> gen_all_alive(const std::vector<int>& players) {
-    std::map<int, bool> mp;
-    mp.clear();
-    for (auto player : players) {
-        mp[player] = false;
-    }
-    return mp;
-}
 
 TESTN::TESTN() {
     player_num = 0;
@@ -165,171 +96,95 @@ void TESTN::info() const {
     }
 }
 
-const TESTN test1 = TESTN(
-    4, gen_default_player(4),
-    gen_mapx<int, int>(4, gen_default_player(4), gen_repeated_vec<int>(0, 4)),
-    gen_all_alive(gen_default_player(4)),
-    gen_map<int, std::map<int, int> >(4, gen_default_player(4),
-                                      gen_repeated_vec(gen_cleared_skl(), 4)),
-    gen_map<int, tskl::skill>(4, gen_default_player(4),
-                              {tskl::clap, tskl::none, tskl::clap, tskl::none}),
-    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)),
-    gen_map<int, bool>(4, gen_default_player(4), gen_repeated_vec(false, 4)),
-    gen_mapx<int, int>(4, gen_default_player(4), {1, 0, 1, 0}), "纯拍气");
+void passon(const TESTN &test, bool check) {
+    dprint("[P*] Entering passon()");
+    const int &_player_num = test.player_num;
+    assert(_player_num >= 2);  // 玩家数量需大于或等于 2
 
-const TESTN test2 = TESTN(
-    4, gen_default_player(4),
-    gen_mapx<int, int>(4, gen_default_player(4), gen_repeated_vec<int>(0, 4)),
-    gen_all_alive(gen_default_player(4)),
-    gen_map<int, std::map<int, int> >(4, gen_default_player(4),
-                                      gen_repeated_vec(gen_cleared_skl(), 4)),
-    gen_map<int, tskl::skill>(4, gen_default_player(4),
-                              gen_repeated_vec(tskl::none, 4)),
-    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)),
-    gen_map<int, bool>(4, gen_default_player(4), gen_repeated_vec(false, 4)),
-    gen_mapx<int, int>(4, gen_default_player(4), gen_repeated_vec<int>(0, 4)),
-    "Null 局");
+    const std::vector<int> &_players = test.players;
+    const std::map<int, int> &_qi = test.qi;
+    const std::map<int, bool> &_tag_died = test.tag_died;
+    const std::map<int, std::map<int, int> > &_skl_count = test.skl_count;
+    const std::map<int, bool> &_res_tag_died = test.res_tag_died;
+    const std::map<int, int> &_res_qi = test.res_qi;
+    const std::map<int, tskl::skill> &_using_skill = test.using_skill;
+    const std::map<int, int> &_target = test.target;
+    const std::string &_comment = test.comment;
 
-const TESTN test3 = TESTN(
-    4, gen_default_player(4),
-    gen_mapx<int, int>(4, gen_default_player(4), {2, 3, 6, 3}),
-    gen_all_alive(gen_default_player(4)),
-    gen_map<int, std::map<int, int> >(4, gen_default_player(4),
-                                      gen_repeated_vec(gen_cleared_skl(), 4)),
-    gen_map<int, tskl::skill>(4, gen_default_player(4),
-                              {tskl::wooden_axe, tskl::normal_axe,
-                               tskl::enchanted_axe, tskl::enchanted_axe}),
-    gen_map<int, int>(4, gen_default_player(4), gen_repeated_vec(0, 4)),
-    gen_map<int, bool>(4, gen_default_player(4), {false, false, false, true}),
-    gen_mapx<int, int>(4, gen_default_player(4), {4, 5, 12, 0}), "镐局 1");
+    // Step 0. 传入数据 -- 玩家个数断言
+    dprint("[P0] Before importing data");
+    assert(_players.size() == (long long unsigned int)_player_num);
+    assert(_qi.size() == (long long unsigned int)_player_num);
+    assert(_tag_died.size() == (long long unsigned int)_player_num);
+    assert(_skl_count.size() == (long long unsigned int)_player_num);
+    assert(_res_tag_died.size() == (long long unsigned int)_player_num);
+    assert(_res_qi.size() == (long long unsigned int)_player_num);
+    assert(_using_skill.size() == (long long unsigned int)_player_num);
+    assert(_target.size() == (long long unsigned int)_player_num);
 
-const TESTN test4 =
-    TESTN(2, gen_default_player(2),
-          gen_mapx<int, int>(2, gen_default_player(2), {1, 0}),
-          gen_all_alive(gen_default_player(2)),
-          gen_map<int, std::map<int, int> >(
-              2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
-          gen_map<int, tskl::skill>(2, gen_default_player(2),
-                                    {tskl::wooden_axe, tskl::clap}),
-          gen_map<int, int>(2, gen_default_player(2), gen_repeated_vec(0, 2)),
-          gen_map<int, bool>(2, gen_default_player(2), {true, false}),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 1}), "镐局 2");
+    // 转换 test::skill -> choices
+    dprint("[P0] Before test::skill -> choices");
+    auto *_dirty_choices = new std::vector<std::pair<int, Skill> >(_player_num);
+    int cnt = 0;
+    for (auto i : _using_skill) {
+        dprint("[P0] In for: i = <" + std::to_string(i.first) + ", " +
+               std::to_string(i.second) + ">, cnt = " + std::to_string(cnt));
+        (*_dirty_choices)[cnt++] = std::make_pair(
+            i.first,
+            Skill(i.second,
+                  _target.at(i.first)));  // VS 调试中发现该语句的 vector
+                                          // 容器触发 assert 错误 (已修复)
+    }
+    dprint("[P0] After test::skill -> choices");
 
-const TESTN test5 = TESTN(
-    3, gen_default_player(3),
-    gen_mapx<int, int>(3, gen_default_player(3), {1, 2, 0}),
-    gen_all_alive(gen_default_player(3)),
-    gen_map<int, std::map<int, int> >(3, gen_default_player(3),
-                                      gen_repeated_vec(gen_cleared_skl(), 3)),
-    gen_map<int, tskl::skill>(3, gen_default_player(3),
-                              {tskl::wooden_axe, tskl::wooden_axe, tskl::clap}),
-    gen_map<int, int>(3, gen_default_player(3), gen_repeated_vec(0, 3)),
-    gen_map<int, bool>(3, gen_default_player(3), {true, true, false}),
-    gen_mapx<int, int>(3, gen_default_player(3), {0, 0, 1}), "镐局 3");
+    // Step 1. 拷贝数据
+    dprint("[P1] Before copying data");
+    player_num = _player_num;
+    dprint("[P1] Before entering init()");
+    init();
+    dprint("[P1] After entering init()");
+    (*players) = _players;
+    qi = _qi;
+    tag_died = _tag_died;
+    skl_count = _skl_count;
+    dprint("[P2] After copying data");
 
-const TESTN test6 = TESTN(
-    3, gen_default_player(3),
-    gen_mapx<int, int>(3, gen_default_player(3), {1, 2, 1}),
-    gen_all_alive(gen_default_player(3)),
-    gen_map<int, std::map<int, int> >(3, gen_default_player(3),
-                                      gen_repeated_vec(gen_cleared_skl(), 3)),
-    gen_map<int, tskl::skill>(3, gen_default_player(3),
-                              {tskl::wooden_axe, tskl::normal_axe, tskl::clap}),
-    gen_map<int, int>(3, gen_default_player(3), gen_repeated_vec(0, 3)),
-    gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
-    gen_mapx<int, int>(3, gen_default_player(3), {0, 4, 2}), "镐局 4");
+    // Step 2. 运行测试
+    dprint("[P2] Before do_main()");
+#ifdef using_new_judger
+    do_main(skillPack(*_dirty_choices));
+#else
+    do_main(*_dirty_choices);
+#endif
+    dprint("[P2] After do_main()");
 
-const TESTN test7 = TESTN(
-    3, gen_default_player(3),
-    gen_mapx<int, int>(3, gen_default_player(3), {0, 0, 1}),
-    gen_all_alive(gen_default_player(3)),
-    gen_map<int, std::map<int, int> >(3, gen_default_player(3),
-                                      gen_repeated_vec(gen_cleared_skl(), 3)),
-    gen_map<int, tskl::skill>(3, gen_default_player(3),
-                              {tskl::clap, tskl::clap, tskl::wooden_sword}),
-    gen_map<int, int>(3, gen_default_player(3), {0, 0, 1}),
-    gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
-    gen_mapx<int, int>(3, gen_default_player(3), {0, 1, 0}), "单剑局 1");
+    // Step 2.5 打印结果
+    pretty_print_result_died((*players), tag_died);
+    pretty_print_result_qi((*players), qi);
 
-const TESTN test8 = TESTN(
-    3, gen_default_player(3),
-    gen_mapx<int, int>(3, gen_default_player(3), gen_repeated_vec<int>(0, 3)),
-    gen_all_alive(gen_default_player(3)),
-    gen_map<int, std::map<int, int> >(3, gen_default_player(3),
-                                      gen_repeated_vec(gen_cleared_skl(), 3)),
-    gen_map<int, tskl::skill>(3, gen_default_player(3),
-                              {tskl::clap, tskl::clap, tskl::wooden_sword}),
-    gen_map<int, int>(3, gen_default_player(3), {0, 0, 1}),
-    gen_map<int, bool>(3, gen_default_player(3), {false, false, true}),
-    gen_mapx<int, int>(3, gen_default_player(3), {1, 1, 0}), "单剑局 2");
+    pretty_print_result_died((*players), _res_tag_died, _comment);
+    pretty_print_result_qi((*players), _res_qi, _comment);
+    dprint("[P2.5] After pretty printing");
 
-const TESTN test9 =
-    TESTN(2, gen_default_player(2),
-          gen_mapx<int, int>(2, gen_default_player(2), {3, 1}),
-          gen_all_alive(gen_default_player(2)),
-          gen_map<int, std::map<int, int> >(
-              2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
-          gen_map<int, tskl::skill>(2, gen_default_player(2),
-                                    {tskl::diamond_axe, tskl::wooden_sword}),
-          gen_map<int, int>(2, gen_default_player(2), {0, 1}),
-          gen_map<int, bool>(2, gen_default_player(2), {false, false}),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单剑局 3");
+    if (check == true) {
+        // Step 3. 判断结果
+        // assert(_res_tag_died == tag_died);
+        // assert(_res_qi == qi);
+        dprint("[P3] Before assert result");
+        assert(equal_map(*players, _res_tag_died, tag_died));
+        assert(equal_map(*players, _res_qi, qi));
+    } else {
+        dprint("[P3] I will not using assert");
+        dprint(string("[P3] Check result: Died is ") +
+               (equal_map(*players, _res_tag_died, tag_died)
+                    ? string("Correct")
+                    : string("Incorrect")) +
+               string(", Qi is ") +
+               (equal_map(*players, _res_qi, qi) ? string("Correct")
+                                                 : string("Incorrect")));
+    }
 
-const TESTN test10 = TESTN(
-    3, gen_default_player(3),
-    gen_mapx<int, int>(3, gen_default_player(3), {3, 1, 1}),
-    gen_map<int, bool>(3, gen_default_player(3), gen_repeated_vec(false, 3)),
-    gen_map<int, std::map<int, int> >(3, gen_default_player(3),
-                                      gen_repeated_vec(gen_cleared_skl(), 3)),
-    gen_map<int, tskl::skill>(
-        3, gen_default_player(3),
-        {tskl::diamond_axe, tskl::wooden_sword, tskl::wooden_sword}),
-    gen_map<int, int>(3, gen_default_player(3), {0, 1, 1}),
-    gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
-    gen_mapx<int, int>(3, gen_default_player(3), {0, 0, 0}), "单剑局 4");
-
-const TESTN test11 =
-    TESTN(3, gen_default_player(3),
-          gen_mapx<int, int>(3, gen_default_player(3), {6, 1, 1}),
-          gen_all_alive(gen_default_player(3)),
-          gen_map<int, std::map<int, int> >(
-              3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
-          gen_map<int, tskl::skill>(
-              3, gen_default_player(3),
-              {tskl::enchanted_axe, tskl::wooden_sword, tskl::wooden_sword}),
-          gen_map<int, int>(3, gen_default_player(3), {0, 1, 1}),
-          gen_map<int, bool>(3, gen_default_player(3), {false, false, false}),
-          gen_mapx<int, int>(3, gen_default_player(3), {12, 0, 0}), "单剑局 5");
-
-const TESTN test12 =
-    TESTN(2, gen_default_player(2),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 1}),
-          gen_all_alive(gen_default_player(2)),
-          gen_map<int, std::map<int, int> >(
-              2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
-          gen_map<int, tskl::skill>(2, gen_default_player(2),
-                                    {tskl::clap, tskl::yellow_sword}),
-          gen_map<int, int>(2, gen_default_player(2), {0, 1}),
-          gen_map<int, bool>(2, gen_default_player(2), {true, false}),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单黄局 1");
-
-const TESTN test13 = TESTN(
-    3, gdp(3), gqx(3, gdp(3), {0, 0, 0}), gal(gdp(3)),
-    gsc(3, gdp(3), grv(gcs, 3)),
-    gu(3, gdp(3), {tskl::defense, tskl::hither, tskl::hither}),
-    gmap(int)(3, gdp(3), {0, 0, 0}), gmap(bool)(3, gdp(3), {false, true, true}),
-    gqx(3, gdp(3), {0, 0, 0}), "Hither 1");
-
-const TESTN test14 =
-    TESTN(2, gen_default_player(2),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 1}),
-          gen_all_alive(gen_default_player(2)),
-          gen_map<int, std::map<int, int> >(
-              2, gen_default_player(2), gen_repeated_vec(gen_cleared_skl(), 2)),
-          gen_map<int, tskl::skill>(2, gen_default_player(2),
-                                    {tskl::defense, tskl::yellow_sword}),
-          gen_map<int, int>(2, gen_default_player(2), {0, 1}),
-          gen_map<int, bool>(2, gen_default_player(2), {false, true}),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单黄局 2");
+    std::cout << "Test success: " << test.comment << std::endl;
+}
 
 #endif  // WOODEN_TEST_CPP

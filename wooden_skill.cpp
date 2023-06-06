@@ -2,6 +2,9 @@
 #define WOODEN_SKILL_CPP
 #include "wooden_skill.h"
 
+const int tskl::MIN_SKILL_NUM = 0;
+const int tskl::MAX_SKILL_NUM = 29;
+
 string tskl::query_skill_overlay_name(skill skl) {
     if (skl == wooden_sword || skl == fist || skl == stone_sword ||
         skl == iron_sword || skl == gold_sword || skl == diamond_sword ||
