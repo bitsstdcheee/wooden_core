@@ -1,4 +1,4 @@
-name: CMake Matrix
+name: CMake Matrix (Windows)
 
 on:
   # push:
@@ -6,34 +6,22 @@ on:
   # pull_request:
   #   branches: [ "master" , "dev" ]
   workflow_call:
+    outputs:
+      success_win:
+        description: "表明是否通过了 Windows 编译"
+        value: ${{ jobs.build.outputs.swin }}
+
 
 jobs:
   build:
+    outputs:
+      swin: ${{ steps.result-windows.outputs.success_win }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , windows-latest, macos-13 ]
-        profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
-        build_type: [ Release ]
-        gbk: [ off , on ]
-        exclude:
-          # Ubuntu
-          - os: ubuntu-latest
-            profile: Visual Studio 17 2022
-          - os: ubuntu-latest
-            profile: MinGW Makefiles
-
-          # Windows
-          - os: windows-latest
-            profile: Unix Makefiles
-
-          # macOS Uses clang++ is only supported with UTF-8
-          - os: macos-13
-            gbk: on
-          - os: macos-13
-            profile: MinGW Makefiles
-          - os: macos-13
-            profile: Visual Studio 17 2022
+        os: [ windows-latest ]
+        profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
+        build_type: [ Debug ]
 
     name: "Build"
     runs-on: ${{ matrix.os }}
@@ -72,36 +60,36 @@ jobs:
       with:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
     - name: 编译
+      id: compile
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 执行 (Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      run: |
-        echo "The Current Exec Path:"
-        find . -name "wooden_game" -exec ls '{}' ';'
-        find . -name "wooden_game" -exec ./'{}' ';' > build/output.txt
-    - name: 执行 (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: 执行
       shell: cmd
       run: |
         echo "The Current Exec Path:"
         for /r build %%i in (wooden_game.exe*) do @echo %%i
         for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
-    - name: 输出结果 (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: 输出结果
       shell: cmd
       run: |
         type ".\build\output.txt"
-    - name: 输出结果 (Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      shell: bash
+    - name: 变量统计
+      id: result-windows
+      if: always()
       run: |
-        cat build/output.txt
+        if ("${{ steps.compile.outcome }}" -eq "success") {
+          $success_win=1
+        } else {
+          $success_win=0
+        }
+        echo $success_win
+        echo "success_win=$success_win" >> "$env:GITHUB_OUTPUT"
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
-        path:
+        name: wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}
+        path: |
           build/
+          !build/_deps
