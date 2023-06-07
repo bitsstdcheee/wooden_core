@@ -1,6 +1,11 @@
 name: Clang Format
 on:
     workflow_call:
+      inputs:
+        event_name:
+          required: true
+          type: string
+
 permissions:
     actions: read
     checks: read
@@ -9,6 +14,7 @@ jobs:
     clang-format:
         name: C++ 代码格式化 (clang-format)
         runs-on: ubuntu-latest
+        if: ${{ inputs.event_name != 'pull_request' }}
         steps:
           - name: 检测版本
             run: |
@@ -38,3 +44,11 @@ jobs:
                 name: clang-format-run
                 path:
                     ./clang-format
+    need-format:
+        name: 代码需要格式化
+        runs-on: ubuntu-latest
+        if: ${{ inputs.event_name == 'pull_request' }}
+        steps:
+          - name: 本代码需要格式化 (Pull Request)
+            run: |
+              exit 1
