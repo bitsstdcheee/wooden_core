@@ -1,4 +1,4 @@
-name: CMake Matrix
+name: CMake Matrix (Windows)
 
 on:
   # push:
@@ -23,25 +23,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest , windows-latest, macos-13 ]
-        profile: [ Unix Makefiles, MinGW Makefiles , Visual Studio 17 2022 ]
+        os: [ windows-latest ]
+        profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
         build_type: [ Debug ]
-        exclude:
-          # Ubuntu
-          - os: ubuntu-latest
-            profile: Visual Studio 17 2022
-          - os: ubuntu-latest
-            profile: MinGW Makefiles
-
-          # Windows
-          - os: windows-latest
-            profile: Unix Makefiles
-
-          # MacOS Uses clang++ is only supported with UTF-8
-          - os: macos-13
-            profile: MinGW Makefiles
-          - os: macos-13
-            profile: Visual Studio 17 2022
 
     name: "Build"
     runs-on: ${{ matrix.os }}
