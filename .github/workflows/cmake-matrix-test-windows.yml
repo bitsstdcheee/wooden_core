@@ -62,4 +62,4 @@ jobs:
                 name: wooden_core-Test-${{ matrix.os }}-${{ matrix.profile }}
                 path: |
                     build/
-                    !build/_deps/gooletest-*
+                    !build/_deps
