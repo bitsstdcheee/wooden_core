@@ -82,5 +82,6 @@ jobs:
             uses: actions/upload-artifact@v3.1.2
             with:
                 name: wooden_core-Test-${{ matrix.os }}-${{ matrix.profile }}
-                path:
+                path: |
                     build/
+                    !build/_deps/gooletest-*
