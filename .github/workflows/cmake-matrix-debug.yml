@@ -156,6 +156,5 @@ jobs:
       uses: actions/upload-artifact@v3.1.2
       with:
         name: wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}
-        path: |
+        path:
           build/
-          !build/_deps
