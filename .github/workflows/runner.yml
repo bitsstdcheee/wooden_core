@@ -45,7 +45,7 @@ jobs:
         needs: [clang-format, static-checks]
         if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' }}
         uses: ./.github/workflows/cmake-matrix-debug-linux.yml
-        
+
     cmake_matrix_debug_macos:
         name: CMake 矩阵编译 (Debug, macOS)
         needs: [clang-format, static-checks]
