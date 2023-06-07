@@ -7,9 +7,6 @@ on:
   #   branches: [ "master" , "dev" ]
   workflow_call:
     outputs:
-      success_unix:
-        description: "表明是否通过了 Unix 编译"
-        value: ${{ jobs.build.outputs.sunix }}
       success_win:
         description: "表明是否通过了 Windows 编译"
         value: ${{ jobs.build.outputs.swin }}
@@ -18,7 +15,6 @@ on:
 jobs:
   build:
     outputs:
-      sunix: ${{ steps.result-unix.outputs.success_unix }}
       swin: ${{ steps.result-windows.outputs.success_win }}
     strategy:
       fail-fast: false
@@ -65,55 +61,22 @@ jobs:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
-    - name: 安装 LCOV (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      shell: bash
-      run: |
-        sudo apt-get --assume-yes install lcov
-    - name: 安装 LCOV (macOS)
-      if: matrix.os == 'macos-13'
-      run: |
-        brew install lcov
     - name: 编译
       id: compile
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 执行 (Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      run: |
-        echo "The Current Exec Path:"
-        find . -name "wooden_game" -exec ls '{}' ';'
-        find . -name "wooden_game" -exec ./'{}' ';' > build/output.txt
-    - name: 执行 (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: 执行
       shell: cmd
       run: |
         echo "The Current Exec Path:"
         for /r build %%i in (wooden_game.exe*) do @echo %%i
         for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
-    - name: 输出结果 (Windows)
-      if: matrix.os == 'windows-latest'
+    - name: 输出结果
       shell: cmd
       run: |
         type ".\build\output.txt"
-    - name: 输出结果 (Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      shell: bash
-      run: |
-        cat build/output.txt
-    - name: 变量统计 (Unix)
-      id: result-unix
-      if: always() && (matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13')
-      run: |
-        if [ "${{ steps.compile.outcome }}" == "success" ]; then
-          success_unix=1
-        else
-          success_unix=0
-        fi
-        echo $success_unix
-        echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
-    - name: 变量统计 (Windows)
+    - name: 变量统计
       id: result-windows
-      if: always() && (matrix.os == 'windows-latest')
+      if: always()
       run: |
         if ("${{ steps.compile.outcome }}" -eq "success") {
           $success_win=1
@@ -122,19 +85,6 @@ jobs:
         }
         echo $success_win
         echo "success_win=$success_win" >> "$env:GITHUB_OUTPUT"
-    - name: LCOV 数据收集 (仅限 Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      shell: bash
-      run: |
-        cd build
-        lcov -c -d ./ -o cover.info
-    - name: Codecov (仅限 Unix)
-      if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
-      uses: codecov/codecov-action@v3.1.3
-      with:
-        file: build/cover.info
-        verbose: true
-        name: ${{ matrix.os }} - ${{ matrix.profile }}
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
