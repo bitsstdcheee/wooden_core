@@ -27,7 +27,7 @@ jobs:
           - os: windows-latest
             profile: Unix Makefiles
 
-          # MacOS Uses clang++ is only supported with UTF-8
+          # macOS Uses clang++ is only supported with UTF-8
           - os: macos-13
             gbk: on
           - os: macos-13

@@ -70,7 +70,7 @@ jobs:
       shell: bash
       run: |
         sudo apt-get --assume-yes install lcov
-    - name: 安装 LCOV (MacOS)
+    - name: 安装 LCOV (macOS)
       if: matrix.os == 'macos-13'
       run: |
         brew install lcov

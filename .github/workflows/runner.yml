@@ -45,7 +45,7 @@ jobs:
         uses: ./.github/workflows/cmake-matrix-debug-linux.yml
         
     cmake_matrix_debug_macos:
-        name: CMake 矩阵编译 (Debug, MacOS)
+        name: CMake 矩阵编译 (Debug, macOS)
         needs: [clang-format, static-checks]
         if: ${{ (success() || needs.clang-format.result == 'skipped' || needs.clang-format.result == 'success') && needs.static-checks.result == 'success' }}
         uses: ./.github/workflows/cmake-matrix-debug-macos.yml
@@ -75,7 +75,7 @@ jobs:
             - name: 输出变量
               run: |
                 echo "Linux: ${{ needs.cmake_matrix_debug_linux.outputs.success_unix }}"
-                echo "MacOS: ${{ needs.cmake_matrix_debug_macos.outputs.success_unix }}"
+                echo "macOS: ${{ needs.cmake_matrix_debug_macos.outputs.success_unix }}"
                 echo "Unix: ${{ needs.cmake_matrix_debug_linux.outputs.success_unix && needs.cmake_matrix_debug_macos.outputs.success_unix }}"
 
     gtest_unix:
