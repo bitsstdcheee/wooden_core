@@ -96,6 +96,7 @@ jobs:
     - name: LCOV 生成数据压缩
       shell: bash
       run: |
+        cd build
         tar -zcvf result-html.tar.gz result-html/
         echo "删除原来的文件夹"
         rm -rf result-html/
