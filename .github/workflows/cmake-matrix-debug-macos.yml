@@ -96,7 +96,7 @@ jobs:
       with:
         file: build/cover.info
         verbose: true
-        name: ${{ matrix.os }} - ${{ matrix.profile }}
+        name: debug - ${{ matrix.os }} - ${{ matrix.profile }}
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
