@@ -146,6 +146,11 @@ bool have_att(const std::pair<int, Skill> &choice) {
         case diamond_sword:
         case enchanted_sword:
         case hither:
+        case bo_sword:
+        case fist:
+        case palm:
+        case tube:
+        case alpaca:
             return true;
 
         default:
