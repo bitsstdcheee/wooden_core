@@ -1,2 +1,2 @@
-# ignore:
-  # - tests/   # 测试文件
+ignore:
+  - tests/   # 测试文件
