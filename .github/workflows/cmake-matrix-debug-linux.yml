@@ -93,6 +93,12 @@ jobs:
         cd build
         lcov -c -d ./ -o cover.info --rc lcov_branch_coverage=1
         genhtml -o result-html cover.info
+    - name: LCOV 生成数据压缩
+      shell: bash
+      run: |
+        tar -zcvf result-html.tar.gz result-html/
+        echo "删除原来的文件夹"
+        rm -rf result-html/
     - name: Codecov
       uses: codecov/codecov-action@v3.1.3
       with:
