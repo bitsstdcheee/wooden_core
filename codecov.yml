@@ -1,2 +1,5 @@
 ignore:
   - tests/   # 测试文件
+fixes:
+  # 将测试覆盖分析文件重映射到 Source Code
+  - "tests/*/::"
