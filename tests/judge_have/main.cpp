@@ -28,3 +28,8 @@ TEST(have_att_test, Negative) {
     EXPECT_FALSE(have_att(make_weapon(tskl::clap)));
     EXPECT_FALSE(have_att(make_weapon(tskl::defense)));
 }
+
+int main(int argc, char** argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
