@@ -1,2 +1,4 @@
 ignore:
-  - tests/   # 测试文件
+  # - tests/   # 测试文件
+  - wooden_*.cpp
+  - wooden_*.h
