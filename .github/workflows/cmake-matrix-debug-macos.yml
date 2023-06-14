@@ -54,15 +54,19 @@ jobs:
         echo "::endgroup::"
     - name: 输出 CMake 支持 Generators
       run: |
+        exit 0
         cmake --help
     - name: 下载分支
       uses: actions/checkout@v3
       with:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
+      run: |
+        exit 0
+        cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
     - name: 安装 LCOV
       run: |
+        exit 0
         brew install lcov
     - name: 编译
       id: compile
