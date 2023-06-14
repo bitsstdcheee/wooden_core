@@ -62,10 +62,8 @@ jobs:
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target Tests
           - name: 运行测试
             run: |
-                result=0
-                bash ./.github/scripts/run_tests.sh || result=$?
-                echo "脚本返回值: $result"
-                exit $result
+              cd build
+              make test
           - name: LCOV 数据收集
             shell: bash
             run: |
