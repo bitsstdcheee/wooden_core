@@ -7,8 +7,8 @@ Scripts:
 PR Labeler:
 - .github/labeler.yml
 
-Core:
-- 'wooden_core.cpp'
+Unit Test:
+- tests/**
 
 README:
 - 'README.md'
@@ -16,5 +16,5 @@ README:
 Skill:
 - any: ['wooden_skill.h', 'wooden_skill.cpp']
 
-'Unit Test':
-- test/**
+Core:
+- 'wooden_core.cpp'

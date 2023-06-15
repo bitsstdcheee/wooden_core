@@ -104,6 +104,7 @@ jobs:
       with:
         file: build/cover.info
         verbose: true
+        fail_ci_if_error: true
         name: debug - ${{ matrix.os }} - ${{ matrix.profile }}
     - name: 上传 Artifact
       if: always()
