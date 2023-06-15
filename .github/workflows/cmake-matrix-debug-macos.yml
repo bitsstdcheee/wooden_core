@@ -27,7 +27,6 @@ jobs:
     steps:
     - name: 探测版本
       run: |
-        exit 0
         echo "G++ version"
         echo "::group::g++ version"
         g++ --version
@@ -70,19 +69,15 @@ jobs:
         brew install lcov
     - name: 编译
       id: compile
-      run: |
-        exit 0
-        cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
     - name: 执行
       run: |
-        exit 0
         echo "The Current Exec Path:"
         find . -name "wooden_game" -exec ls '{}' ';'
         find . -name "wooden_game" -exec ./'{}' ';' > build/output.txt
     - name: 输出结果
       shell: bash
       run: |
-        exit 0
         cat build/output.txt
     - name: 变量统计
       id: result-unix
@@ -98,14 +93,12 @@ jobs:
     - name: LCOV 数据收集
       shell: bash
       run: |
-        exit 0
         cd build
         lcov -c -d ./ -o cover.info --rc lcov_branch_coverage=1
         genhtml -o result-html cover.info
     - name: LCOV 生成数据压缩
       shell: bash
       run: |
-        exit 0
         cd build
         tar -zcvf result-html.tar.gz result-html/
         echo "删除原来的文件夹"
