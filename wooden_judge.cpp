@@ -161,7 +161,6 @@ bool have_att(const std::pair<int, Skill> &choice) {
 
 bool have_axe(const std::pair<int, Skill> &choice) {
     switch (choice.second.skl) {
-        case clap:
         case wooden_axe:
         case normal_axe:
         case diamond_axe:
