@@ -62,15 +62,21 @@ jobs:
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target Tests
           - name: 运行测试
             run: |
-                result=0
-                bash ./.github/scripts/run_tests.sh || result=$?
-                echo "脚本返回值: $result"
-                exit $result
+              cd build
+              make test
           - name: LCOV 数据收集
             shell: bash
             run: |
               cd build
-              lcov -c -d ./ -o cover.info
+              lcov -c -d .. -b . -o cover.info
+              genhtml -o result-html cover.info
+          - name: LCOV 生成数据压缩
+            shell: bash
+            run: |
+              cd build
+              tar -zcvf result-html.tar.gz result-html/
+              echo "删除原来的文件夹"
+              rm -rf result-html/
           - name: Codecov
             uses: codecov/codecov-action@v3.1.3
             with:

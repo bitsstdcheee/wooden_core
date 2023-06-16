@@ -70,6 +70,7 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+enable_testing()
 
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 
@@ -94,9 +95,6 @@ set(GLOBAL_SOURCES_CORE "${SOURCES}")
 list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
 set(GLOBAL_HEADERS "${HEADERS}")
 set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-
-add_custom_target(Tests)
-add_subdirectory(tests)
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -125,3 +123,5 @@ elseif (UNIX)
 link_directories()
 endif ()
 
+add_custom_target(Tests)
+add_subdirectory(tests)

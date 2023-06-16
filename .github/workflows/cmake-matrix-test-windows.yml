@@ -52,9 +52,8 @@ jobs:
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target test-*
           - name: 运行测试
             run: |
-                echo "测试可执行文件路径"
-                for /r build %%i in (wooden_game.exe*) do @echo %%i
-                for /r build %%j in (wooden_game.exe*) do @%%j | tee build/output-%%j.txt
+              cd build
+              make test
           - name: 上传 Artifact
             if: always()
             uses: actions/upload-artifact@v3.1.2
