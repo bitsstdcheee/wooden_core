@@ -86,26 +86,6 @@ jobs:
         fi
         echo $success_unix
         echo "success_unix=$success_unix" >> "$GITHUB_OUTPUT"
-    - name: LCOV 数据收集
-      shell: bash
-      run: |
-        cd build
-        lcov -c -d ./ -o cover.info
-        genhtml -o result-html cover.info
-    - name: LCOV 生成数据压缩
-      shell: bash
-      run: |
-        cd build
-        tar -zcvf result-html.tar.gz result-html/
-        echo "删除原来的文件夹"
-        rm -rf result-html/
-    - name: Codecov
-      uses: codecov/codecov-action@v3.1.3
-      with:
-        file: build/cover.info
-        verbose: true
-        fail_ci_if_error: true
-        name: debug - ${{ matrix.os }} - ${{ matrix.profile }}
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
