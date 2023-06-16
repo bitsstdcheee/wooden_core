@@ -69,7 +69,7 @@ jobs:
             run: |
               cd build
               lcov -c -d .. -b . -o cover.info
-              genhtml -o result-html cover.info --ignore-errors inconsistent
+              genhtml -o result-html cover.info
           - name: LCOV 生成数据压缩
             shell: bash
             run: |
