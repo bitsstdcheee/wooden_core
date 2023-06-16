@@ -65,12 +65,14 @@ jobs:
               cd build
               make test
           - name: LCOV 数据收集
+            if: matrix.os != 'macos-13'
             shell: bash
             run: |
               cd build
               lcov -c -d .. -b . -o cover.info
               genhtml -o result-html cover.info
           - name: LCOV 生成数据压缩
+            if: matrix.os != 'macos-13'
             shell: bash
             run: |
               cd build
@@ -78,6 +80,7 @@ jobs:
               echo "删除原来的文件夹"
               rm -rf result-html/
           - name: Codecov
+            if: matrix.os != 'macos-13'
             uses: codecov/codecov-action@v3.1.3
             with:
               file: build/cover.info
