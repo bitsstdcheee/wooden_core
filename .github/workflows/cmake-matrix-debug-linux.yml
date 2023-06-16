@@ -103,7 +103,7 @@ jobs:
     - name: Codecov
       uses: codecov/codecov-action@v3.1.3
       with:
-        file: build/cover.in
+        file: build/cover.info
         fail_ci_if_error: true
         verbose: true
         name: debug - ${{ matrix.os }} - ${{ matrix.profile }}
