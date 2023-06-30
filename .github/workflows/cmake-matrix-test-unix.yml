@@ -54,10 +54,6 @@ jobs:
             shell: bash
             run: |
                 sudo apt-get --assume-yes install lcov
-          - name: 安装 LCOV (macOS)
-            if: matrix.os == 'macos-13'
-            run: |
-                brew install lcov
           - name: 编译
             run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target Tests
           - name: 运行测试
