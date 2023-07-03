@@ -13,13 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 13900K ]
         profile: [ MinGW Makefiles ]
         build_type: [ Release ]
         gbk: [ off , on ]
 
     name: "Build"
-    runs-on: ${{ matrix.os }}
+    runs-on: [softer-server]
     steps:
     - name: 输出 CMake 支持 Generators
       run: |
