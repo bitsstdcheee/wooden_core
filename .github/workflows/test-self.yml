@@ -20,7 +20,10 @@ jobs:
     steps:
       - run: |
           where cmake
+          exit 0
       - run: |
           echo %PATH%
+          exit 0
       - run: |
           echo whoami
+          exit 0
