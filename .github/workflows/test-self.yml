@@ -1,4 +1,4 @@
-name: CMake Matrix Self Hosted
+name: CMake Matrix Self Hosted (Test)
 
 on:
   # push:
