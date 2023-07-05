@@ -30,25 +30,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 1
-    - name: 配置 CMake (${{ matrix.os }})
+    - name: 配置 CMake
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
     - name: 编译
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game -j 32
-    - name: 执行 (Windows)
-      if: matrix.os == 'windows-latest'
-      shell: cmd
-      run: |
-        echo "The Current Exec Path:"
-        for /r build %%i in (wooden_game.exe*) do @echo %%i
-        for /r build %%j in (wooden_game.exe*) do @%%j > build/output.txt
-    - name: 输出结果 (Windows)
-      shell: cmd
-      run: |
-        type ".\build\output.txt"
-    - name: 上传 Artifact
-      if: always()
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        name: wooden_core-${{ matrix.build_type }}-gbk-${{ matrix.gbk }}-${{ matrix.os }}-${{ matrix.profile }}
-        path:
-          build/
