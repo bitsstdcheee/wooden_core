@@ -14,6 +14,9 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        shell: pwsh
     outputs:
       swin: ${{ steps.result-windows.outputs.success_win }}
     strategy:
