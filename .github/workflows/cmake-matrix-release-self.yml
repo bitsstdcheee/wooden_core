@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    defauls:
+    defaults:
       run:
         shell: cmd
     strategy:
