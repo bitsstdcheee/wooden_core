@@ -31,9 +31,9 @@ jobs:
       with:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}" -j 32
     - name: 编译
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game -j 32
     - name: 执行 (Windows)
       if: matrix.os == 'windows-latest'
       shell: cmd
