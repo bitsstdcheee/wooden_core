@@ -10,6 +10,9 @@ on:
 
 jobs:
   build:
+    default:
+      run:
+        shell: cmd
     strategy:
       fail-fast: false
       matrix:
