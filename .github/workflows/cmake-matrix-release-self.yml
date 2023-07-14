@@ -21,7 +21,7 @@ jobs:
         gbk: [ off , on ]
 
     name: "Build"
-    runs-on: [softer-server]
+    runs-on: [ self-hosted ]
     steps:
     - name: 输出 CMake 支持 Generators
       run: |
