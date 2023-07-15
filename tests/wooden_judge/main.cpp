@@ -143,7 +143,7 @@ TEST(judge, Test12) {
 }
 
 TEST(judge, Test13) {
-    check(test13, false); // Hither 暂未实现
+    check(test13, true);
 }
 
 TEST(judge, Test14) {

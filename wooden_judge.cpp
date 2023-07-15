@@ -284,6 +284,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
  * Step 3: 若存在管类, 咕噜咕噜 -> 函数结束, 并等待下一次调用
  * (Step 3 后已经没有还未出招的延迟类技能)
  * Step 4: 计算直接出局类: 若场上有人出拍气或者夹剑, 则出木稿的玩家出局
+ * Step 4.5: 展开对群类招式, 由先前简单的单个发起技能, 没有攻击对象转换为 n - 1 个对其余玩家的对单攻击 (招式名称不变)
  * Step 5: 计算每名玩家的防御上下限 (注意攻击招数所带来的防御不算在内)
  * Step 6: 夹剑、夹拳、夹波波剑, 若夹成功, 因去除被夹的武器(或记为报废), 并加气
  * Step 7: 计算每位玩家收到的伤害 (估计时间复杂度 O(n^2)), 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家, 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量, 之后计算并出局不能承受伤害的玩家
@@ -562,6 +563,28 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                            " 出了木镐, 出局");
                     tag_died[pid] = true;
                 }
+            }
+        }
+    }
+
+    // Step 4.5: 展开 Hither, Alpaca
+    for (auto player: choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        auto flatten_pack = SkillPack();  // 展开后的 SkillPack
+        for (auto skl: psp.skills) {
+            if (skl != tskl::hither && skl != tskl::alpaca) {
+                flatten_pack.skills.push_back(skl);  // 无关的 Skill 原封不动拷贝
+                continue;
+            }
+            dprint("[Step 4.5] 玩家 " + std::to_string(pid) + " 出对群招式 (id=" + std::to_string(skl) + ")");
+            // Hither/Alpaca 的展开
+            // 此处原来的 Skill 中 Hither/Alpaca 的 target 并无实际含义 (都是对群技能)
+
+            // 枚举其他玩家
+            for (auto player: choices) {
+                if (player.first == pid) continue;
+                flatten_pack.skills.push_back(Skill(tskl::hither, player.first));
             }
         }
     }
