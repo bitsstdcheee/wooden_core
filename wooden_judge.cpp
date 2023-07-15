@@ -568,23 +568,27 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     }
 
     // Step 4.5: 展开 Hither, Alpaca
-    for (auto player: choices) {
+    for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
         auto flatten_pack = SkillPack();  // 展开后的 SkillPack
-        for (auto skl: psp.skills) {
+        for (auto skl : psp.skills) {
             if (skl != tskl::hither && skl != tskl::alpaca) {
-                flatten_pack.skills.push_back(skl);  // 无关的 Skill 原封不动拷贝
+                flatten_pack.skills.push_back(
+                    skl);  // 无关的 Skill 原封不动拷贝
                 continue;
             }
-            dprint("[Step 4.5] 玩家 " + std::to_string(pid) + " 出对群招式 (id=" + std::to_string(skl) + ")");
+            dprint("[Step 4.5] 玩家 " + std::to_string(pid) +
+                   " 出对群招式 (id=" + std::to_string(skl) + ")");
             // Hither/Alpaca 的展开
-            // 此处原来的 Skill 中 Hither/Alpaca 的 target 并无实际含义 (都是对群技能)
+            // 此处原来的 Skill 中 Hither/Alpaca 的 target 并无实际含义
+            // (都是对群技能)
 
             // 枚举其他玩家
-            for (auto player: choices) {
+            for (auto player : choices) {
                 if (player.first == pid) continue;
-                flatten_pack.skills.push_back(Skill(tskl::hither, player.first));
+                flatten_pack.skills.push_back(
+                    Skill(tskl::hither, player.first));
             }
         }
     }
