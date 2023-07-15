@@ -224,7 +224,7 @@ const std::array<int, NUM_SKL_M> skl_qi = {0,
     0, 1 * 100, 2 * 100, 3 * 100, 6 * 100,
     1 * 100, 1 * 100, 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
-    0, 0, 0
+    0, 0, 1 * 100
 };
 
 const std::array<int, NUM_SKL_M> skl_qi_add = {0,

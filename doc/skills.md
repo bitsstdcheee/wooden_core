@@ -18,7 +18,7 @@
 | 波波剑     | ```bo_sword```        | 1       | 2.5     | 是     | ```bo_sword_group``` |  21    |
 | 管 (n 个) | ```tube```            | n+1     | n       | 是     | ```tube_group``` |  23    |
 | 羊驼      | ```alpaca```          | 2       | 各 0.5     | 是     | ```alpaca_group``` |  22    |
-| Hither | ```hither``` | 0 | 各 1 | 否 |  | 18 |
+| Hither | ```hither``` | 1 | 各 1 | 否 |  | 18 |
 
 ### 机制类
 
