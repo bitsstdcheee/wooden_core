@@ -19,3 +19,6 @@ cmake-build-*
 
 # Patch
 *.patch
+
+# macOS Filesystem
+.DS_Store
