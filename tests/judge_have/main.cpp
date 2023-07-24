@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include <utility>
 #include <wooden_judge.h>
+
+#include <utility>
 
 using std::make_pair;
 using namespace tskl;

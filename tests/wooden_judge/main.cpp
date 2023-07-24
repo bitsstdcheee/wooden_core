@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "test.h"
 
 using tutil::TESTN;
@@ -94,18 +95,13 @@ void check(const TESTN &test, bool check) {
     std::cout << "Test success: " << test.comment << std::endl;
 }
 
-class JudgeTest: public ::testing::TestWithParam<TESTN> {
-};
+class JudgeTest : public ::testing::TestWithParam<TESTN> {};
 
-TEST_P(JudgeTest, main) {
-    check(GetParam(), true);
-}
+TEST_P(JudgeTest, main) { check(GetParam(), true); }
 
-INSTANTIATE_TEST_SUITE_P(Tests,JudgeTest,
-    ::testing::ValuesIn(tests)
-);
+INSTANTIATE_TEST_SUITE_P(Tests, JudgeTest, ::testing::ValuesIn(tests));
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
