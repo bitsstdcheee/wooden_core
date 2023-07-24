@@ -5,7 +5,7 @@ repo_dir=$(git rev-parse --show-toplevel)
 
 file_list=("*.c" "*.h" "*.cpp" "*.inl")
 file_list_test=("${file_list[@]/#/test\/}")
-file_list_full=(${file_list[@]} ${file_list_test[@]})
+file_list_full=("${file_list[@]}" "${file_list_test[@]}")
 
 echo "当前通配符列表: ${file_list_full[@]}"
 
