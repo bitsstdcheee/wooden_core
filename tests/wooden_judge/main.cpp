@@ -94,61 +94,16 @@ void check(const TESTN &test, bool check) {
     std::cout << "Test success: " << test.comment << std::endl;
 }
 
-TEST(judge, Test1) {
-    check(test1, true);
+class JudgeTest: public ::testing::TestWithParam<TESTN> {
+};
+
+TEST_P(JudgeTest, main) {
+    check(GetParam(), true);
 }
 
-TEST(judge, Test2) {
-    check(test2, true);
-}
-
-TEST(judge, Test3) {
-    check(test3, true);
-}
-
-TEST(judge, Test4) {
-    check(test4, true);
-}
-
-TEST(judge, Test5) {
-    check(test5, true);
-}
-
-TEST(judge, Test6) {
-    check(test6, true);
-}
-
-TEST(judge, Test7) {
-    check(test7, true);
-}
-
-TEST(judge, Test8) {
-    check(test8, true);
-}
-
-TEST(judge, Test9) {
-    check(test9, true);
-}
-
-TEST(judge, Test10) {
-    check(test10, true);
-}
-
-TEST(judge, Test11) {
-    check(test11, true);
-}
-
-TEST(judge, Test12) {
-    check(test12, true);
-}
-
-TEST(judge, Test13) {
-    check(test13, true);
-}
-
-TEST(judge, Test14) {
-    check(test14, true);
-}
+INSTANTIATE_TEST_SUITE_P(Tests,JudgeTest,
+    ::testing::ValuesIn(tests)
+);
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
