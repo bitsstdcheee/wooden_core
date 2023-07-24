@@ -30,6 +30,29 @@ TEST(have_att_test, Negative) {
     EXPECT_EQ(have_att(make_weapon(tskl::defense)), false);
 }
 
+TEST(have_axe, Positive) {
+    EXPECT_EQ(have_axe(make_weapon(tskl::wooden_axe)), true);
+    EXPECT_EQ(have_axe(make_weapon(tskl::normal_axe)), true);
+    EXPECT_EQ(have_axe(make_weapon(tskl::diamond_axe)), true);
+    EXPECT_EQ(have_axe(make_weapon(tskl::enchanted_axe)), true);
+}
+
+TEST(have_axe, Negative) {
+    EXPECT_EQ(have_axe(make_weapon(tskl::clap)), false);
+    EXPECT_EQ(have_axe(make_weapon(tskl::defense)), false);
+    EXPECT_EQ(have_axe(make_weapon(tskl::hither)), false);
+}
+
+TEST(have_clap_axe, Positive) {
+    EXPECT_EQ(have_clap_axe(make_weapon(tskl::clap)), true);
+    EXPECT_EQ(have_clap_axe(make_weapon(tskl::wooden_axe)), true);
+}
+
+TEST(have_clap_axe, Negative) {
+    EXPECT_EQ(have_clap_axe(make_weapon(tskl::defense)), false);
+    EXPECT_EQ(have_clap_axe(make_weapon(tskl::hither)), false);
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
