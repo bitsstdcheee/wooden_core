@@ -16,9 +16,11 @@ const std::map<t1, t2> gen_map(const int player_num, const std::vector<t1> vec1,
     return mp;
 }
 
-// template const std::map<int, std::map<int, int> > gen_map(const int, const std::vector<int>, const std::vector<std::map<int, int> >);
+// template const std::map<int, std::map<int, int> > gen_map(const int, const
+// std::vector<int>, const std::vector<std::map<int, int> >);
 
-// template const std::map<int, bool > gen_map(const int, const std::vector<int>, const std::vector<bool>);
+// template const std::map<int, bool > gen_map(const int, const
+// std::vector<int>, const std::vector<bool>);
 
 template <typename T1, typename T2>
 const std::map<T1, T2> gen_mapx(const int player_num,
@@ -35,11 +37,12 @@ const std::map<T1, T2> gen_mapx(const int player_num,
 }
 
 // 显式实例化
-template const std::map<int, int> gen_mapx(const int, const std::vector<int>, std::vector<int>);
+template const std::map<int, int> gen_mapx(const int, const std::vector<int>,
+                                           std::vector<int>);
 
 template <typename T>
 const std::vector<T> gen_repeated_vec(const T obj, const int times) {
-    auto* vec = new std::vector<T>(times);
+    auto *vec = new std::vector<T>(times);
     // vector clear() 会导致 size 变为 0
     // vec->clear();
     for (int i = 0; i < times; i++) {
