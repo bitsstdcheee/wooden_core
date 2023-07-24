@@ -108,19 +108,22 @@ std::vector<std::pair<int, Skill> > clean_choices(
 
 // skl_max_defense: 记录 skill 对应防御的最大值 (x100)
 // 此处不算攻击带来的防御
-extern const std::array<int, NUM_SKL_M> skl_max_defense;
+extern const std::array<int, NUM_SKL_M + 1> skl_max_defense;
 
 // skl_min_defense: 记录 skill 对应防御的最小值 (x100)
-extern const std::array<int, NUM_SKL_M> skl_min_defense;
+extern const std::array<int, NUM_SKL_M + 1> skl_min_defense;
 
 // skl_attack: 记录 skill 对应攻击 (x100)
-extern const std::array<int, NUM_SKL_M> skl_attack;
+extern const std::array<int, NUM_SKL_M + 1> skl_attack;
 
-// skl_qi: 记录 skill 对应使用的气数 (x100)
-extern const std::array<int, NUM_SKL_M> skl_qi;
+// skl_qi: 记录 skill 对应单位使用的气数 (x100)
+extern const std::array<int, NUM_SKL_M + 1> skl_qi;
+
+// sql_qi_base: 记录 skill 基本气数 (x100)
+extern const std::array<int, NUM_SKL_M + 1> skl_qi_base;
 
 // skl_qi_add: 记录换气后应加的气 (x100)
-extern const std::array<int, NUM_SKL_M> skl_qi_add;
+extern const std::array<int, NUM_SKL_M + 1> skl_qi_add;
 
 // get_skl_defense: 获取并返回 skl 对应拥有的防御值
 std::pair<int, int> get_skl_defense(const skill &);

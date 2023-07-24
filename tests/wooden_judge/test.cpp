@@ -170,6 +170,17 @@ const std::list<TESTN> tests = {
                                     {tskl::defense, tskl::yellow_sword}),
           gen_map<int, int>(2, gen_default_player(2), {0, 1}),
           gen_map<int, bool>(2, gen_default_player(2), {false, true}),
-          gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单黄局 2")};
+          gen_mapx<int, int>(2, gen_default_player(2), {0, 0}), "单黄局 2"),
+
+    TESTN(3, gen_default_player(3),
+          gen_mapx<int, int>(3, gen_default_player(3), {2, 0, 0}),
+          gen_all_alive(gen_default_player(3)),
+          gen_map<int, std::map<int, int> >(
+              3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+          gen_map<int, tskl::skill>(3, gen_default_player(3),
+                                    {tskl::alpaca, tskl::clap, tskl::clap}),
+          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
+          gen_map<int, bool>(3, gen_default_player(3), {false, true, true}),
+          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 1")};
 
 #endif

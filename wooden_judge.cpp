@@ -199,35 +199,52 @@ std::vector<std::pair<int, Skill> > clean_choices(
 
 // clang-format off
 
-const std::array<int, NUM_SKL_M> skl_max_defense = {0, 
+const std::array<int, NUM_SKL_M + 1> skl_max_defense = {0, 
     0, 0, int(0.5 * 100), 1 * 100, int(2.5 * 100), 
     0, 0, 0, 0, 0, 
     0, 0, 3 * 100, 5 * 100, 6 * 100, 
-    5 * 100, -1, 0  // -1 为无限
+    5 * 100, -1, 0, 0, 0,  // -1 为无限
+    0, 0, 0, 0, 0, 
+    0, 0, 0, 1 * 100
 };
 
-const std::array<int, NUM_SKL_M> skl_min_defense = {0,
+const std::array<int, NUM_SKL_M + 1> skl_min_defense = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 0, 1 * 100, 1 * 100,
-    0, 0, 0
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0
 };
 
-const std::array<int, NUM_SKL_M> skl_attack = {0,
+const std::array<int, NUM_SKL_M + 1> skl_attack = {0,
     0, 0, 0, 0, 0,
     1 * 100, int(2.5 * 100), 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
-    0, 0, 1 * 100
+    0, 0, 1 * 100, int(0.5 * 100), int(1.5 * 100),
+    int(2.5 * 100), int(0.5 * 100), 1 * 100, 0, 0,
+    0, 0, 0, 0
 };
 
-const std::array<int, NUM_SKL_M> skl_qi = {0,
+const std::array<int, NUM_SKL_M + 1> skl_qi = {0,
     0, 1 * 100, 2 * 100, 3 * 100, 6 * 100,
     1 * 100, 1 * 100, 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
-    0, 0, 1 * 100
+    0, 0, 1 * 100, int(0.5 * 100), int(1.5 * 100), 
+    1 * 100, int(2 * 100), 1 * 100, 2 * 100, 0,
+    0, 0, 0, 1 * 100
+}; 
+
+const std::array<int, NUM_SKL_M + 1> skl_qi_base = {0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 1 * 100, 0, 0,
+    0, 0, 0, 0
 };
 
-const std::array<int, NUM_SKL_M> skl_qi_add = {0,
+const std::array<int, NUM_SKL_M + 1> skl_qi_add = {0,
     1 * 100, 3 * 100, 4 * 100, 6 * 100, 12 * 100};
 
 // clang-format on
@@ -486,6 +503,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
     choices = clean_choices(choices);
 
+    std::map<int, std::map<tskl::skill, bool> > player_have_skill;
     // Step 2: 处理爆气
     for (auto player : choices) {
         auto &pid = player.first;
@@ -495,6 +513,11 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         for (auto skl : psp.skills) {
             // 遍历该玩家所出的每个招式
             consume_qi += skl_qi[skl];
+            if (player_have_skill[pid][skl] == false) {
+                // 玩家之前未出过该技能, 本次耗气添加 skl_qi_base
+                consume_qi += skl_qi_base[skl];
+                player_have_skill[pid][skl] = true;
+            }
         }
         dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " +
                    formatxstr(consume_qi) + " 当前有气数为 " +
@@ -568,6 +591,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     }
 
     // Step 4.5: 展开 Hither, Alpaca
+
+    std::vector<std::pair<int, SkillPack> > flatten_choices;
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -588,10 +613,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             for (auto player : choices) {
                 if (player.first == pid) continue;
                 flatten_pack.skills.push_back(
-                    Skill(tskl::hither, player.first));
+                    Skill(skl, player.first));
+                dprint("[Step 4.5] 展开技能: " + std::to_string(pid) + " -> " + std::to_string(player.first));
             }
         }
+        // 将 flattern_pack 覆盖原来的 SkillPack
+        flatten_choices.push_back(std::make_pair(pid, flatten_pack));
     }
+    choices = flatten_choices;
 
     choices = clean_choices(choices);
 
@@ -769,10 +798,10 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             if (skl == tskl::clap || skl == tskl::wooden_axe ||
                 skl == tskl::normal_axe || skl == tskl::diamond_axe ||
                 skl == tskl::enchanted_axe) {
-                dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类, ",
+                dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类或拍气类, ",
                        false);
-                if (player_get_damage_sum[pid] &&
-                    player_get_damage_sum[pid] == def_upper_bound[pid]) {
+                if (skl != tskl::clap && (player_get_damage_sum[pid] &&
+                    player_get_damage_sum[pid] == def_upper_bound[pid])) {
                     // 镐子破了
                     dprint("受到攻击等于盾值, 镐子破");
                 } else {

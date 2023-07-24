@@ -4,6 +4,6 @@
 
 #include <list>
 using tutil::TESTN;
-const int TEST_NUM = 14;
+const int TEST_NUM = 15;
 extern const std::list<TESTN> tests;
 #endif  // TEST_H
