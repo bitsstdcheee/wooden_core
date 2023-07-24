@@ -612,9 +612,9 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             // 枚举其他玩家
             for (auto player : choices) {
                 if (player.first == pid) continue;
-                flatten_pack.skills.push_back(
-                    Skill(skl, player.first));
-                dprint("[Step 4.5] 展开技能: " + std::to_string(pid) + " -> " + std::to_string(player.first));
+                flatten_pack.skills.push_back(Skill(skl, player.first));
+                dprint("[Step 4.5] 展开技能: " + std::to_string(pid) + " -> " +
+                       std::to_string(player.first));
             }
         }
         // 将 flattern_pack 覆盖原来的 SkillPack
@@ -798,10 +798,12 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             if (skl == tskl::clap || skl == tskl::wooden_axe ||
                 skl == tskl::normal_axe || skl == tskl::diamond_axe ||
                 skl == tskl::enchanted_axe) {
-                dprint("[Step 12] 玩家 " + std::to_string(pid) + " 出镐类或拍气类, ",
+                dprint("[Step 12] 玩家 " + std::to_string(pid) +
+                           " 出镐类或拍气类, ",
                        false);
-                if (skl != tskl::clap && (player_get_damage_sum[pid] &&
-                    player_get_damage_sum[pid] == def_upper_bound[pid])) {
+                if (skl != tskl::clap &&
+                    (player_get_damage_sum[pid] &&
+                     player_get_damage_sum[pid] == def_upper_bound[pid])) {
                     // 镐子破了
                     dprint("受到攻击等于盾值, 镐子破");
                 } else {
