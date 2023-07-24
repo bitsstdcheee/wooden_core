@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.15.0)
 PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
-set(CMAKE_VERBOSE_MAKEFILE ON)
+# set(CMAKE_VERBOSE_MAKEFILE ON)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message("代码覆盖分析已开启")
     set(ENABLE_COVERAGE ON)
