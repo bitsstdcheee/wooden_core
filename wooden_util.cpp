@@ -66,7 +66,7 @@ const std::map<int, std::map<int, int> > gen_skl_count(const int player_num) {
     return gen_map<int, std::map<int, int> >(player_num, gen_players(player_num), gen_repeated_vec(gen_cleared_skl(), player_num));
 }
 
-const std::map<int, tskl::skill> using_skill(
+const std::map<int, tskl::skill> gen_using_skill(
     std::initializer_list<tskl::skill> skill) {
     return gen_map<int, tskl::skill>(skill.size(), gen_players(skill.size()),
                                      skill);

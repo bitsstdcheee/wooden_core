@@ -60,7 +60,7 @@ const std::map<int, std::map<int, int> > gen_skl_count(
 
 const std::map<int, std::map<int, int> > gen_skl_count(const int);
 
-const std::map<int, tskl::skill> using_skill(
+const std::map<int, tskl::skill> gen_using_skill(
     std::initializer_list<tskl::skill>);
 
 const std::map<int, int> gen_target(std::initializer_list<int>);
