@@ -53,6 +53,8 @@ const std::map<int, int> gen_qi(std::initializer_list<int>,
 
 const std::map<int, bool> gen_tag_died(std::initializer_list<bool>);
 
+const std::map<int, bool> gen_tag_died(const int);
+
 const std::map<int, std::map<int, int> > gen_skl_count(
     std::initializer_list<std::map<int, int> >);
 

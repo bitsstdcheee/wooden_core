@@ -52,6 +52,10 @@ const std::map<int, bool> gen_tag_died(std::initializer_list<bool> tag_died) {
                               tag_died);
 }
 
+const std::map<int, bool> gen_tag_died(const int player_num) {
+    return gen_all_alive(gen_players(player_num));
+}
+
 const std::map<int, std::map<int, int> > gen_skl_count(
     std::initializer_list<std::map<int, int> > skl_count) {
     return gen_map<int, std::map<int, int> >(
