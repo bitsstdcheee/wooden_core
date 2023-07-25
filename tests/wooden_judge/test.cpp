@@ -215,10 +215,10 @@ const std::list<TESTN> tests = {
           gen_using_skill({tskl::wooden_axe, tskl::wooden_sword}),
           gen_target({0, 1}), gen_res_tag_died({true, false}),
           gen_res_qi({0, 0}), "木剑-木镐局"),
-    
-    TESTN(2, gen_players(2), gen_qi({1, 0}), gen_tag_died(2),
-    gen_skl_count(2), gen_using_skill({tskl::mid_defense, tskl::clap}), gen_target({0, 0}), gen_tag_died({true, false}), gen_res_qi({0, 1}), "中防-破防局")
-};
+
+    TESTN(2, gen_players(2), gen_qi({1, 0}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::mid_defense, tskl::clap}), gen_target({0, 0}),
+          gen_tag_died({true, false}), gen_res_qi({0, 1}), "中防-破防局")};
 
 const int TEST_NUM = tests.size();
 
