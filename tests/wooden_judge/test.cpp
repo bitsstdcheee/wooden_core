@@ -210,20 +210,13 @@ const std::list<TESTN> tests = {
         gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
         gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.2",
         false),
-    
-    TESTN(
-        2, gen_players(2),
-        gen_qi({1, 1}),
-        gen_tag_died(2),
-        gen_skl_count(2),
-        gen_using_skill({tskl::wooden_axe, tskl::wooden_sword}),
-        gen_target({0, 1}),
-        gen_res_tag_died({true, false}),
-        gen_res_qi({0, 0}),
-        "木剑-木镐局"
-    )
 
-    };
+    TESTN(2, gen_players(2), gen_qi({1, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::wooden_axe, tskl::wooden_sword}),
+          gen_target({0, 1}), gen_res_tag_died({true, false}),
+          gen_res_qi({0, 0}), "木剑-木镐局")
+
+};
 
 const int TEST_NUM = tests.size();
 

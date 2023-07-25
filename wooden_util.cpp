@@ -33,15 +33,13 @@ const std::vector<int> gen_players(const int player_num) {
     return gen_default_player(player_num);
 }
 
-const std::map<int, int> gen_qi(std::initializer_list<int> qi,
-                                bool enable_x) {
+const std::map<int, int> gen_qi(std::initializer_list<int> qi, bool enable_x) {
     return enable_x ? gen_mapx<int, int>(qi.size(), gen_players(qi.size()), qi)
                     : gen_map<int, int>(qi.size(), gen_players(qi.size()), qi);
 }
 
 const std::map<int, int> gen_qi(std::initializer_list<int> players,
-                                std::initializer_list<int> qi,
-                                bool enable_x) {
+                                std::initializer_list<int> qi, bool enable_x) {
     assert(players.size() == qi.size());
     return enable_x ? gen_mapx<int, int>(players.size(), players, qi)
                     : gen_map<int, int>(players.size(), players, qi);
@@ -63,7 +61,9 @@ const std::map<int, std::map<int, int> > gen_skl_count(
 }
 
 const std::map<int, std::map<int, int> > gen_skl_count(const int player_num) {
-    return gen_map<int, std::map<int, int> >(player_num, gen_players(player_num), gen_repeated_vec(gen_cleared_skl(), player_num));
+    return gen_map<int, std::map<int, int> >(
+        player_num, gen_players(player_num),
+        gen_repeated_vec(gen_cleared_skl(), player_num));
 }
 
 const std::map<int, tskl::skill> gen_using_skill(
