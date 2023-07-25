@@ -720,10 +720,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 出局不能承受伤害的玩家.
     for (auto player : choices) {
         auto &pid = player.first;
-        if (player_get_damage[pid].empty()) {
-            // 当前玩家没有受到攻击
-            continue;
-        }
         for (auto damage_pair : player_get_damage[pid]) {
             if (tag_died[pid]) break;
             auto &owner = damage_pair.first;
