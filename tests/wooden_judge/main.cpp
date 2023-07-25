@@ -97,7 +97,7 @@ void check(const TESTN &test, bool check) {
 
 class JudgeTest : public ::testing::TestWithParam<TESTN> {};
 
-TEST_P(JudgeTest, main) { 
+TEST_P(JudgeTest, main) {
     auto current_test = GetParam();
     check(current_test, current_test.need_check);
 }

@@ -195,7 +195,8 @@ const std::list<TESTN> tests = {
                                     {tskl::alpaca, tskl::hither, tskl::judge}),
           gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
           gen_map<int, bool>(3, gen_default_player(3), {true, false, true}),
-          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.1", false),
+          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.1",
+          false),
 
     TESTN(
         3, gen_default_player(3),
@@ -207,7 +208,8 @@ const std::list<TESTN> tests = {
                                   {tskl::alpaca, tskl::hither, tskl::defense}),
         gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
         gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
-        gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.2", false)};
+        gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.2",
+        false)};
 
 const int TEST_NUM = tests.size();
 

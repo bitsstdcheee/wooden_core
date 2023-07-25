@@ -91,7 +91,7 @@ struct TESTN {
 
     std::string comment;  // 备注
 
-    bool need_check;      // 该测试是否建议被校对答案
+    bool need_check;  // 该测试是否建议被校对答案
 
     TESTN();
 
