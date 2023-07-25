@@ -91,6 +91,8 @@ struct TESTN {
 
     std::string comment;  // 备注
 
+    bool need_check;      // 该测试是否建议被校对答案
+
     TESTN();
 
     // TESTN: 玩家人数, 玩家id, 气数, 死亡标记, 招术计数器, 期望死亡标记,
@@ -100,7 +102,7 @@ struct TESTN {
           std::map<int, std::map<int, int> > _skl_count,
           std::map<int, tskl::skill> _using_skill, std::map<int, int> _target,
           std::map<int, bool> _res_tag_died, std::map<int, int> _res_qi,
-          std::string _comment);
+          std::string _comment = "", bool _need_check = true);
 
     void info() const;
 };
