@@ -87,6 +87,7 @@ jobs:
               verbose: true
               name: test - ${{ matrix.os }} - ${{ matrix.profile }}
               fail_ci_if_error: true
+              token: ${{ secrets.CODECOV_TOKEN }}
           - name: 上传 Artifact
             if: always()
             uses: actions/upload-artifact@v3.1.2
