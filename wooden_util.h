@@ -58,6 +58,8 @@ const std::map<int, bool> gen_tag_died(const int);
 const std::map<int, std::map<int, int> > gen_skl_count(
     std::initializer_list<std::map<int, int> >);
 
+const std::map<int, std::map<int, int> > gen_skl_count(const int);
+
 const std::map<int, tskl::skill> using_skill(
     std::initializer_list<tskl::skill>);
 
