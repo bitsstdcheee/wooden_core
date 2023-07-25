@@ -664,11 +664,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家,
     // 为该玩家添加一个盾, 其盾量等于这位玩家对于对手的攻击量,
     // 之后计算并出局不能承受伤害的玩家.
-    int player_get_damage_sum[MAX_PLAYER_NUM + 1];
+
+    // 当前的招式设计中玩家获得盾为以下方式中的其一:
+    // (1) 群盾: eg. defense, mid_defense, 换气类. 这种盾对所有玩家有效, 受到伤害时减去相应盾量, 直到盾量不足以抵消受攻击量时破盾, 玩家出局 / 镐破.
+    // (2) 单盾: eg. 部分攻击类. 这种盾对攻击者只对被攻击者有效 (即使该招式是对群招式 eg. alpaca), 玩家之间单对单结算盾量和受攻击量. 当单盾的盾量不足抵抗时, 可以用群盾抵消其余未抵消的受攻击量. (目前未出现这种情况)
+
+    std::map<int, std::map<int, int> > player_get_damage; player_get_damage.clear();
+    std::map<int, std::map<int, int> > player_do_attack; player_do_attack.clear();
     // 初始化数组
-    for (int i = 0; i <= player_num; i++) {
-        player_get_damage_sum[i] = 0;
-    }
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -680,7 +683,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                            " 出招 id=" + std::to_string(skl) +
                            " 为攻击类, 对玩家 " + std::to_string(target) + ", ",
                        false);
-                int to_other_players_damage_sum = 0;
                 if (target == pid) {
                     dprint("检测到玩家 " + std::to_string(pid) +
                            " 的攻击对象为自己, 跳过");
@@ -694,21 +696,10 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 dprint("");
                 dprint("[Step 7] 玩家 " + std::to_string(pid) + " 对玩家 " +
                        std::to_string(target) + " 造成了 " +
-                       formatxstr(skl_attack[skl]) + " 点伤害");
+                       formatxstr(skl_attack[skl]) + " 点伤害, 建立单盾");
                 // 对该玩家造成了伤害
-                to_other_players_damage_sum += skl_attack[skl];
-                // 该玩家累计伤害
-                player_get_damage_sum[target] += skl_attack[skl];
-                dprint("[Step 7] 现在玩家 " + std::to_string(target) +
-                       " 共受到了 " +
-                       formatxstr(player_get_damage_sum[target]) + " 伤害");
-                // 给玩家添加一个防御值为其攻击量总和的盾
-                def_upper_bound[pid] += to_other_players_damage_sum;
-                dprint(
-                    "[Step 7] 给玩家添加一个防御值为其攻击量总和的盾: 值为 " +
-                    formatxstr(to_other_players_damage_sum) + ", 现在为 [" +
-                    formatxstr(def_lower_bound[pid]) + "," +
-                    formatxstr(def_upper_bound[pid]) + "]");
+                player_do_attack[pid][target] += skl_attack[skl];
+                player_get_damage[target][pid] += skl_attack[skl];
             }
         }
     }
@@ -723,23 +714,43 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // 出局不能承受伤害的玩家.
     for (auto player : choices) {
         auto &pid = player.first;
-        dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到 " +
-                   formatxstr(player_get_damage_sum[pid]) + ", 防御值 [" +
-                   formatxstr(def_lower_bound[pid]) + "," +
-                   formatxstr(def_upper_bound[pid]) + "], ",
-               false);
-        if (player_get_damage_sum[pid] >= def_lower_bound[pid] &&
-            (player_get_damage_sum[pid] <= def_upper_bound[pid] ||
-             def_upper_bound[pid] == -1)) {
-            dprint("可以承受伤害", false);
-            if (def_upper_bound[pid] == -1) {
-                dprint(", 没有防御上限");
+        if (player_get_damage[pid].empty()) {
+            // 当前玩家没有受到攻击
+            continue;
+        }
+        for (auto damage_pair : player_get_damage[pid]) {
+            if (tag_died[pid]) break;
+            auto &owner = damage_pair.first;
+            auto &value = damage_pair.second;
+            auto &attack = player_do_attack[pid][owner];
+            dprint("[Step 9] 玩家 " + std::to_string(pid) + " 受到玩家 " + std::to_string(owner) + 
+            " 的 " + formatxstr(value) + " 点攻击, 当前玩家发出对单攻击量为 " + formatxstr(attack) + ", 对群防御值为 " + (def_upper_bound[pid] == -1 ? "无限" : ("[" + formatxstr(def_lower_bound[pid]) + ", " + formatxstr(def_upper_bound[pid]) + "]") + ", "), false);
+            
+            if (value <= attack) {
+                // 单盾可以抵抗
+                dprint("单盾抵抗");
+                // 后面不会再用到 player_get_damage, player_do_attack, 不再修改
+            } else if (def_upper_bound[pid] == -1) {
+                dprint("无限群盾抵抗");
             } else {
-                dprint("");
+                dprint("需要使用群盾", false);
+                int delta = value - attack;  // 需要再群盾中扣除的部分
+                def_upper_bound[pid] = def_upper_bound[pid] - delta;
+                def_lower_bound[pid] = def_lower_bound[pid] - delta;
+                if (def_upper_bound[pid] < 0) {
+                    dprint("无法抵抗, 出局");
+                    tag_died[pid] = true;
+                    continue;
+                } else {
+                    dprint("可以抵抗, 剩余 [" + formatxstr(def_lower_bound[pid]) + ", " + formatxstr(def_upper_bound[pid]) + "]");
+                }
             }
-        } else {
+        }
+        // 处理受到伤害未达到盾下限的情况
+        if (def_lower_bound[pid] > 0) {
+            dprint("[Step 9] 玩家 " + std::to_string(pid) + " 未达到群盾下限, 剩余 " + formatxstr(def_lower_bound[pid]) + ", 出局");
             tag_died[pid] = true;
-            dprint("不能承受伤害, 出局");
+            continue;
         }
     }
 
@@ -784,9 +795,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                 dprint("[Step 12] 玩家 " + std::to_string(pid) +
                            " 出镐类或拍气类, ",
                        false);
-                if (skl != tskl::clap &&
-                    (player_get_damage_sum[pid] &&
-                     player_get_damage_sum[pid] == def_upper_bound[pid])) {
+                if ((skl == tskl::normal_axe || skl == tskl::diamond_axe || skl == tskl::enchanted_axe) && def_upper_bound[pid] == 0) {
                     // 镐子破了
                     dprint("受到攻击等于盾值, 镐子破");
                 } else {
