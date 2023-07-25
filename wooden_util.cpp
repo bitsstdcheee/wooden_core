@@ -34,14 +34,14 @@ const std::vector<int> gen_players(const int player_num) {
 }
 
 const std::map<int, int> gen_qi(std::initializer_list<int> qi,
-                                bool enable_x = true) {
+                                bool enable_x) {
     return enable_x ? gen_mapx<int, int>(qi.size(), gen_players(qi.size()), qi)
                     : gen_map<int, int>(qi.size(), gen_players(qi.size()), qi);
 }
 
 const std::map<int, int> gen_qi(std::initializer_list<int> players,
                                 std::initializer_list<int> qi,
-                                bool enable_x = true) {
+                                bool enable_x) {
     assert(players.size() == qi.size());
     return enable_x ? gen_mapx<int, int>(players.size(), players, qi)
                     : gen_map<int, int>(players.size(), players, qi);

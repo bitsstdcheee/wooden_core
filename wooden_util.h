@@ -46,10 +46,10 @@ bool equal_map(const std::vector<int> &, const std::map<int, T> &,
 // player_num: 玩家数量
 const std::vector<int> gen_players(const int);
 
-const std::map<int, int> gen_qi(std::initializer_list<int>, bool);
+const std::map<int, int> gen_qi(std::initializer_list<int>, bool = true);
 
 const std::map<int, int> gen_qi(std::initializer_list<int>,
-                                std::initializer_list<int>, bool);
+                                std::initializer_list<int>, bool = true);
 
 const std::map<int, bool> gen_tag_died(std::initializer_list<bool>);
 
