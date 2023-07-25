@@ -680,22 +680,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                            " 出招 id=" + std::to_string(skl) +
                            " 为攻击类, 对玩家 " + std::to_string(target) + ", ",
                        false);
-                // 现在判定该玩家是否出木稿
-                bool tag_wooden = false;
-                for (auto skl2 : psp.skills) {
-                    if (skl2 == tskl::wooden_axe) {
-                        tag_wooden = true;
-                        break;
-                    }
-                }
-                if (tag_wooden) {
-                    // 出木稿了
-                    dprint("出木稿了, 所以不会受到伤害");
-                    continue;
-                } else {
-                    // 没出木稿
-                    dprint("没出木稿, ", false);
-                }
                 int to_other_players_damage_sum = 0;
                 if (target == pid) {
                     dprint("检测到玩家 " + std::to_string(pid) +
