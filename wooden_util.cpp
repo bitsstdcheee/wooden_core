@@ -39,29 +39,37 @@ const std::map<int, int> gen_qi(std::initializer_list<int> qi,
                     : gen_map<int, int>(qi.size(), gen_players(qi.size()), qi);
 }
 
-const std::map<int, int> gen_qi(std::initializer_list<int> players, std::initializer_list<int> qi, bool enable_x = true) {
+const std::map<int, int> gen_qi(std::initializer_list<int> players,
+                                std::initializer_list<int> qi,
+                                bool enable_x = true) {
     assert(players.size() == qi.size());
-    return enable_x ? gen_mapx<int, int>(players.size(), players, qi) :
-    gen_map<int, int>(players.size(), players, qi);
+    return enable_x ? gen_mapx<int, int>(players.size(), players, qi)
+                    : gen_map<int, int>(players.size(), players, qi);
 }
 
 const std::map<int, bool> gen_tag_died(std::initializer_list<bool> tag_died) {
-    return gen_map<int, bool>(tag_died.size(), gen_players(tag_died.size()), tag_died);
+    return gen_map<int, bool>(tag_died.size(), gen_players(tag_died.size()),
+                              tag_died);
 }
 
-const std::map<int, std::map<int, int> > gen_skl_count(std::initializer_list<std::map<int, int> > skl_count) {
-    return gen_map<int, std::map<int, int> >(skl_count.size(), gen_players(skl_count.size()), skl_count);
+const std::map<int, std::map<int, int> > gen_skl_count(
+    std::initializer_list<std::map<int, int> > skl_count) {
+    return gen_map<int, std::map<int, int> >(
+        skl_count.size(), gen_players(skl_count.size()), skl_count);
 }
 
-const std::map<int, tskl::skill> using_skill(std::initializer_list<tskl::skill> skill) {
-    return gen_map<int, tskl::skill>(skill.size(), gen_players(skill.size()), skill);
+const std::map<int, tskl::skill> using_skill(
+    std::initializer_list<tskl::skill> skill) {
+    return gen_map<int, tskl::skill>(skill.size(), gen_players(skill.size()),
+                                     skill);
 }
 
 const std::map<int, int> gen_target(std::initializer_list<int> target) {
     return gen_map<int, int>(target.size(), gen_players(target.size()), target);
 }
 
-const std::map<int, bool> gen_res_tag_died(std::initializer_list<bool> tag_died) {
+const std::map<int, bool> gen_res_tag_died(
+    std::initializer_list<bool> tag_died) {
     return gen_tag_died(tag_died);
 }
 
