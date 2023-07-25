@@ -61,6 +61,7 @@ jobs:
               cd build
               make test
           - name: 输出测试日志
+            if: always()
             run: |
                 cat ./build/Testing/Temporary/LastTest.log
           - name: LCOV 数据收集
