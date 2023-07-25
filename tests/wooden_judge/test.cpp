@@ -2,6 +2,7 @@
 #define TEST_CPP
 
 #include "test.h"
+
 #include "wooden_skill.h"
 #include "wooden_util.h"
 using tutil::TESTN;
@@ -194,21 +195,19 @@ const std::list<TESTN> tests = {
                                     {tskl::alpaca, tskl::hither, tskl::judge}),
           gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
           gen_map<int, bool>(3, gen_default_player(3), {true, false, true}),
-          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
-          "Alpaca 2.1"),
-          
-    TESTN(3, gen_default_player(3),
-          gen_mapx<int, int>(3, gen_default_player(3), {2, 1, 0}),
-          gen_all_alive(gen_default_player(3)),
-          gen_map<int, std::map<int, int> >(
-              3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
-          gen_map<int, tskl::skill>(3, gen_default_player(3),
-                                    {tskl::alpaca, tskl::hither, tskl::defense}),
-          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
-          gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
-          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
-          "Alpaca 2.2")
-};
+          gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.1"),
+
+    TESTN(
+        3, gen_default_player(3),
+        gen_mapx<int, int>(3, gen_default_player(3), {2, 1, 0}),
+        gen_all_alive(gen_default_player(3)),
+        gen_map<int, std::map<int, int> >(
+            3, gen_default_player(3), gen_repeated_vec(gen_cleared_skl(), 3)),
+        gen_map<int, tskl::skill>(3, gen_default_player(3),
+                                  {tskl::alpaca, tskl::hither, tskl::defense}),
+        gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
+        gen_map<int, bool>(3, gen_default_player(3), {true, false, false}),
+        gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}), "Alpaca 2.2")};
 
 const int TEST_NUM = tests.size();
 
