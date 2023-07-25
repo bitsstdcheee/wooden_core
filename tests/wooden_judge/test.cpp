@@ -6,8 +6,6 @@
 #include "wooden_util.h"
 using tutil::TESTN;
 
-const int TEST_NUM = 16;
-
 const std::list<TESTN> tests = {
     TESTN(4, gen_default_player(4),
           gen_mapx<int, int>(4, gen_default_player(4),
@@ -211,5 +209,7 @@ const std::list<TESTN> tests = {
           gen_map<int, int>(3, gen_default_player(3), {0, 0, 0}),
           "Alpaca 2.2")
 };
+
+const int TEST_NUM = tests.size();
 
 #endif
