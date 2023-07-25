@@ -42,6 +42,26 @@ template <typename T>  // 调用模板函数不一定需要写出此处模板函
 bool equal_map(const std::vector<int> &, const std::map<int, T> &,
                const std::map<int, T> &);
 
+// 生成默认的玩家列表
+// player_num: 玩家数量
+const std::vector<int> gen_players(const int);
+
+const std::map<int, int> gen_qi(std::initializer_list<int>, bool);
+
+const std::map<int, int> gen_qi(std::initializer_list<int>, std::initializer_list<int>, bool);
+
+const std::map<int, bool> gen_tag_died(std::initializer_list<bool>);
+
+const std::map<int, std::map<int, int> > gen_skl_count(std::initializer_list<std::map<int, int> >);
+
+const std::map<int, tskl::skill> using_skill(std::initializer_list<tskl::skill>);
+
+const std::map<int, int> gen_target(std::initializer_list<int>);
+
+const std::map<int, bool> gen_res_tag_died(std::initializer_list<bool>);
+
+const std::map<int, int> gen_res_qi(std::initializer_list<int>);
+
 #include "wooden_util.inl"
 
 #endif  // WOODEN_UTIL_H
