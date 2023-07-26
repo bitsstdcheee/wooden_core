@@ -86,7 +86,8 @@ const std::map<int, bool> gen_res_tag_died(
     return gen_tag_died(tag_died);
 }
 
-const std::map<int, int> gen_res_qi(std::initializer_list<int> qi, bool enable_x) {
+const std::map<int, int> gen_res_qi(std::initializer_list<int> qi,
+                                    bool enable_x) {
     return gen_qi(qi, enable_x);
 }
 

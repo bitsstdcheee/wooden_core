@@ -135,10 +135,13 @@ int get_skl_attack(const skill &skl);
 bool check_available(const std::pair<int, Skill> &choice);
 
 // get_player_skill_num: 获取玩家在小局中出某个招式的数量
-int get_player_skill_num(const std::vector<std::pair<int, SkillPack> >&, const int&, const tskl::skill);
+int get_player_skill_num(const std::vector<std::pair<int, SkillPack> > &,
+                         const int &, const tskl::skill);
 
 // strip_player_skill: 去除玩家某个招式
-std::vector<std::pair<int, SkillPack> > strip_player_skill(const std::vector<std::pair<int, SkillPack> >& choices, const int& pid,const tskl::skill skl);
+std::vector<std::pair<int, SkillPack> > strip_player_skill(
+    const std::vector<std::pair<int, SkillPack> > &choices, const int &pid,
+    const tskl::skill skl);
 
 #ifdef using_new_judger
 

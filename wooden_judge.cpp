@@ -272,7 +272,8 @@ bool check_available(const std::pair<int, Skill> &choice) {
     return true;
 }
 
-int get_player_skill_num(const std::vector<std::pair<int, SkillPack> >& choices, const int& pid, const tskl::skill skl) {
+int get_player_skill_num(const std::vector<std::pair<int, SkillPack> > &choices,
+                         const int &pid, const tskl::skill skl) {
     int res = 0;
     for (auto i : choices) {
         if (i.first != pid) continue;
@@ -283,7 +284,9 @@ int get_player_skill_num(const std::vector<std::pair<int, SkillPack> >& choices,
     return res;
 }
 
-std::vector<std::pair<int, SkillPack> > strip_player_skill(const std::vector<std::pair<int, SkillPack> >& choices, const int& pid,const tskl::skill skl) {
+std::vector<std::pair<int, SkillPack> > strip_player_skill(
+    const std::vector<std::pair<int, SkillPack> > &choices, const int &pid,
+    const tskl::skill skl) {
     auto res = std::vector<std::pair<int, SkillPack> >();
     res.clear();
     for (auto i : choices) {
@@ -295,7 +298,8 @@ std::vector<std::pair<int, SkillPack> > strip_player_skill(const std::vector<std
         for (auto skill : i.second.skills) {
             if (skill == skl) {
                 if (skl == tskl::yellow_sword) {
-                    skp.skills.push_back(Skill(tskl::yellow_sword_destoryed, skill.target));
+                    skp.skills.push_back(
+                        Skill(tskl::yellow_sword_destoryed, skill.target));
                 }
                 continue;
             }
@@ -706,8 +710,12 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         for (auto skl : psp.skills) {
             auto &skill = skl.skl;
             auto &target = skl.target;
-            if (skill != tskl::fetch_sword && skill != tskl::fetch_bo && skill != tskl::fetch_fist) continue;
-            dprint("[Step 6] 玩家 " + std::to_string(pid) + " 对 " + std::to_string(target) + " 出夹类, ", false);
+            if (skill != tskl::fetch_sword && skill != tskl::fetch_bo &&
+                skill != tskl::fetch_fist)
+                continue;
+            dprint("[Step 6] 玩家 " + std::to_string(pid) + " 对 " +
+                       std::to_string(target) + " 出夹类, ",
+                   false);
 
             int wooden_sword_cnt = 0;
             int yellow_sword_cnt = 0;
@@ -715,37 +723,49 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             int fist_cnt = 0;
             int delta = 0;
             switch (skill) {
-            case tskl::fetch_sword:
-                wooden_sword_cnt = get_player_skill_num(choices, target, tskl::wooden_sword);
-                yellow_sword_cnt = get_player_skill_num(choices, target, tskl::yellow_sword);
-                dprint("夹剑: 木剑 " + std::to_string(wooden_sword_cnt) + " 个, 黄剑 " + std::to_string(yellow_sword_cnt) + " 个, ", false);
-                delta = int(0.5 * 100) + wooden_sword_cnt * 1 * 100 + yellow_sword_cnt * int(2.5 * 100);
-                qi[pid] += delta;
-                dprint("加气 " + formatxstr(delta));
-                choices = strip_player_skill(choices, target, tskl::wooden_sword);
-                choices = strip_player_skill(choices, target, tskl::yellow_sword);
-                break;
-            case tskl::fetch_fist:
-                fist_cnt = get_player_skill_num(choices, target, tskl::fist);
-                dprint("夹拳: " + std::to_string(fist_cnt) + " 个, ");
-                delta = int(0.5 * 100);  // 此处加分规则存疑
-                qi[pid] += delta;
-                dprint("加气 " + formatxstr(delta));
-                choices = strip_player_skill(choices, target, tskl::fist);
-                break;
-            case tskl::fetch_bo:
-                bo_sword_cnt = get_player_skill_num(choices, target, tskl::bo_sword);
-                dprint("夹波波剑: " + std::to_string(bo_sword_cnt) + " 个, ");
-                delta = int(0.5 * 100) + bo_sword_cnt * 3 * 100;
-                qi[pid] += delta;
-                dprint("加气 " + formatxstr(delta));
-                choices = strip_player_skill(choices, target, tskl::bo_sword);
-                break;
-            default:
-                dprint("");
-                dprint("[Step 6] 警告: 执行到了不可达区域");
-                assert(false);
-                break;
+                case tskl::fetch_sword:
+                    wooden_sword_cnt = get_player_skill_num(choices, target,
+                                                            tskl::wooden_sword);
+                    yellow_sword_cnt = get_player_skill_num(choices, target,
+                                                            tskl::yellow_sword);
+                    dprint("夹剑: 木剑 " + std::to_string(wooden_sword_cnt) +
+                               " 个, 黄剑 " + std::to_string(yellow_sword_cnt) +
+                               " 个, ",
+                           false);
+                    delta = int(0.5 * 100) + wooden_sword_cnt * 1 * 100 +
+                            yellow_sword_cnt * int(2.5 * 100);
+                    qi[pid] += delta;
+                    dprint("加气 " + formatxstr(delta));
+                    choices =
+                        strip_player_skill(choices, target, tskl::wooden_sword);
+                    choices =
+                        strip_player_skill(choices, target, tskl::yellow_sword);
+                    break;
+                case tskl::fetch_fist:
+                    fist_cnt =
+                        get_player_skill_num(choices, target, tskl::fist);
+                    dprint("夹拳: " + std::to_string(fist_cnt) + " 个, ");
+                    delta = int(0.5 * 100);  // 此处加分规则存疑
+                    qi[pid] += delta;
+                    dprint("加气 " + formatxstr(delta));
+                    choices = strip_player_skill(choices, target, tskl::fist);
+                    break;
+                case tskl::fetch_bo:
+                    bo_sword_cnt =
+                        get_player_skill_num(choices, target, tskl::bo_sword);
+                    dprint("夹波波剑: " + std::to_string(bo_sword_cnt) +
+                           " 个, ");
+                    delta = int(0.5 * 100) + bo_sword_cnt * 3 * 100;
+                    qi[pid] += delta;
+                    dprint("加气 " + formatxstr(delta));
+                    choices =
+                        strip_player_skill(choices, target, tskl::bo_sword);
+                    break;
+                default:
+                    dprint("");
+                    dprint("[Step 6] 警告: 执行到了不可达区域");
+                    assert(false);
+                    break;
             }
         }
     }
@@ -871,7 +891,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
         auto &psp = player.second;
         for (auto skl : psp.skills) {
             auto &target = skl.target;
-            if (skl == tskl::yellow_sword || skl == tskl::yellow_sword_destoryed) {
+            if (skl == tskl::yellow_sword ||
+                skl == tskl::yellow_sword_destoryed) {
                 dprint("[Step 11] 玩家 " + std::to_string(pid) +
                            " 出黄剑, 对手 " + std::to_string(target) + " ",
                        false);
