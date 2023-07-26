@@ -14,7 +14,7 @@
 | 金剑      | ```gold_sword```      | 4      | 4       | 是     | ```WF``` | 10  |
 | 钻剑      | ```diamond_sword```   | 5       | 5       | 是     | ```WF``` | 11 |
 | 附魔钻剑    | ```enchanted_sword``` | 6    | 6       | 是     | ```WF``` | 12  |
-| 黄剑      | ```yellow_sword```    | 1       |         | 否     |          | 7  |
+| 黄剑      | ```yellow_sword```    | 1       | 2.5     | 否     |          | 7  |
 | 波波剑     | ```bo_sword```  | 1  | 2.5  | 是  | ```bo_sword_group``` |  21    |
 | 管 (n 个) | ```tube``` | n+1    | n       | 是     | ```tube_group``` |  23    |
 | 羊驼      | ```alpaca``` | 2 | 各 0.5   | 是     | ```alpaca_group``` |  22    |
