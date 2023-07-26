@@ -228,7 +228,13 @@ const std::list<TESTN> tests = {
           gen_res_tag_died({false, true, true, false}),
           gen_res_qi({0, 0, 0, 0}), "黄剑-连锁局"),
 
-    TESTN(4, gen_players(4), gen_qi({0, 1, 0, 1}), gen_tag_died(4), gen_skl_count(4), gen_using_skill({tskl::defense, tskl::yellow_sword, tskl::yellow_sword, tskl::yellow_sword}), gen_target({0, 1, 2, 3}), gen_res_tag_died({false, true, true, false}), gen_qi({0, 0, 0, 0}), "黄剑-连锁局(反转)")
+    TESTN(4, gen_players(4), gen_qi({0, 1, 0, 1}), gen_tag_died(4),
+          gen_skl_count(4),
+          gen_using_skill({tskl::defense, tskl::yellow_sword,
+                           tskl::yellow_sword, tskl::yellow_sword}),
+          gen_target({0, 1, 2, 3}),
+          gen_res_tag_died({false, true, true, false}), gen_qi({0, 0, 0, 0}),
+          "黄剑-连锁局(反转)")
 
 };
 
