@@ -783,7 +783,6 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // Step 11: 黄剑判定, 受黄剑攻击者未出局, 则出黄剑者出局,
     // 注意黄剑的连锁判定情况.
 
-    // TODO: 黄剑的连锁判定
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
