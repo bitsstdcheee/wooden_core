@@ -72,6 +72,10 @@ const std::map<int, tskl::skill> gen_using_skill(
                                      skill);
 }
 
+const std::map<int, std::vector<tskl::skill> > gen_using_skill(std::map<int, std::vector<tskl::skill> > skill) {
+    return skill;
+}
+
 const std::map<int, int> gen_target(std::initializer_list<int> target) {
     return gen_map<int, int>(target.size(), gen_players(target.size()), target);
 }

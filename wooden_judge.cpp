@@ -326,15 +326,21 @@ const int max_skl_count[NUM_SKL_M] = {
 
 std::vector<std::pair<int, SkillPack> > skillPack(
     const std::vector<std::pair<int, Skill> > &choices) {
-    std::vector<std::pair<int, SkillPack> > res;
-    res.clear();
-    for (auto i : choices) {
-        SkillPack tmp;
-        tmp.skills.clear();
-        tmp.skills.push_back(i.second);
-        res.push_back(std::make_pair(i.first, tmp));
+    std::map<int, SkillPack> res;
+    for (auto skl: choices) {
+        auto &pid = skl.first;
+        auto &skill = skl.second;
+        if (res.count(pid) == 0) {
+            // 不存在玩家对应的 SkillPack, 创建 SkillPack
+            res[pid] = SkillPack();
+        }
+        res[pid].skills.push_back(skill);
     }
-    return res;
+    std::vector<std::pair<int, SkillPack> > res1;
+    for (auto player : res) {
+        res1.push_back(std::make_pair(player.first, player.second));
+    }
+    return res1;
 }
 
 std::vector<std::pair<int, SkillPack> > clean_choices(
@@ -369,6 +375,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
+        dprint("[Step 2] 招式计数, 玩家 " + std::to_string(pid));
         for (auto skl : psp.skills) {
             skl_count[pid][skl]++;
         }

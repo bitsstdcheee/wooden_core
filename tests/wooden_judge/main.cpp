@@ -15,7 +15,7 @@ void check(const TESTN &test, bool check) {
     const std::map<int, std::map<int, int> > &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
     const std::map<int, int> &_res_qi = test.res_qi;
-    const std::map<int, tskl::skill> &_using_skill = test.using_skill;
+    const std::map<int, std::vector<tskl::skill> > &_using_skill = test.using_skill;
     const std::map<int, int> &_target = test.target;
     const std::string &_comment = test.comment;
 
@@ -32,16 +32,18 @@ void check(const TESTN &test, bool check) {
 
     // 转换 test::skill -> choices
     dprint("[P0] Before test::skill -> choices");
-    auto *_dirty_choices = new std::vector<std::pair<int, Skill> >(_player_num);
+    auto *_dirty_choices = new std::vector<std::pair<int, Skill> >; _dirty_choices->clear();
     int cnt = 0;
-    for (auto i : _using_skill) {
-        dprint("[P0] In for: i = <" + std::to_string(i.first) + ", " +
-               std::to_string(i.second) + ">, cnt = " + std::to_string(cnt));
-        (*_dirty_choices)[cnt++] = std::make_pair(
-            i.first,
-            Skill(i.second,
-                  _target.at(i.first)));  // VS 调试中发现该语句的 vector
-                                          // 容器触发 ASSERT_TRUE 错误 (已修复)
+    for (auto player : _using_skill) {
+        auto &pid = player.first;
+        for (auto skl : player.second) {
+            dprint("[P0] In for: i = <" + std::to_string(pid) + ", " +
+                   std::to_string(skl) +
+                   ">, cnt = " + std::to_string(++cnt));
+            (*_dirty_choices).push_back(std::make_pair(
+                pid,
+                Skill(skl, _target.at(pid))));
+        }
     }
     dprint("[P0] After test::skill -> choices");
 
