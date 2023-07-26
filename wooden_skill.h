@@ -93,6 +93,8 @@ enum skill {
 
     // 空手
     hands = 29,
+
+    yellow_sword_destoryed = 30,
 };
 
 extern const int MIN_SKILL_NUM;

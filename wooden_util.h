@@ -70,7 +70,7 @@ const std::map<int, int> gen_target(std::initializer_list<int>);
 
 const std::map<int, bool> gen_res_tag_died(std::initializer_list<bool>);
 
-const std::map<int, int> gen_res_qi(std::initializer_list<int>);
+const std::map<int, int> gen_res_qi(std::initializer_list<int>, bool = true);
 
 #include "wooden_util.inl"
 

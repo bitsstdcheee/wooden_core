@@ -268,7 +268,16 @@ const std::list<TESTN> tests = {
                {2, {tskl::yellow_sword}}}),
           gen_target({0, 1}), gen_res_tag_died({false, true}),
           gen_res_qi({24, 0}), "钻镐-黄剑"),
-};
+
+    TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::fetch_sword, tskl::wooden_sword}),
+          gen_target({2, 1}), gen_res_tag_died({false, false}),
+          gen_res_qi({int(1.5 * 100), 0}, false), "夹剑-木剑"),
+
+    TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::fetch_sword, tskl::yellow_sword}),
+          gen_target({2, 1}), gen_tag_died({false, true}), gen_res_qi({3, 0}),
+          "夹剑-黄剑")};
 
 const int TEST_NUM = tests.size();
 

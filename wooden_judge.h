@@ -134,6 +134,12 @@ int get_skl_attack(const skill &skl);
 // check_available: 检查当前玩家的选择是否合法 (爆气, 超出次数限制)
 bool check_available(const std::pair<int, Skill> &choice);
 
+// get_player_skill_num: 获取玩家在小局中出某个招式的数量
+int get_player_skill_num(const std::vector<std::pair<int, SkillPack> >&, const int&, const tskl::skill);
+
+// strip_player_skill: 去除玩家某个招式
+std::vector<std::pair<int, SkillPack> > strip_player_skill(const std::vector<std::pair<int, SkillPack> >& choices, const int& pid,const tskl::skill skl);
+
 #ifdef using_new_judger
 
 // 记录每个技能在大局中的最高可用次数 (-1 为无限,)
