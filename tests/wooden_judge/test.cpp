@@ -251,20 +251,24 @@ const std::list<TESTN> tests = {
           gen_res_qi({0, 0}), "中防-黄剑-破防局2", false),
     // test 中防-黄剑-破防局 的测试数据上不符合 中防不可叠加 的规则
 
-    TESTN(2, gen_players(2), gen_qi({10, 1}), gen_tag_died(2), gen_skl_count(2),
-          gen_using_skill(
-              {{1, {tskl::normal_axe, tskl::normal_axe, tskl::normal_axe, tskl::normal_axe, tskl::normal_axe}},
-               {2, {tskl::yellow_sword}}}),
-          gen_target({0, 1}), gen_res_tag_died({false, true}),
-          gen_res_qi({0, 0}), "钻镐-黄剑-破镐局"),
-    
+    TESTN(
+        2, gen_players(2), gen_qi({10, 1}), gen_tag_died(2), gen_skl_count(2),
+        gen_using_skill({{1,
+                          {tskl::normal_axe, tskl::normal_axe, tskl::normal_axe,
+                           tskl::normal_axe, tskl::normal_axe}},
+                         {2, {tskl::yellow_sword}}}),
+        gen_target({0, 1}), gen_res_tag_died({false, true}), gen_res_qi({0, 0}),
+        "钻镐-黄剑-破镐局"),
+
     TESTN(2, gen_players(2), gen_qi({12, 1}), gen_tag_died(2), gen_skl_count(2),
           gen_using_skill(
-              {{1, {tskl::normal_axe, tskl::normal_axe, tskl::normal_axe, tskl::normal_axe, tskl::normal_axe, tskl::normal_axe}},
+              {{1,
+                {tskl::normal_axe, tskl::normal_axe, tskl::normal_axe,
+                 tskl::normal_axe, tskl::normal_axe, tskl::normal_axe}},
                {2, {tskl::yellow_sword}}}),
           gen_target({0, 1}), gen_res_tag_died({false, true}),
           gen_res_qi({24, 0}), "钻镐-黄剑"),
-    };
+};
 
 const int TEST_NUM = tests.size();
 

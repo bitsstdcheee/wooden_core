@@ -15,7 +15,8 @@ void check(const TESTN &test, bool check) {
     const std::map<int, std::map<int, int> > &_skl_count = test.skl_count;
     const std::map<int, bool> &_res_tag_died = test.res_tag_died;
     const std::map<int, int> &_res_qi = test.res_qi;
-    const std::map<int, std::vector<tskl::skill> > &_using_skill = test.using_skill;
+    const std::map<int, std::vector<tskl::skill> > &_using_skill =
+        test.using_skill;
     const std::map<int, int> &_target = test.target;
     const std::string &_comment = test.comment;
 
@@ -32,17 +33,16 @@ void check(const TESTN &test, bool check) {
 
     // 转换 test::skill -> choices
     dprint("[P0] Before test::skill -> choices");
-    auto *_dirty_choices = new std::vector<std::pair<int, Skill> >; _dirty_choices->clear();
+    auto *_dirty_choices = new std::vector<std::pair<int, Skill> >;
+    _dirty_choices->clear();
     int cnt = 0;
     for (auto player : _using_skill) {
         auto &pid = player.first;
         for (auto skl : player.second) {
             dprint("[P0] In for: i = <" + std::to_string(pid) + ", " +
-                   std::to_string(skl) +
-                   ">, cnt = " + std::to_string(++cnt));
-            (*_dirty_choices).push_back(std::make_pair(
-                pid,
-                Skill(skl, _target.at(pid))));
+                   std::to_string(skl) + ">, cnt = " + std::to_string(++cnt));
+            (*_dirty_choices)
+                .push_back(std::make_pair(pid, Skill(skl, _target.at(pid))));
         }
     }
     dprint("[P0] After test::skill -> choices");

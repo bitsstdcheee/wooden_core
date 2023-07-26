@@ -327,7 +327,7 @@ const int max_skl_count[NUM_SKL_M] = {
 std::vector<std::pair<int, SkillPack> > skillPack(
     const std::vector<std::pair<int, Skill> > &choices) {
     std::map<int, SkillPack> res;
-    for (auto skl: choices) {
+    for (auto skl : choices) {
         auto &pid = skl.first;
         auto &skill = skl.second;
         if (res.count(pid) == 0) {
