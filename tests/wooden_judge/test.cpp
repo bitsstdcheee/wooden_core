@@ -218,7 +218,19 @@ const std::list<TESTN> tests = {
 
     TESTN(2, gen_players(2), gen_qi({1, 0}), gen_tag_died(2), gen_skl_count(2),
           gen_using_skill({tskl::mid_defense, tskl::clap}), gen_target({0, 0}),
-          gen_tag_died({true, false}), gen_res_qi({0, 1}), "中防-破防局")};
+          gen_tag_died({true, false}), gen_res_qi({0, 1}), "中防-破防局"),
+
+    TESTN(4, gen_players(4), gen_qi({1, 0, 1, 0}), gen_tag_died(4),
+          gen_skl_count(4),
+          gen_using_skill({tskl::yellow_sword, tskl::yellow_sword,
+                           tskl::yellow_sword, tskl::defense}),
+          gen_target({2, 3, 4, 0}),
+          gen_res_tag_died({false, true, true, false}),
+          gen_res_qi({0, 0, 0, 0}), "黄剑-连锁局"),
+
+    TESTN(4, gen_players(4), gen_qi({0, 1, 0, 1}), gen_tag_died(4), gen_skl_count(4), gen_using_skill({tskl::defense, tskl::yellow_sword, tskl::yellow_sword, tskl::yellow_sword}), gen_target({0, 1, 2, 3}), gen_res_tag_died({false, true, true, false}), gen_qi({0, 0, 0, 0}), "黄剑-连锁局(反转)")
+
+};
 
 const int TEST_NUM = tests.size();
 
