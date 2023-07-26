@@ -277,7 +277,23 @@ const std::list<TESTN> tests = {
     TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
           gen_using_skill({tskl::fetch_sword, tskl::yellow_sword}),
           gen_target({2, 1}), gen_tag_died({false, true}), gen_res_qi({3, 0}),
-          "夹剑-黄剑")};
+          "夹剑-黄剑"),
+
+    TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill(
+              {{1, {tskl::fetch_fist}}, {2, {tskl::fist, tskl::fist}}}),
+          gen_target({2, 1}), gen_res_tag_died({false, false}),
+          gen_res_qi({int(0.5 * 100), 0}, false), "夹拳-正常"),
+
+    TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::fetch_fist, tskl::wooden_sword}),
+          gen_target({2, 1}), gen_res_tag_died({true, false}),
+          gen_res_qi({0, 0}), "夹拳-木剑"),
+
+    TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::fetch_bo, tskl::bo_sword}), gen_target({2, 1}),
+          gen_res_tag_died({false, false}),
+          gen_res_qi({int(3.5 * 100), 0}, false), "夹波波剑-正常")};
 
 const int TEST_NUM = tests.size();
 
