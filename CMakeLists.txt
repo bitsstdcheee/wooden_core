@@ -66,6 +66,11 @@ else()
     message("GBK is Off!")
 endif()
 
+if (WIN32)
+    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fuse-ld=lld")
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fuse-ld=lld")
+endif()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
