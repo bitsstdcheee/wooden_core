@@ -704,12 +704,16 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
     // Step 6: 夹剑、夹拳、夹波波剑, 若夹成功, 因去除被夹的武器(或记为报废),
     // 并加气.
+    auto destoryed_choices = choices;
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
         for (auto skl : psp.skills) {
             auto &skill = skl.skl;
             auto &target = skl.target;
+            if (target == pid) {
+                dprint("[Step 6] 警告: 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skill) + + ", 目标为自身");
+            }
             if (skill != tskl::fetch_sword && skill != tskl::fetch_bo &&
                 skill != tskl::fetch_fist)
                 continue;
@@ -736,10 +740,10 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                             yellow_sword_cnt * int(2.5 * 100);
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    choices =
-                        strip_player_skill(choices, target, tskl::wooden_sword);
-                    choices =
-                        strip_player_skill(choices, target, tskl::yellow_sword);
+                    destoryed_choices =
+                        strip_player_skill(destoryed_choices, target, tskl::wooden_sword);
+                    destoryed_choices =
+                        strip_player_skill(destoryed_choices, target, tskl::yellow_sword);
                     break;
                 case tskl::fetch_fist:
                     fist_cnt =
@@ -748,7 +752,7 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     delta = int(0.5 * 100);  // 此处加分规则存疑
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    choices = strip_player_skill(choices, target, tskl::fist);
+                    destoryed_choices = strip_player_skill(destoryed_choices, target, tskl::fist);
                     break;
                 case tskl::fetch_bo:
                     bo_sword_cnt =
@@ -758,8 +762,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     delta = int(0.5 * 100) + bo_sword_cnt * 3 * 100;
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    choices =
-                        strip_player_skill(choices, target, tskl::bo_sword);
+                    destoryed_choices =
+                        strip_player_skill(destoryed_choices, target, tskl::bo_sword);
                     break;
                 default:
                     dprint("");
@@ -769,6 +773,9 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             }
         }
     }
+    choices = destoryed_choices;
+
+    choices = clean_choices(choices);
 
     // Step 7: 计算每位玩家收到的伤害 (估计时间复杂度 O(n^2)),
     // 对于每个点对点的玩家判定伤害的过程, 对于出招为攻击类的玩家,
