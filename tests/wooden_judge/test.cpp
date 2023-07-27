@@ -6,8 +6,10 @@
 #include "wooden_skill.h"
 #include "wooden_util.h"
 using tutil::TESTN;
+using tutil::TESTF;
+using tutil::TESTK;
 
-const std::list<TESTN> tests = {
+const std::list<TESTN> testn = {
     TESTN(4, gen_default_player(4),
           gen_mapx<int, int>(4, gen_default_player(4),
                              gen_repeated_vec<int>(0, 4)),
@@ -274,6 +276,11 @@ const std::list<TESTN> tests = {
           gen_target({2, 1}), gen_res_tag_died({false, false}),
           gen_res_qi({int(1.5 * 100), 0}, false), "夹剑-木剑"),
 
+    TESTN(2, gen_players(2), gen_qi({1, 0}), gen_tag_died(2), gen_skl_count(2),
+          gen_using_skill({tskl::wooden_sword, tskl::fetch_sword}),
+          gen_target({2, 1}), gen_res_tag_died({false, false}),
+          gen_res_qi({0, int(1.5 * 100)}, false), "夹剑-木剑(反转顺序)"),
+
     TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
           gen_using_skill({tskl::fetch_sword, tskl::yellow_sword}),
           gen_target({2, 1}), gen_tag_died({false, true}), gen_res_qi({3, 0}),
@@ -295,6 +302,15 @@ const std::list<TESTN> tests = {
           gen_res_tag_died({false, false}),
           gen_res_qi({int(3.5 * 100), 0}, false), "夹波波剑-正常")};
 
-const int TEST_NUM = tests.size();
+const int TESTN_NUM = testn.size();
+
+const std::list<TESTF> testf = {
+    TESTF(2, gen_players(2), gen_qi({0, 0}), gen_tag_died(2), gen_skl_count(2), {
+        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}}, gen_target({2, 1}), {{1, 1}, {1, 1}}),
+        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::wooden_sword}}}}, gen_target({2, 1}), {{1, 1}, {1, 1}}),
+    }, gen_res_tag_died({true, false}), gen_res_qi({0, 0}), "大局-测试1")
+};
+
+const int TESTF_NUM = testf.size();
 
 #endif

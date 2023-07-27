@@ -77,7 +77,7 @@ std::initializer_list<T1> list1, std::initializer_list<float> list2) {
 */
 
 namespace tutil {
-// TESTN: 打包测试样例的结构
+// TESTN: 打包测试样例的结构 (小局)
 struct TESTN {
     int player_num;                // 测试中的玩家个数
     std::vector<int> players;      // 测试初始的玩家 id
@@ -161,5 +161,51 @@ void do_test1_assert() {
 extern const tutil::TESTN test13;
 
 void passon(const tutil::TESTN &, bool);
+
+namespace tutil {
+// TESTK: TESTF 中的小局单位 (支持延迟出招)
+struct TESTK {
+    // 测试小局中玩家的出招.
+    // 第一个 vector 存储不同批次的出招 (eg. gulu 在第一次出招后在第二批次延迟出招).
+    // 第二个 vector 存储玩家在一个批次中的多个叠加招式, 参考 TESTN.using_skill
+    std::map<int, std::vector<std::vector<tskl::skill> > > skills;
+
+    // 测试小局中玩家出招的对手
+    std::map<int, int> target;
+
+    // 预期的玩家所使用的批次 (eg. clap 为 1, gulu 若在第二批次出非延迟招式则 cnt 为 2)
+    std::map<int, int> res_revoke_cnt; 
+    
+    TESTK();
+
+    TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
+          std::map<int, int> _target, std::map<int, int> res_revoke_cnt);
+};
+// TESTF: 打包测试样例的结构 (大局)
+struct TESTF {
+    int player_num;                // 测试中的玩家个数
+    std::vector<int> players;      // 测试初始的玩家 id
+    std::map<int, int> qi;         // 测试初始的气数列表 (默认为 0)
+    std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息 (默认全员存活)
+    std::map<int, std::map<int, int> > skl_count;
+    std::vector<TESTK> using_skill;             // 测试小局中玩家的出招
+    std::map<int, bool> res_tag_died;  // 测试期望的最终玩家死亡信息
+    std::map<int, int> res_qi;         // 测试期望的最终气数列表
+
+    std::string comment; 
+    
+    bool need_check;
+
+    TESTF();
+
+    TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
+          std::map<int, bool> _tag_died,
+          std::map<int, std::map<int, int> > _skl_count,
+          std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
+          std::map<int, int> _res_qi,
+          std::string comment = "",
+          bool _need_check = true);
+};
+}  // namespace tutil
 
 #endif  // WOODEN_TEST_H
