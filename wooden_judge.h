@@ -25,7 +25,7 @@ using namespace tskl;
 // NUM_SKL 的宏定义版本, 应该和 NUM_SKL 的值相等
 // 用于模板定义, 因为在定义和实现的分离的情况下的常量无法用作模板常量
 // (要求编译器时就应解析为常数, 而不是链接)
-#define NUM_SKL_M 29
+#define NUM_SKL_M 30
 
 extern int player_num;
 extern const int MAX_PLAYER_NUM;
@@ -162,7 +162,8 @@ extern std::map<int, skill> player_last_skill;
 
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择
-void do_main(const std::vector<std::pair<int, SkillPack> > &);
+// 返回值: 若玩家 id 对应值为 true, 则说明该玩家需要延迟出招
+std::map<int, bool> do_main(const std::vector<std::pair<int, SkillPack> > &);
 
 #else  // using_new_judger
 // do_main：主小局判定程序

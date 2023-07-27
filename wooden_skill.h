@@ -94,6 +94,7 @@ enum skill {
     // 空手
     hands = 29,
 
+    // 黄剑 (毁坏)
     yellow_sword_destoryed = 30,
 };
 
@@ -112,5 +113,8 @@ bool query_skill_is_attack(skill);
 // 查询该招式是否为防御招式: defense, mid_defense, large_defense, hands, ashiba,
 // zd.
 bool query_skill_is_defense(skill);
+
+// 获取该招式的名称
+std::string get_skill_name(const skill&);
 }  // namespace tskl
 #endif  // WOODEN_SKILL_H

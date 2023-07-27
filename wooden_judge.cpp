@@ -94,7 +94,7 @@ string formatxstr(int x) {
 // TODO: [MOD] Fire
 // TODO: [Future] 代码生成混淆
 
-const int NUM_SKL = 29;
+const int NUM_SKL = tskl::MAX_SKILL_NUM;
 
 Skill::operator tskl::skill() {
     // 无招术, 自动转换
@@ -396,7 +396,7 @@ std::vector<std::pair<int, SkillPack> > clean_choices(
 
 std::map<int, skill> player_last_skill;
 
-void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
+std::map<int, bool> do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
     // Step 1: 清洗数据
     std::vector<std::pair<int, SkillPack> > choices =
         clean_choices(dirty_choices);
@@ -583,18 +583,29 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
 
     // Step 3: 若存在管类(tskl::tube)或者咕噜咕噜 (tskl::gulu) -> 函数结束,
     // 并等待下一次调用. (Step 3 后已经没有还未出招的延迟类技能)
+
+    std::map<int, bool> tres;
+    tres.clear();
+    // 是否存在有延迟出招的玩家
+    bool have_delayed = false;
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
+        tres[pid] = false;
         for (auto skl : psp.skills) {
             if (skl == tskl::tube || skl == tskl::gulu) {
                 // 存在管类或者咕噜咕噜
                 dprint("[Step 3] 玩家 " + std::to_string(pid) +
                        " 出招 id=" + std::to_string(skl) +
-                       " 为管类或者咕噜咕噜, 函数结束, 等待下一次调用");
-                return;
+                       " 为管类或者咕噜咕噜用");
+                tres[pid] = true;
+                have_delayed = true;
             }
         }
+    }
+    if (have_delayed) {
+        dprint("[Step 3] 存在需要延迟出招的玩家, 函数结束, 等待下一次调用");
+        return tres;
     }
 
     choices = clean_choices(choices);
@@ -953,6 +964,14 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                    " 已死亡, 气数清零");
         }
     }
+    
+    // Step 14: 构造返回值
+    std::map<int, bool> res;
+    res.clear();
+    for (auto player : *players) {
+        res[player] = false;
+    }
+    return res;
 }
 #else
 
