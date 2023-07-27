@@ -101,16 +101,22 @@ void check(const TESTN &test, bool check) {
 
 void print_single_skill(const Skill &skl, bool need_endl = false) {
     Skill tmp = skl;
-    dprint("[" + tskl::get_skill_name(tmp) + " > " + std::to_string(skl.target) + "]", need_endl);
+    dprint("[" + tskl::get_skill_name(tmp) + " > " +
+               std::to_string(skl.target) + "]",
+           need_endl);
 }
 
 // 便捷打印输入 do_main 参数.
 // comment: 备注名称.
 // line_prefix: 在每行开始时输出的内容, 默认值为 "[P] ".
 // len_offset: 计算回收 Sharp 井号所需数量时需要加上 (负数为减去) 的长度数量,
-// std::string.length() 在计算时会将全角字符处理为 1, 输出时则需要 2 个井号, 故需要在此参数加上. len_offset 理论上为输入字符串中全角字符的数量
-void print_batch(const std::vector<std::pair<int, SkillPack> > &batch, std::string comment = "", std::string line_prefix = "[P] ", int len_offset = 0) {
-    dprint(line_prefix + "###### " + (comment == "" ? "轮次" : comment) + " ######");
+// std::string.length() 在计算时会将全角字符处理为 1, 输出时则需要 2 个井号,
+// 故需要在此参数加上. len_offset 理论上为输入字符串中全角字符的数量
+void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
+                 std::string comment = "", std::string line_prefix = "[P] ",
+                 int len_offset = 0) {
+    dprint(line_prefix + "###### " + (comment == "" ? "轮次" : comment) +
+           " ######");
     for (auto choice : batch) {
         auto &pid = choice.first;
         auto &psp = choice.second.skills;
@@ -131,7 +137,8 @@ void print_batch(const std::vector<std::pair<int, SkillPack> > &batch, std::stri
     gen_sharp_cnt += (comment == "" ? "轮次" : comment).length();
     if (gen_sharp_cnt + len_offset <= 0) {
         // 加上 len_offset 后长度小于等于 0
-        dprint(line_prefix + "警告: len_offset(" + std::to_string(len_offset) + ") 可能设置有误, 原长度为 " + std::to_string(gen_sharp_cnt));
+        dprint(line_prefix + "警告: len_offset(" + std::to_string(len_offset) +
+               ") 可能设置有误, 原长度为 " + std::to_string(gen_sharp_cnt));
     }
     gen_sharp_cnt += len_offset;
     for (int i = 1; i <= gen_sharp_cnt; i++) gen_sharp += "#";
@@ -174,7 +181,8 @@ void check(const TESTF &test, bool check) {
             batch_size = std::max(batch_size, (int)skl.second.size());
         }
         dprint("所需批次: " + std::to_string(batch_size));
-        std::map<int, bool> result; result.clear();
+        std::map<int, bool> result;
+        result.clear();
         for (int batch_index = 0; batch_index < batch_size; batch_index++) {
             dprint("[P] 第 " + std::to_string(batch_index + 1) + " 批次");
             auto *_dirty_choices = new std::vector<std::pair<int, SkillPack> >;
@@ -186,20 +194,28 @@ void check(const TESTF &test, bool check) {
                     // 当前玩家没有当前批次的出招
                     if (!result[pid]) {
                         // 上一轮提示需要该玩家再次出招
-                        dprint("[P] 玩家 " + std::to_string(pid) + " 在本批次中不需要更新出招, 将使用上一次");
+                        dprint("[P] 玩家 " + std::to_string(pid) +
+                               " 在本批次中不需要更新出招, 将使用上一次");
                     } else {
-                        dprint("[P] 警告: 玩家 " + std::to_string(pid) + "在本批次中需要更新出招, 但未提供, 将使用先前出招");
+                        dprint(
+                            "[P] 警告: 玩家 " + std::to_string(pid) +
+                            "在本批次中需要更新出招, 但未提供, 将使用先前出招");
                     }
                     batch_index_real = (int)player.second.size() - 1;
                 } else {
                     // 当前玩家有当前批次的出招
                     if (!result[pid]) {
-                        dprint("[P] 警告: 玩家 " + std::to_string(pid) + "在本批次中不需要更新出招, 但提供了, 将本批次出招覆盖");
+                        dprint("[P] 警告: 玩家 " + std::to_string(pid) +
+                               "在本批次中不需要更新出招, 但提供了, "
+                               "将本批次出招覆盖");
                     } else {
                         batch_index_real = batch_index;
                     }
                 }
-                dprint("[P] 玩家 " + std::to_string(pid) + " 在批次 (" + std::to_string(batch_index + 1) + ") 中使用的实际批次编号为 " + std::to_string(batch_index_real + 1));
+                dprint("[P] 玩家 " + std::to_string(pid) + " 在批次 (" +
+                       std::to_string(batch_index + 1) +
+                       ") 中使用的实际批次编号为 " +
+                       std::to_string(batch_index_real + 1));
                 SkillPack spk;
                 auto &skills = player.second[batch_index_real];
                 auto &target = round.target[pid];
@@ -208,7 +224,10 @@ void check(const TESTF &test, bool check) {
                 }
                 _dirty_choices->push_back(std::make_pair(pid, spk));
             }
-            print_batch(*_dirty_choices, "局次 " + std::to_string(round_count) + " / 批次 " + std::to_string(batch_index + 1), "[P] ");
+            print_batch(*_dirty_choices,
+                        "局次 " + std::to_string(round_count) + " / 批次 " +
+                            std::to_string(batch_index + 1),
+                        "[P] ");
             result = do_main(*_dirty_choices);
             dprint("[P] 主函数返回延迟玩家列表: ", false);
             bool has_delay = false;
@@ -219,8 +238,10 @@ void check(const TESTF &test, bool check) {
                     has_delay = true;
                 }
             }
-            if (!has_delay) dprint("无");
-            else dprint("", true);
+            if (!has_delay)
+                dprint("无");
+            else
+                dprint("", true);
         }
     }
 
