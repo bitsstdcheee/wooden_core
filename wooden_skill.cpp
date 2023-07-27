@@ -1,8 +1,8 @@
 #ifndef WOODEN_SKILL_CPP
 #define WOODEN_SKILL_CPP
-#include <array>
-
 #include "wooden_skill.h"
+
+#include <array>
 
 const int tskl::MIN_SKILL_NUM = 0;
 const int tskl::MAX_SKILL_NUM = 30;
