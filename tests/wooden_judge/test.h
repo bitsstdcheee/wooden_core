@@ -3,8 +3,8 @@
 #include <wooden_test.h>
 
 #include <list>
-using tutil::TESTN;
 using tutil::TESTF;
+using tutil::TESTN;
 extern const int TESTN_NUM;
 extern const std::list<TESTN> testn;
 

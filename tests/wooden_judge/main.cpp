@@ -2,9 +2,9 @@
 
 #include "test.h"
 
-using tutil::TESTN;
-using tutil::TESTK;
 using tutil::TESTF;
+using tutil::TESTK;
+using tutil::TESTN;
 
 void check(const TESTN &test, bool check) {
     dprint("[P*] Entering passon()");
@@ -102,7 +102,7 @@ void check(const TESTN &test, bool check) {
 void check(const TESTF &test, bool check) {
     const int &_player_num = test.player_num;
     ASSERT_TRUE(_player_num >= 2);
-    
+
     const std::vector<int> _players = test.players;
     const std::map<int, int> _qi = test.qi;
     const std::map<int, bool> _tag_died = test.tag_died;
@@ -121,13 +121,13 @@ void check(const TESTF &test, bool check) {
     }
     ASSERT_EQ(_res_tag_died.size(), (long long unsigned int)_player_num);
     ASSERT_EQ(_res_qi.size(), (long long unsigned int)_player_num);
-    
+
     qi = _qi;
     tag_died = _tag_died;
     skl_count = _skl_count;
     int round_count = 0;
     for (auto round : _using_skill) {
-        round_count ++;
+        round_count++;
         dprint("[P] 第 " + std::to_string(round_count) + " 局, ", false);
         // 记录本局中的最大所需批次
         int batch_size = 0;
@@ -135,7 +135,7 @@ void check(const TESTF &test, bool check) {
             batch_size = std::max(batch_size, (int)skl.second.size());
         }
         dprint("所需批次: " + std::to_string(batch_size));
-        for (int batch_index = 0; batch_index < batch_size; batch_index ++) {
+        for (int batch_index = 0; batch_index < batch_size; batch_index++) {
             dprint("[P] 第 " + std::to_string(batch_index + 1) + " 批次");
             auto *_dirty_choices = new std::vector<std::pair<int, SkillPack> >;
             // 填充当前批次的出招
@@ -143,7 +143,8 @@ void check(const TESTF &test, bool check) {
                 auto &pid = player.first;
                 if ((int)player.second.size() <= batch_index) {
                     // 当前玩家没有当前批次的出招
-                    dprint("[P] 玩家 " + std::to_string(pid) + " 不存在 " + std::to_string(batch_index + 1) + " 次的出招");
+                    dprint("[P] 玩家 " + std::to_string(pid) + " 不存在 " +
+                           std::to_string(batch_index + 1) + " 次的出招");
                     continue;
                 }
                 auto &skills = player.second[batch_index];
@@ -157,13 +158,13 @@ void check(const TESTF &test, bool check) {
             do_main(*_dirty_choices);
         }
     }
-    
+
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
     pretty_print_result_died((*players), _res_tag_died, _comment);
     pretty_print_result_qi((*players), _res_qi, _comment);
-    
+
     if (check == true) {
         ASSERT_TRUE(equal_map(*players, _res_tag_died, tag_died));
         ASSERT_TRUE(equal_map(*players, _res_qi, qi));
@@ -178,7 +179,6 @@ TEST_P(JudgeTestN, small) {
 }
 
 INSTANTIATE_TEST_SUITE_P(Testn, JudgeTestN, ::testing::ValuesIn(testn));
-
 
 class JudgeTestF : public ::testing::TestWithParam<TESTF> {};
 

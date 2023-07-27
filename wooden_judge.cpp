@@ -712,7 +712,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
             auto &skill = skl.skl;
             auto &target = skl.target;
             if (target == pid) {
-                dprint("[Step 6] 警告: 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skill) + + ", 目标为自身");
+                dprint("[Step 6] 警告: 玩家 " + std::to_string(pid) +
+                       " 出招 id=" + std::to_string(skill) + +", 目标为自身");
             }
             if (skill != tskl::fetch_sword && skill != tskl::fetch_bo &&
                 skill != tskl::fetch_fist)
@@ -740,10 +741,10 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                             yellow_sword_cnt * int(2.5 * 100);
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    destoryed_choices =
-                        strip_player_skill(destoryed_choices, target, tskl::wooden_sword);
-                    destoryed_choices =
-                        strip_player_skill(destoryed_choices, target, tskl::yellow_sword);
+                    destoryed_choices = strip_player_skill(
+                        destoryed_choices, target, tskl::wooden_sword);
+                    destoryed_choices = strip_player_skill(
+                        destoryed_choices, target, tskl::yellow_sword);
                     break;
                 case tskl::fetch_fist:
                     fist_cnt =
@@ -752,7 +753,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     delta = int(0.5 * 100);  // 此处加分规则存疑
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    destoryed_choices = strip_player_skill(destoryed_choices, target, tskl::fist);
+                    destoryed_choices = strip_player_skill(destoryed_choices,
+                                                           target, tskl::fist);
                     break;
                 case tskl::fetch_bo:
                     bo_sword_cnt =
@@ -762,8 +764,8 @@ void do_main(const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
                     delta = int(0.5 * 100) + bo_sword_cnt * 3 * 100;
                     qi[pid] += delta;
                     dprint("加气 " + formatxstr(delta));
-                    destoryed_choices =
-                        strip_player_skill(destoryed_choices, target, tskl::bo_sword);
+                    destoryed_choices = strip_player_skill(
+                        destoryed_choices, target, tskl::bo_sword);
                     break;
                 default:
                     dprint("");

@@ -6,9 +6,9 @@
 #define do_test(x) passon(test##x)
 #define do_test_uncheck(x) passon(test##x, false)
 
-using tutil::TESTN;
-using tutil::TESTK;
 using tutil::TESTF;
+using tutil::TESTK;
+using tutil::TESTN;
 
 TESTN::TESTN() {
     player_num = 0;
@@ -70,7 +70,9 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
 }
 
 TESTK::TESTK() {
-    skills.clear(); target.clear(); res_revoke_cnt.clear();
+    skills.clear();
+    target.clear();
+    res_revoke_cnt.clear();
 }
 
 TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
@@ -92,12 +94,11 @@ TESTF::TESTF() {
 }
 
 TESTF::TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
-      std::map<int, bool> _tag_died,
-      std::map<int, std::map<int, int> > _skl_count,
-      std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
-      std::map<int, int> _res_qi,
-      std::string _comment,
-      bool _need_check) {
+             std::map<int, bool> _tag_died,
+             std::map<int, std::map<int, int> > _skl_count,
+             std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
+             std::map<int, int> _res_qi, std::string _comment,
+             bool _need_check) {
     player_num = _player_num;
     players = std::move(_players);
     qi = std::move(_qi);
