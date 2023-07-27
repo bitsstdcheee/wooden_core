@@ -1,16 +1,22 @@
 #ifndef WOODEN_SKILL_CPP
 #define WOODEN_SKILL_CPP
+#include <array>
+
 #include "wooden_skill.h"
 
 const int tskl::MIN_SKILL_NUM = 0;
 const int tskl::MAX_SKILL_NUM = 30;
 
-const std::array<std::string, tskl::MAX_SKILL_NUM + 1> skill_name = {
-    "空",       "拍气", "木镐",       "镐子",     "钻镐",   "附魔钻镐", "木剑",
-    "黄剑",     "石剑", "铁剑",       "金剑",     "钻剑",   "附魔钻剑", "普防",
-    "中防",     "大防", "阿西巴",     "zd",       "Hither", "拳",       "掌",
-    "波波剑",   "羊驼", "管",         "咕噜咕噜", "评测",   "夹拳",     "夹剑",
-    "夹波波剑", "空手", "黄剑 (毁坏)"};
+// clang-format off
+const std::array<std::string, tskl::MAX_SKILL_NUM + 1> skill_name = { "空",
+    "拍气", "木镐", "镐子", "钻镐", "附魔钻镐",
+    "木剑", "黄剑", "石剑", "铁剑", "金剑",
+    "钻剑", "附魔钻剑", "普防", "中防", "大防",
+    "阿西巴", "zd", "Hither", "拳", "掌",
+    "波波剑", "羊驼", "管", "咕噜咕噜", "评测",
+    "夹拳", "夹剑", "夹波波剑", "空手", "黄剑 (毁坏)"
+};
+// clang-format on
 
 string tskl::query_skill_overlay_name(skill skl) {
     if (skl == wooden_sword || skl == fist || skl == stone_sword ||
