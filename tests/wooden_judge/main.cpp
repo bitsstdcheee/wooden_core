@@ -141,11 +141,13 @@ void check(const TESTF &test, bool check) {
             // 填充当前批次的出招
             for (auto player : round.skills) {
                 auto &pid = player.first;
-                int batch_index_real = std::min(batch_index, (int)player.second.size() - 1);
+                int batch_index_real =
+                    std::min(batch_index, (int)player.second.size() - 1);
                 if ((int)player.second.size() <= batch_index) {
                     // 当前玩家没有当前批次的出招
                     dprint("[P] 玩家 " + std::to_string(pid) + " 不存在第 " +
-                           std::to_string(batch_index + 1) + " 批次的出招, 使用该玩家最后一批次的招式");
+                           std::to_string(batch_index + 1) +
+                           " 批次的出招, 使用该玩家最后一批次的招式");
                 }
                 SkillPack spk;
                 auto &skills = player.second[batch_index_real];

@@ -315,13 +315,19 @@ const std::list<TESTF> testf = {
           gen_res_tag_died({true, false}), gen_res_qi({0, 0}), "大局-测试1"),
 
     TESTF(2, gen_players(2), gen_qi({0, 0}), gen_tag_died(2), gen_skl_count(2),
-    {
-        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}}, gen_target({0, 0}), {{1, 1}, {2, 1}}),
-        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}}, gen_target({0, 0}), {{1, 1}, {2, 1}}),
-        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}}, gen_target({0, 0}), {{1, 1}, {2, 1}}),
-        TESTK({{1, {{tskl::clap}}}, {2, {{tskl::gulu}, {tskl::wooden_sword}}}}, gen_target({0, 1}), {{1, 1}, {2, 2}}),
-    }, gen_res_tag_died({true, false}), gen_res_qi({0, 0}), "大局-测试延迟1")
-};
+          {
+              TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}},
+                    gen_target({0, 0}), {{1, 1}, {2, 1}}),
+              TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}},
+                    gen_target({0, 0}), {{1, 1}, {2, 1}}),
+              TESTK({{1, {{tskl::clap}}}, {2, {{tskl::clap}}}},
+                    gen_target({0, 0}), {{1, 1}, {2, 1}}),
+              TESTK({{1, {{tskl::clap}}},
+                     {2, {{tskl::gulu}, {tskl::wooden_sword}}}},
+                    gen_target({0, 1}), {{1, 1}, {2, 2}}),
+          },
+          gen_res_tag_died({true, false}), gen_res_qi({0, 0}),
+          "大局-测试延迟1")};
 
 const int TESTF_NUM = testf.size();
 
