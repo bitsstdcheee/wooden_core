@@ -1,8 +1,0 @@
-SRC=wooden_judge.cpp wooden_test.cpp wooden_status.cpp
-EXEC=wooden_game
-CPPFLAG=-Wall -ggdb -g3 -Ddebug -DDEBUG -std=c++11 -m64 -fexec-charset=UTF-8 -finput-charset=UTF-8 -Ofast
-CPPCOMPILER="D:\mingw64\bin\g++.exe"
-build:
-	$(CPPCOMPILER) $(SRC) -o $(EXEC) $(CPPFLAG)
-clean:
-	del $(EXEC)
