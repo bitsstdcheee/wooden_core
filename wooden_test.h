@@ -84,8 +84,8 @@ struct TESTN {
     std::vector<int> players;      // 测试初始的玩家 id
     std::map<int, int> qi;         // 测试初始的气数列表
     std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息
-    std::map<int, std::map<int, int> > skl_count;  // 测试初始值的招术使用情况
-    std::map<int, std::vector<tskl::skill> >
+    std::map<int, std::map<int, int>> skl_count;  // 测试初始值的招术使用情况
+    std::map<int, std::vector<tskl::skill>>
         using_skill;                   // 测试小局中玩家的出招
     std::map<int, int> target;         // 测试小局中玩家出招的对手
     std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
@@ -101,7 +101,7 @@ struct TESTN {
     // 期望死亡标记, 期望气数, 备注
     TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
           std::map<int, bool> _tag_died,
-          std::map<int, std::map<int, int> > _skl_count,
+          std::map<int, std::map<int, int>> _skl_count,
           std::map<int, tskl::skill> _using_skill, std::map<int, int> _target,
           std::map<int, bool> _res_tag_died, std::map<int, int> _res_qi,
           std::string _comment = "", bool _need_check = true);
@@ -110,8 +110,8 @@ struct TESTN {
     // 期望死亡标记, 期望气数, 备注
     TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
           std::map<int, bool> _tag_died,
-          std::map<int, std::map<int, int> > _skl_count,
-          std::map<int, std::vector<tskl::skill> > _using_skill,
+          std::map<int, std::map<int, int>> _skl_count,
+          std::map<int, std::vector<tskl::skill>> _using_skill,
           std::map<int, int> _target, std::map<int, bool> _res_tag_died,
           std::map<int, int> _res_qi, std::string _comment = "",
           bool _need_check = true);
@@ -145,7 +145,7 @@ void do_test1_assert() {
 #define grv gen_repeated_vec
 
 // gsc => 生成技能计数形式的 map => gen_map<int, std::map<int, int> >
-#define gsc gen_map<int, std::map<int, int> >
+#define gsc gen_map<int, std::map<int, int>>
 
 // gal => gen_all_alive
 #define gal gen_all_alive
@@ -170,7 +170,7 @@ struct TESTK {
     // 第一个 vector 存储不同批次的出招 (eg. gulu
     // 在第一次出招后在第二批次延迟出招). 第二个 vector
     // 存储玩家在一个批次中的多个叠加招式, 参考 TESTN.using_skill
-    std::map<int, std::vector<std::vector<Skill> > > skills;
+    std::map<int, std::vector<std::vector<Skill>>> skills;
 
     // 预期的玩家所使用的批次 (eg. clap 为 1, gulu 若在第二批次出非延迟招式则
     // cnt 为 2)
@@ -184,13 +184,11 @@ struct TESTK {
     */
 
     // 将同一玩家, 同一批次的招式对象设置为相同的数值
-    TESTK(std::map<int, std::vector<std::vector<tskl::skill> > >,
+    TESTK(std::map<int, std::vector<std::vector<tskl::skill>>>,
           std::map<int, int>, std::map<int, int>);
 
     // 将每个招式和对象绑定起来为 Skill 对象
-    TESTK(std::map<int, std::vector<std::vector<Skill> > >,
-          std::map<int, int>);
-
+    TESTK(std::map<int, std::vector<std::vector<Skill>>>, std::map<int, int>);
 };
 
 // Generator for TESTK
@@ -203,7 +201,7 @@ struct TESTF {
     std::vector<int> players;  // 测试初始的玩家 id
     std::map<int, int> qi;     // 测试初始的气数列表 (默认为 0)
     std::map<int, bool> tag_died;  // 测试初始的玩家死亡信息 (默认全员存活)
-    std::map<int, std::map<int, int> > skl_count;
+    std::map<int, std::map<int, int>> skl_count;
     std::vector<TESTK> using_skill;    // 测试小局中玩家的出招
     std::map<int, bool> res_tag_died;  // 测试期望的最终玩家死亡信息
     std::map<int, int> res_qi;         // 测试期望的最终气数列表
@@ -216,7 +214,7 @@ struct TESTF {
 
     TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
           std::map<int, bool> _tag_died,
-          std::map<int, std::map<int, int> > _skl_count,
+          std::map<int, std::map<int, int>> _skl_count,
           std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
           std::map<int, int> _res_qi, std::string comment = "",
           bool _need_check = true);
