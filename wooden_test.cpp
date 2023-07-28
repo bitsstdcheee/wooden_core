@@ -23,7 +23,7 @@ TESTN::TESTN() {
 
 TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, bool> _tag_died,
-             std::map<int, std::map<int, int> > _skl_count,
+             std::map<int, std::map<int, int>> _skl_count,
              std::map<int, tskl::skill> _using_skill,
              std::map<int, int> _target, std::map<int, bool> _res_tag_died,
              std::map<int, int> _res_qi, std::string _comment,
@@ -47,8 +47,8 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
 
 TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, bool> _tag_died,
-             std::map<int, std::map<int, int> > _skl_count,
-             std::map<int, std::vector<tskl::skill> > _using_skill,
+             std::map<int, std::map<int, int>> _skl_count,
+             std::map<int, std::vector<tskl::skill>> _using_skill,
              std::map<int, int> _target, std::map<int, bool> _res_tag_died,
              std::map<int, int> _res_qi, std::string _comment,
              bool _need_check) {
@@ -74,7 +74,7 @@ TESTK::TESTK() {
     res_revoke_cnt.clear();
 }
 
-TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
+TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill>>> _skills,
              std::map<int, int> _target, std::map<int, int> _res_revoke_cnt) {
     for (auto player : _skills) {
         auto &pid = player.first;
@@ -93,7 +93,7 @@ TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
     res_revoke_cnt = std::move(_res_revoke_cnt);
 }
 
-TESTK::TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills,
+TESTK::TESTK(std::map<int, std::vector<std::vector<Skill>>> _skills,
              std::map<int, int> _res_revoke_cnt) {
     skills = std::move(_skills);
     res_revoke_cnt = std::move(_res_revoke_cnt);
@@ -127,7 +127,7 @@ TESTF::TESTF() {
 
 TESTF::TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, bool> _tag_died,
-             std::map<int, std::map<int, int> > _skl_count,
+             std::map<int, std::map<int, int>> _skl_count,
              std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
              std::map<int, int> _res_qi, std::string _comment,
              bool _need_check) {

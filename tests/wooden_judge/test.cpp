@@ -349,19 +349,18 @@ const std::list<TESTF> testf = {
 
     TESTF(3, gen_players(3), gen_qi({0, 0, 0}), gen_tag_died(3),
           gen_skl_count(3),
-          {
-            TESTKG({{1, {Skill(tskl::clap, 0)}},
-                  {2, {Skill(tskl::clap, 0)}},
-                  {3, {Skill(tskl::clap, 0)}}}),
+          {TESTKG({{1, {Skill(tskl::clap, 0)}},
+                   {2, {Skill(tskl::clap, 0)}},
+                   {3, {Skill(tskl::clap, 0)}}}),
            TESTKG({{1, {Skill(tskl::defense, 0)}},
-                  {2, {Skill(tskl::wooden_sword, 1)}},
-                  {3, {Skill(tskl::wooden_sword, 1)}}}),
+                   {2, {Skill(tskl::wooden_sword, 1)}},
+                   {3, {Skill(tskl::wooden_sword, 1)}}}),
            TESTK({{1, {{Skill(tskl::fist, 2), Skill(tskl::fist, 3)}}},
                   {2, {{Skill(tskl::clap, 0)}}},
                   {3, {{Skill(tskl::clap, 0)}}}},
-                 {{1, 1}, {2, 1}, {3, 1}})
-            },
-          gen_tag_died({false, true, true}), gen_res_qi({0, 0, 0}), "大局-测试多对象1-remake")
+                 {{1, 1}, {2, 1}, {3, 1}})},
+          gen_tag_died({false, true, true}), gen_res_qi({0, 0, 0}),
+          "大局-测试多对象1-remake")
 
 };
 
