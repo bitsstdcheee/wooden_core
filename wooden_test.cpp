@@ -99,21 +99,20 @@ TESTK::TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills,
     res_revoke_cnt = std::move(_res_revoke_cnt);
 }
 
-/*
-template <typename T, typename>
-TESTK::TESTK(T _skills) {
+TESTK tutil::TESTKG(std::map<int, std::vector<Skill>> _skills) {
+    TESTK res;
     for (auto player : _skills) {
         auto &pid = player.first;
-        skills[pid].clear();
+        res.skills[pid].clear();
         std::vector<Skill> current_batch;
-        for (int batch = 0; batch < _skills[pid].size(); batch++) {
+        for (int batch = 0; batch < (int)_skills[pid].size(); batch++) {
             current_batch.push_back(_skills[pid][batch]);
         }
-        skills[pid].push_back(current_batch);
-        res_revoke_cnt[pid] = 1;
+        res.skills[pid].push_back(current_batch);
+        res.res_revoke_cnt[pid] = 1;
     }
+    return res;
 }
-*/
 
 TESTF::TESTF() {
     player_num = 0;
