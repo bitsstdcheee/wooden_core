@@ -182,13 +182,13 @@ void check(const TESTF &test, bool check) {
         }
         dprint("所需批次: " + std::to_string(batch_size));
         std::map<int, bool> result;
-        result.clear();
         for (int batch_index = 0; batch_index < batch_size; batch_index++) {
             dprint("[P] 第 " + std::to_string(batch_index + 1) + " 批次");
             auto *_dirty_choices = new std::vector<std::pair<int, SkillPack> >;
             // 填充当前批次的出招
             for (auto player : round.skills) {
                 auto &pid = player.first;
+                if (batch_index == 0) result[pid] = true;
                 int batch_index_real = 0;
                 if ((int)player.second.size() <= batch_index) {
                     // 当前玩家没有当前批次的出招
@@ -199,14 +199,14 @@ void check(const TESTF &test, bool check) {
                     } else {
                         dprint(
                             "[P] 警告: 玩家 " + std::to_string(pid) +
-                            "在本批次中需要更新出招, 但未提供, 将使用先前出招");
+                            " 在本批次中需要更新出招, 但未提供, 将使用先前出招");
                     }
                     batch_index_real = (int)player.second.size() - 1;
                 } else {
                     // 当前玩家有当前批次的出招
                     if (!result[pid]) {
                         dprint("[P] 警告: 玩家 " + std::to_string(pid) +
-                               "在本批次中不需要更新出招, 但提供了, "
+                               " 在本批次中不需要更新出招, 但提供了, "
                                "将本批次出招覆盖");
                     } else {
                         batch_index_real = batch_index;
@@ -218,9 +218,8 @@ void check(const TESTF &test, bool check) {
                        std::to_string(batch_index_real + 1));
                 SkillPack spk;
                 auto &skills = player.second[batch_index_real];
-                auto &target = round.target[pid];
                 for (auto skl : skills) {
-                    spk.skills.push_back(Skill(skl, target));
+                    spk.skills.push_back((skl));
                 }
                 _dirty_choices->push_back(std::make_pair(pid, spk));
             }

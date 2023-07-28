@@ -8,6 +8,7 @@
 #include <map>
 #include <new>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -169,19 +170,29 @@ struct TESTK {
     // 第一个 vector 存储不同批次的出招 (eg. gulu
     // 在第一次出招后在第二批次延迟出招). 第二个 vector
     // 存储玩家在一个批次中的多个叠加招式, 参考 TESTN.using_skill
-    std::map<int, std::vector<std::vector<tskl::skill> > > skills;
-
-    // 测试小局中玩家出招的对手
-    std::map<int, int> target;
+    std::map<int, std::vector<std::vector<Skill> > > skills;
 
     // 预期的玩家所使用的批次 (eg. clap 为 1, gulu 若在第二批次出非延迟招式则
     // cnt 为 2)
     std::map<int, int> res_revoke_cnt;
 
     TESTK();
+    
+    /*
+    template <typename T, typename = std::enable_if_t<std::is_same<T, TESTK>::value>>
+    TESTK(cons);
+    */
 
-    TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
-          std::map<int, int> _target, std::map<int, int> res_revoke_cnt);
+    // 将同一玩家, 同一批次的招式对象设置为相同的数值
+    TESTK(std::map<int, std::vector<std::vector<tskl::skill> > >, std::map<int, int>t, std::map<int, int>);
+
+    // 将每个招式和对象绑定起来为 Skill 对象
+    TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills, std::map<int, int> _res_revoke_cnt);
+    
+    // TODO: 完成 _skills 单参数构造
+    // 默认每个玩家只有一个批次, 忽略批次的 vector 包装
+    /* template <typename T, typename = std::enable_if_t<std::is_same<T, std::map<int, std::vector<Skill>>>::value>>
+    TESTK(T _skills); */
 };
 // TESTF: 打包测试样例的结构 (大局)
 struct TESTF {

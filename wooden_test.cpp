@@ -71,16 +71,46 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
 
 TESTK::TESTK() {
     skills.clear();
-    target.clear();
     res_revoke_cnt.clear();
 }
 
 TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
              std::map<int, int> _target, std::map<int, int> _res_revoke_cnt) {
-    skills = std::move(_skills);
-    target = std::move(_target);
+    for (auto player : _skills) {
+        auto &pid = player.first;
+        auto target = _target[pid];
+        skills[pid].clear();
+        for (int round = 0; round < (int)_skills[pid].size(); round++) {
+            std::vector<Skill> current_batch;
+            for (int batch = 0; batch < (int)_skills[pid][round].size(); batch++) {
+                current_batch.push_back(Skill(_skills[pid][round][batch], target));
+            }
+            skills[pid].push_back(current_batch);
+        }
+    }
     res_revoke_cnt = std::move(_res_revoke_cnt);
 }
+
+TESTK::TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills, std::map<int, int> _res_revoke_cnt) {
+    skills = std::move(_skills);
+    res_revoke_cnt = std::move(_res_revoke_cnt);
+}
+
+/*
+template <typename T, typename>
+TESTK::TESTK(T _skills) {
+    for (auto player : _skills) {
+        auto &pid = player.first;
+        skills[pid].clear();
+        std::vector<Skill> current_batch;
+        for (int batch = 0; batch < _skills[pid].size(); batch++) {
+            current_batch.push_back(_skills[pid][batch]);
+        }
+        skills[pid].push_back(current_batch);
+        res_revoke_cnt[pid] = 1;
+    }
+}
+*/
 
 TESTF::TESTF() {
     player_num = 0;
