@@ -197,9 +197,9 @@ void check(const TESTF &test, bool check) {
                         dprint("[P] 玩家 " + std::to_string(pid) +
                                " 在本批次中不需要更新出招, 将使用上一次");
                     } else {
-                        dprint(
-                            "[P] 警告: 玩家 " + std::to_string(pid) +
-                            " 在本批次中需要更新出招, 但未提供, 将使用先前出招");
+                        dprint("[P] 警告: 玩家 " + std::to_string(pid) +
+                               " 在本批次中需要更新出招, 但未提供, "
+                               "将使用先前出招");
                     }
                     batch_index_real = (int)player.second.size() - 1;
                 } else {

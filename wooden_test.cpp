@@ -82,8 +82,10 @@ TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
         skills[pid].clear();
         for (int round = 0; round < (int)_skills[pid].size(); round++) {
             std::vector<Skill> current_batch;
-            for (int batch = 0; batch < (int)_skills[pid][round].size(); batch++) {
-                current_batch.push_back(Skill(_skills[pid][round][batch], target));
+            for (int batch = 0; batch < (int)_skills[pid][round].size();
+                 batch++) {
+                current_batch.push_back(
+                    Skill(_skills[pid][round][batch], target));
             }
             skills[pid].push_back(current_batch);
         }
@@ -91,7 +93,8 @@ TESTK::TESTK(std::map<int, std::vector<std::vector<tskl::skill> > > _skills,
     res_revoke_cnt = std::move(_res_revoke_cnt);
 }
 
-TESTK::TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills, std::map<int, int> _res_revoke_cnt) {
+TESTK::TESTK(std::map<int, std::vector<std::vector<Skill> > > _skills,
+             std::map<int, int> _res_revoke_cnt) {
     skills = std::move(_skills);
     res_revoke_cnt = std::move(_res_revoke_cnt);
 }
