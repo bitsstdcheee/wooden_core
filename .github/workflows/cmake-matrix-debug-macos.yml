@@ -54,6 +54,9 @@ jobs:
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
+    - name: 安装 GLFW
+      run: |
+        brew install glfw3
     - name: 下载分支
       uses: actions/checkout@v3
       with:

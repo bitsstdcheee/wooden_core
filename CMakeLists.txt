@@ -126,7 +126,7 @@ if (WIN32)
 elseif (UNIX)
     add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
     include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui/examples/libs/gl3w
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui/examples/libs/glfw/include
     )
     file (GLOB IMGUI_PLATFORM_SRC
         third-party/imgui/examples/libs/gl3w/GL/gl3w.*

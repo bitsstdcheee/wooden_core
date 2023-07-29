@@ -59,12 +59,15 @@ jobs:
       with:
         fetch-depth: 1
         submodules: recursive
-    - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
+    - name: 安装 GLFW
+      run: |
+        sudo apt install libglfw3-dev
     - name: 安装 LCOV
       shell: bash
       run: |
         sudo apt-get --assume-yes install lcov
+    - name: 配置 CMake (${{ matrix.os }})
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
     - name: 编译 (wooden_game)
       id: compile_game
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game

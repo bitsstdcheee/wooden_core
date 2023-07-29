@@ -72,6 +72,14 @@ jobs:
       with:
         fetch-depth: 1
         submodules: recursive
+    - name: 安装 GLFW (macOS)
+      if: matrix.os == 'macos-13'
+      run: |
+        brew install glfw3
+    - name: 安装 GLFW (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt install libglfw3-dev
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
     - name: 编译 (wooden_game)
