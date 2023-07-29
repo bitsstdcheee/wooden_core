@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.15.0)
 PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
-# set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message("代码覆盖分析已开启")
     set(ENABLE_COVERAGE ON)
@@ -57,11 +57,11 @@ message("WIN32 ${WIN32}")
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 if (GBK)
-    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -O0 -Ddebug -DDEBUG ${CMAKE_CXX_FLAGS_GBK} /utf-8")
+    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -O0 ${CMAKE_CXX_FLAGS_GBK} /utf-8")
     SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3 ${CMAKE_CXX_FLAGS_GBK} /utf-8")
     message("GBK is On!")
 else()
-    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -Ddebug -DDEBUG")
+    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb")
     SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3")
     message("GBK is Off!")
 endif()
@@ -82,6 +82,19 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 enable_testing()
 
+# imgui
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui/backends
+)
+if (APPLE)
+    include_directories(
+        /usr/local/include
+        /opt/local/include
+        /opt/homebrew/include
+    )
+endif()
+
 # add_definitions("-Wall -g3 -ggdb -Ddebug -DDEBUG")
 
 # 获取所有源代码文件
@@ -91,14 +104,54 @@ enable_testing()
 # AUX_SOURCE_DIRECTORY(. ALL_SRCS)
 
 file (GLOB SOURCES
+    third-party/imgui/*.cpp
     *.cpp
 )
-file(GLOB CORE_EXCLUDED_SOURCES
+file (GLOB CORE_EXCLUDED_SOURCES
     wooden_core.cpp
 )
 file (GLOB HEADERS
     *.h
 )
+
+# imgui
+file (GLOB IMGUI_SRC
+    third-party/imgui/*.cpp
+    third-party/imgui/*.h
+)
+if (WIN32)
+    file (GLOB IMGUI_PLATFORM_SRC
+        third-party/imgui/backends/imgui_impl_win32.*
+        third-party/imgui/backends/imgui_impl_dx12.*
+    )
+elseif (UNIX)
+    add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
+    include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui/examples/libs/gl3w
+    )
+    file (GLOB IMGUI_PLATFORM_SRC
+        third-party/imgui/examples/libs/gl3w/GL/gl3w.*
+        third-party/imgui/backends/imgui_impl_glfw.*
+        third-party/imgui/backends/imgui_impl_opengl3.*
+    )
+endif()
+set(IMGUI_SRC "${IMGUI_SRC};${IMGUI_PLATFORM_SRC}")
+list(REMOVE_ITEM ${IMGUI_SRC} "wooden_main.cpp")
+message("IMGUI_PLATFORM_SRC ${IMGUI_PLATFORM_SRC}")
+message("IMGUI_SRC ${IMGUI_SRC}")
+
+# gui
+if (WIN32)
+    file (GLOB GUI_SRC
+        gui/windows/*.cpp
+        gui/windows/*.h
+    )
+elseif (UNIX)
+    file (GLOB GUI_SRC
+        gui/unix/*.cpp
+        gui/unix/*.h
+    )
+endif()
 
 set(GLOBAL_SOURCES "${SOURCES}")
 set(GLOBAL_SOURCES_CORE "${SOURCES}")
@@ -108,12 +161,68 @@ set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    "$<$<CONFIG:Debug>: -Ddebug -DDebug -DDEBUG>"
+)
+
+# imgui
+add_library(imgui STATIC ${IMGUI_SRC})
+set_target_properties(imgui PROPERTIES OUTPUT_NAME "imgui")
+# target_compile_definitions(imgui PRIVATE
+    # "$<$<CONFIG:Debug>: -Udebug -UDebug -UDEBUG>"
+# )
+set_target_properties(imgui PROPERTIES 
+  EXCLUDE_FROM_ALL $<NOT:$<CONFIG:Debug>>
+  EXCLUDE_FROM_DEFAULTS $<NOT:$<CONFIG:Debug>>
+)
+
+# gui
+add_executable(wooden_gui ${GUI_SRC})
+target_link_libraries(wooden_gui PUBLIC imgui)
+if ($<CONFIG:Debug>)
+    target_link_libraries(wooden_gui
+        dxguid.lib
+    )
+endif()
+
+if (WIN32)
+    target_link_libraries(imgui
+        d3d12.lib
+        d3dcompiler.lib
+        dxgi.lib
+        dwmapi.dll
+    )
+elseif (APPLE)
+    # mac: brew install glfw3
+    find_library(OPENGL_LIBRARY OpenGL REQUIRED)
+    find_library(COCOA_LIBRARY Cocoa REQUIRED)
+    find_library(IOKIT_LIBRARY IOKit REQUIRED)
+    find_library(COREVID_LIBRARY CoreVideo REQUIRED)
+    message(${COCOA_LIBRARY})
+    message(${IOKIT_LIBRARY})
+    message(${COREVID_LIBRARY})
+
+    target_link_libraries(imgui
+        ${OPENGL_LIBRARY}
+        ${COCOA_LIBRARY}
+        ${IOKIT_LIBRARY}
+        ${COREVID_LIBRARY}
+        glfw # use this lib name
+    )
+elseif (UNIX AND NOT APPLE)
+    # linux: sudo apt install libglfw3-dev
+    target_link_libraries(imgui
+        GL
+        glfw # use this lib name
+        dl
+    )
+endif()
 
 if (WIN32) 
     target_link_libraries(${PROJECT_NAME} 
         Wininet.lib
         ole32.lib
-        )
+    )
     if (FALSE)
         link_directories(
             Wininet.lib
@@ -124,13 +233,7 @@ elseif (APPLE)
     link_directories(
         /usr/lib
         )
-    if (FALSE)
-        target_link_libraries(${PROJECT_NAME} 
-            -lcrt0.o
-            )
-    endif ()
 elseif (UNIX)
-link_directories()
 endif ()
 
 add_custom_target(Tests)
