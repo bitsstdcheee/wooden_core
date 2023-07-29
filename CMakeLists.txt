@@ -107,7 +107,7 @@ file (GLOB SOURCES
     *.cpp
 )
 file (GLOB CORE_EXCLUDED_SOURCES
-    wooden_core.cpp
+    wooden_main.cpp
 )
 file (GLOB HEADERS
     *.h
