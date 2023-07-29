@@ -1,0 +1,4 @@
+[submodule "third-party/imgui"]
+	path = third-party/imgui
+	url = https://github.com/bitsstdcheee/imgui
+	branch = v1.89.7-fix
