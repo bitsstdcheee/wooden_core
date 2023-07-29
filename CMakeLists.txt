@@ -104,7 +104,6 @@ endif()
 # AUX_SOURCE_DIRECTORY(. ALL_SRCS)
 
 file (GLOB SOURCES
-    third-party/imgui/*.cpp
     *.cpp
 )
 file (GLOB CORE_EXCLUDED_SOURCES
@@ -161,8 +160,8 @@ set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    "$<$<CONFIG:Debug>: -Ddebug -DDebug -DDEBUG>"
+target_compile_options(${PROJECT_NAME} PRIVATE
+    "$<$<CONFIG:Debug>:-Ddebug -DDebug -DDEBUG>"
 )
 
 # imgui

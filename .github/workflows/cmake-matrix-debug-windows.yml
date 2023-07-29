@@ -82,7 +82,7 @@ jobs:
       id: result-windows
       if: always()
       run: |
-        if (("${{ steps.compile_game.outcome }}" -eq "success") - and ("${{ steps.compile_gui.outcome}}" -eq "success")) {
+        if (("${{ steps.compile_game.outcome }}" -eq "success") -and ("${{ steps.compile_gui.outcome}}" -eq "success")) {
           $success_win=1
         } else {
           $success_win=0
