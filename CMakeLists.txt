@@ -181,6 +181,8 @@ if ($<CONFIG:Debug>)
     )
 endif()
 
+cmake_policy(SET CMP0004 OLD)
+
 if (WIN32)
     target_link_libraries(imgui PRIVATE
         d3d12.lib
