@@ -17,8 +17,12 @@ jobs:
             id: pre_artifact
             # 将斜杠、反斜杠换为减号
             run: echo "artifact_name=$(echo code-${{ github.ref }}-${{ github.event_name }}-${{ github.sha }} | sed 's/\//-/g' | sed 's/\\/-/g')" >> $GITHUB_OUTPUT
+          - name: 压缩文件 (tar & gz)
+            run: |
+              tar -cvf ${{ steps.pre_artifact.outputs.artifact_name }}.tar ${{ github.workspace }} 
+              gzip ${{ steps.pre_artifact.outputs.artifact_name }}.tar
           - name: 上传 Artifact
             uses: actions/upload-artifact@v3.1.2
             with:
-                name: ${{ steps.pre_artifact.outputs.artifact_name }}
+                name: ${{ steps.pre_artifact.outputs.artifact_name }}.tar.gz
                 path: ${{ github.workspace }}
