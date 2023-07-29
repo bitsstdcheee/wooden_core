@@ -189,20 +189,11 @@ if (WIN32)
         dwmapi.dll
     )
 elseif (APPLE)
-    # mac: brew install glfw3
-    find_library(OPENGL_LIBRARY OpenGL REQUIRED)
-    find_library(COCOA_LIBRARY Cocoa REQUIRED)
-    find_library(IOKIT_LIBRARY IOKit REQUIRED)
-    find_library(COREVID_LIBRARY CoreVideo REQUIRED)
-    message(${COCOA_LIBRARY})
-    message(${IOKIT_LIBRARY})
-    message(${COREVID_LIBRARY})
-
     target_link_libraries(imgui PRIVATE
-        ${OPENGL_LIBRARY}
-        ${COCOA_LIBRARY}
-        ${IOKIT_LIBRARY}
-        ${COREVID_LIBRARY}'
+        "-framework OpenGL"
+        "-framework Cocoa"
+        "-framework IOKit"
+        "-framework CoreVideo"
         "`sdl2-config --libs`"
         "`sdl2-config --cflags`"
     )
