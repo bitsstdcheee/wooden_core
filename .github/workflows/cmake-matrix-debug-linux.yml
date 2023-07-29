@@ -88,7 +88,7 @@ jobs:
       id: result-unix
       if: always()
       run: |
-        if [ "${{ steps.compile_game.outcome }}" == "success" ]; then
+        if [ "${{ steps.compile_game.outcome }}" == "success" && "${{ steps.compile_gui.outcome }}" == "success ]; then
           success_unix=1
         else
           success_unix=0
