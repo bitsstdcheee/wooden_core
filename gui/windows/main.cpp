@@ -9,7 +9,6 @@
 // void*. This define is set in the example .vcxproj file and need to be
 // replicated in your app or by adding it to your imconfig.h file.
 
-#include <bits/chrono.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <tchar.h>
