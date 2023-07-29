@@ -73,9 +73,11 @@ jobs:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=${{ matrix.gbk }} -G "${{ matrix.profile }}"
-    - name: 编译
+    - name: 编译 (wooden_game)
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 执行 (Unix)
+    - name: 编译 (wooden_gui)
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
+    - name: 执行 (Unix, wooden_game)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
       run: |
         echo "The Current Exec Path:"

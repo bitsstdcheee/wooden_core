@@ -60,10 +60,13 @@ jobs:
         fetch-depth: 1
     - name: 配置 CMake (${{ matrix.os }})
       run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
-    - name: 编译
-      id: compile
+    - name: 编译 (wooden_game)
+      id: compile_game
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 执行
+    - name: 编译 (wooden_gui)
+      id: compile_gui
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
+    - name: 执行 (wooden_game)
       run: |
         echo "The Current Exec Path:"
         find . -name "wooden_game" -exec ls '{}' ';'
@@ -76,7 +79,7 @@ jobs:
       id: result-unix
       if: always()
       run: |
-        if [ "${{ steps.compile.outcome }}" == "success" ]; then
+        if [ "${{ steps.compile_game.outcome }}" == "success" && "${{ steps.compile_gui.outcome }}" == "success ]; then
           success_unix=1
         else
           success_unix=0
