@@ -85,6 +85,7 @@ jobs:
     - name: 编译 (wooden_game)
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
     - name: 编译 (wooden_gui)
+      if: matrix.os == 'windows-latest'
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
     - name: 执行 (Unix, wooden_game)
       if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-13'
