@@ -57,6 +57,10 @@ jobs:
     - name: 安装依赖
       run: |
         brew install glfw3 sdl2
+    - name: 输出 GLFW 配置参数
+      run: |
+        echo "`sdl2-config --libs`"
+        echo "`sdl2-config --cflags`"
     - name: 下载分支
       uses: actions/checkout@v3
       with:

@@ -63,6 +63,10 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libglfw3-dev libsdl2-dev gcc-multilib g++-multilib libfreetype6-dev libvulkan-dev
+    - name: 输出 GLFW 配置参数
+      run: |
+        echo "`pkg-config --cflags glfw3`"
+        echo "`pkg-config --static --libs glfw3`"
     - name: 安装 LCOV
       shell: bash
       run: |
