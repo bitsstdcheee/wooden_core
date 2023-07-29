@@ -197,13 +197,17 @@ elseif (APPLE)
         `sdl2-config --libs`
         `sdl2-config --cflags`
     )
+    if (FALSE)
     set_target_properties(imgui PROPERTIES
         COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `sdl2-config --libs` `sdl2-config --cflags`"
     )
+    endif()
 elseif (UNIX AND NOT APPLE)
+    if (FALSE)
     set_target_properties(imgui PROPERTIES
         COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `pkg-config --cflags glfw3` `pkg-config --static --libs glfw3`"
     )
+    endif()
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui PRIVATE
         `pkg-config --cflags glfw3`
