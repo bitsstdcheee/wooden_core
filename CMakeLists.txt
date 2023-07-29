@@ -166,6 +166,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 
 # imgui
 add_library(imgui STATIC ${IMGUI_SRC})
+
 set_target_properties(imgui PROPERTIES OUTPUT_NAME "imgui")
 # target_compile_definitions(imgui PRIVATE
     # "$<$<CONFIG:Debug>: -Udebug -UDebug -UDEBUG>"
@@ -181,7 +182,7 @@ if ($<CONFIG:Debug>)
 endif()
 
 if (WIN32)
-    target_link_libraries(imgui
+    target_link_libraries(imgui PRIVATE
         d3d12.lib
         d3dcompiler.lib
         dxgi.lib
@@ -197,19 +198,24 @@ elseif (APPLE)
     message(${IOKIT_LIBRARY})
     message(${COREVID_LIBRARY})
 
-    target_link_libraries(imgui
+    target_link_libraries(imgui PRIVATE
         ${OPENGL_LIBRARY}
         ${COCOA_LIBRARY}
         ${IOKIT_LIBRARY}
         ${COREVID_LIBRARY}
-        glfw
+    )
+    set_target_properties(imgui PROPERTIES
+        COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `sdl2-config --libs` `sdl2-config --cflags`"
     )
 elseif (UNIX AND NOT APPLE)
-    # linux: sudo apt install libglfw3-dev
-    target_link_libraries(imgui
-        GL
-        glfw3
+    set_target_properties(imgui PROPERTIES
+        COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `pkg-config --cflags glfw3` `pkg-config --static --libs glfw3`"
     )
+    # linux: sudo apt install libglfw3-dev
+    target_link_libraries(imgui PRIVATE
+        GL
+    )
+    
 endif()
 
 if (WIN32) 
@@ -229,7 +235,7 @@ elseif (APPLE)
         /usr/local/lib
         /opt/local/lib
         /opt/homebrew/lib
-        )
+    )
 elseif (UNIX)
 endif ()
 
