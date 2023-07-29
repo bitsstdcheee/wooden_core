@@ -57,8 +57,8 @@ message("WIN32 ${WIN32}")
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 if (GBK)
-    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -O0 -Ddebug -DDEBUG ${CMAKE_CXX_FLAGS_GBK} /utf-8")
-    SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3 ${CMAKE_CXX_FLAGS_GBK} /utf-8")
+    SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -O0 -Ddebug -DDEBUG ${CMAKE_CXX_FLAGS_GBK}")
+    SET(CMAKE_CXX_FLAGS_RELEASE "-Wall -O3 ${CMAKE_CXX_FLAGS_GBK}")
     message("GBK is On!")
 else()
     SET(CMAKE_CXX_FLAGS_DEBUG "-Wall -g3 -ggdb -Ddebug -DDEBUG")
@@ -125,7 +125,7 @@ elseif (APPLE)
         /usr/lib
         )
     if (FALSE)
-        target_link_libraries(${PROJECT_NAME} 
+        target_link_libraries(${PROJECT_NAME}
             -lcrt0.o
             )
     endif ()
