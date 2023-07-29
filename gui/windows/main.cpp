@@ -9,13 +9,22 @@
 // void*. This define is set in the example .vcxproj file and need to be
 // replicated in your app or by adding it to your imconfig.h file.
 
+#include <bits/chrono.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <tchar.h>
+#include <algorithm>
+#include <ctime>
+#include <cstdlib>
+#include <chrono>
+#include <string>
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
 #include "imgui_impl_win32.h"
+#include "myfont.cpp"
+
+using namespace std::chrono;
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -59,6 +68,9 @@ void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+const int len = 100;
+int a[len] = {};
 
 // Main code
 int main(int, char**) {
@@ -142,6 +154,8 @@ int main(int, char**) {
     // io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f,
     // nullptr, io.Fonts->GetGlyphRangesJapanese()); IM_ASSERT(font != nullptr);
 
+    ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(MyFont_compressed_data, MyFont_compressed_size, 16.0f);
+    IM_ASSERT(font != nullptr);
     // Main loop
     bool done = false;
     while (!done) {
@@ -161,10 +175,34 @@ int main(int, char**) {
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        static char text[1024];
-        ImGui::Begin("Hello World");
-        ImGui::InputText("Text Box", text, IM_ARRAYSIZE(text));
-        ImGui::End();
+        {
+            static char text[1024];
+            ImGui::Begin("Hello World");
+            ImGui::InputText("Text Box", text, IM_ARRAYSIZE(text));
+            ImGui::End();
+            
+            ImGui::Begin("Another Window");
+            ImGui::InputText("Another Box", text, IM_ARRAYSIZE(text));
+            // ImGui::Text("中文测试");
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::End();
+        }
+        
+        {
+            ImGui::Begin("Sort test");
+            clock_t c1 = clock();
+            srand(time(NULL));
+            for (int i = 0; i < len; i++) {
+                a[i] = rand();
+            }
+            std::sort(a + 1, a + len + 1);
+            clock_t c2 = clock();
+            // milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(seconds(c2 - c1) / CLOCKS_PER_SEC);
+            double ms = (double)(c2 - c1) / CLOCKS_PER_SEC * 1000.0;
+            // ImGui::Text("%s", ("Sorting Time: " + std::to_string(ms.count()) + "ms").c_str());
+            ImGui::Text("%s", ("Sorting Time: " + std::to_string(ms) + "ms").c_str());
+            ImGui::End();
+        }
 
         // Rendering
         ImGui::Render();
