@@ -1,2 +1,3 @@
 ignore:
   - tests/   # 测试文件
+  - third-party/
