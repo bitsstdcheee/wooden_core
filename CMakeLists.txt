@@ -170,10 +170,6 @@ set_target_properties(imgui PROPERTIES OUTPUT_NAME "imgui")
 # target_compile_definitions(imgui PRIVATE
     # "$<$<CONFIG:Debug>: -Udebug -UDebug -UDEBUG>"
 # )
-set_target_properties(imgui PROPERTIES 
-  EXCLUDE_FROM_ALL $<NOT:$<CONFIG:Debug>>
-  EXCLUDE_FROM_DEFAULTS $<NOT:$<CONFIG:Debug>>
-)
 
 # gui
 add_executable(wooden_gui ${GUI_SRC})
