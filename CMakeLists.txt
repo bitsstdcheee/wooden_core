@@ -182,7 +182,7 @@ if ($<CONFIG:Debug>)
 endif()
 
 if (WIN32)
-    target_link_libraries(imgui PUBLIC
+    target_link_libraries(imgui PRIVATE
         d3d12.lib
         d3dcompiler.lib
         dxgi.lib
@@ -198,7 +198,7 @@ elseif (APPLE)
     message(${IOKIT_LIBRARY})
     message(${COREVID_LIBRARY})
 
-    target_link_libraries(imgui PUBLIC
+    target_link_libraries(imgui PRIVATE
         ${OPENGL_LIBRARY}
         ${COCOA_LIBRARY}
         ${IOKIT_LIBRARY}
@@ -214,7 +214,7 @@ elseif (UNIX AND NOT APPLE)
         COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `pkg-config --cflags glfw3` `pkg-config --static --libs glfw3`"
     )
     # linux: sudo apt install libglfw3-dev
-    target_link_libraries(imgui PUBLIC
+    target_link_libraries(imgui PRIVATE
         "`pkg-config --cflags glfw3`"
         "`pkg-config --static --libs glfw3`"
         GL
