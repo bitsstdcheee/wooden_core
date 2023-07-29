@@ -189,13 +189,19 @@ if (WIN32)
         dwmapi.dll
     )
 elseif (APPLE)
+    execute_process(COMMAND sdl2-config --libs
+        TIMEOUT 5
+        OUTPUT_VARIABLE config1)
+    execute_process(COMMAND sdl2-config --cflags
+        TIMEOUT 5
+        OUTPUT_VARIABLE config2)
     target_link_libraries(imgui PRIVATE
         "-framework OpenGL"
         "-framework Cocoa"
         "-framework IOKit"
         "-framework CoreVideo"
-        `sdl2-config --libs`
-        `sdl2-config --cflags`
+        ${config1}
+        ${config2}
     )
     if (FALSE)
     set_target_properties(imgui PROPERTIES
@@ -208,10 +214,16 @@ elseif (UNIX AND NOT APPLE)
         COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `pkg-config --cflags glfw3` `pkg-config --static --libs glfw3`"
     )
     endif()
+    execute_process(COMMAND pkg-config --cflags glfw3
+    TIMEOUT 5
+    OUTPUT_VARIABLE config1)
+    execute_process(COMMAND pkg-config --static --libs glfw3
+    TIMEOUT 5
+    OUTPUT_VARIABLE config2)
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui PRIVATE
-        `pkg-config --cflags glfw3`
-        `pkg-config --static --libs glfw3`
+        ${config1}
+        ${config2}
         GL
     )
     
