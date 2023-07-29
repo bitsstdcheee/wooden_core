@@ -21,6 +21,8 @@ jobs:
                 clang-format --version
           - name: 下载分支
             uses: actions/checkout@v3
+            with:
+              submodules: recursive
           - name: 获取当前分支
             run: |
                 echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT

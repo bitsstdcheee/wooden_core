@@ -12,6 +12,7 @@ jobs:
             uses: actions/checkout@v3
             with:
                 fetch-depth: 10
+                submodules: recursive
           - name: 处理 Artifact 名称
             id: pre_artifact
             # 将斜杠、反斜杠换为减号
