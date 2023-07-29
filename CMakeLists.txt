@@ -202,14 +202,12 @@ elseif (APPLE)
         ${COCOA_LIBRARY}
         ${IOKIT_LIBRARY}
         ${COREVID_LIBRARY}
-        glfw # use this lib name
+        glfw3
     )
 elseif (UNIX AND NOT APPLE)
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui
-        GL
-        glfw # use this lib name
-        dl
+        glfw3
     )
 endif()
 
