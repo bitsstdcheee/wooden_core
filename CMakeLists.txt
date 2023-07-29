@@ -202,7 +202,9 @@ elseif (APPLE)
         ${OPENGL_LIBRARY}
         ${COCOA_LIBRARY}
         ${IOKIT_LIBRARY}
-        ${COREVID_LIBRARY}
+        ${COREVID_LIBRARY}'
+        "`sdl2-config --libs`"
+        "`sdl2-config --cflags`"
     )
     set_target_properties(imgui PROPERTIES
         COMPILE_FLAGS "${CMAKE_CXX_FLAGS} `sdl2-config --libs` `sdl2-config --cflags`"
@@ -213,6 +215,8 @@ elseif (UNIX AND NOT APPLE)
     )
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui PUBLIC
+        "`pkg-config --cflags glfw3`"
+        "`pkg-config --static --libs glfw3`"
         GL
     )
     
