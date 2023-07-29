@@ -59,9 +59,10 @@ jobs:
       with:
         fetch-depth: 1
         submodules: recursive
-    - name: 安装 GLFW
+    - name: 安装依赖
       run: |
-        sudo apt install libglfw3-dev
+        sudo apt-get update
+        sudo apt-get install -y libglfw3-dev libsdl2-dev gcc-multilib g++-multilib libfreetype6-dev libvulkan-dev
     - name: 安装 LCOV
       shell: bash
       run: |
@@ -71,6 +72,9 @@ jobs:
     - name: 编译 (wooden_game)
       id: compile_game
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
+    - name: 编译 (wooden_gui)
+      id: compile_gui
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
     - name: 执行 (wooden_game)
       run: |
         echo "The Current Exec Path:"

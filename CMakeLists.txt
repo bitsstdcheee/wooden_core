@@ -202,11 +202,12 @@ elseif (APPLE)
         ${COCOA_LIBRARY}
         ${IOKIT_LIBRARY}
         ${COREVID_LIBRARY}
-        glfw3
+        glfw
     )
 elseif (UNIX AND NOT APPLE)
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui
+        GL
         glfw3
     )
 endif()
@@ -225,6 +226,9 @@ if (WIN32)
 elseif (APPLE)
     link_directories(
         /usr/lib
+        /usr/local/lib
+        /opt/local/lib
+        /opt/homebrew/lib
         )
 elseif (UNIX)
 endif ()

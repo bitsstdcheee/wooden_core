@@ -54,9 +54,9 @@ jobs:
     - name: 输出 CMake 支持 Generators
       run: |
         cmake --help
-    - name: 安装 GLFW
+    - name: 安装依赖
       run: |
-        brew install glfw3
+        brew install glfw3 sdl2
     - name: 下载分支
       uses: actions/checkout@v3
       with:
@@ -67,6 +67,9 @@ jobs:
     - name: 编译 (wooden_game)
       id: compile_game
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
+    - name: 编译 (wooden_gui)
+      id: compile_gui
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
     - name: 执行 (wooden_game)
       run: |
         echo "The Current Exec Path:"
