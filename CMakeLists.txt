@@ -71,11 +71,6 @@ if (WIN32)
     SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fuse-ld=lld")
 endif()
 
-function (trim stringvar)
-    # 删除字串头尾多余的空格
-    string(STRIP "${stringvar}" stringvar)
-endfunction()
-
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -200,8 +195,8 @@ elseif (APPLE)
     execute_process(COMMAND sdl2-config --cflags
         TIMEOUT 5
         OUTPUT_VARIABLE config2)
-    trim(${config1})
-    trim(${config2})
+    string(STRIP ${config1} config1)
+    string(STRIP ${config2} config2)
     target_link_libraries(imgui PRIVATE
         "-framework OpenGL"
         "-framework Cocoa"
@@ -228,8 +223,8 @@ elseif (UNIX AND NOT APPLE)
     TIMEOUT 5
     OUTPUT_VARIABLE config2)
     # linux: sudo apt install libglfw3-dev
-    trim(${config1})
-    trim(${config2})
+    string(STRIP ${config1} config1)
+    string(STRIP ${config2} config2)
     target_link_libraries(imgui PRIVATE
         ${config1}
         ${config2}
