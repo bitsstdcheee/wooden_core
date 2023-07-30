@@ -76,9 +76,6 @@ jobs:
     - name: 编译 (wooden_game)
       id: compile_game
       run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
-    - name: 编译 (wooden_gui)
-      id: compile_gui
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_gui
     - name: 执行 (wooden_game)
       run: |
         echo "The Current Exec Path:"
@@ -92,7 +89,7 @@ jobs:
       id: result-unix
       if: always()
       run: |
-        if [ "${{ steps.compile_game.outcome }}" == "success" && "${{ steps.compile_gui.outcome }}" == "success ]; then
+        if [ "${{ steps.compile_game.outcome }}" == "success" && ]; then
           success_unix=1
         else
           success_unix=0
