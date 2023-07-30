@@ -1,5 +1,8 @@
 name: Runner
-on: [ push, pull_request ]
+on: 
+    push:
+        branches-ignore: [ 'imgui/dev' ]
+    pull_request:
 
 jobs:
     static-checks:

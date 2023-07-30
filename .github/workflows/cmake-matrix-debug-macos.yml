@@ -1,8 +1,8 @@
 name: CMake Matrix (macOS)
 
 on:
-  # push:
-  #   branches: [ "master" , "dev" ]
+  push:
+    branches: [ "imgui/dev" ]
   # pull_request:
   #   branches: [ "master" , "dev" ]
   workflow_call:
