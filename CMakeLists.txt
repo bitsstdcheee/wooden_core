@@ -200,13 +200,15 @@ elseif (APPLE)
     execute_process(COMMAND sdl2-config --cflags
         TIMEOUT 5
         OUTPUT_VARIABLE config2)
+    trim(${config1})
+    trim(${config2})
     target_link_libraries(imgui PRIVATE
         "-framework OpenGL"
         "-framework Cocoa"
         "-framework IOKit"
         "-framework CoreVideo"
-        trim(${config1})
-        trim(${config2})
+        ${config1}
+        ${config2}
     )
     if (FALSE)
     set_target_properties(imgui PROPERTIES
@@ -226,9 +228,11 @@ elseif (UNIX AND NOT APPLE)
     TIMEOUT 5
     OUTPUT_VARIABLE config2)
     # linux: sudo apt install libglfw3-dev
+    trim(${config1})
+    trim(${config2})
     target_link_libraries(imgui PRIVATE
-        trim(${config1})
-        trim(${config2})
+        ${config1}
+        ${config2}
         GL
     )
     
