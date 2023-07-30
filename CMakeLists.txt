@@ -71,6 +71,11 @@ if (WIN32)
     SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fuse-ld=lld")
 endif()
 
+function (trim stringvar)
+    # 删除字串头尾多余的空格
+    string(STRIP "${stringvar}" stringvar)
+endfunction()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -181,8 +186,6 @@ if ($<CONFIG:Debug>)
     )
 endif()
 
-cmake_policy(SET CMP0004 OLD)
-
 if (WIN32)
     target_link_libraries(imgui PRIVATE
         d3d12.lib
@@ -202,8 +205,8 @@ elseif (APPLE)
         "-framework Cocoa"
         "-framework IOKit"
         "-framework CoreVideo"
-        ${config1}
-        ${config2}
+        trim(${config1})
+        trim(${config2})
     )
     if (FALSE)
     set_target_properties(imgui PROPERTIES
@@ -224,8 +227,8 @@ elseif (UNIX AND NOT APPLE)
     OUTPUT_VARIABLE config2)
     # linux: sudo apt install libglfw3-dev
     target_link_libraries(imgui PRIVATE
-        ${config1}
-        ${config2}
+        trim(${config1})
+        trim(${config2})
         GL
     )
     
