@@ -217,7 +217,8 @@ int main(int, char**) {
 
         {
             ImGui::Begin("Framerate");
-            for (int i = 1; i < frame_len; i++) frame_rate[i - 1] = frame_rate[i];
+            for (int i = 1; i < frame_len; i++)
+                frame_rate[i - 1] = frame_rate[i];
             float tmp[frame_len];
             frame_aver = 0;
             frame_min = 10000;
@@ -229,8 +230,12 @@ int main(int, char**) {
                 tmp[i] = frame_rate[i];
             }
             std::sort(tmp, tmp + frame_len);
-            if (frame_len % 2 == 0) frame_mid = float(tmp[frame_len / 2 - 1] + tmp[frame_len / 2 - 2]) / 2.0;
-            else frame_mid = tmp[frame_len / 2 - 1];
+            if (frame_len % 2 == 0)
+                frame_mid =
+                    float(tmp[frame_len / 2 - 1] + tmp[frame_len / 2 - 2]) /
+                    2.0;
+            else
+                frame_mid = tmp[frame_len / 2 - 1];
             frame_aver /= (float)frame_len;
             frame_rate[frame_len - 1] = io.Framerate;
             ImGui::PlotLines("Framerate", frame_rate, IM_ARRAYSIZE(frame_rate));
@@ -242,15 +247,20 @@ int main(int, char**) {
         {
             ImGui::Begin("Mouse");
             int aMouseInfo[3];
-            BOOL fResult = SystemParametersInfo(SPI_GETMOUSE, 0, &aMouseInfo, 0);
-            ImGui::Text("SPI_GETMOUSE: %d, %d, %d, Code: %d", aMouseInfo[0], aMouseInfo[1], aMouseInfo[2], fResult);
-            MOUSEKEYS mks; mks.cbSize = sizeof(MOUSEKEYS);
-            fResult = SystemParametersInfo(SPI_GETMOUSEKEYS, sizeof(MOUSEKEYS), &mks, sizeof(MOUSEKEYS));
-            ImGui::Text("SPI_GETMOUSEKEYS: LeftButtonDown: %s, RightButtonDown: %s, LeftButtonSel: %s, Code: %d",
-                        (mks.dwFlags & MKF_LEFTBUTTONDOWN ? "True" : "False"),
-                        (mks.dwFlags & MKF_RIGHTBUTTONDOWN ? "True" : "False"),
-                        (mks.dwFlags & MKF_LEFTBUTTONSEL ? "True" : "False"),
-                        fResult);
+            BOOL fResult =
+                SystemParametersInfo(SPI_GETMOUSE, 0, &aMouseInfo, 0);
+            ImGui::Text("SPI_GETMOUSE: %d, %d, %d, Code: %d", aMouseInfo[0],
+                        aMouseInfo[1], aMouseInfo[2], fResult);
+            MOUSEKEYS mks;
+            mks.cbSize = sizeof(MOUSEKEYS);
+            fResult = SystemParametersInfo(SPI_GETMOUSEKEYS, sizeof(MOUSEKEYS),
+                                           &mks, sizeof(MOUSEKEYS));
+            ImGui::Text(
+                "SPI_GETMOUSEKEYS: LeftButtonDown: %s, RightButtonDown: %s, "
+                "LeftButtonSel: %s, Code: %d",
+                (mks.dwFlags & MKF_LEFTBUTTONDOWN ? "True" : "False"),
+                (mks.dwFlags & MKF_RIGHTBUTTONDOWN ? "True" : "False"),
+                (mks.dwFlags & MKF_LEFTBUTTONSEL ? "True" : "False"), fResult);
             ImGui::End();
         }
 
