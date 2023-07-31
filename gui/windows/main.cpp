@@ -69,8 +69,10 @@ void WaitForLastSubmittedFrame();
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-const int len = 100;
+const int len = 10000;
 int a[len] = {};
+float frame_rate[100] = {};
+float frame_max, frame_min, frame_aver, frame_mid;
 
 // Main code
 int main(int, char**) {
@@ -207,6 +209,29 @@ int main(int, char**) {
             // + "ms").c_str());
             ImGui::Text("%s",
                         ("Sorting Time: " + std::to_string(ms) + "ms").c_str());
+            ImGui::End();
+        }
+
+        {
+            ImGui::Begin("Framerate");
+            for (int i = 1; i < 100; i++)
+                frame_rate[i - 1] = frame_rate[i];
+            float tmp[100];
+            frame_aver = 0;
+            frame_min = INT_MAX;
+            frame_max = INT_MIN;
+            for (int i = 0; i < 100; i++) {
+                frame_min = std::min(frame_min, frame_rate[i]);
+                frame_max = std::max(frame_max, frame_rate[i]);
+                frame_aver += frame_rate[i];
+                tmp[i] = frame_rate[i];
+            }
+            std::sort(tmp, tmp + 100);
+            frame_mid = (tmp[49] + tmp[50]) / 2.0;
+            frame_aver /= 100.0;
+            frame_rate[99] = io.Framerate;
+            ImGui::PlotLines("Framerate", frame_rate, IM_ARRAYSIZE(frame_rate));
+            ImGui::Text("Max: %.2f, Min: %.2f, Mid: %2.f, Average: %.2f", frame_max, frame_min, frame_mid, frame_aver);
             ImGui::End();
         }
 
