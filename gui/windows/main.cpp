@@ -214,8 +214,7 @@ int main(int, char**) {
 
         {
             ImGui::Begin("Framerate");
-            for (int i = 1; i < 100; i++)
-                frame_rate[i - 1] = frame_rate[i];
+            for (int i = 1; i < 100; i++) frame_rate[i - 1] = frame_rate[i];
             float tmp[100];
             frame_aver = 0;
             frame_min = INT_MAX;
@@ -231,7 +230,8 @@ int main(int, char**) {
             frame_aver /= 100.0;
             frame_rate[99] = io.Framerate;
             ImGui::PlotLines("Framerate", frame_rate, IM_ARRAYSIZE(frame_rate));
-            ImGui::Text("Max: %.2f, Min: %.2f, Mid: %2.f, Average: %.2f", frame_max, frame_min, frame_mid, frame_aver);
+            ImGui::Text("Max: %.2f, Min: %.2f, Mid: %2.f, Average: %.2f",
+                        frame_max, frame_min, frame_mid, frame_aver);
             ImGui::End();
         }
 
