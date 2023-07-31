@@ -52,6 +52,8 @@ message("CMAKE_SYSTEM_VERSION ${CMAKE_SYSTEM_VERSION}")
 message("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 message("UNIX ${UNIX}")
 message("WIN32 ${WIN32}")
+message("C_COMPILER ${CMAKE_C_COMPILER}")
+message("CXX_COMPILER ${CMAKE_CXX_COMPILER}")
 
 # 指定编译器
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
