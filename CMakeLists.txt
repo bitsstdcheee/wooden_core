@@ -88,6 +88,7 @@ enable_testing()
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/third-party/imgui/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 if (APPLE)
     include_directories(
@@ -160,11 +161,18 @@ list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
 set(GLOBAL_HEADERS "${HEADERS}")
 set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
-# .cpp 生成可执行文件
-add_executable(${PROJECT_NAME} ${SOURCES})
+# wooden_core
+add_library(wooden_core STATIC ${GLOBAL_SOURCES_CORE})
+target_compile_options(wooden_core PRIVATE
+        "$<$<CONFIG:Debug>:-Ddebug -DDebug -DDEBUG>"
+        )
+
+# wooden_game
+add_executable(${PROJECT_NAME} "wooden_main.cpp")
 target_compile_options(${PROJECT_NAME} PRIVATE
-    "$<$<CONFIG:Debug>:-Ddebug -DDebug -DDEBUG>"
-)
+        "$<$<CONFIG:Debug>:-Ddebug -DDebug -DDEBUG>"
+        )
+target_link_libraries(${PROJECT_NAME} wooden_core)
 
 # imgui
 add_library(imgui STATIC ${IMGUI_SRC})
@@ -173,6 +181,7 @@ set_target_properties(imgui PROPERTIES OUTPUT_NAME "imgui")
 # target_compile_definitions(imgui PRIVATE
     # "$<$<CONFIG:Debug>: -Udebug -UDebug -UDEBUG>"
 # )
+target_link_libraries(imgui wooden_core)
 
 # gui
 add_executable(wooden_gui ${GUI_SRC})
@@ -184,7 +193,7 @@ if ($<CONFIG:Debug>)
 endif()
 
 if (WIN32)
-    target_link_libraries(imgui PRIVATE
+    target_link_libraries(imgui
         d3d12.lib
         d3dcompiler.lib
         dxgi.lib
@@ -199,7 +208,7 @@ elseif (APPLE)
         OUTPUT_VARIABLE config2)
     string(STRIP ${config1} config1)
     string(STRIP ${config2} config2)
-    target_link_libraries(imgui PRIVATE
+    target_link_libraries(imgui
         "-framework OpenGL"
         "-framework Cocoa"
         "-framework IOKit"
@@ -227,7 +236,7 @@ elseif (UNIX AND NOT APPLE)
     # linux: sudo apt install libglfw3-dev
     string(STRIP ${config1} config1)
     string(STRIP ${config2} config2)
-    target_link_libraries(imgui PRIVATE
+    target_link_libraries(imgui
         ${config1}
         ${config2}
         GL
