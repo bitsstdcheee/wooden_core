@@ -23,6 +23,7 @@
 #include "imgui_impl_dx12.h"
 #include "imgui_impl_win32.h"
 #include "myfont.cpp"
+#include <wooden_debug.h>
 
 using namespace std::chrono;
 
@@ -258,6 +259,7 @@ int main(int, char**) {
             ImGui::Begin("Test Button");
             if (ImGui::Button("Count")) {
                 btn_count++;
+                dprint("Test");
             }
             ImGui::Text("Count: %d", btn_count);
             ImGui::End();
