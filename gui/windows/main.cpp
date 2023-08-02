@@ -23,7 +23,6 @@
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
 #include "imgui_impl_win32.h"
-#include "myfont.cpp"
 
 using namespace std::chrono;
 
@@ -78,6 +77,7 @@ float frame_rate[frame_len] = {};
 float frame_max, frame_min, frame_aver, frame_mid;
 
 int btn_count = 0;
+
 
 // Main code
 int main(int, char**) {
@@ -161,9 +161,16 @@ int main(int, char**) {
     // io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f,
     // nullptr, io.Fonts->GetGlyphRangesJapanese()); IM_ASSERT(font != nullptr);
 
-    ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(
-        MyFont_compressed_data, MyFont_compressed_size, 16.0f);
-    IM_ASSERT(font != nullptr);
+    /* ImFont* font = io.Fonts->AddFontFromMemoryCompressedTTF(
+        msyh_compressed_data, msyh_compressed_size, 16.0f); */
+    // ImFont* font = io.Fonts->AddFontDefault();
+    ImFontConfig config;
+    config.MergeMode = false;
+    // io.Fonts->AddFontFromFileTTF("c:/windows/Fonts/simhei.ttf", 16.0f, &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+    // io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config, io.Fonts->GetGlyphRangesDefault());
+    io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+    // IM_ASSERT(font != NULL);
+    io.Fonts->Build();
     // Main loop
     bool done = false;
     while (!done) {
@@ -191,7 +198,7 @@ int main(int, char**) {
 
             ImGui::Begin("Another Window");
             ImGui::InputText("Another Box", text, IM_ARRAYSIZE(text));
-            // ImGui::Text("中文测试");
+            ImGui::Text(u8"中文测试");
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                         1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
@@ -272,6 +279,14 @@ int main(int, char**) {
                 dprint("Test");
             }
             ImGui::Text("Count: %d", btn_count);
+            ImGui::End();
+        }
+
+        {
+            ImGui::Begin(u8"技能列表");
+            const char* items[] = { u8"拍气", u8"木剑", "Alpaca" };
+            static int item_current = 1;
+            ImGui::ListBox("Test", &item_current, items, IM_ARRAYSIZE(items), 4);
             ImGui::End();
         }
 

@@ -143,6 +143,10 @@ message("IMGUI_PLATFORM_SRC ${IMGUI_PLATFORM_SRC}")
 message("IMGUI_SRC ${IMGUI_SRC}")
 
 # gui
+file (GLOB FONT_SRC
+        gui/fonts/*.cpp
+        gui/fonts/*.h
+        )
 if (WIN32)
     file (GLOB GUI_SRC
         gui/windows/*.cpp
@@ -154,6 +158,7 @@ elseif (UNIX)
         gui/unix/*.h
     )
 endif()
+set(GUI_SRC "${GUI_SRC};${FONT_SRC}")
 
 set(GLOBAL_SOURCES "${SOURCES}")
 set(GLOBAL_SOURCES_CORE "${SOURCES}")
@@ -183,7 +188,7 @@ set_target_properties(imgui PROPERTIES OUTPUT_NAME "imgui")
 # )
 target_link_libraries(imgui wooden_core)
 
-# gui
+# wooden_gui
 add_executable(wooden_gui ${GUI_SRC})
 target_link_libraries(wooden_gui PUBLIC imgui)
 if ($<CONFIG:Debug>)
