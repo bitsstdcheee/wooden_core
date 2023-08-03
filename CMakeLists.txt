@@ -7,7 +7,7 @@ PROJECT(wooden_game)
 
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if((CMAKE_BUILD_TYPE STREQUAL "Debug") AND (NOT WIN32))
     message("代码覆盖分析已开启")
     set(ENABLE_COVERAGE ON)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
