@@ -13,6 +13,7 @@
 #include <dxgi1_4.h>
 #include <tchar.h>
 #include <wooden_debug.h>
+#include <wooden_skill.h>
 
 #include <algorithm>
 #include <chrono>
@@ -78,6 +79,14 @@ float frame_max, frame_min, frame_aver, frame_mid;
 
 int btn_count = 0;
 
+char* skills[MAX_SKILL_NUM_D + 1];
+void init() {
+    for (int i = tskl::MIN_SKILL_NUM; i <= tskl::MAX_SKILL_NUM; i++) {
+        string res = tskl::get_skill_name((int)i);
+        skills[i] = new char[res.size() + 1];
+        strcpy(skills[i], res.c_str());
+    }
+}
 
 // Main code
 int main(int, char**) {
@@ -168,10 +177,11 @@ int main(int, char**) {
     config.MergeMode = false;
     // io.Fonts->AddFontFromFileTTF("c:/windows/Fonts/simhei.ttf", 16.0f, &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
     // io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config, io.Fonts->GetGlyphRangesDefault());
-    io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+    io.Fonts->AddFontFromFileTTF("asset/font/source-hans.otf", 20.0f, &config, io.Fonts->GetGlyphRangesChineseFull());
     // IM_ASSERT(font != NULL);
     io.Fonts->Build();
     // Main loop
+    init();
     bool done = false;
     while (!done) {
         // Poll and handle messages (inputs, window resize, etc.)
@@ -284,9 +294,9 @@ int main(int, char**) {
 
         {
             ImGui::Begin(u8"技能列表");
-            const char* items[] = { u8"拍气", u8"木剑", "Alpaca" };
+            // const char *items[] = {u8"拍气", u8"木剑", "Alpaca"};
             static int item_current = 1;
-            ImGui::ListBox("Test", &item_current, items, IM_ARRAYSIZE(items), 4);
+            ImGui::ListBox("Test", &item_current, skills, IM_ARRAYSIZE(skills), 4);
             ImGui::End();
         }
 
