@@ -196,6 +196,16 @@ if ($<CONFIG:Debug>)
         dxguid.lib
     )
 endif()
+# 将相关资源文件拷贝到目标目录
+SET(ASSET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/asset")
+SET(TARGET_ASSET_DIR "$<TARGET_FILE_DIR:wooden_gui>/asset")
+add_custom_command(TARGET wooden_gui POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "源目录: ${ASSET_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E echo "目标目录: ${TARGET_ASSET_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E echo "创建目标目录"
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${TARGET_ASSET_DIR} NEW
+        COMMAND ${CMAKE_COMMAND} -E echo "拷贝资源文件"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${ASSET_DIR} ${TARGET_ASSET_DIR})
 
 if (WIN32)
     target_link_libraries(imgui
