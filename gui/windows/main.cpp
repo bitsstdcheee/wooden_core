@@ -175,9 +175,12 @@ int main(int, char**) {
     // ImFont* font = io.Fonts->AddFontDefault();
     ImFontConfig config;
     config.MergeMode = false;
-    // io.Fonts->AddFontFromFileTTF("c:/windows/Fonts/simhei.ttf", 16.0f, &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
-    // io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config, io.Fonts->GetGlyphRangesDefault());
-    io.Fonts->AddFontFromFileTTF("asset/font/source-hans.otf", 20.0f, &config, io.Fonts->GetGlyphRangesChineseFull());
+    // io.Fonts->AddFontFromFileTTF("c:/windows/Fonts/simhei.ttf", 16.0f,
+    // &config, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
+    // io.Fonts->AddFontFromFileTTF("noto-sans.otf", 13.0f, &config,
+    // io.Fonts->GetGlyphRangesDefault());
+    io.Fonts->AddFontFromFileTTF("asset/font/source-hans.otf", 20.0f, &config,
+                                 io.Fonts->GetGlyphRangesChineseFull());
     // IM_ASSERT(font != NULL);
     io.Fonts->Build();
     // Main loop
@@ -296,7 +299,8 @@ int main(int, char**) {
             ImGui::Begin(u8"技能列表");
             // const char *items[] = {u8"拍气", u8"木剑", "Alpaca"};
             static int item_current = 1;
-            ImGui::ListBox("Test", &item_current, skills, IM_ARRAYSIZE(skills), 4);
+            ImGui::ListBox("Test", &item_current, skills, IM_ARRAYSIZE(skills),
+                           4);
             ImGui::End();
         }
 
