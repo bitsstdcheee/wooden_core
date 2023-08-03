@@ -8,13 +8,13 @@ const int tskl::MIN_SKILL_NUM = 0;
 const int tskl::MAX_SKILL_NUM = 30;
 
 // clang-format off
-const std::array<std::string, tskl::MAX_SKILL_NUM + 1> skill_name = { "空",
-    "拍气", "木镐", "镐子", "钻镐", "附魔钻镐",
-    "木剑", "黄剑", "石剑", "铁剑", "金剑",
-    "钻剑", "附魔钻剑", "普防", "中防", "大防",
-    "阿西巴", "zd", "Hither", "拳", "掌",
-    "波波剑", "羊驼", "管", "咕噜咕噜", "评测",
-    "夹拳", "夹剑", "夹波波剑", "空手", "黄剑 (毁坏)"
+const std::array<std::string, tskl::MAX_SKILL_NUM + 1> skill_name = { u8"空",
+    u8"拍气", u8"木镐", u8"镐子", u8"钻镐", u8"附魔钻镐",
+    u8"木剑", u8"黄剑", u8"石剑", u8"铁剑", u8"金剑",
+    u8"钻剑", u8"附魔钻剑", u8"普防", u8"中防", u8"大防",
+    u8"阿西巴", u8"zd", u8"Hither", u8"拳", u8"掌",
+    u8"波波剑", u8"羊驼", u8"管", u8"咕噜咕噜", u8"评测",
+    u8"夹拳", u8"夹剑", u8"夹波波剑", u8"空手", u8"黄剑 (毁坏)"
 };
 // clang-format on
 
@@ -55,6 +55,8 @@ bool tskl::query_skill_is_defense(skill skl) {
     return skl == defense || skl == mid_defense || skl == large_defense ||
            skl == hands || skl == ashiba || skl == zd;
 }
+
+std::string tskl::get_skill_name(const int& skl) { return skill_name[skl]; }
 
 std::string tskl::get_skill_name(const skill& skl) { return skill_name[skl]; }
 #endif  // WOODEN_SKILL_CPP

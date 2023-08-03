@@ -100,6 +100,8 @@ enum skill {
 
 extern const int MIN_SKILL_NUM;
 extern const int MAX_SKILL_NUM;
+#define MIN_SKILL_NUM_D 0
+#define MAX_SKILL_NUM_D 30
 
 // 获取招式对应的叠加组 id
 string query_skill_overlay_name(skill);
@@ -116,5 +118,7 @@ bool query_skill_is_defense(skill);
 
 // 获取该招式的名称
 std::string get_skill_name(const skill&);
+
+std::string get_skill_name(const int&);
 }  // namespace tskl
 #endif  // WOODEN_SKILL_H
