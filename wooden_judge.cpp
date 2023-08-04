@@ -611,7 +611,8 @@ std::map<int, bool> do_main(
                 dprint("[Step 3] 玩家 " + std::to_string(pid) + " 出招 id=" +
                        std::to_string(skl) + " 为" + tskl::get_skill_name(skl));
                 if (have_judge && skl == tskl::gulu) {
-                    dprint("[Step 3] 玩家 " + std::to_string(pid) + " 被评测出局");
+                    dprint("[Step 3] 玩家 " + std::to_string(pid) +
+                           " 被评测出局");
                     tag_died[pid] = true;
                     tres[pid] = false;
                 } else {

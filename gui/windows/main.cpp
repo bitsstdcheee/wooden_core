@@ -19,8 +19,8 @@
 #include <chrono>
 #include <cstdlib>
 #include <ctime>
-#include <string>
 #include <map>
+#include <string>
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
@@ -189,8 +189,8 @@ int main(int, char**) {
     bool done = false;
     bool show_player_edit_window = false;
     static int player_number = 2;
-    static int player_id[100] = { };
-    static bool player_id_dump[100] = { };
+    static int player_id[100] = {};
+    static bool player_id_dump[100] = {};
     for (int i = 1; i < 100; i++) {
         player_id[i] = i;
     }
@@ -319,21 +319,25 @@ int main(int, char**) {
              * 1: TESTF
              * 2: TESTK
              */
-            ImGui::RadioButton("TESTN", &test_data_type, 0); ImGui::SameLine();
-            ImGui::RadioButton("TESTF", &test_data_type, 1); ImGui::SameLine();
+            ImGui::RadioButton("TESTN", &test_data_type, 0);
+            ImGui::SameLine();
+            ImGui::RadioButton("TESTF", &test_data_type, 1);
+            ImGui::SameLine();
             ImGui::RadioButton("TESTK", &test_data_type, 2);
             ImGui::Spacing();
             ImGui::Text(u8"玩家信息");
 
             ImGui::AlignTextToFramePadding();
-            ImGui::Text(u8"玩家数量"); ImGui::SameLine();
+            ImGui::Text(u8"玩家数量");
+            ImGui::SameLine();
             ImGui::InputInt("##", &player_number, 1, 5);
             if (player_number < 2) player_number = 2;
             static bool player_default_checked = true;
             ImGui::BeginGroup();
 
             ImGui::AlignTextToFramePadding();
-            ImGui::Text(u8"玩家 ID"); ImGui::SameLine();
+            ImGui::Text(u8"玩家 ID");
+            ImGui::SameLine();
             string player_id_str;
             for (int i = 1; i <= player_number; i++) {
                 if (i != 1) player_id_str += ", ";
@@ -392,7 +396,7 @@ int main(int, char**) {
             }
             ImGui::SameLine();
             if (ImGui::Button(u8"默认设置")) {
-                for (int i = 1; i <= player_number ; i++) {
+                for (int i = 1; i <= player_number; i++) {
                     player_id[i] = i;
                     player_id_dump[i] = false;
                 }
