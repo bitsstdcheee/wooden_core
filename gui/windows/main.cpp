@@ -304,6 +304,28 @@ int main(int, char**) {
             ImGui::End();
         }
 
+        {
+            ImGui::Begin(u8"测试数据查看");
+            const char* items[] = {"test1", "test2", "test3"};
+            static int item_current = 1;
+            ImGui::Combo(u8"测试数据", &item_current, items, IM_ARRAYSIZE(items));
+            ImGui::Spacing();
+            ImGui::Text(u8"玩家信息");
+            static int player_number = 3;
+            ImGui::InputInt(u8"玩家数量", &player_number, 1, 5);
+            static bool player_default_checked = true;
+            ImGui::BeginGroup();
+            ImGui::Text(u8"玩家 ID");
+            ImGui::Checkbox(u8"默认生成", &player_default_checked);
+            static char player_id_str[] = u8"1, 2, 3";
+            ImGui::Text("%s", player_id_str);
+            if (player_default_checked == false) {
+                ImGui::Button(u8"设置玩家 ID");
+            }
+            ImGui::EndGroup();
+            ImGui::End();
+        }
+
         // Rendering
         ImGui::Render();
 
