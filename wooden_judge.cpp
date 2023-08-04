@@ -597,7 +597,7 @@ std::map<int, bool> do_main(
             if (skl == tskl::tube || skl == tskl::gulu) {
                 // 存在管类或者咕噜咕噜
                 dprint("[Step 3] 玩家 " + std::to_string(pid) + " 出招 id=" +
-                       std::to_string(skl) + " 为管类或者咕噜咕噜用");
+                       std::to_string(skl) + " 为管类或者咕噜咕噜");
                 tres[pid] = true;
                 have_delayed = true;
             }
