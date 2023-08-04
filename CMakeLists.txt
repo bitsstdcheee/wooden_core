@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.15.0)
 # 指定项目名称
 PROJECT(wooden_game)
 
+# 默认关闭 GBK 输出编码
+set(GBK off)
 set(CMAKE_EXPORT_COMPILECOMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 if((CMAKE_BUILD_TYPE STREQUAL "Debug") AND (NOT WIN32))
