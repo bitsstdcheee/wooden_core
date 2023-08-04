@@ -301,7 +301,11 @@ const std::list<TESTN> testn = {
     TESTN(2, gen_players(2), gen_qi({0, 1}), gen_tag_died(2), gen_skl_count(2),
           gen_using_skill({tskl::fetch_bo, tskl::bo_sword}), gen_target({2, 1}),
           gen_res_tag_died({false, false}),
-          gen_res_qi({int(3.5 * 100), 0}, false), "夹波波剑-正常")};
+          gen_res_qi({int(3.5 * 100), 0}, false), "夹波波剑-正常"),
+
+    TESTN(2, gen_players(2), gen_qi({2, 0}), gen_tag_died(2), gen_skl_count(2), gen_using_skill({tskl::gulu, tskl::judge}),
+          gen_target({0, 1}), gen_res_tag_died({true, false}), gen_res_qi({0, 0}), "咕噜咕噜-评测")
+          };
 
 const int TESTN_NUM = testn.size();
 
