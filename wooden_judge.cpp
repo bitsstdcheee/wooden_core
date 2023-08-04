@@ -589,6 +589,18 @@ std::map<int, bool> do_main(
     tres.clear();
     // 是否存在有延迟出招的玩家
     bool have_delayed = false;
+    // 是否存在出评测的玩家
+    bool have_judge = false;
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            if (skl == tskl::judge) {
+                dprint("[Step 3] 玩家 " + std::to_string(pid) + " 出招评测");
+                have_judge = true;
+            }
+        }
+    }
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -597,9 +609,15 @@ std::map<int, bool> do_main(
             if (skl == tskl::tube || skl == tskl::gulu) {
                 // 存在管类或者咕噜咕噜
                 dprint("[Step 3] 玩家 " + std::to_string(pid) + " 出招 id=" +
-                       std::to_string(skl) + " 为管类或者咕噜咕噜用");
-                tres[pid] = true;
-                have_delayed = true;
+                       std::to_string(skl) + " 为" + tskl::get_skill_name(skl));
+                if (have_judge && skl == tskl::gulu) {
+                    dprint("[Step 3] 玩家 " + std::to_string(pid) + " 被评测出局");
+                    tag_died[pid] = true;
+                    tres[pid] = false;
+                } else {
+                    tres[pid] = true;
+                    have_delayed = true;
+                }
             }
         }
     }
