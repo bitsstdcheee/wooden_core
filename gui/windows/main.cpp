@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <string>
+#include <map>
 
 #include "imgui.h"
 #include "imgui_impl_dx12.h"
@@ -186,6 +187,13 @@ int main(int, char**) {
     // Main loop
     init();
     bool done = false;
+    bool show_player_edit_window = false;
+    static int player_number = 2;
+    static int player_id[100] = { };
+    static bool player_id_dump[100] = { };
+    for (int i = 1; i < 100; i++) {
+        player_id[i] = i;
+    }
     while (!done) {
         // Poll and handle messages (inputs, window resize, etc.)
         // See the WndProc() function below for our to dispatch events to the
@@ -303,26 +311,92 @@ int main(int, char**) {
                            4);
             ImGui::End();
         }
-
         {
-            ImGui::Begin(u8"测试数据查看");
-            const char* items[] = {"test1", "test2", "test3"};
-            static int item_current = 1;
-            ImGui::Combo(u8"测试数据", &item_current, items, IM_ARRAYSIZE(items));
+            ImGui::Begin(u8"测试数据创建器");
+            static int test_data_type = 0;
+            /*
+             * 0: TESTN
+             * 1: TESTF
+             * 2: TESTK
+             */
+            ImGui::RadioButton("TESTN", &test_data_type, 0); ImGui::SameLine();
+            ImGui::RadioButton("TESTF", &test_data_type, 1); ImGui::SameLine();
+            ImGui::RadioButton("TESTK", &test_data_type, 2);
             ImGui::Spacing();
             ImGui::Text(u8"玩家信息");
-            static int player_number = 3;
-            ImGui::InputInt(u8"玩家数量", &player_number, 1, 5);
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text(u8"玩家数量"); ImGui::SameLine();
+            ImGui::InputInt("##", &player_number, 1, 5);
+            if (player_number < 2) player_number = 2;
             static bool player_default_checked = true;
             ImGui::BeginGroup();
-            ImGui::Text(u8"玩家 ID");
-            ImGui::Checkbox(u8"默认生成", &player_default_checked);
-            static char player_id_str[] = u8"1, 2, 3";
-            ImGui::Text("%s", player_id_str);
-            if (player_default_checked == false) {
-                ImGui::Button(u8"设置玩家 ID");
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::Text(u8"玩家 ID"); ImGui::SameLine();
+            string player_id_str;
+            for (int i = 1; i <= player_number; i++) {
+                if (i != 1) player_id_str += ", ";
+                player_id_str += std::to_string(player_id[i]);
             }
+
+            ImGui::Text("%s", player_id_str.c_str());
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::Checkbox(u8"默认生成", &player_default_checked);
+            if (player_default_checked == false) {
+                ImGui::SameLine();
+                if (ImGui::Button(u8"玩家 ID 设置")) {
+                    show_player_edit_window = true;
+                }
+            } else {
+                for (int i = 1; i <= player_number; i++) {
+                    player_id[i] = i;
+                    player_id_dump[i] = false;
+                }
+            }
+            ImGui::Button(u8"生成代码");
             ImGui::EndGroup();
+            ImGui::End();
+        }
+
+        if (show_player_edit_window) {
+            ImGui::Begin(u8"玩家 ID 编辑", &show_player_edit_window);
+            for (int i = 1; i <= player_number; i++) {
+                static char text[100] = {};
+                std::sprintf(text, u8"玩家 %d", i);
+                ImGui::InputInt(text, &player_id[i], 1, 5);
+                if (player_id_dump[i]) {
+                    ImGui::SameLine();
+                    ImGui::Text(u8"警告: 编号重复");
+                }
+                if (player_id[i] < 1) player_id[i] = 1;
+            }
+            std::map<int, bool> check_id;
+            std::map<int, bool> have_id;
+            for (int i = 1; i <= player_number; i++) {
+                if (check_id[player_id[i]]) {
+                    have_id[player_id[i]] = true;
+                }
+                check_id[player_id[i]] = true;
+            }
+            for (int i = 1; i <= player_number; i++) {
+                if (have_id[player_id[i]]) {
+                    player_id_dump[i] = true;
+                } else {
+                    player_id_dump[i] = false;
+                }
+            }
+            if (ImGui::Button(u8"关闭")) {
+                show_player_edit_window = false;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button(u8"默认设置")) {
+                for (int i = 1; i <= player_number ; i++) {
+                    player_id[i] = i;
+                    player_id_dump[i] = false;
+                }
+            }
             ImGui::End();
         }
 
