@@ -23,16 +23,6 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.24.0")
     cmake_policy(SET CMP0135 NEW)
 endif()
 
-if (APPLE)
-# MacOS 系统不支持静态编译, 因为该平台上提供的库文件并没有进行静态编译
-# Error Message: (in https://github.com/bitsstdcheee/wooden_core/actions/runs/4820579102/jobs/8585266114)
-# ld: library not found for -lcrt0.o
-# Stack Overflow: https://stackoverflow.com/questions/3801011/ld-library-not-found-for-lcrt0-o-on-osx-10-6-with-gcc-clang-static-flag pu
-else ()
-# 设置静态编译
-    set(CMAKE_EXE_LINKER_FLAGS "-static")
-endif ()
-
 # 输出 Worker 信息
 message("The basic infomation:")
 message("PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}")
@@ -53,6 +43,33 @@ message("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 message("UNIX ${UNIX}")
 message("WIN32 ${WIN32}")
 
+# VS 编译器 UTF-8 编码适配
+string(FIND "${CMAKE_GENERATOR}" "Visual Studio" contains_vs)
+if(contains_vs GREATER -1)
+    SET(CMAKE_GENERATOR_VS on)
+else()
+    SET(CMAKE_GENERATOR_VS off)
+endif()
+
+if (APPLE)
+# MacOS 系统不支持静态编译, 因为该平台上提供的库文件并没有进行静态编译
+# Error Message: (in https://github.com/bitsstdcheee/wooden_core/actions/runs/4820579102/jobs/8585266114)
+# ld: library not found for -lcrt0.o
+# Stack Overflow: https://stackoverflow.com/questions/3801011/ld-library-not-found-for-lcrt0-o-on-osx-10-6-with-gcc-clang-static-flag pu
+elseif (NOT CMAKE_GENERATOR_VS)
+# 设置静态编译
+    set(CMAKE_EXE_LINKER_FLAGS "-static")
+endif ()
+
+if(CMAKE_GENERATOR_VS)
+    message("使用 VS 生成器")
+    # set(ENV{CL} "/source-charset:utf-8")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3 -ggdb")
+endif()
+
 # 指定编译器
 SET(CMAKE_CXX_FLAGS_GBK "-finput-charset=UTF-8 -fexec-charset=GBK")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
@@ -66,7 +83,7 @@ else()
     message("GBK is Off!")
 endif()
 
-if (WIN32)
+if (WIN32 AND (NOT CMAKE_GENERATOR_VS))
     SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fuse-ld=lld")
     SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fuse-ld=lld")
 endif()
