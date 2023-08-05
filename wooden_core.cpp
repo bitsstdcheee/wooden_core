@@ -16,7 +16,7 @@ int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
 
-#ifdef debug
+#ifdef DEBUG
 
     std::cout << "This program was built on " << __DATE__ << ", " << __TIME__
               << std::endl;

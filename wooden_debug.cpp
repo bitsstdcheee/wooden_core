@@ -5,7 +5,7 @@
 #include <iostream>
 
 // dprint: debug 输出
-#ifdef debug
+#ifdef DEBUG
 
 void dprint(const std::string &msg, bool need_endl) {
     std::cout << msg;

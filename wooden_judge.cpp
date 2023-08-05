@@ -12,7 +12,7 @@ using namespace tskl;
 // using namespace std;
 
 /*
-#ifndef debug
+#ifndef DEBUG
 
 // CMT_HOLD: 宏函数更换为注释, 用于占位避免注释符号比宏更先处理
 #define CMT_HOLD
@@ -643,7 +643,7 @@ std::map<int, bool> do_main(
                 dprint("[Step 4] 玩家 " + std::to_string(pid) +
                        " 出招 id=" + std::to_string(skl) + " 为直接出局类");
                 have_out = true;
-#ifndef debug
+#ifndef DEBUG
                 break;  // 非调试模式下直接跳出
 #endif
             }
@@ -1019,7 +1019,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
     }
     dprint("[Step 0] 完成, has_died = ", false);
     if (has_died_er == true) {
-#ifndef debug
+#ifndef DEBUG
         choices = clean_choices(choices);
 #endif
         dprint("true");
@@ -1030,7 +1030,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
     // Step 0.5. 添加计数器
     // 合法性检查通过, 将玩家选择的招式加入计数器
     for (const auto &player : choices) {
-#ifndef debug
+#ifndef DEBUG
         assert(tag_died[player.first] == false);
 #endif
         skl_count[player.first][player.second.skl]++;
@@ -1085,7 +1085,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
     }
     dprint("[Step 2] 完成, has died = ", false);
     if (has_died_wooden_axe == true) {
-#ifndef debug
+#ifndef DEBUG
         choices = clean_choices(choices);
 #endif
         dprint("true");
@@ -1264,7 +1264,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
     if (has_died_in_att) {
         // 有玩家在这个步骤中死去, 清理
         dprint("[Step 3] has died = true");
-#ifndef debug
+#ifndef DEBUG
         choices = clean_choices(choices);
 #endif
     } else {
@@ -1390,7 +1390,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
         }
     }
     if (has_died_in_att == true) {
-#ifndef debug
+#ifndef DEBUG
         choices = clean_choices(choices);
 #endif
     }
