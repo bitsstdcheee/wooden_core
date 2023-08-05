@@ -46,6 +46,7 @@ jobs:
             uses: actions/checkout@v3
             with:
                 fetch-depth: 1
+                submodules: recursive
           - name: 配置 CMake (${{ matrix.os }})
             run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
           - name: 编译
