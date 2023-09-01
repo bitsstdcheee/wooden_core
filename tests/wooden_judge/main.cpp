@@ -20,7 +20,10 @@ void check(const TESTN &test, bool check) {
     const std::map<int, std::vector<tskl::skill> > &_using_skill =
         test.using_skill;
     const std::map<int, int> &_target = test.target;
+    const std::string &_name = test.name;
     const std::string &_comment = test.comment;
+
+    dprint("备注: " + _comment);
 
     // Step 0. 传入数据 -- 玩家个数断言
     dprint("[P0] Before importing data");
@@ -74,8 +77,8 @@ void check(const TESTN &test, bool check) {
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
-    pretty_print_result_died((*players), _res_tag_died, _comment);
-    pretty_print_result_qi((*players), _res_qi, _comment);
+    pretty_print_result_died((*players), _res_tag_died, _name);
+    pretty_print_result_qi((*players), _res_qi, _name);
     dprint("[P2.5] After pretty printing");
 
     if (check == true) {
@@ -96,7 +99,7 @@ void check(const TESTN &test, bool check) {
                                                  : string("Incorrect")));
     }
 
-    std::cout << "Test success: " << test.comment << std::endl;
+    std::cout << "Test success: " << _name << std::endl;
 }
 
 void print_single_skill(const Skill &skl, bool need_endl = false) {
@@ -107,15 +110,15 @@ void print_single_skill(const Skill &skl, bool need_endl = false) {
 }
 
 // 便捷打印输入 do_main 参数.
-// comment: 备注名称.
+// name: 名称.
 // line_prefix: 在每行开始时输出的内容, 默认值为 "[P] ".
 // len_offset: 计算回收 Sharp 井号所需数量时需要加上 (负数为减去) 的长度数量,
 // std::string.length() 在计算时会将全角字符处理为 1, 输出时则需要 2 个井号,
 // 故需要在此参数加上. len_offset 理论上为输入字符串中全角字符的数量
 void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
-                 std::string comment = "", std::string line_prefix = "[P] ",
+                 std::string name = "", std::string line_prefix = "[P] ",
                  int len_offset = 0) {
-    dprint(line_prefix + "###### " + (comment == "" ? "轮次" : comment) +
+    dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) +
            " ######");
     for (auto choice : batch) {
         auto &pid = choice.first;
@@ -134,7 +137,7 @@ void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
     }
     int gen_sharp_cnt = 12 + 2;  // 原先井号 + 空格
     std::string gen_sharp = "";
-    gen_sharp_cnt += (comment == "" ? "轮次" : comment).length();
+    gen_sharp_cnt += (name == "" ? "轮次" : name).length();
     if (gen_sharp_cnt + len_offset <= 0) {
         // 加上 len_offset 后长度小于等于 0
         dprint(line_prefix + "警告: len_offset(" + std::to_string(len_offset) +
@@ -156,6 +159,7 @@ void check(const TESTF &test, bool check) {
     const std::vector<TESTK> _using_skill = test.using_skill;
     const std::map<int, bool> _res_tag_died = test.res_tag_died;
     const std::map<int, int> _res_qi = test.res_qi;
+    const std::string _name = test.name;
     const std::string _comment = test.comment;
 
     ASSERT_EQ(_players.size(), (long long unsigned int)_player_num);
@@ -167,6 +171,8 @@ void check(const TESTF &test, bool check) {
     }
     ASSERT_EQ(_res_tag_died.size(), (long long unsigned int)_player_num);
     ASSERT_EQ(_res_qi.size(), (long long unsigned int)_player_num);
+
+    dprint("备注: " + _comment);
 
     qi = _qi;
     tag_died = _tag_died;
@@ -247,8 +253,8 @@ void check(const TESTF &test, bool check) {
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
-    pretty_print_result_died((*players), _res_tag_died, _comment);
-    pretty_print_result_qi((*players), _res_qi, _comment);
+    pretty_print_result_died((*players), _res_tag_died, _name);
+    pretty_print_result_qi((*players), _res_qi, _name);
 
     if (check == true) {
         ASSERT_TRUE(equal_map(*players, _res_tag_died, tag_died));
