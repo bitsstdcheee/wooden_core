@@ -23,7 +23,7 @@ void check(const TESTN &test, bool check) {
     const std::string &_name = test.name;
     const std::string &_comment = test.comment;
 
-    dprint("备注: " + _comment);
+    std::cout << "备注: " << _comment << std::endl;
 
     // Step 0. 传入数据 -- 玩家个数断言
     dprint("[P0] Before importing data");
@@ -171,7 +171,9 @@ void check(const TESTF &test, bool check) {
     ASSERT_EQ(_res_tag_died.size(), (long long unsigned int)_player_num);
     ASSERT_EQ(_res_qi.size(), (long long unsigned int)_player_num);
 
-    dprint("备注: " + _comment);
+    if (_comment.size() >= 1) {
+        std::cout << "备注: " << _comment << std::endl;
+    }
 
     qi = _qi;
     tag_died = _tag_died;
