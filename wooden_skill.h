@@ -96,6 +96,9 @@ enum skill {
 
     // 黄剑 (毁坏)
     yellow_sword_destoryed = 30,
+
+    // 管 (已选择对象)
+    tube_selected = 31,
 };
 
 extern const int MIN_SKILL_NUM;

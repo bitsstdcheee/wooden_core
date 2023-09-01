@@ -178,6 +178,9 @@ void check(const TESTF &test, bool check) {
     qi = _qi;
     tag_died = _tag_died;
     skl_count = _skl_count;
+
+    std::vector<int> _players_var = _players;
+    players = &_players_var;
     int round_count = 0;
     for (auto round : _using_skill) {
         round_count++;

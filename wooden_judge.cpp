@@ -151,6 +151,7 @@ bool have_att(const std::pair<int, Skill> &choice) {
         case palm:
         case tube:
         case alpaca:
+        case tube_selected:
             return true;
 
         default:
@@ -204,7 +205,8 @@ const std::array<int, NUM_SKL_M + 1> skl_max_defense = {0,
     0, 0, 3 * 100, 5 * 100, 6 * 100, 
     5 * 100, -1, 0, 0, 0,  // -1 为无限
     0, 0, 0, 0, 0, 
-    0, 0, 0, 1 * 100
+    0, 0, 0, 1 * 100, 0,
+    0
 };
 
 const std::array<int, NUM_SKL_M + 1> skl_min_defense = {0,
@@ -213,7 +215,8 @@ const std::array<int, NUM_SKL_M + 1> skl_min_defense = {0,
     0, 0, 0, 1 * 100, 1 * 100,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
-    0, 0, 0, 0
+    0, 0, 0, 0, 0,
+    0
 };
 
 const std::array<int, NUM_SKL_M + 1> skl_attack = {0,
@@ -221,8 +224,9 @@ const std::array<int, NUM_SKL_M + 1> skl_attack = {0,
     1 * 100, int(2.5 * 100), 2 * 100, 3 * 100, 4 * 100,
     5 * 100, 6 * 100, 0, 0, 0,
     0, 0, 1 * 100, int(0.5 * 100), int(1.5 * 100),
-    int(2.5 * 100), int(0.5 * 100), 1 * 100, 0, 0,
-    0, 0, 0, 0
+    int(2.5 * 100), int(0.5 * 100), 0, 0, 0,
+    0, 0, 0, 0, 0,
+    1 * 100
 };
 
 const std::array<int, NUM_SKL_M + 1> skl_qi = {0,
@@ -231,7 +235,8 @@ const std::array<int, NUM_SKL_M + 1> skl_qi = {0,
     5 * 100, 6 * 100, 0, 0, 0,
     0, 0, 1 * 100, int(0.5 * 100), int(1.5 * 100), 
     1 * 100, int(2 * 100), 1 * 100, 2 * 100, 0,
-    0, 0, 0, 1 * 100
+    0, 0, 0, 1 * 100, 0,
+    0
 }; 
 
 const std::array<int, NUM_SKL_M + 1> skl_qi_base = {0,
@@ -240,7 +245,8 @@ const std::array<int, NUM_SKL_M + 1> skl_qi_base = {0,
     0, 0, 0, 0, 0,
     0, 0, 0, 0, 0,
     0, 0, 1 * 100, 0, 0,
-    0, 0, 0, 0
+    0, 0, 0, 0, 0,
+    0
 };
 
 const std::array<int, NUM_SKL_M + 1> skl_qi_add = {0,
@@ -350,7 +356,7 @@ std::vector<std::pair<int, SkillPack> > strip_player_skill(
  * Step 13: 为所有已出局玩家的气数清零
  */
 
-const int max_skl_count[NUM_SKL_M] = {
+const int max_skl_count[NUM_SKL_M + 1] = {
     -1,
     -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1,
@@ -358,7 +364,8 @@ const int max_skl_count[NUM_SKL_M] = {
     // ashiba(16) 1 次, zd(17) 1 次, Hither(18) 1 次
     1, 1, 1, -1, -1,
     -1, -1, -1, -1, -1,
-    -1, -1, -1
+    -1, -1, -1, 0, 0,
+    -1
 };
 // clang-format on
 
@@ -558,10 +565,12 @@ std::map<int, bool> do_main(
         for (auto skl : psp.skills) {
             // 遍历该玩家所出的每个招式
             consume_qi += skl_qi[skl];
+            dprint("[Step 2] 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skl) + ", 消耗 " + formatxstr(skl_qi[skl]));
             if (player_have_skill[pid][skl] == false) {
                 // 玩家之前未出过该技能, 本次耗气添加 skl_qi_base
                 consume_qi += skl_qi_base[skl];
                 player_have_skill[pid][skl] = true;
+                dprint("[Step 2] 玩家 " + std::to_string(pid) + " 第一次出招 id=" + std::to_string(skl) + ", 消耗 " + formatxstr(skl_qi_base[skl]));
             }
         }
         dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " +

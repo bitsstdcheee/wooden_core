@@ -25,7 +25,7 @@ using namespace tskl;
 // NUM_SKL 的宏定义版本, 应该和 NUM_SKL 的值相等
 // 用于模板定义, 因为在定义和实现的分离的情况下的常量无法用作模板常量
 // (要求编译器时就应解析为常数, 而不是链接)
-#define NUM_SKL_M 30
+#define NUM_SKL_M 31
 
 extern int player_num;
 extern const int MAX_PLAYER_NUM;
@@ -146,7 +146,7 @@ std::vector<std::pair<int, SkillPack> > strip_player_skill(
 #ifdef using_new_judger
 
 // 记录每个技能在大局中的最高可用次数 (-1 为无限,)
-extern const int max_skl_count[NUM_SKL_M];
+extern const int max_skl_count[NUM_SKL_M + 1];
 
 // 完成 Skill -> SkillPack 的显式转换
 std::vector<std::pair<int, SkillPack> > skillPack(
