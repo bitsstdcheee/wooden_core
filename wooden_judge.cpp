@@ -565,12 +565,15 @@ std::map<int, bool> do_main(
         for (auto skl : psp.skills) {
             // 遍历该玩家所出的每个招式
             consume_qi += skl_qi[skl];
-            dprint("[Step 2] 玩家 " + std::to_string(pid) + " 出招 id=" + std::to_string(skl) + ", 消耗 " + formatxstr(skl_qi[skl]));
+            dprint("[Step 2] 玩家 " + std::to_string(pid) + " 出招 id=" +
+                   std::to_string(skl) + ", 消耗 " + formatxstr(skl_qi[skl]));
             if (player_have_skill[pid][skl] == false) {
                 // 玩家之前未出过该技能, 本次耗气添加 skl_qi_base
                 consume_qi += skl_qi_base[skl];
                 player_have_skill[pid][skl] = true;
-                dprint("[Step 2] 玩家 " + std::to_string(pid) + " 第一次出招 id=" + std::to_string(skl) + ", 消耗 " + formatxstr(skl_qi_base[skl]));
+                dprint("[Step 2] 玩家 " + std::to_string(pid) +
+                       " 第一次出招 id=" + std::to_string(skl) + ", 消耗 " +
+                       formatxstr(skl_qi_base[skl]));
             }
         }
         dprint("[Step 2] 玩家 " + std::to_string(pid) + " 所用的总气数为 " +

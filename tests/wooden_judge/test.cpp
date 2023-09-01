@@ -386,24 +386,27 @@ const std::list<TESTF> testf = {
           "大局-咕噜评测局1", true,
           "本局测试评测顺序是否正确, 可以看出即使 P2 被 P3 的石剑出局, 但 P2 "
           "的评测效果仍然有效, 使 P1 出局, 且 P1 第2批次的拍手技能无效"),
-      
-      TESTF(3, gen_players(3), gen_qi({0, 0, 0}), gen_tag_died(3), gen_skl_count(3),
-      {
-            TESTKG({{1, {Skill(tskl::clap, 0)}},
-            {2, {Skill(tskl::clap, 0)}},
-            {3, {Skill{tskl::clap, 0}}}}),
-            TESTKG({{1, {Skill(tskl::clap, 0)}},
-            {2, {Skill(tskl::clap, 0)}},
-            {3, {Skill{tskl::clap, 0}}}}),
-            TESTKG({{1, {Skill(tskl::clap, 0)}},
-            {2, {Skill(tskl::clap, 0)}},
-            {3, {Skill{tskl::clap, 0}}}}),
-            TESTK({{1, {{Skill(tskl::tube, 0), Skill(tskl::tube, 0)}, {Skill(tskl::tube_selected, 2), Skill(tskl::tube_selected, 3)}}},
-            {2, {{Skill(tskl::clap, 0)}}},
-            {3, {{Skill(tskl::defense, 0)}}}},
-            {{1, 2}, {2, 1}, {3, 1}})
-      }, gen_tag_died({false, true, false}), gen_res_qi({0, 0, 3}),
-      "大局-管局1", true, "本局测试基本的管类招式是否正常")
+
+    TESTF(3, gen_players(3), gen_qi({0, 0, 0}), gen_tag_died(3),
+          gen_skl_count(3),
+          {TESTKG({{1, {Skill(tskl::clap, 0)}},
+                   {2, {Skill(tskl::clap, 0)}},
+                   {3, {Skill{tskl::clap, 0}}}}),
+           TESTKG({{1, {Skill(tskl::clap, 0)}},
+                   {2, {Skill(tskl::clap, 0)}},
+                   {3, {Skill{tskl::clap, 0}}}}),
+           TESTKG({{1, {Skill(tskl::clap, 0)}},
+                   {2, {Skill(tskl::clap, 0)}},
+                   {3, {Skill{tskl::clap, 0}}}}),
+           TESTK({{1,
+                   {{Skill(tskl::tube, 0), Skill(tskl::tube, 0)},
+                    {Skill(tskl::tube_selected, 2),
+                     Skill(tskl::tube_selected, 3)}}},
+                  {2, {{Skill(tskl::clap, 0)}}},
+                  {3, {{Skill(tskl::defense, 0)}}}},
+                 {{1, 2}, {2, 1}, {3, 1}})},
+          gen_tag_died({false, true, false}), gen_res_qi({0, 0, 3}),
+          "大局-管局1", true, "本局测试基本的管类招式是否正常")
 
 };
 

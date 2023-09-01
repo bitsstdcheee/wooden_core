@@ -2,6 +2,7 @@
 #include <wooden_judge.h>
 
 #include <utility>
+
 #include "wooden_skill.h"
 
 using std::make_pair;
