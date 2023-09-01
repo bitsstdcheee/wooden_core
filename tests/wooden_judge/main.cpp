@@ -118,8 +118,7 @@ void print_single_skill(const Skill &skl, bool need_endl = false) {
 void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
                  std::string name = "", std::string line_prefix = "[P] ",
                  int len_offset = 0) {
-    dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) +
-           " ######");
+    dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) + " ######");
     for (auto choice : batch) {
         auto &pid = choice.first;
         auto &psp = choice.second.skills;
