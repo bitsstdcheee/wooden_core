@@ -365,7 +365,29 @@ const std::list<TESTF> testf = {
                   {3, {{Skill(tskl::clap, 0)}}}},
                  {{1, 1}, {2, 1}, {3, 1}})},
           gen_tag_died({false, true, true}), gen_res_qi({0, 0, 0}),
-          "大局-测试多对象1-remake")
+          "大局-测试多对象1-remake"),
+      
+      TESTF(3, gen_players(3), gen_qi({0, 0, 0}), gen_tag_died(3), gen_skl_count(3),
+      {
+            TESTKG({
+                  {1, {Skill(tskl::clap, 0)}},
+                  {2, {Skill(tskl::clap, 0)}},
+                  {3, {Skill(tskl::clap, 0)}}
+            }),
+            TESTKG({
+                  {1, {Skill(tskl::clap, 0)}},
+                  {2, {Skill(tskl::clap, 0)}},
+                  {3, {Skill(tskl::clap, 0)}}
+            }),
+            TESTKG({
+                  // 此处玩家 1 应该被玩家 2 的 Judge 判定出局, 故出的 Clap 实际上无效
+                  {1, {Skill(tskl::gulu, 0), Skill(tskl::clap, 0)}},
+                  {2, {Skill(tskl::judge, 0)}},
+                  {3, {Skill(tskl::stone_sword, 2)}}
+            }),},
+            gen_tag_died({true, true, false}), gen_res_qi({0, 0, 0}),
+            "大局-咕噜评测局1", true, "本局测试评测顺序是否正确, 可以看出即使 P2 被 P3 的石剑出局, 但 P2 的评测效果仍然有效, 使 P1 出局, 且 P1 第2批次的拍手技能无效"
+      )
 
 };
 
