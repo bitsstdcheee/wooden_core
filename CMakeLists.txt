@@ -2,6 +2,9 @@
 # 指定 CMake 版本
 cmake_minimum_required(VERSION 3.15.0)
 
+# 使用静态链接
+SET(USE_STATIC_LINK ON)
+
 # 指定项目名称
 PROJECT(wooden_game)
 
@@ -12,8 +15,6 @@ if((CMAKE_BUILD_TYPE STREQUAL "Debug") AND (NOT WIN32))
     set(ENABLE_COVERAGE ON)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
-SET(USE_STATIC_LINK ON)
-
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 14)
