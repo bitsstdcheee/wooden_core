@@ -37,7 +37,8 @@ const std::vector<int> gen_players(const int player_num) {
 }
 
 const std::map<int, int> gen_qi(const int player_cnt) {
-    return gen_mapx<int, int>(player_cnt, gen_default_player(player_cnt), gen_repeated_vec<int>(0 * 100, player_cnt));
+    return gen_mapx<int, int>(player_cnt, gen_default_player(player_cnt),
+                              gen_repeated_vec<int>(0 * 100, player_cnt));
 }
 
 const std::map<int, int> gen_qi(std::initializer_list<int> qi, bool enable_x) {
@@ -61,14 +62,14 @@ const std::map<int, bool> gen_tag_died(const int player_num) {
     return gen_all_alive(gen_players(player_num));
 }
 
-const std::map<int, std::map<int, int> > gen_skl_count(
-    std::initializer_list<std::map<int, int> > skl_count) {
-    return gen_map<int, std::map<int, int> >(
+const std::map<int, std::map<int, int>> gen_skl_count(
+    std::initializer_list<std::map<int, int>> skl_count) {
+    return gen_map<int, std::map<int, int>>(
         skl_count.size(), gen_players(skl_count.size()), skl_count);
 }
 
-const std::map<int, std::map<int, int> > gen_skl_count(const int player_num) {
-    return gen_map<int, std::map<int, int> >(
+const std::map<int, std::map<int, int>> gen_skl_count(const int player_num) {
+    return gen_map<int, std::map<int, int>>(
         player_num, gen_players(player_num),
         gen_repeated_vec(gen_cleared_skl(), player_num));
 }
@@ -79,8 +80,8 @@ const std::map<int, tskl::skill> gen_using_skill(
                                      skill);
 }
 
-const std::map<int, std::vector<tskl::skill> > gen_using_skill(
-    std::map<int, std::vector<tskl::skill> > skill) {
+const std::map<int, std::vector<tskl::skill>> gen_using_skill(
+    std::map<int, std::vector<tskl::skill>> skill) {
     return skill;
 }
 
@@ -103,7 +104,9 @@ RoundPatch::RoundPatch() {
     judged = false;
 }
 
-RoundPatch::RoundPatch(string _id, string _prev_patch, std::vector<int> _players, std::map<int, std::vector<Skill>> _choices, bool _head) {
+RoundPatch::RoundPatch(string _id, string _prev_patch,
+                       std::vector<int> _players,
+                       std::map<int, std::vector<Skill>> _choices, bool _head) {
     id = _id;
     prev_patch = _prev_patch;
     players = std::move(_players);
@@ -114,7 +117,8 @@ RoundPatch::RoundPatch(string _id, string _prev_patch, std::vector<int> _players
     assert(players.size() == choices.size());
 }
 
-RoundPatch::RoundPatch(string _id, std::vector<int> _players, std::map<int, std::vector<Skill>> _choices, bool _head) {
+RoundPatch::RoundPatch(string _id, std::vector<int> _players,
+                       std::map<int, std::vector<Skill>> _choices, bool _head) {
     id = _id;
     players = std::move(_players);
     choices = std::move(_choices);
@@ -124,7 +128,13 @@ RoundPatch::RoundPatch(string _id, std::vector<int> _players, std::map<int, std:
     assert(players.size() == choices.size());
 }
 
-RoundPatch::RoundPatch(string _id, string _prev_patch, std::vector<int> _players, std::map<int, std::vector<Skill>> _choices, std::map<int, int> _qi, std::map<int, bool> _tag_died, std::map<int, std::map<int, int>> _skl_count, std::map<int, std::map<tskl::skill, bool>> _last_skill_used, std::map<int, bool> _delayed_players, bool _head, std::vector<string> _next_patch) {
+RoundPatch::RoundPatch(
+    string _id, string _prev_patch, std::vector<int> _players,
+    std::map<int, std::vector<Skill>> _choices, std::map<int, int> _qi,
+    std::map<int, bool> _tag_died, std::map<int, std::map<int, int>> _skl_count,
+    std::map<int, std::map<tskl::skill, bool>> _last_skill_used,
+    std::map<int, bool> _delayed_players, bool _head,
+    std::vector<string> _next_patch) {
     id = _id;
     prev_patch = _prev_patch;
     next_patch = std::move(_next_patch);
@@ -148,12 +158,16 @@ RoundPatch::RoundPatch(string _id, string _prev_patch, std::vector<int> _players
     */
 }
 
-bool RoundPatch::operator < (const RoundPatch x) const {
-    return id < x.id;
-}
+bool RoundPatch::operator<(const RoundPatch x) const { return id < x.id; }
 
 // 调用 do_main 的函数, 直接将结果写入 RoundPatch
-void judge_helper(std::vector<int>& _players, std::map<int, int>& _qi, std::map<int, bool> _tag_died, std::map<int, std::map<int, int>>& _skl_count, std::map<int, std::vector<Skill>>& _choices, RoundPatch& patch, std::map<int, std::map<tskl::skill, bool>> _last_skill_used = std::map<int, std::map<tskl::skill, bool>>()) {
+void judge_helper(std::vector<int>& _players, std::map<int, int>& _qi,
+                  std::map<int, bool> _tag_died,
+                  std::map<int, std::map<int, int>>& _skl_count,
+                  std::map<int, std::vector<Skill>>& _choices,
+                  RoundPatch& patch,
+                  std::map<int, std::map<tskl::skill, bool>> _last_skill_used =
+                      std::map<int, std::map<tskl::skill, bool>>()) {
     players = &_players;
     qi = _qi;
     tag_died = _tag_died;
@@ -179,7 +193,13 @@ void judge_helper(std::vector<int>& _players, std::map<int, int>& _qi, std::map<
 
 // 调用 do_main 的函数
 // 返回 pair <延迟出招的玩家列表, 玩家上一次出招>
-std::pair<std::map<int, bool>, std::map<int, std::map<tskl::skill, bool>>> judge_helper(std::vector<int>& _players, std::map<int, int>& _qi, std::map<int, bool> _tag_died, std::map<int, std::map<int, int>>& _skl_count, std::map<int, std::vector<Skill>>& _choices, std::map<int, std::map<tskl::skill, bool>> _last_skill_used = std::map<int, std::map<tskl::skill, bool>>()) {
+std::pair<std::map<int, bool>, std::map<int, std::map<tskl::skill, bool>>>
+judge_helper(std::vector<int>& _players, std::map<int, int>& _qi,
+             std::map<int, bool> _tag_died,
+             std::map<int, std::map<int, int>>& _skl_count,
+             std::map<int, std::vector<Skill>>& _choices,
+             std::map<int, std::map<tskl::skill, bool>> _last_skill_used =
+                 std::map<int, std::map<tskl::skill, bool>>()) {
     players = &_players;
     qi = _qi;
     tag_died = _tag_died;
@@ -208,11 +228,11 @@ bool RoundPatch::judge(std::map<string, RoundPatch>* data) {
         // 没有前驱记录 且 当前没有计算
         dprint("错误: 当前 ID=" + id + " 无前驱且尚未计算");
         return true;
-        
     }
     if (data->find(prev_patch) == data->end()) {
         // 没有找到相关信息
-        dprint("错误: 无法找到 ID=" + id + " 的前驱 ID=" + prev_patch + " 对应批次信息");
+        dprint("错误: 无法找到 ID=" + id + " 的前驱 ID=" + prev_patch +
+               " 对应批次信息");
         return true;
     }
     auto& father = data->at(prev_patch);
@@ -229,22 +249,25 @@ bool RoundPatch::judge(std::map<string, RoundPatch>* data) {
     */
     // 如果当前批次为小局的第一批次, 则不需要 last_skill_used 信息
     if (head)
-        judge_helper(this->players, father.qi, father.tag_died, father.skl_count, this->choices, *this);
+        judge_helper(this->players, father.qi, father.tag_died,
+                     father.skl_count, this->choices, *this);
     else
-        judge_helper(this->players, father.qi, father.tag_died, father.skl_count, choices, *this, father.skill_used);
+        judge_helper(this->players, father.qi, father.tag_died,
+                     father.skl_count, choices, *this, father.skill_used);
     this->judged = true;
     return false;
 }
 
-void print_single_skill(const Skill &skl, bool need_endl) {
+void print_single_skill(const Skill& skl, bool need_endl) {
     Skill tmp = skl;
     dprint("[" + tskl::get_skill_name(tmp) + " > " +
                std::to_string(skl.target) + "]",
            need_endl);
 }
 
-void print_batch(const std::map<int, std::vector<Skill>> &batch, std::string name, std::string line_prefix,
-int len_offset, bool print_header) {
+void print_batch(const std::map<int, std::vector<Skill>>& batch,
+                 std::string name, std::string line_prefix, int len_offset,
+                 bool print_header) {
     // 转换 batch
     std::vector<std::pair<int, SkillPack>> _batch_new;
     for (auto player : batch) {
@@ -259,13 +282,15 @@ int len_offset, bool print_header) {
     print_batch(_batch_new, name, line_prefix, len_offset, print_header);
 }
 
-void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
-                 std::string name, std::string line_prefix,
-                 int len_offset, bool print_header) {
-    if (print_header) dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) + " ######");
+void print_batch(const std::vector<std::pair<int, SkillPack>>& batch,
+                 std::string name, std::string line_prefix, int len_offset,
+                 bool print_header) {
+    if (print_header)
+        dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) +
+               " ######");
     for (auto choice : batch) {
-        auto &pid = choice.first;
-        auto &psp = choice.second.skills;
+        auto& pid = choice.first;
+        auto& psp = choice.second.skills;
         dprint(line_prefix + "玩家 " + std::to_string(pid) + ":", false);
         for (auto skl : psp) {
             dprint(" ", false);
@@ -346,7 +371,7 @@ void RoundPatch::print() {
         }
         if (flag) cout << " 空";
     }
-    
+
     cout << endl;
     cout << "玩家出招计数: " << endl;
     for (auto count : skl_count) {
@@ -356,7 +381,8 @@ void RoundPatch::print() {
         bool flag = false;
         for (auto skl : psp) {
             if (skl.second <= 0) continue;
-            cout << " [" << tskl::get_skill_name((tskl::skill)skl.first) << ": " << skl.second << "]";
+            cout << " [" << tskl::get_skill_name((tskl::skill)skl.first) << ": "
+                 << skl.second << "]";
             flag = true;
         }
         if (!flag) cout << " 空";
@@ -368,7 +394,7 @@ void RoundPatch::print() {
         cout << "\t[玩家 " << pid << "]";
         if (skill_used.find(pid) == skill_used.end()) {
             cout << " 空" << endl;
-            continue;    
+            continue;
         }
         auto& psp = skill_used[pid];
         bool flag = false;
@@ -400,20 +426,15 @@ RoundPatch RoundPatch::generate_empty(string _id, int player_cnt) {
     return generate_empty(_id, player_cnt, gen_players(player_cnt));
 }
 
-RoundPatch RoundPatch::generate_empty(string _id, int player_cnt, std::vector<int> _players) {
+RoundPatch RoundPatch::generate_empty(string _id, int player_cnt,
+                                      std::vector<int> _players) {
     return RoundPatch(
-        _id,
-        string(),
-        _players,
-        std::map<int, std::vector<Skill>>(),
-        gen_qi(player_cnt),
-        gen_tag_died(player_cnt),
-        gen_skl_count(player_cnt),
-        gen_map(player_cnt, _players, gen_repeated_vec(std::map<tskl::skill, bool>(), player_cnt)),
+        _id, string(), _players, std::map<int, std::vector<Skill>>(),
+        gen_qi(player_cnt), gen_tag_died(player_cnt), gen_skl_count(player_cnt),
+        gen_map(player_cnt, _players,
+                gen_repeated_vec(std::map<tskl::skill, bool>(), player_cnt)),
         gen_map(player_cnt, _players, gen_repeated_vec(false, player_cnt)),
-        true,
-        std::vector<string>()
-    );
+        true, std::vector<string>());
 }
 
 void RoundPatch::link(RoundPatch& father, RoundPatch& son) {
@@ -421,7 +442,8 @@ void RoundPatch::link(RoundPatch& father, RoundPatch& son) {
     son.prev_patch = father.id;
 }
 
-void RoundPatch::link(std::map<string, RoundPatch>& data, const string father, const string son) {
+void RoundPatch::link(std::map<string, RoundPatch>& data, const string father,
+                      const string son) {
     RoundPatch::link(data[father], data[son]);
 }
 
