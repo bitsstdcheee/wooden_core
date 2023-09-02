@@ -26,8 +26,8 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, std::map<int, int>> _skl_count,
              std::map<int, tskl::skill> _using_skill,
              std::map<int, int> _target, std::map<int, bool> _res_tag_died,
-             std::map<int, int> _res_qi, std::string _comment,
-             bool _need_check) {
+             std::map<int, int> _res_qi, std::string _name, bool _need_check,
+             std::string _comment) {
     player_num = _player_num;
     players = std::move(_players);
     qi = std::move(_qi);
@@ -41,7 +41,8 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
     target = std::move(_target);
     res_tag_died = std::move(_res_tag_died);
     res_qi = std::move(_res_qi);
-    comment = std::move(_comment);
+    name = _name;
+    comment = _comment;
     need_check = _need_check;
 }
 
@@ -50,8 +51,8 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, std::map<int, int>> _skl_count,
              std::map<int, std::vector<tskl::skill>> _using_skill,
              std::map<int, int> _target, std::map<int, bool> _res_tag_died,
-             std::map<int, int> _res_qi, std::string _comment,
-             bool _need_check) {
+             std::map<int, int> _res_qi, std::string _name, bool _need_check,
+             std::string _comment) {
     player_num = _player_num;
     players = std::move(_players);
     qi = std::move(_qi);
@@ -65,7 +66,8 @@ TESTN::TESTN(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
     target = std::move(_target);
     res_tag_died = std::move(_res_tag_died);
     res_qi = std::move(_res_qi);
-    comment = std::move(_comment);
+    name = _name;
+    comment = _comment;
     need_check = _need_check;
 }
 
@@ -129,8 +131,8 @@ TESTF::TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
              std::map<int, bool> _tag_died,
              std::map<int, std::map<int, int>> _skl_count,
              std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
-             std::map<int, int> _res_qi, std::string _comment,
-             bool _need_check) {
+             std::map<int, int> _res_qi, std::string _name, bool _need_check,
+             std::string _comment) {
     player_num = _player_num;
     players = std::move(_players);
     qi = std::move(_qi);
@@ -139,6 +141,7 @@ TESTF::TESTF(int _player_num, std::vector<int> _players, std::map<int, int> _qi,
     using_skill = std::move(_using_skill);
     res_tag_died = std::move(_res_tag_died);
     res_qi = std::move(_res_qi);
+    name = _name;
     comment = _comment;
     need_check = _need_check;
 }

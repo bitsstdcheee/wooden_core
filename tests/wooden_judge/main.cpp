@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "test.h"
+#include "wooden_util.h"
 
 using tutil::TESTF;
 using tutil::TESTK;
@@ -20,7 +21,10 @@ void check(const TESTN &test, bool check) {
     const std::map<int, std::vector<tskl::skill> > &_using_skill =
         test.using_skill;
     const std::map<int, int> &_target = test.target;
+    const std::string &_name = test.name;
     const std::string &_comment = test.comment;
+
+    std::cout << "备注: " << _comment << std::endl;
 
     // Step 0. 传入数据 -- 玩家个数断言
     dprint("[P0] Before importing data");
@@ -74,8 +78,8 @@ void check(const TESTN &test, bool check) {
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
-    pretty_print_result_died((*players), _res_tag_died, _comment);
-    pretty_print_result_qi((*players), _res_qi, _comment);
+    pretty_print_result_died((*players), _res_tag_died, _name);
+    pretty_print_result_qi((*players), _res_qi, _name);
     dprint("[P2.5] After pretty printing");
 
     if (check == true) {
@@ -96,53 +100,7 @@ void check(const TESTN &test, bool check) {
                                                  : string("Incorrect")));
     }
 
-    std::cout << "Test success: " << test.comment << std::endl;
-}
-
-void print_single_skill(const Skill &skl, bool need_endl = false) {
-    Skill tmp = skl;
-    dprint("[" + tskl::get_skill_name(tmp) + " > " +
-               std::to_string(skl.target) + "]",
-           need_endl);
-}
-
-// 便捷打印输入 do_main 参数.
-// comment: 备注名称.
-// line_prefix: 在每行开始时输出的内容, 默认值为 "[P] ".
-// len_offset: 计算回收 Sharp 井号所需数量时需要加上 (负数为减去) 的长度数量,
-// std::string.length() 在计算时会将全角字符处理为 1, 输出时则需要 2 个井号,
-// 故需要在此参数加上. len_offset 理论上为输入字符串中全角字符的数量
-void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
-                 std::string comment = "", std::string line_prefix = "[P] ",
-                 int len_offset = 0) {
-    dprint(line_prefix + "###### " + (comment == "" ? "轮次" : comment) +
-           " ######");
-    for (auto choice : batch) {
-        auto &pid = choice.first;
-        auto &psp = choice.second.skills;
-        dprint(line_prefix + "玩家 " + std::to_string(pid) + ":", false);
-        for (auto skl : psp) {
-            dprint(" ", false);
-            print_single_skill(skl);
-        }
-        if (psp.size() < 1) {
-            dprint(" 无");
-        } else {
-            // 同步换行
-            dprint("");
-        }
-    }
-    int gen_sharp_cnt = 12 + 2;  // 原先井号 + 空格
-    std::string gen_sharp = "";
-    gen_sharp_cnt += (comment == "" ? "轮次" : comment).length();
-    if (gen_sharp_cnt + len_offset <= 0) {
-        // 加上 len_offset 后长度小于等于 0
-        dprint(line_prefix + "警告: len_offset(" + std::to_string(len_offset) +
-               ") 可能设置有误, 原长度为 " + std::to_string(gen_sharp_cnt));
-    }
-    gen_sharp_cnt += len_offset;
-    for (int i = 1; i <= gen_sharp_cnt; i++) gen_sharp += "#";
-    dprint(line_prefix + gen_sharp);
+    std::cout << "Test success: " << _name << std::endl;
 }
 
 void check(const TESTF &test, bool check) {
@@ -156,6 +114,7 @@ void check(const TESTF &test, bool check) {
     const std::vector<TESTK> _using_skill = test.using_skill;
     const std::map<int, bool> _res_tag_died = test.res_tag_died;
     const std::map<int, int> _res_qi = test.res_qi;
+    const std::string _name = test.name;
     const std::string _comment = test.comment;
 
     ASSERT_EQ(_players.size(), (long long unsigned int)_player_num);
@@ -168,9 +127,16 @@ void check(const TESTF &test, bool check) {
     ASSERT_EQ(_res_tag_died.size(), (long long unsigned int)_player_num);
     ASSERT_EQ(_res_qi.size(), (long long unsigned int)_player_num);
 
+    if (_comment.size() >= 1) {
+        std::cout << "备注: " << _comment << std::endl;
+    }
+
     qi = _qi;
     tag_died = _tag_died;
     skl_count = _skl_count;
+
+    std::vector<int> _players_var = _players;
+    players = &_players_var;
     int round_count = 0;
     for (auto round : _using_skill) {
         round_count++;
@@ -241,14 +207,16 @@ void check(const TESTF &test, bool check) {
                 dprint("无");
             else
                 dprint("", true);
+            // 当前局结束, 清空
+            last_skill_used.clear();
         }
     }
 
     pretty_print_result_died((*players), tag_died);
     pretty_print_result_qi((*players), qi);
 
-    pretty_print_result_died((*players), _res_tag_died, _comment);
-    pretty_print_result_qi((*players), _res_qi, _comment);
+    pretty_print_result_died((*players), _res_tag_died, _name);
+    pretty_print_result_qi((*players), _res_qi, _name);
 
     if (check == true) {
         ASSERT_TRUE(equal_map(*players, _res_tag_died, tag_died));

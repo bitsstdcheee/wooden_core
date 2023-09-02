@@ -91,6 +91,7 @@ struct TESTN {
     std::map<int, bool> res_tag_died;  // 测试期望的玩家死亡信息
     std::map<int, int> res_qi;         // 测试期望的气数列表
 
+    std::string name;     // 名称
     std::string comment;  // 备注
 
     bool need_check;  // 该测试是否建议被校对答案
@@ -104,7 +105,8 @@ struct TESTN {
           std::map<int, std::map<int, int>> _skl_count,
           std::map<int, tskl::skill> _using_skill, std::map<int, int> _target,
           std::map<int, bool> _res_tag_died, std::map<int, int> _res_qi,
-          std::string _comment = "", bool _need_check = true);
+          std::string _name = "", bool _need_check = true,
+          std::string _comment = "");
 
     // TESTN(多技能单对象): 玩家人数, 玩家id, 气数, 死亡标记, 招术计数器,
     // 期望死亡标记, 期望气数, 备注
@@ -113,8 +115,8 @@ struct TESTN {
           std::map<int, std::map<int, int>> _skl_count,
           std::map<int, std::vector<tskl::skill>> _using_skill,
           std::map<int, int> _target, std::map<int, bool> _res_tag_died,
-          std::map<int, int> _res_qi, std::string _comment = "",
-          bool _need_check = true);
+          std::map<int, int> _res_qi, std::string _name = "",
+          bool _need_check = true, std::string _comment = "");
 
     void info() const;
 };
@@ -206,7 +208,8 @@ struct TESTF {
     std::map<int, bool> res_tag_died;  // 测试期望的最终玩家死亡信息
     std::map<int, int> res_qi;         // 测试期望的最终气数列表
 
-    std::string comment;
+    std::string name;     // 名称
+    std::string comment;  // 备注
 
     bool need_check;
 
@@ -216,8 +219,8 @@ struct TESTF {
           std::map<int, bool> _tag_died,
           std::map<int, std::map<int, int>> _skl_count,
           std::vector<TESTK> _using_skill, std::map<int, bool> _res_tag_died,
-          std::map<int, int> _res_qi, std::string comment = "",
-          bool _need_check = true);
+          std::map<int, int> _res_qi, std::string _name = "",
+          bool _need_check = true, std::string _comment = "");
 };
 }  // namespace tutil
 

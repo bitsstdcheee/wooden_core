@@ -25,7 +25,7 @@ using namespace tskl;
 // NUM_SKL 的宏定义版本, 应该和 NUM_SKL 的值相等
 // 用于模板定义, 因为在定义和实现的分离的情况下的常量无法用作模板常量
 // (要求编译器时就应解析为常数, 而不是链接)
-#define NUM_SKL_M 30
+#define NUM_SKL_M 31
 
 extern int player_num;
 extern const int MAX_PLAYER_NUM;
@@ -45,7 +45,7 @@ extern std::map<int, int> qi;
 extern std::map<int, bool> tag_died;
 
 // skl_count: 记录每位玩家 (id) 对应技能 (skl) 使用次数
-extern std::map<int, std::map<int, int> > skl_count;
+extern std::map<int, std::map<int, int>> skl_count;
 
 // init: 玩家信息的初始化
 void init();
@@ -103,8 +103,8 @@ bool have_axe(const std::pair<int, Skill> &);
 bool have_clap_axe(const std::pair<int, Skill> &);
 
 // clean_choices: 清洗玩家选择: 对于已死去的玩家的技能清除
-std::vector<std::pair<int, Skill> > clean_choices(
-    const std::vector<std::pair<int, Skill> > &);
+std::vector<std::pair<int, Skill>> clean_choices(
+    const std::vector<std::pair<int, Skill>> &);
 
 // skl_max_defense: 记录 skill 对应防御的最大值 (x100)
 // 此处不算攻击带来的防御
@@ -135,40 +135,40 @@ int get_skl_attack(const skill &skl);
 bool check_available(const std::pair<int, Skill> &choice);
 
 // get_player_skill_num: 获取玩家在小局中出某个招式的数量
-int get_player_skill_num(const std::vector<std::pair<int, SkillPack> > &,
+int get_player_skill_num(const std::vector<std::pair<int, SkillPack>> &,
                          const int &, const tskl::skill);
 
 // strip_player_skill: 去除玩家某个招式
-std::vector<std::pair<int, SkillPack> > strip_player_skill(
-    const std::vector<std::pair<int, SkillPack> > &choices, const int &pid,
+std::vector<std::pair<int, SkillPack>> strip_player_skill(
+    const std::vector<std::pair<int, SkillPack>> &choices, const int &pid,
     const tskl::skill skl);
 
 #ifdef using_new_judger
 
 // 记录每个技能在大局中的最高可用次数 (-1 为无限,)
-extern const int max_skl_count[NUM_SKL_M];
+extern const int max_skl_count[NUM_SKL_M + 1];
 
 // 完成 Skill -> SkillPack 的显式转换
-std::vector<std::pair<int, SkillPack> > skillPack(
-    const std::vector<std::pair<int, Skill> > &);
+std::vector<std::pair<int, SkillPack>> skillPack(
+    const std::vector<std::pair<int, Skill>> &);
 
 // 清洗数据 (已死亡的玩家)
 // choices: player_id -> SkillPack
-std::vector<std::pair<int, SkillPack> > clean_choices(
-    const std::vector<std::pair<int, SkillPack> > &);
+std::vector<std::pair<int, SkillPack>> clean_choices(
+    const std::vector<std::pair<int, SkillPack>> &);
 
-// 记录当前小局中玩家上一次出招
-extern std::map<int, skill> player_last_skill;
+// 记录上一批次的招数
+extern std::map<int, std::map<skill, bool>> last_skill_used;
 
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择
 // 返回值: 若玩家 id 对应值为 true, 则说明该玩家需要延迟出招
-std::map<int, bool> do_main(const std::vector<std::pair<int, SkillPack> > &);
+std::map<int, bool> do_main(const std::vector<std::pair<int, SkillPack>> &);
 
 #else  // using_new_judger
 // do_main：主小局判定程序
 // choices: player_id, skill
-void do_main(const std::vector<std::pair<int, Skill> > &);
+void do_main(const std::vector<std::pair<int, Skill>> &);
 
 #endif  // using_new_judger
 
@@ -192,6 +192,6 @@ void pretty_print_result_qi(const std::vector<int> &,
 // now: 当前每个玩家的状况
 // n: 当前即将进行的局数
 game_status continue_game(int, game_status,
-                          const std::vector<std::pair<int, Skill> > &);
+                          const std::vector<std::pair<int, Skill>> &);
 
 #endif  // WOODEN_GAME_WOODEN_JUDGE_H

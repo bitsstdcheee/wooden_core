@@ -3,6 +3,8 @@
 
 #include <utility>
 
+#include "wooden_skill.h"
+
 using std::make_pair;
 using namespace tskl;
 
@@ -23,6 +25,7 @@ TEST(have_att_test, Positive) {
     EXPECT_EQ(have_att(make_weapon(tskl::tube)), true);
     EXPECT_EQ(have_att(make_weapon(tskl::alpaca)), true);
     EXPECT_EQ(have_att(make_weapon(tskl::hither)), true);
+    EXPECT_EQ(have_att(make_weapon(tskl::tube_selected)), true);
 }
 
 TEST(have_att_test, Negative) {
