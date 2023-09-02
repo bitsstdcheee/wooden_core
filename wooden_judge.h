@@ -157,8 +157,8 @@ std::vector<std::pair<int, SkillPack> > skillPack(
 std::vector<std::pair<int, SkillPack> > clean_choices(
     const std::vector<std::pair<int, SkillPack> > &);
 
-// 记录当前小局中玩家上一次出招
-extern std::map<int, skill> player_last_skill;
+// 记录上一批次的招数
+extern std::map<int, std::map<skill, bool>> last_skill_used;
 
 // do_main: 主小局判定程序 (新方法)
 // dirty_choices: 玩家的招式选择

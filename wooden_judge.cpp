@@ -401,7 +401,8 @@ std::vector<std::pair<int, SkillPack> > clean_choices(
     return res;
 }
 
-std::map<int, skill> player_last_skill;
+// 记录上一批次的招数
+std::map<int, std::map<skill, bool>> last_skill_used;
 
 std::map<int, bool> do_main(
     const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
@@ -489,34 +490,29 @@ std::map<int, bool> do_main(
         auto &pid = player.first;
         auto &psp = player.second;
         assert(psp.skills.size() > 0);
-        auto &default_skl =
-            psp.skills[0];  // 假设第一个就是玩家选的 (通常招式列表只有一个)
-        auto &pls = player_last_skill[pid];
-        if (!pls) continue;
-        if (pls == tskl::none) continue;
-        if (pls == tskl::gulu) {
-            // 上一次使用咕噜咕噜, 本次禁用咕噜咕噜
-            if (default_skl == tskl::gulu) {
-                dprint("[Step 2] 玩家 " + std::to_string(pid) +
-                       " 连续使用咕噜咕噜, 判死");
-                tag_died[pid] = true;
-                continue;
+        // 此处需要关注的招式: 咕噜咕噜, 管
+        if (last_skill_used[pid][tskl::gulu] && last_skill_used[pid][tskl::tube]) {
+            // 两个都有时, 若先前的合法性判断正确, 只能为先出 gulu 再出 tube,
+            // 故此处只能出 tube_selected
+            for (auto skl : psp.skills) {
+                if (skl != tskl::tube_selected) {
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了咕噜咕噜和管类, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 期待招式为管(已选择), 出局");
+                    tag_died[pid] = true;
+                }
             }
-        }
-        if (pls == tskl::tube) {
-            // 上一次使用管类, 这次只能出管
-            // 管类中, 第一次传递的管类不含对象, 代表该玩家使用管类;
-            // 第二次传递的管类包含使用对象, 代表玩家延迟决定后的使用对象;
-            // 在第一次管类中, last_skill 设为 tube; 在第二次管类决定对象后,
-            // last_skill 设为 none
-            if (default_skl != tskl::tube) {
-                dprint(
-                    "[Step 2] 玩家 " + std::to_string(pid) +
-                    " 在上一次使用了管类延迟, "
-                    "但在这次中并没有正确向攻击对象发出管, 而是使用招式 id=" +
-                    std::to_string(default_skl) + ", 判死");
-                tag_died[pid] = true;
-                continue;
+        } else if (last_skill_used[pid][tskl::tube]) {
+            for (auto skl : psp.skills) {
+                if (skl != tskl::tube_selected) {
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了管类, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 期待招式为管(已选择), 出局");
+                    tag_died[pid] = true;
+                }
+            }
+        } else if (last_skill_used[pid][tskl::gulu]) {
+            for (auto skl : psp.skills) {
+                if (skl == tskl::gulu) {
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了咕噜咕噜, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 出局");
+                    tag_died[pid] = true;
+                }
             }
         }
     }
@@ -634,7 +630,29 @@ std::map<int, bool> do_main(
             }
         }
     }
+
+    // Step 2: 招式使用记录
+    for (auto player : choices) {
+        auto &pid = player.first;
+        auto &psp = player.second;
+        for (auto skl : psp.skills) {
+            if (!last_skill_used[pid][skl]) {
+                dprint("[Step 2] 招式使用记录: 玩家 " + std::to_string(pid) + ", 招式: " + std::to_string(skl) + " (" + get_skill_name(skl) + ")");
+                last_skill_used[pid][skl] = true;
+            }
+        }
+    }
+
     if (have_delayed) {
+        // Step 3 返回前: 为所有已出局玩家的气数清零
+        for (auto player : *players) {
+            auto &pid = player;
+            if (tag_died[pid]) {
+                qi[pid] = 0;
+                dprint("[Step 3*] 玩家 " + std::to_string(pid) +
+                    " 已死亡, 气数清零");
+            }
+        }
         dprint("[Step 3] 存在需要延迟出招的玩家, 函数结束, 等待下一次调用");
         return tres;
     }

@@ -251,6 +251,8 @@ void check(const TESTF &test, bool check) {
                 dprint("无");
             else
                 dprint("", true);
+            // 当前局结束, 清空
+            last_skill_used.clear();
         }
     }
 
