@@ -2,9 +2,6 @@
 # 指定 CMake 版本
 cmake_minimum_required(VERSION 3.15.0)
 
-# 使用静态链接
-SET(USE_STATIC_LINK ON)
-
 # 指定项目名称
 PROJECT(wooden_game)
 
@@ -45,10 +42,10 @@ message("CMAKE_SYSTEM_VERSION ${CMAKE_SYSTEM_VERSION}")
 message("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 message("UNIX ${UNIX}")
 message("WIN32 ${WIN32}")
-if (${USE_STATIC_LINK})
-    message("使用静态编译")
-else()
+if (${DISABLE_STATIC_LINK})
     message("使用动态编译")
+else()
+    message("使用静态编译")
 endif()
 
 # VS 编译器 UTF-8 编码适配
@@ -66,7 +63,8 @@ if (APPLE)
 # Stack Overflow: https://stackoverflow.com/questions/3801011/ld-library-not-found-for-lcrt0-o-on-osx-10-6-with-gcc-clang-static-flag pu
 elseif (NOT CMAKE_GENERATOR_VS)
 # 设置静态编译
-    if (${USE_STATIC_LINK})
+    if (${DISABLE_STATIC_LINK})
+    else()
         set(CMAKE_EXE_LINKER_FLAGS "-static")
     endif()
 endif ()

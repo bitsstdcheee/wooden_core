@@ -60,7 +60,7 @@ jobs:
         fetch-depth: 1
         submodules: recursive
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DUSE_STATIC_LINK=off -DGBK=off -G "${{ matrix.profile }}"
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DDISABLE_STATIC_LINK=on -DGBK=off -G "${{ matrix.profile }}"
     - name: 安装 LCOV
       shell: bash
       run: |
