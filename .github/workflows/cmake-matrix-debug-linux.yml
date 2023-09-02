@@ -67,7 +67,7 @@ jobs:
         sudo apt-get --assume-yes install lcov
     - name: 编译
       id: compile
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game -DUSE_STATIC_LINK=0
     - name: 执行
       run: |
         echo "The Current Exec Path:"

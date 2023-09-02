@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ windows-latest ]
-        profile: [ MinGW Makefiles , Visual Studio 17 2022 ]
+        profile: [ MinGW Makefiles ]
         build_type: [ Debug ]
 
     name: "Build"

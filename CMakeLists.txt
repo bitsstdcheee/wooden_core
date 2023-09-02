@@ -12,6 +12,7 @@ if((CMAKE_BUILD_TYPE STREQUAL "Debug") AND (NOT WIN32))
     set(ENABLE_COVERAGE ON)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
+SET(USE_STATIC_LINK ON)
 
 
 # GoogleTest requires at least C++14
@@ -43,6 +44,11 @@ message("CMAKE_SYSTEM_VERSION ${CMAKE_SYSTEM_VERSION}")
 message("CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 message("UNIX ${UNIX}")
 message("WIN32 ${WIN32}")
+if (${USE_STATIC_LINK})
+    message("使用静态编译")
+else()
+    message("使用动态编译")
+endif()
 
 # VS 编译器 UTF-8 编码适配
 string(FIND "${CMAKE_GENERATOR}" "Visual Studio" contains_vs)
@@ -59,7 +65,9 @@ if (APPLE)
 # Stack Overflow: https://stackoverflow.com/questions/3801011/ld-library-not-found-for-lcrt0-o-on-osx-10-6-with-gcc-clang-static-flag pu
 elseif (NOT CMAKE_GENERATOR_VS)
 # 设置静态编译
-    set(CMAKE_EXE_LINKER_FLAGS "-static")
+    if (${USE_STATIC_LINK})
+        set(CMAKE_EXE_LINKER_FLAGS "-static")
+    endif()
 endif ()
 
 if(CMAKE_GENERATOR_VS)
@@ -110,6 +118,8 @@ enable_testing()
 
 file (GLOB SOURCES
     *.cpp
+    third-party/protobuf/src/*
+    proto/proto/*
 )
 file(GLOB CORE_EXCLUDED_SOURCES
     wooden_core.cpp
@@ -122,7 +132,8 @@ set(GLOBAL_SOURCES "${SOURCES}")
 set(GLOBAL_SOURCES_CORE "${SOURCES}")
 list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
 set(GLOBAL_HEADERS "${HEADERS}")
-set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/src")
+INCLUDE_DIRECTORIES(${GLOBAL_INCLUDE_DIRECTORY})
 
 # .cpp 生成可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})
