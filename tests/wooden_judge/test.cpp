@@ -407,22 +407,15 @@ const std::list<TESTF> testf = {
                  {{1, 2}, {2, 1}, {3, 1}})},
           gen_tag_died({false, true, false}), gen_res_qi({0, 0, 3}),
           "大局-管局1", true, "本局测试基本的管类招式是否正常"),
-      
-      TESTF(2, gen_players(2), gen_qi({0, 0}), gen_tag_died(2),
-            gen_skl_count(2),
-            {
-                  TESTKG({{1, {Skill(tskl::clap, 0)}},
-                          {2, {Skill(tskl::clap, 0)}}}),
-                  TESTKG({{1, {Skill(tskl::clap, 0)}},
-                          {2, {Skill(tskl::clap, 0)}}}),
-                  TESTK({{1, 
-                              {{Skill(tskl::gulu, 0)}, 
-                              {Skill(tskl::gulu, 0)}}
-                        },
-                          {2, {{Skill(tskl::clap, 0)}}}}, 
-                          {{1, 2}, {2, 1}})
-            }, gen_tag_died({true, false}), gen_res_qi({0, 3}), "大局-咕噜判定局1", true, "本局测试咕噜招式连出时是否能被系统检测为违规操作")
-};
+
+    TESTF(2, gen_players(2), gen_qi({0, 0}), gen_tag_died(2), gen_skl_count(2),
+          {TESTKG({{1, {Skill(tskl::clap, 0)}}, {2, {Skill(tskl::clap, 0)}}}),
+           TESTKG({{1, {Skill(tskl::clap, 0)}}, {2, {Skill(tskl::clap, 0)}}}),
+           TESTK({{1, {{Skill(tskl::gulu, 0)}, {Skill(tskl::gulu, 0)}}},
+                  {2, {{Skill(tskl::clap, 0)}}}},
+                 {{1, 2}, {2, 1}})},
+          gen_tag_died({true, false}), gen_res_qi({0, 3}), "大局-咕噜判定局1",
+          true, "本局测试咕噜招式连出时是否能被系统检测为违规操作")};
 
 const int TESTF_NUM = testf.size();
 

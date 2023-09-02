@@ -31,7 +31,7 @@ std::map<int, int> qi;
 
 std::map<int, bool> tag_died;
 
-std::map<int, std::map<int, int> > skl_count;
+std::map<int, std::map<int, int>> skl_count;
 
 void init() {
     dprint("[Init] player_num = " + std::to_string(player_num));
@@ -184,9 +184,9 @@ bool have_clap_axe(const std::pair<int, Skill> &choice) {
     return false;
 }
 
-std::vector<std::pair<int, Skill> > clean_choices(
-    const std::vector<std::pair<int, Skill> > &choices) {
-    std::vector<std::pair<int, Skill> > res;
+std::vector<std::pair<int, Skill>> clean_choices(
+    const std::vector<std::pair<int, Skill>> &choices) {
+    std::vector<std::pair<int, Skill>> res;
     res.clear();
     for (const auto &player : choices) {
         if (tag_died[player.first] == true) {
@@ -278,7 +278,7 @@ bool check_available(const std::pair<int, Skill> &choice) {
     return true;
 }
 
-int get_player_skill_num(const std::vector<std::pair<int, SkillPack> > &choices,
+int get_player_skill_num(const std::vector<std::pair<int, SkillPack>> &choices,
                          const int &pid, const tskl::skill skl) {
     int res = 0;
     for (auto i : choices) {
@@ -290,10 +290,10 @@ int get_player_skill_num(const std::vector<std::pair<int, SkillPack> > &choices,
     return res;
 }
 
-std::vector<std::pair<int, SkillPack> > strip_player_skill(
-    const std::vector<std::pair<int, SkillPack> > &choices, const int &pid,
+std::vector<std::pair<int, SkillPack>> strip_player_skill(
+    const std::vector<std::pair<int, SkillPack>> &choices, const int &pid,
     const tskl::skill skl) {
-    auto res = std::vector<std::pair<int, SkillPack> >();
+    auto res = std::vector<std::pair<int, SkillPack>>();
     res.clear();
     for (auto i : choices) {
         if (i.first != pid) {
@@ -369,8 +369,8 @@ const int max_skl_count[NUM_SKL_M + 1] = {
 };
 // clang-format on
 
-std::vector<std::pair<int, SkillPack> > skillPack(
-    const std::vector<std::pair<int, Skill> > &choices) {
+std::vector<std::pair<int, SkillPack>> skillPack(
+    const std::vector<std::pair<int, Skill>> &choices) {
     std::map<int, SkillPack> res;
     for (auto skl : choices) {
         auto &pid = skl.first;
@@ -381,16 +381,16 @@ std::vector<std::pair<int, SkillPack> > skillPack(
         }
         res[pid].skills.push_back(skill);
     }
-    std::vector<std::pair<int, SkillPack> > res1;
+    std::vector<std::pair<int, SkillPack>> res1;
     for (auto player : res) {
         res1.push_back(std::make_pair(player.first, player.second));
     }
     return res1;
 }
 
-std::vector<std::pair<int, SkillPack> > clean_choices(
-    const std::vector<std::pair<int, SkillPack> > &choices) {
-    std::vector<std::pair<int, SkillPack> > res;
+std::vector<std::pair<int, SkillPack>> clean_choices(
+    const std::vector<std::pair<int, SkillPack>> &choices) {
+    std::vector<std::pair<int, SkillPack>> res;
     res.clear();
     for (auto &player : choices) {
         if (tag_died[player.first] == true) {
@@ -405,9 +405,9 @@ std::vector<std::pair<int, SkillPack> > clean_choices(
 std::map<int, std::map<skill, bool>> last_skill_used;
 
 std::map<int, bool> do_main(
-    const std::vector<std::pair<int, SkillPack> > &dirty_choices) {
+    const std::vector<std::pair<int, SkillPack>> &dirty_choices) {
     // Step 1: 清洗数据
-    std::vector<std::pair<int, SkillPack> > choices =
+    std::vector<std::pair<int, SkillPack>> choices =
         clean_choices(dirty_choices);
 
     // Step 2: 检查是否有空出招
@@ -491,26 +491,36 @@ std::map<int, bool> do_main(
         auto &psp = player.second;
         assert(psp.skills.size() > 0);
         // 此处需要关注的招式: 咕噜咕噜, 管
-        if (last_skill_used[pid][tskl::gulu] && last_skill_used[pid][tskl::tube]) {
+        if (last_skill_used[pid][tskl::gulu] &&
+            last_skill_used[pid][tskl::tube]) {
             // 两个都有时, 若先前的合法性判断正确, 只能为先出 gulu 再出 tube,
             // 故此处只能出 tube_selected
             for (auto skl : psp.skills) {
                 if (skl != tskl::tube_selected) {
-                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了咕噜咕噜和管类, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 期待招式为管(已选择), 出局");
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) +
+                           " 已使用了咕噜咕噜和管类, 但本次出了不合法招式: " +
+                           std::to_string(skl) + "(" + get_skill_name(skl) +
+                           "), 期待招式为管(已选择), 出局");
                     tag_died[pid] = true;
                 }
             }
         } else if (last_skill_used[pid][tskl::tube]) {
             for (auto skl : psp.skills) {
                 if (skl != tskl::tube_selected) {
-                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了管类, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 期待招式为管(已选择), 出局");
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) +
+                           " 已使用了管类, 但本次出了不合法招式: " +
+                           std::to_string(skl) + "(" + get_skill_name(skl) +
+                           "), 期待招式为管(已选择), 出局");
                     tag_died[pid] = true;
                 }
             }
         } else if (last_skill_used[pid][tskl::gulu]) {
             for (auto skl : psp.skills) {
                 if (skl == tskl::gulu) {
-                    dprint("[Step 2] 玩家 " + std::to_string(pid) + " 已使用了咕噜咕噜, 但本次出了不合法招式: " + std::to_string(skl) + "(" + get_skill_name(skl) + "), 出局");
+                    dprint("[Step 2] 玩家 " + std::to_string(pid) +
+                           " 已使用了咕噜咕噜, 但本次出了不合法招式: " +
+                           std::to_string(skl) + "(" + get_skill_name(skl) +
+                           "), 出局");
                     tag_died[pid] = true;
                 }
             }
@@ -551,7 +561,7 @@ std::map<int, bool> do_main(
 
     choices = clean_choices(choices);
 
-    std::map<int, std::map<tskl::skill, bool> > player_have_skill;
+    std::map<int, std::map<tskl::skill, bool>> player_have_skill;
     // Step 2: 处理爆气
     for (auto player : choices) {
         auto &pid = player.first;
@@ -637,7 +647,9 @@ std::map<int, bool> do_main(
         auto &psp = player.second;
         for (auto skl : psp.skills) {
             if (!last_skill_used[pid][skl]) {
-                dprint("[Step 2] 招式使用记录: 玩家 " + std::to_string(pid) + ", 招式: " + std::to_string(skl) + " (" + get_skill_name(skl) + ")");
+                dprint("[Step 2] 招式使用记录: 玩家 " + std::to_string(pid) +
+                       ", 招式: " + std::to_string(skl) + " (" +
+                       get_skill_name(skl) + ")");
                 last_skill_used[pid][skl] = true;
             }
         }
@@ -650,7 +662,7 @@ std::map<int, bool> do_main(
             if (tag_died[pid]) {
                 qi[pid] = 0;
                 dprint("[Step 3*] 玩家 " + std::to_string(pid) +
-                    " 已死亡, 气数清零");
+                       " 已死亡, 气数清零");
             }
         }
         dprint("[Step 3] 存在需要延迟出招的玩家, 函数结束, 等待下一次调用");
@@ -696,7 +708,7 @@ std::map<int, bool> do_main(
 
     // Step 4.5: 展开 Hither, Alpaca
 
-    std::vector<std::pair<int, SkillPack> > flatten_choices;
+    std::vector<std::pair<int, SkillPack>> flatten_choices;
     for (auto player : choices) {
         auto &pid = player.first;
         auto &psp = player.second;
@@ -852,9 +864,9 @@ std::map<int, bool> do_main(
     // 当单盾的盾量不足抵抗时, 可以用群盾抵消其余未抵消的受攻击量.
     // (目前未出现这种情况)
 
-    std::map<int, std::map<int, int> > player_get_damage;
+    std::map<int, std::map<int, int>> player_get_damage;
     player_get_damage.clear();
-    std::map<int, std::map<int, int> > player_do_attack;
+    std::map<int, std::map<int, int>> player_do_attack;
     player_do_attack.clear();
     // 初始化数组
     for (auto player : choices) {
@@ -1026,13 +1038,13 @@ std::map<int, bool> do_main(
 
 // do_main：主小局判定程序
 // choices: player_id, skill
-void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
+void do_main(const std::vector<std::pair<int, Skill>> &dirty_choices) {
     //// 定义区域 - 开始
     std::map<int, float> qi_add;  // id -> qi
     // qi_add: 记录当前小局该玩家应得的气数, 但未加到计数器
     qi_add.clear();
 
-    std::vector<std::pair<int, Skill> > choices = clean_choices(dirty_choices);
+    std::vector<std::pair<int, Skill>> choices = clean_choices(dirty_choices);
 
     //// 定义区域 - 结束
 
@@ -1313,7 +1325,7 @@ void do_main(const std::vector<std::pair<int, Skill> > &dirty_choices) {
     std::map<int, float> suffer_att;
 
     // has_def: 记录该玩家拥有防御的 max 和 min
-    std::map<int, std::pair<float, float> > has_def;
+    std::map<int, std::pair<float, float>> has_def;
 
     suffer_att.clear();
     has_def.clear();
@@ -1553,7 +1565,7 @@ void pretty_print_result_qi(const std::vector<int> &_id,
 }
 
 game_status continue_game(int n, game_status now,
-                          const std::vector<std::pair<int, Skill> > &choices) {
+                          const std::vector<std::pair<int, Skill>> &choices) {
     // Step 1. 转移数据
     players = now.players;
     player_num = now.player_num;
