@@ -60,14 +60,14 @@ jobs:
         fetch-depth: 1
         submodules: recursive
     - name: 配置 CMake (${{ matrix.os }})
-      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DGBK=off -G "${{ matrix.profile }}"
+      run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DUSE_STATIC_LINK=0 -DGBK=off -G "${{ matrix.profile }}"
     - name: 安装 LCOV
       shell: bash
       run: |
         sudo apt-get --assume-yes install lcov
     - name: 编译
       id: compile
-      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game -DUSE_STATIC_LINK=0
+      run: cmake --build ${{github.workspace}}/build --config "${{ matrix.build_type }}" --target=wooden_game
     - name: 执行
       run: |
         echo "The Current Exec Path:"
