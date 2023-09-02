@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "test.h"
+#include "wooden_util.h"
 
 using tutil::TESTF;
 using tutil::TESTK;
@@ -100,51 +101,6 @@ void check(const TESTN &test, bool check) {
     }
 
     std::cout << "Test success: " << _name << std::endl;
-}
-
-void print_single_skill(const Skill &skl, bool need_endl = false) {
-    Skill tmp = skl;
-    dprint("[" + tskl::get_skill_name(tmp) + " > " +
-               std::to_string(skl.target) + "]",
-           need_endl);
-}
-
-// 便捷打印输入 do_main 参数.
-// name: 名称.
-// line_prefix: 在每行开始时输出的内容, 默认值为 "[P] ".
-// len_offset: 计算回收 Sharp 井号所需数量时需要加上 (负数为减去) 的长度数量,
-// std::string.length() 在计算时会将全角字符处理为 1, 输出时则需要 2 个井号,
-// 故需要在此参数加上. len_offset 理论上为输入字符串中全角字符的数量
-void print_batch(const std::vector<std::pair<int, SkillPack> > &batch,
-                 std::string name = "", std::string line_prefix = "[P] ",
-                 int len_offset = 0) {
-    dprint(line_prefix + "###### " + (name == "" ? "轮次" : name) + " ######");
-    for (auto choice : batch) {
-        auto &pid = choice.first;
-        auto &psp = choice.second.skills;
-        dprint(line_prefix + "玩家 " + std::to_string(pid) + ":", false);
-        for (auto skl : psp) {
-            dprint(" ", false);
-            print_single_skill(skl);
-        }
-        if (psp.size() < 1) {
-            dprint(" 无");
-        } else {
-            // 同步换行
-            dprint("");
-        }
-    }
-    int gen_sharp_cnt = 12 + 2;  // 原先井号 + 空格
-    std::string gen_sharp = "";
-    gen_sharp_cnt += (name == "" ? "轮次" : name).length();
-    if (gen_sharp_cnt + len_offset <= 0) {
-        // 加上 len_offset 后长度小于等于 0
-        dprint(line_prefix + "警告: len_offset(" + std::to_string(len_offset) +
-               ") 可能设置有误, 原长度为 " + std::to_string(gen_sharp_cnt));
-    }
-    gen_sharp_cnt += len_offset;
-    for (int i = 1; i <= gen_sharp_cnt; i++) gen_sharp += "#";
-    dprint(line_prefix + gen_sharp);
 }
 
 void check(const TESTF &test, bool check) {
