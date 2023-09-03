@@ -20,22 +20,22 @@
 #error "incompatible with your Protocol Buffer headers. Please"
 #error "regenerate this file with a newer version of protoc."
 #endif  // PROTOBUF_MIN_PROTOC_VERSION
-#include "google/protobuf/port_undef.inc"
-#include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/arena.h"
 #include "google/protobuf/arenastring.h"
-#include "google/protobuf/generated_message_util.h"
-#include "google/protobuf/metadata_lite.h"
-#include "google/protobuf/generated_message_reflection.h"
-#include "google/protobuf/message.h"
-#include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
+#include "google/protobuf/generated_message_reflection.h"
+#include "google/protobuf/generated_message_util.h"
+#include "google/protobuf/io/coded_stream.h"
+#include "google/protobuf/message.h"
+#include "google/protobuf/metadata_lite.h"
+#include "google/protobuf/port_undef.inc"
+#include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
-#include "proto/Skill.pb.h"
 #include "proto/Qi.pb.h"
-#include "proto/TagDied.pb.h"
+#include "proto/Skill.pb.h"
 #include "proto/SkillCount.pb.h"
 #include "proto/SkillUsed.pb.h"
+#include "proto/TagDied.pb.h"
 // @@protoc_insertion_point(includes)
 
 // Must be included last.
@@ -51,7 +51,7 @@ PROTOBUF_NAMESPACE_CLOSE
 
 // Internal implementation detail -- do not use these members.
 struct TableStruct_proto_2fRoundPatch_2eproto {
-  static const ::uint32_t offsets[];
+    static const ::uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
     descriptor_table_proto_2fRoundPatch_2eproto;
@@ -61,609 +61,678 @@ struct PRoundPatchDefaultTypeInternal;
 extern PRoundPatchDefaultTypeInternal _PRoundPatch_default_instance_;
 class PRoundPatch_map_int_bool;
 struct PRoundPatch_map_int_boolDefaultTypeInternal;
-extern PRoundPatch_map_int_boolDefaultTypeInternal _PRoundPatch_map_int_bool_default_instance_;
+extern PRoundPatch_map_int_boolDefaultTypeInternal
+    _PRoundPatch_map_int_bool_default_instance_;
 }  // namespace proto
 PROTOBUF_NAMESPACE_OPEN
 template <>
 ::proto::PRoundPatch* Arena::CreateMaybeMessage<::proto::PRoundPatch>(Arena*);
 template <>
-::proto::PRoundPatch_map_int_bool* Arena::CreateMaybeMessage<::proto::PRoundPatch_map_int_bool>(Arena*);
+::proto::PRoundPatch_map_int_bool*
+Arena::CreateMaybeMessage<::proto::PRoundPatch_map_int_bool>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 namespace proto {
 
 // ===================================================================
 
-
 // -------------------------------------------------------------------
 
-class PRoundPatch_map_int_bool final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PRoundPatch.map_int_bool) */ {
- public:
-  inline PRoundPatch_map_int_bool() : PRoundPatch_map_int_bool(nullptr) {}
-  ~PRoundPatch_map_int_bool() override;
-  template<typename = void>
-  explicit PROTOBUF_CONSTEXPR PRoundPatch_map_int_bool(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+class PRoundPatch_map_int_bool final
+    : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PRoundPatch.map_int_bool)
+                                               */
+{
+   public:
+    inline PRoundPatch_map_int_bool() : PRoundPatch_map_int_bool(nullptr) {}
+    ~PRoundPatch_map_int_bool() override;
+    template <typename = void>
+    explicit PROTOBUF_CONSTEXPR PRoundPatch_map_int_bool(
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  PRoundPatch_map_int_bool(const PRoundPatch_map_int_bool& from);
-  PRoundPatch_map_int_bool(PRoundPatch_map_int_bool&& from) noexcept
-    : PRoundPatch_map_int_bool() {
-    *this = ::std::move(from);
-  }
-
-  inline PRoundPatch_map_int_bool& operator=(const PRoundPatch_map_int_bool& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PRoundPatch_map_int_bool& operator=(PRoundPatch_map_int_bool&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    PRoundPatch_map_int_bool(const PRoundPatch_map_int_bool& from);
+    PRoundPatch_map_int_bool(PRoundPatch_map_int_bool&& from) noexcept
+        : PRoundPatch_map_int_bool() {
+        *this = ::std::move(from);
     }
-    return *this;
-  }
 
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PRoundPatch_map_int_bool& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PRoundPatch_map_int_bool* internal_default_instance() {
-    return reinterpret_cast<const PRoundPatch_map_int_bool*>(
-               &_PRoundPatch_map_int_bool_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(PRoundPatch_map_int_bool& a, PRoundPatch_map_int_bool& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PRoundPatch_map_int_bool* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    inline PRoundPatch_map_int_bool& operator=(
+        const PRoundPatch_map_int_bool& from) {
+        CopyFrom(from);
+        return *this;
     }
-  }
-  void UnsafeArenaSwap(PRoundPatch_map_int_bool* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  PRoundPatch_map_int_bool* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PRoundPatch_map_int_bool>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PRoundPatch_map_int_bool& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PRoundPatch_map_int_bool& from) {
-    PRoundPatch_map_int_bool::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  ::size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PRoundPatch_map_int_bool* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() {
-    return "proto.PRoundPatch.map_int_bool";
-  }
-  protected:
-  explicit PRoundPatch_map_int_bool(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kKeyFieldNumber = 1,
-    kValueFieldNumber = 2,
-  };
-  // required int32 key = 1;
-  bool has_key() const;
-  void clear_key() ;
-  ::int32_t key() const;
-  void set_key(::int32_t value);
-
-  private:
-  ::int32_t _internal_key() const;
-  void _internal_set_key(::int32_t value);
-
-  public:
-  // required bool value = 2;
-  bool has_value() const;
-  void clear_value() ;
-  bool value() const;
-  void set_value(bool value);
-
-  private:
-  bool _internal_value() const;
-  void _internal_set_value(bool value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:proto.PRoundPatch.map_int_bool)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  ::size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::int32_t key_;
-    bool value_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_2fRoundPatch_2eproto;
-};// -------------------------------------------------------------------
-
-class PRoundPatch final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PRoundPatch) */ {
- public:
-  inline PRoundPatch() : PRoundPatch(nullptr) {}
-  ~PRoundPatch() override;
-  template<typename = void>
-  explicit PROTOBUF_CONSTEXPR PRoundPatch(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PRoundPatch(const PRoundPatch& from);
-  PRoundPatch(PRoundPatch&& from) noexcept
-    : PRoundPatch() {
-    *this = ::std::move(from);
-  }
-
-  inline PRoundPatch& operator=(const PRoundPatch& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PRoundPatch& operator=(PRoundPatch&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline PRoundPatch_map_int_bool& operator=(
+        PRoundPatch_map_int_bool&& from) noexcept {
+        if (this == &from) return *this;
+        if (GetOwningArena() == from.GetOwningArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+            && GetOwningArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+        ) {
+            InternalSwap(&from);
+        } else {
+            CopyFrom(from);
+        }
+        return *this;
     }
-    return *this;
-  }
 
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PRoundPatch& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PRoundPatch* internal_default_instance() {
-    return reinterpret_cast<const PRoundPatch*>(
-               &_PRoundPatch_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(PRoundPatch& a, PRoundPatch& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PRoundPatch* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields()
+        const {
+        return _internal_metadata_
+            .unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
+                ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
     }
-  }
-  void UnsafeArenaSwap(PRoundPatch* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
+    inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+        return _internal_metadata_
+            .mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+    }
 
-  // implements Message ----------------------------------------------
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+        return GetDescriptor();
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+        return default_instance().GetMetadata().descriptor;
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+        return default_instance().GetMetadata().reflection;
+    }
+    static const PRoundPatch_map_int_bool& default_instance() {
+        return *internal_default_instance();
+    }
+    static inline const PRoundPatch_map_int_bool* internal_default_instance() {
+        return reinterpret_cast<const PRoundPatch_map_int_bool*>(
+            &_PRoundPatch_map_int_bool_default_instance_);
+    }
+    static constexpr int kIndexInFileMessages = 0;
 
-  PRoundPatch* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PRoundPatch>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PRoundPatch& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PRoundPatch& from) {
-    PRoundPatch::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
+    friend void swap(PRoundPatch_map_int_bool& a, PRoundPatch_map_int_bool& b) {
+        a.Swap(&b);
+    }
+    inline void Swap(PRoundPatch_map_int_bool* other) {
+        if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() != nullptr &&
+            GetOwningArena() == other->GetOwningArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() == other->GetOwningArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+            InternalSwap(other);
+        } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+        }
+    }
+    void UnsafeArenaSwap(PRoundPatch_map_int_bool* other) {
+        if (other == this) return;
+        ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+        InternalSwap(other);
+    }
 
-  ::size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+    // implements Message ----------------------------------------------
 
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PRoundPatch* other);
+    PRoundPatch_map_int_bool* New(
+        ::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+        return CreateMaybeMessage<PRoundPatch_map_int_bool>(arena);
+    }
+    using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+    void CopyFrom(const PRoundPatch_map_int_bool& from);
+    using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+    void MergeFrom(const PRoundPatch_map_int_bool& from) {
+        PRoundPatch_map_int_bool::MergeImpl(*this, from);
+    }
 
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() {
-    return "proto.PRoundPatch";
-  }
-  protected:
-  explicit PRoundPatch(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
+   private:
+    static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
+                          const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
 
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+   public:
+    PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+    bool IsInitialized() const final;
 
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+    ::size_t ByteSizeLong() const final;
+    const char* _InternalParse(
+        const char* ptr,
+        ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+    ::uint8_t* _InternalSerialize(
+        ::uint8_t* target,
+        ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+    int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
 
-  // nested types ----------------------------------------------------
+   private:
+    void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+    void SharedDtor();
+    void SetCachedSize(int size) const final;
+    void InternalSwap(PRoundPatch_map_int_bool* other);
 
-  typedef PRoundPatch_map_int_bool map_int_bool;
+   private:
+    friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+    static ::absl::string_view FullMessageName() {
+        return "proto.PRoundPatch.map_int_bool";
+    }
 
-  // accessors -------------------------------------------------------
+   protected:
+    explicit PRoundPatch_map_int_bool(::PROTOBUF_NAMESPACE_ID::Arena* arena);
 
-  enum : int {
-    kPlayersFieldNumber = 3,
-    kNextPatchFieldNumber = 4,
-    kQiFieldNumber = 5,
-    kChoicesFieldNumber = 6,
-    kTagDiedFieldNumber = 7,
-    kSklCountFieldNumber = 8,
-    kSkillUsedFieldNumber = 9,
-    kDelayedPlayersFieldNumber = 10,
-    kIdFieldNumber = 1,
-    kPrevPatchFieldNumber = 2,
-    kJudgedFieldNumber = 11,
-    kHeadFieldNumber = 12,
-  };
-  // repeated int32 players = 3;
-  int players_size() const;
-  private:
-  int _internal_players_size() const;
+   public:
+    static const ClassData _class_data_;
+    const ::PROTOBUF_NAMESPACE_ID::Message::ClassData* GetClassData()
+        const final;
 
-  public:
-  void clear_players() ;
-  ::int32_t players(int index) const;
-  void set_players(int index, ::int32_t value);
-  void add_players(::int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& players() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>* mutable_players();
+    ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
 
-  private:
-  ::int32_t _internal_players(int index) const;
-  void _internal_add_players(::int32_t value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& _internal_players() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>* _internal_mutable_players();
+    // nested types ----------------------------------------------------
 
-  public:
-  // repeated string next_patch = 4;
-  int next_patch_size() const;
-  private:
-  int _internal_next_patch_size() const;
+    // accessors -------------------------------------------------------
 
-  public:
-  void clear_next_patch() ;
-  const std::string& next_patch(int index) const;
-  std::string* mutable_next_patch(int index);
-  void set_next_patch(int index, const std::string& value);
-  void set_next_patch(int index, std::string&& value);
-  void set_next_patch(int index, const char* value);
-  void set_next_patch(int index, const char* value, std::size_t size);
-  void set_next_patch(int index, absl::string_view value);
-  std::string* add_next_patch();
-  void add_next_patch(const std::string& value);
-  void add_next_patch(std::string&& value);
-  void add_next_patch(const char* value);
-  void add_next_patch(const char* value, std::size_t size);
-  void add_next_patch(absl::string_view value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& next_patch() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_next_patch();
+    enum : int {
+        kKeyFieldNumber = 1,
+        kValueFieldNumber = 2,
+    };
+    // required int32 key = 1;
+    bool has_key() const;
+    void clear_key();
+    ::int32_t key() const;
+    void set_key(::int32_t value);
 
-  private:
-  const std::string& _internal_next_patch(int index) const;
-  std::string* _internal_add_next_patch();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& _internal_next_patch() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* _internal_mutable_next_patch();
+   private:
+    ::int32_t _internal_key() const;
+    void _internal_set_key(::int32_t value);
 
-  public:
-  // repeated .proto.PQi qi = 5;
-  int qi_size() const;
-  private:
-  int _internal_qi_size() const;
+   public:
+    // required bool value = 2;
+    bool has_value() const;
+    void clear_value();
+    bool value() const;
+    void set_value(bool value);
 
-  public:
-  void clear_qi() ;
-  ::proto::PQi* mutable_qi(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PQi >*
-      mutable_qi();
-  private:
-  const ::proto::PQi& _internal_qi(int index) const;
-  ::proto::PQi* _internal_add_qi();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>& _internal_qi() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>* _internal_mutable_qi();
-  public:
-  const ::proto::PQi& qi(int index) const;
-  ::proto::PQi* add_qi();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PQi >&
-      qi() const;
-  // repeated .proto.PSkillChoice choices = 6;
-  int choices_size() const;
-  private:
-  int _internal_choices_size() const;
+   private:
+    bool _internal_value() const;
+    void _internal_set_value(bool value);
 
-  public:
-  void clear_choices() ;
-  ::proto::PSkillChoice* mutable_choices(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillChoice >*
-      mutable_choices();
-  private:
-  const ::proto::PSkillChoice& _internal_choices(int index) const;
-  ::proto::PSkillChoice* _internal_add_choices();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>& _internal_choices() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>* _internal_mutable_choices();
-  public:
-  const ::proto::PSkillChoice& choices(int index) const;
-  ::proto::PSkillChoice* add_choices();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillChoice >&
-      choices() const;
-  // repeated .proto.PTagDied tag_died = 7;
-  int tag_died_size() const;
-  private:
-  int _internal_tag_died_size() const;
+   public:
+    // @@protoc_insertion_point(class_scope:proto.PRoundPatch.map_int_bool)
+   private:
+    class _Internal;
 
-  public:
-  void clear_tag_died() ;
-  ::proto::PTagDied* mutable_tag_died(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PTagDied >*
-      mutable_tag_died();
-  private:
-  const ::proto::PTagDied& _internal_tag_died(int index) const;
-  ::proto::PTagDied* _internal_add_tag_died();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>& _internal_tag_died() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>* _internal_mutable_tag_died();
-  public:
-  const ::proto::PTagDied& tag_died(int index) const;
-  ::proto::PTagDied* add_tag_died();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PTagDied >&
-      tag_died() const;
-  // repeated .proto.PSkillCount skl_count = 8;
-  int skl_count_size() const;
-  private:
-  int _internal_skl_count_size() const;
+    // helper for ByteSizeLong()
+    ::size_t RequiredFieldsByteSizeFallback() const;
 
-  public:
-  void clear_skl_count() ;
-  ::proto::PSkillCount* mutable_skl_count(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillCount >*
-      mutable_skl_count();
-  private:
-  const ::proto::PSkillCount& _internal_skl_count(int index) const;
-  ::proto::PSkillCount* _internal_add_skl_count();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>& _internal_skl_count() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>* _internal_mutable_skl_count();
-  public:
-  const ::proto::PSkillCount& skl_count(int index) const;
-  ::proto::PSkillCount* add_skl_count();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillCount >&
-      skl_count() const;
-  // repeated .proto.PSkillUsed skill_used = 9;
-  int skill_used_size() const;
-  private:
-  int _internal_skill_used_size() const;
+    template <typename T>
+    friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+    typedef void InternalArenaConstructable_;
+    typedef void DestructorSkippable_;
+    struct Impl_ {
+        ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+        mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+        ::int32_t key_;
+        bool value_;
+    };
+    union {
+        Impl_ _impl_;
+    };
+    friend struct ::TableStruct_proto_2fRoundPatch_2eproto;
+};  // -------------------------------------------------------------------
 
-  public:
-  void clear_skill_used() ;
-  ::proto::PSkillUsed* mutable_skill_used(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillUsed >*
-      mutable_skill_used();
-  private:
-  const ::proto::PSkillUsed& _internal_skill_used(int index) const;
-  ::proto::PSkillUsed* _internal_add_skill_used();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>& _internal_skill_used() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>* _internal_mutable_skill_used();
-  public:
-  const ::proto::PSkillUsed& skill_used(int index) const;
-  ::proto::PSkillUsed* add_skill_used();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillUsed >&
-      skill_used() const;
-  // repeated .proto.PRoundPatch.map_int_bool delayed_players = 10;
-  int delayed_players_size() const;
-  private:
-  int _internal_delayed_players_size() const;
+class PRoundPatch final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PRoundPatch)
+                                                                   */
+{
+   public:
+    inline PRoundPatch() : PRoundPatch(nullptr) {}
+    ~PRoundPatch() override;
+    template <typename = void>
+    explicit PROTOBUF_CONSTEXPR PRoundPatch(
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  public:
-  void clear_delayed_players() ;
-  ::proto::PRoundPatch_map_int_bool* mutable_delayed_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PRoundPatch_map_int_bool >*
-      mutable_delayed_players();
-  private:
-  const ::proto::PRoundPatch_map_int_bool& _internal_delayed_players(int index) const;
-  ::proto::PRoundPatch_map_int_bool* _internal_add_delayed_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PRoundPatch_map_int_bool>& _internal_delayed_players() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PRoundPatch_map_int_bool>* _internal_mutable_delayed_players();
-  public:
-  const ::proto::PRoundPatch_map_int_bool& delayed_players(int index) const;
-  ::proto::PRoundPatch_map_int_bool* add_delayed_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PRoundPatch_map_int_bool >&
-      delayed_players() const;
-  // required string id = 1;
-  bool has_id() const;
-  void clear_id() ;
-  const std::string& id() const;
+    PRoundPatch(const PRoundPatch& from);
+    PRoundPatch(PRoundPatch&& from) noexcept : PRoundPatch() {
+        *this = ::std::move(from);
+    }
 
+    inline PRoundPatch& operator=(const PRoundPatch& from) {
+        CopyFrom(from);
+        return *this;
+    }
+    inline PRoundPatch& operator=(PRoundPatch&& from) noexcept {
+        if (this == &from) return *this;
+        if (GetOwningArena() == from.GetOwningArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+            && GetOwningArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+        ) {
+            InternalSwap(&from);
+        } else {
+            CopyFrom(from);
+        }
+        return *this;
+    }
 
+    inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields()
+        const {
+        return _internal_metadata_
+            .unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
+                ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+    }
+    inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+        return _internal_metadata_
+            .mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+    }
 
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+        return GetDescriptor();
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+        return default_instance().GetMetadata().descriptor;
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+        return default_instance().GetMetadata().reflection;
+    }
+    static const PRoundPatch& default_instance() {
+        return *internal_default_instance();
+    }
+    static inline const PRoundPatch* internal_default_instance() {
+        return reinterpret_cast<const PRoundPatch*>(
+            &_PRoundPatch_default_instance_);
+    }
+    static constexpr int kIndexInFileMessages = 1;
 
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_id(Arg_&& arg, Args_... args);
-  std::string* mutable_id();
-  PROTOBUF_NODISCARD std::string* release_id();
-  void set_allocated_id(std::string* ptr);
+    friend void swap(PRoundPatch& a, PRoundPatch& b) { a.Swap(&b); }
+    inline void Swap(PRoundPatch* other) {
+        if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() != nullptr &&
+            GetOwningArena() == other->GetOwningArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() == other->GetOwningArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+            InternalSwap(other);
+        } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+        }
+    }
+    void UnsafeArenaSwap(PRoundPatch* other) {
+        if (other == this) return;
+        ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+        InternalSwap(other);
+    }
 
-  private:
-  const std::string& _internal_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(
-      const std::string& value);
-  std::string* _internal_mutable_id();
+    // implements Message ----------------------------------------------
 
-  public:
-  // optional string prev_patch = 2;
-  bool has_prev_patch() const;
-  void clear_prev_patch() ;
-  const std::string& prev_patch() const;
+    PRoundPatch* New(
+        ::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+        return CreateMaybeMessage<PRoundPatch>(arena);
+    }
+    using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+    void CopyFrom(const PRoundPatch& from);
+    using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+    void MergeFrom(const PRoundPatch& from) {
+        PRoundPatch::MergeImpl(*this, from);
+    }
 
+   private:
+    static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
+                          const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
 
+   public:
+    PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+    bool IsInitialized() const final;
 
+    ::size_t ByteSizeLong() const final;
+    const char* _InternalParse(
+        const char* ptr,
+        ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+    ::uint8_t* _InternalSerialize(
+        ::uint8_t* target,
+        ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+    int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
 
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_prev_patch(Arg_&& arg, Args_... args);
-  std::string* mutable_prev_patch();
-  PROTOBUF_NODISCARD std::string* release_prev_patch();
-  void set_allocated_prev_patch(std::string* ptr);
+   private:
+    void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+    void SharedDtor();
+    void SetCachedSize(int size) const final;
+    void InternalSwap(PRoundPatch* other);
 
-  private:
-  const std::string& _internal_prev_patch() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_prev_patch(
-      const std::string& value);
-  std::string* _internal_mutable_prev_patch();
+   private:
+    friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+    static ::absl::string_view FullMessageName() { return "proto.PRoundPatch"; }
 
-  public:
-  // required bool judged = 11;
-  bool has_judged() const;
-  void clear_judged() ;
-  bool judged() const;
-  void set_judged(bool value);
+   protected:
+    explicit PRoundPatch(::PROTOBUF_NAMESPACE_ID::Arena* arena);
 
-  private:
-  bool _internal_judged() const;
-  void _internal_set_judged(bool value);
+   public:
+    static const ClassData _class_data_;
+    const ::PROTOBUF_NAMESPACE_ID::Message::ClassData* GetClassData()
+        const final;
 
-  public:
-  // required bool head = 12;
-  bool has_head() const;
-  void clear_head() ;
-  bool head() const;
-  void set_head(bool value);
+    ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
 
-  private:
-  bool _internal_head() const;
-  void _internal_set_head(bool value);
+    // nested types ----------------------------------------------------
 
-  public:
-  // @@protoc_insertion_point(class_scope:proto.PRoundPatch)
- private:
-  class _Internal;
+    typedef PRoundPatch_map_int_bool map_int_bool;
 
-  // helper for ByteSizeLong()
-  ::size_t RequiredFieldsByteSizeFallback() const;
+    // accessors -------------------------------------------------------
 
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t> players_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> next_patch_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PQi > qi_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillChoice > choices_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PTagDied > tag_died_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillCount > skl_count_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillUsed > skill_used_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PRoundPatch_map_int_bool > delayed_players_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr prev_patch_;
-    bool judged_;
-    bool head_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_2fRoundPatch_2eproto;
+    enum : int {
+        kPlayersFieldNumber = 3,
+        kNextPatchFieldNumber = 4,
+        kQiFieldNumber = 5,
+        kChoicesFieldNumber = 6,
+        kTagDiedFieldNumber = 7,
+        kSklCountFieldNumber = 8,
+        kSkillUsedFieldNumber = 9,
+        kDelayedPlayersFieldNumber = 10,
+        kIdFieldNumber = 1,
+        kPrevPatchFieldNumber = 2,
+        kJudgedFieldNumber = 11,
+        kHeadFieldNumber = 12,
+    };
+    // repeated int32 players = 3;
+    int players_size() const;
+
+   private:
+    int _internal_players_size() const;
+
+   public:
+    void clear_players();
+    ::int32_t players(int index) const;
+    void set_players(int index, ::int32_t value);
+    void add_players(::int32_t value);
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& players() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>* mutable_players();
+
+   private:
+    ::int32_t _internal_players(int index) const;
+    void _internal_add_players(::int32_t value);
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& _internal_players()
+        const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>*
+    _internal_mutable_players();
+
+   public:
+    // repeated string next_patch = 4;
+    int next_patch_size() const;
+
+   private:
+    int _internal_next_patch_size() const;
+
+   public:
+    void clear_next_patch();
+    const std::string& next_patch(int index) const;
+    std::string* mutable_next_patch(int index);
+    void set_next_patch(int index, const std::string& value);
+    void set_next_patch(int index, std::string&& value);
+    void set_next_patch(int index, const char* value);
+    void set_next_patch(int index, const char* value, std::size_t size);
+    void set_next_patch(int index, absl::string_view value);
+    std::string* add_next_patch();
+    void add_next_patch(const std::string& value);
+    void add_next_patch(std::string&& value);
+    void add_next_patch(const char* value);
+    void add_next_patch(const char* value, std::size_t size);
+    void add_next_patch(absl::string_view value);
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& next_patch()
+        const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+    mutable_next_patch();
+
+   private:
+    const std::string& _internal_next_patch(int index) const;
+    std::string* _internal_add_next_patch();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+    _internal_next_patch() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+    _internal_mutable_next_patch();
+
+   public:
+    // repeated .proto.PQi qi = 5;
+    int qi_size() const;
+
+   private:
+    int _internal_qi_size() const;
+
+   public:
+    void clear_qi();
+    ::proto::PQi* mutable_qi(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>* mutable_qi();
+
+   private:
+    const ::proto::PQi& _internal_qi(int index) const;
+    ::proto::PQi* _internal_add_qi();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>&
+    _internal_qi() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>*
+    _internal_mutable_qi();
+
+   public:
+    const ::proto::PQi& qi(int index) const;
+    ::proto::PQi* add_qi();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>& qi() const;
+    // repeated .proto.PSkillChoice choices = 6;
+    int choices_size() const;
+
+   private:
+    int _internal_choices_size() const;
+
+   public:
+    void clear_choices();
+    ::proto::PSkillChoice* mutable_choices(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>*
+    mutable_choices();
+
+   private:
+    const ::proto::PSkillChoice& _internal_choices(int index) const;
+    ::proto::PSkillChoice* _internal_add_choices();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>&
+    _internal_choices() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>*
+    _internal_mutable_choices();
+
+   public:
+    const ::proto::PSkillChoice& choices(int index) const;
+    ::proto::PSkillChoice* add_choices();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>&
+    choices() const;
+    // repeated .proto.PTagDied tag_died = 7;
+    int tag_died_size() const;
+
+   private:
+    int _internal_tag_died_size() const;
+
+   public:
+    void clear_tag_died();
+    ::proto::PTagDied* mutable_tag_died(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>*
+    mutable_tag_died();
+
+   private:
+    const ::proto::PTagDied& _internal_tag_died(int index) const;
+    ::proto::PTagDied* _internal_add_tag_died();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>&
+    _internal_tag_died() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>*
+    _internal_mutable_tag_died();
+
+   public:
+    const ::proto::PTagDied& tag_died(int index) const;
+    ::proto::PTagDied* add_tag_died();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>&
+    tag_died() const;
+    // repeated .proto.PSkillCount skl_count = 8;
+    int skl_count_size() const;
+
+   private:
+    int _internal_skl_count_size() const;
+
+   public:
+    void clear_skl_count();
+    ::proto::PSkillCount* mutable_skl_count(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>*
+    mutable_skl_count();
+
+   private:
+    const ::proto::PSkillCount& _internal_skl_count(int index) const;
+    ::proto::PSkillCount* _internal_add_skl_count();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>&
+    _internal_skl_count() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>*
+    _internal_mutable_skl_count();
+
+   public:
+    const ::proto::PSkillCount& skl_count(int index) const;
+    ::proto::PSkillCount* add_skl_count();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>&
+    skl_count() const;
+    // repeated .proto.PSkillUsed skill_used = 9;
+    int skill_used_size() const;
+
+   private:
+    int _internal_skill_used_size() const;
+
+   public:
+    void clear_skill_used();
+    ::proto::PSkillUsed* mutable_skill_used(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>*
+    mutable_skill_used();
+
+   private:
+    const ::proto::PSkillUsed& _internal_skill_used(int index) const;
+    ::proto::PSkillUsed* _internal_add_skill_used();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>&
+    _internal_skill_used() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>*
+    _internal_mutable_skill_used();
+
+   public:
+    const ::proto::PSkillUsed& skill_used(int index) const;
+    ::proto::PSkillUsed* add_skill_used();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>&
+    skill_used() const;
+    // repeated .proto.PRoundPatch.map_int_bool delayed_players = 10;
+    int delayed_players_size() const;
+
+   private:
+    int _internal_delayed_players_size() const;
+
+   public:
+    void clear_delayed_players();
+    ::proto::PRoundPatch_map_int_bool* mutable_delayed_players(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+        ::proto::PRoundPatch_map_int_bool>*
+    mutable_delayed_players();
+
+   private:
+    const ::proto::PRoundPatch_map_int_bool& _internal_delayed_players(
+        int index) const;
+    ::proto::PRoundPatch_map_int_bool* _internal_add_delayed_players();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+        ::proto::PRoundPatch_map_int_bool>&
+    _internal_delayed_players() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+        ::proto::PRoundPatch_map_int_bool>*
+    _internal_mutable_delayed_players();
+
+   public:
+    const ::proto::PRoundPatch_map_int_bool& delayed_players(int index) const;
+    ::proto::PRoundPatch_map_int_bool* add_delayed_players();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+        ::proto::PRoundPatch_map_int_bool>&
+    delayed_players() const;
+    // required string id = 1;
+    bool has_id() const;
+    void clear_id();
+    const std::string& id() const;
+
+    template <typename Arg_ = const std::string&, typename... Args_>
+    void set_id(Arg_&& arg, Args_... args);
+    std::string* mutable_id();
+    PROTOBUF_NODISCARD std::string* release_id();
+    void set_allocated_id(std::string* ptr);
+
+   private:
+    const std::string& _internal_id() const;
+    inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(
+        const std::string& value);
+    std::string* _internal_mutable_id();
+
+   public:
+    // optional string prev_patch = 2;
+    bool has_prev_patch() const;
+    void clear_prev_patch();
+    const std::string& prev_patch() const;
+
+    template <typename Arg_ = const std::string&, typename... Args_>
+    void set_prev_patch(Arg_&& arg, Args_... args);
+    std::string* mutable_prev_patch();
+    PROTOBUF_NODISCARD std::string* release_prev_patch();
+    void set_allocated_prev_patch(std::string* ptr);
+
+   private:
+    const std::string& _internal_prev_patch() const;
+    inline PROTOBUF_ALWAYS_INLINE void _internal_set_prev_patch(
+        const std::string& value);
+    std::string* _internal_mutable_prev_patch();
+
+   public:
+    // required bool judged = 11;
+    bool has_judged() const;
+    void clear_judged();
+    bool judged() const;
+    void set_judged(bool value);
+
+   private:
+    bool _internal_judged() const;
+    void _internal_set_judged(bool value);
+
+   public:
+    // required bool head = 12;
+    bool has_head() const;
+    void clear_head();
+    bool head() const;
+    void set_head(bool value);
+
+   private:
+    bool _internal_head() const;
+    void _internal_set_head(bool value);
+
+   public:
+    // @@protoc_insertion_point(class_scope:proto.PRoundPatch)
+   private:
+    class _Internal;
+
+    // helper for ByteSizeLong()
+    ::size_t RequiredFieldsByteSizeFallback() const;
+
+    template <typename T>
+    friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+    typedef void InternalArenaConstructable_;
+    typedef void DestructorSkippable_;
+    struct Impl_ {
+        ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+        mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t> players_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> next_patch_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi> qi_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>
+            choices_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied> tag_died_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>
+            skl_count_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>
+            skill_used_;
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+            ::proto::PRoundPatch_map_int_bool>
+            delayed_players_;
+        ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr id_;
+        ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr prev_patch_;
+        bool judged_;
+        bool head_;
+    };
+    union {
+        Impl_ _impl_;
+    };
+    friend struct ::TableStruct_proto_2fRoundPatch_2eproto;
 };
 
 // ===================================================================
 
-
-
-
 // ===================================================================
-
 
 #ifdef __GNUC__
 #pragma GCC diagnostic push
@@ -675,52 +744,52 @@ class PRoundPatch final :
 
 // required int32 key = 1;
 inline bool PRoundPatch_map_int_bool::has_key() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+    return value;
 }
 inline void PRoundPatch_map_int_bool::clear_key() {
-  _impl_.key_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000001u;
+    _impl_.key_ = 0;
+    _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::int32_t PRoundPatch_map_int_bool::key() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.map_int_bool.key)
-  return _internal_key();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.map_int_bool.key)
+    return _internal_key();
 }
 inline void PRoundPatch_map_int_bool::set_key(::int32_t value) {
-  _internal_set_key(value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.map_int_bool.key)
+    _internal_set_key(value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.map_int_bool.key)
 }
 inline ::int32_t PRoundPatch_map_int_bool::_internal_key() const {
-  return _impl_.key_;
+    return _impl_.key_;
 }
 inline void PRoundPatch_map_int_bool::_internal_set_key(::int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.key_ = value;
+    _impl_._has_bits_[0] |= 0x00000001u;
+    _impl_.key_ = value;
 }
 
 // required bool value = 2;
 inline bool PRoundPatch_map_int_bool::has_value() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+    return value;
 }
 inline void PRoundPatch_map_int_bool::clear_value() {
-  _impl_.value_ = false;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_.value_ = false;
+    _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline bool PRoundPatch_map_int_bool::value() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.map_int_bool.value)
-  return _internal_value();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.map_int_bool.value)
+    return _internal_value();
 }
 inline void PRoundPatch_map_int_bool::set_value(bool value) {
-  _internal_set_value(value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.map_int_bool.value)
+    _internal_set_value(value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.map_int_bool.value)
 }
 inline bool PRoundPatch_map_int_bool::_internal_value() const {
-  return _impl_.value_;
+    return _impl_.value_;
 }
 inline void PRoundPatch_map_int_bool::_internal_set_value(bool value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.value_ = value;
+    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_.value_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -729,592 +798,600 @@ inline void PRoundPatch_map_int_bool::_internal_set_value(bool value) {
 
 // required string id = 1;
 inline bool PRoundPatch::has_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+    return value;
 }
 inline void PRoundPatch::clear_id() {
-  _impl_.id_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
+    _impl_.id_.ClearToEmpty();
+    _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& PRoundPatch::id() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.id)
-  return _internal_id();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.id)
+    return _internal_id();
 }
 template <typename Arg_, typename... Args_>
 inline PROTOBUF_ALWAYS_INLINE void PRoundPatch::set_id(Arg_&& arg,
-                                                     Args_... args) {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.id_.Set(static_cast<Arg_&&>(arg), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.id)
+                                                       Args_... args) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+    _impl_.id_.Set(static_cast<Arg_&&>(arg), args..., GetArenaForAllocation());
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.id)
 }
 inline std::string* PRoundPatch::mutable_id() {
-  std::string* _s = _internal_mutable_id();
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.id)
-  return _s;
+    std::string* _s = _internal_mutable_id();
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.id)
+    return _s;
 }
 inline const std::string& PRoundPatch::_internal_id() const {
-  return _impl_.id_.Get();
+    return _impl_.id_.Get();
 }
 inline void PRoundPatch::_internal_set_id(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
+    _impl_._has_bits_[0] |= 0x00000001u;
 
-
-  _impl_.id_.Set(value, GetArenaForAllocation());
+    _impl_.id_.Set(value, GetArenaForAllocation());
 }
 inline std::string* PRoundPatch::_internal_mutable_id() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.id_.Mutable( GetArenaForAllocation());
+    _impl_._has_bits_[0] |= 0x00000001u;
+    return _impl_.id_.Mutable(GetArenaForAllocation());
 }
 inline std::string* PRoundPatch::release_id() {
-  // @@protoc_insertion_point(field_release:proto.PRoundPatch.id)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.id_.Release();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.id_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return released;
+    // @@protoc_insertion_point(field_release:proto.PRoundPatch.id)
+    if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+        return nullptr;
+    }
+    _impl_._has_bits_[0] &= ~0x00000001u;
+    auto* released = _impl_.id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.id_.Set("", GetArenaForAllocation());
+#endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    return released;
 }
 inline void PRoundPatch::set_allocated_id(std::string* value) {
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.id_.SetAllocated(value, GetArenaForAllocation());
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.id_.IsDefault()) {
-          _impl_.id_.Set("", GetArenaForAllocation());
-        }
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:proto.PRoundPatch.id)
+    if (value != nullptr) {
+        _impl_._has_bits_[0] |= 0x00000001u;
+    } else {
+        _impl_._has_bits_[0] &= ~0x00000001u;
+    }
+    _impl_.id_.SetAllocated(value, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    if (_impl_.id_.IsDefault()) {
+        _impl_.id_.Set("", GetArenaForAllocation());
+    }
+#endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        // @@protoc_insertion_point(field_set_allocated:proto.PRoundPatch.id)
 }
 
 // optional string prev_patch = 2;
 inline bool PRoundPatch::has_prev_patch() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+    return value;
 }
 inline void PRoundPatch::clear_prev_patch() {
-  _impl_.prev_patch_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_.prev_patch_.ClearToEmpty();
+    _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& PRoundPatch::prev_patch() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.prev_patch)
-  return _internal_prev_patch();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.prev_patch)
+    return _internal_prev_patch();
 }
 template <typename Arg_, typename... Args_>
 inline PROTOBUF_ALWAYS_INLINE void PRoundPatch::set_prev_patch(Arg_&& arg,
-                                                     Args_... args) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.prev_patch_.Set(static_cast<Arg_&&>(arg), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.prev_patch)
+                                                               Args_... args) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_.prev_patch_.Set(static_cast<Arg_&&>(arg), args...,
+                           GetArenaForAllocation());
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.prev_patch)
 }
 inline std::string* PRoundPatch::mutable_prev_patch() {
-  std::string* _s = _internal_mutable_prev_patch();
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.prev_patch)
-  return _s;
+    std::string* _s = _internal_mutable_prev_patch();
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.prev_patch)
+    return _s;
 }
 inline const std::string& PRoundPatch::_internal_prev_patch() const {
-  return _impl_.prev_patch_.Get();
+    return _impl_.prev_patch_.Get();
 }
 inline void PRoundPatch::_internal_set_prev_patch(const std::string& value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_._has_bits_[0] |= 0x00000002u;
 
-
-  _impl_.prev_patch_.Set(value, GetArenaForAllocation());
+    _impl_.prev_patch_.Set(value, GetArenaForAllocation());
 }
 inline std::string* PRoundPatch::_internal_mutable_prev_patch() {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  return _impl_.prev_patch_.Mutable( GetArenaForAllocation());
+    _impl_._has_bits_[0] |= 0x00000002u;
+    return _impl_.prev_patch_.Mutable(GetArenaForAllocation());
 }
 inline std::string* PRoundPatch::release_prev_patch() {
-  // @@protoc_insertion_point(field_release:proto.PRoundPatch.prev_patch)
-  if ((_impl_._has_bits_[0] & 0x00000002u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  auto* released = _impl_.prev_patch_.Release();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.prev_patch_.Set("", GetArenaForAllocation());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return released;
+    // @@protoc_insertion_point(field_release:proto.PRoundPatch.prev_patch)
+    if ((_impl_._has_bits_[0] & 0x00000002u) == 0) {
+        return nullptr;
+    }
+    _impl_._has_bits_[0] &= ~0x00000002u;
+    auto* released = _impl_.prev_patch_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.prev_patch_.Set("", GetArenaForAllocation());
+#endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    return released;
 }
 inline void PRoundPatch::set_allocated_prev_patch(std::string* value) {
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  _impl_.prev_patch_.SetAllocated(value, GetArenaForAllocation());
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.prev_patch_.IsDefault()) {
-          _impl_.prev_patch_.Set("", GetArenaForAllocation());
-        }
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:proto.PRoundPatch.prev_patch)
+    if (value != nullptr) {
+        _impl_._has_bits_[0] |= 0x00000002u;
+    } else {
+        _impl_._has_bits_[0] &= ~0x00000002u;
+    }
+    _impl_.prev_patch_.SetAllocated(value, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    if (_impl_.prev_patch_.IsDefault()) {
+        _impl_.prev_patch_.Set("", GetArenaForAllocation());
+    }
+#endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    // @@protoc_insertion_point(field_set_allocated:proto.PRoundPatch.prev_patch)
 }
 
 // repeated int32 players = 3;
 inline int PRoundPatch::_internal_players_size() const {
-  return _impl_.players_.size();
+    return _impl_.players_.size();
 }
 inline int PRoundPatch::players_size() const {
-  return _internal_players_size();
+    return _internal_players_size();
 }
 inline void PRoundPatch::clear_players() {
-  _internal_mutable_players()->Clear();
+    _internal_mutable_players()->Clear();
 }
 inline ::int32_t PRoundPatch::players(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.players)
-  return _internal_players(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.players)
+    return _internal_players(index);
 }
 inline void PRoundPatch::set_players(int index, ::int32_t value) {
-  _internal_mutable_players()->Set(index, value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.players)
+    _internal_mutable_players()->Set(index, value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.players)
 }
 inline void PRoundPatch::add_players(::int32_t value) {
-  _internal_add_players(value);
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.players)
+    _internal_add_players(value);
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.players)
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& PRoundPatch::players() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.players)
-  return _internal_players();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>&
+PRoundPatch::players() const {
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.players)
+    return _internal_players();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>* PRoundPatch::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.players)
-  return _internal_mutable_players();
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>*
+PRoundPatch::mutable_players() {
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.players)
+    return _internal_mutable_players();
 }
 
 inline ::int32_t PRoundPatch::_internal_players(int index) const {
-  return _internal_players().Get(index);
+    return _internal_players().Get(index);
 }
 inline void PRoundPatch::_internal_add_players(::int32_t value) {
-  _internal_mutable_players()->Add(value);
+    _internal_mutable_players()->Add(value);
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>& PRoundPatch::_internal_players() const {
-  return _impl_.players_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>&
+PRoundPatch::_internal_players() const {
+    return _impl_.players_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>* PRoundPatch::_internal_mutable_players() {
-  return &_impl_.players_;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<::int32_t>*
+PRoundPatch::_internal_mutable_players() {
+    return &_impl_.players_;
 }
 
 // repeated string next_patch = 4;
 inline int PRoundPatch::_internal_next_patch_size() const {
-  return _impl_.next_patch_.size();
+    return _impl_.next_patch_.size();
 }
 inline int PRoundPatch::next_patch_size() const {
-  return _internal_next_patch_size();
+    return _internal_next_patch_size();
 }
 inline void PRoundPatch::clear_next_patch() {
-  _internal_mutable_next_patch()->Clear();
+    _internal_mutable_next_patch()->Clear();
 }
 inline std::string* PRoundPatch::add_next_patch() {
-  std::string* _s = _internal_add_next_patch();
-  // @@protoc_insertion_point(field_add_mutable:proto.PRoundPatch.next_patch)
-  return _s;
+    std::string* _s = _internal_add_next_patch();
+    // @@protoc_insertion_point(field_add_mutable:proto.PRoundPatch.next_patch)
+    return _s;
 }
 inline const std::string& PRoundPatch::next_patch(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.next_patch)
-  return _internal_next_patch(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.next_patch)
+    return _internal_next_patch(index);
 }
 inline std::string* PRoundPatch::mutable_next_patch(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.next_patch)
-  return _internal_mutable_next_patch()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.next_patch)
+    return _internal_mutable_next_patch()->Mutable(index);
 }
 inline void PRoundPatch::set_next_patch(int index, const std::string& value) {
-  _internal_mutable_next_patch()->Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Mutable(index)->assign(value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::set_next_patch(int index, std::string&& value) {
-  _internal_mutable_next_patch()->Mutable(index)->assign(std::move(value));
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Mutable(index)->assign(std::move(value));
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::set_next_patch(int index, const char* value) {
-  ABSL_DCHECK(value != nullptr);
-  _internal_mutable_next_patch()->Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:proto.PRoundPatch.next_patch)
+    ABSL_DCHECK(value != nullptr);
+    _internal_mutable_next_patch()->Mutable(index)->assign(value);
+    // @@protoc_insertion_point(field_set_char:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::set_next_patch(int index, const char* value,
-                              std::size_t size) {
-  _internal_mutable_next_patch()->Mutable(index)->assign(
-      reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:proto.PRoundPatch.next_patch)
+                                        std::size_t size) {
+    _internal_mutable_next_patch()->Mutable(index)->assign(
+        reinterpret_cast<const char*>(value), size);
+    // @@protoc_insertion_point(field_set_pointer:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::set_next_patch(int index, absl::string_view value) {
-  _internal_mutable_next_patch()->Mutable(index)->assign(value.data(),
-                                                     value.size());
-  // @@protoc_insertion_point(field_set_string_piece:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Mutable(index)->assign(value.data(),
+                                                           value.size());
+    // @@protoc_insertion_point(field_set_string_piece:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::add_next_patch(const std::string& value) {
-  _internal_mutable_next_patch()->Add()->assign(value);
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Add()->assign(value);
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::add_next_patch(std::string&& value) {
-  _internal_mutable_next_patch()->Add(std::move(value));
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Add(std::move(value));
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::add_next_patch(const char* value) {
-  ABSL_DCHECK(value != nullptr);
-  _internal_mutable_next_patch()->Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:proto.PRoundPatch.next_patch)
+    ABSL_DCHECK(value != nullptr);
+    _internal_mutable_next_patch()->Add()->assign(value);
+    // @@protoc_insertion_point(field_add_char:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::add_next_patch(const char* value, std::size_t size) {
-  _internal_mutable_next_patch()->Add()->assign(
-      reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Add()->assign(
+        reinterpret_cast<const char*>(value), size);
+    // @@protoc_insertion_point(field_add_pointer:proto.PRoundPatch.next_patch)
 }
 inline void PRoundPatch::add_next_patch(absl::string_view value) {
-  _internal_mutable_next_patch()->Add()->assign(value.data(), value.size());
-  // @@protoc_insertion_point(field_add_string_piece:proto.PRoundPatch.next_patch)
+    _internal_mutable_next_patch()->Add()->assign(value.data(), value.size());
+    // @@protoc_insertion_point(field_add_string_piece:proto.PRoundPatch.next_patch)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
 PRoundPatch::next_patch() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.next_patch)
-  return _internal_next_patch();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.next_patch)
+    return _internal_next_patch();
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* PRoundPatch::mutable_next_patch() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.next_patch)
-  return _internal_mutable_next_patch();
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+PRoundPatch::mutable_next_patch() {
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.next_patch)
+    return _internal_mutable_next_patch();
 }
 inline const std::string& PRoundPatch::_internal_next_patch(int index) const {
-  return _internal_next_patch().Get(index);
+    return _internal_next_patch().Get(index);
 }
 inline std::string* PRoundPatch::_internal_add_next_patch() {
-  return _internal_mutable_next_patch()->Add();
+    return _internal_mutable_next_patch()->Add();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
 PRoundPatch::_internal_next_patch() const {
-  return _impl_.next_patch_;
+    return _impl_.next_patch_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
 PRoundPatch::_internal_mutable_next_patch() {
-  return &_impl_.next_patch_;
+    return &_impl_.next_patch_;
 }
 
 // repeated .proto.PQi qi = 5;
-inline int PRoundPatch::_internal_qi_size() const {
-  return _impl_.qi_.size();
-}
-inline int PRoundPatch::qi_size() const {
-  return _internal_qi_size();
-}
+inline int PRoundPatch::_internal_qi_size() const { return _impl_.qi_.size(); }
+inline int PRoundPatch::qi_size() const { return _internal_qi_size(); }
 inline ::proto::PQi* PRoundPatch::mutable_qi(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.qi)
-  return _internal_mutable_qi()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.qi)
+    return _internal_mutable_qi()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PQi >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>*
 PRoundPatch::mutable_qi() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.qi)
-  return _internal_mutable_qi();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.qi)
+    return _internal_mutable_qi();
 }
 inline const ::proto::PQi& PRoundPatch::_internal_qi(int index) const {
-  return _internal_qi().Get(index);
+    return _internal_qi().Get(index);
 }
 inline const ::proto::PQi& PRoundPatch::qi(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.qi)
-  return _internal_qi(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.qi)
+    return _internal_qi(index);
 }
 inline ::proto::PQi* PRoundPatch::_internal_add_qi() {
-  return _internal_mutable_qi()->Add();
+    return _internal_mutable_qi()->Add();
 }
 inline ::proto::PQi* PRoundPatch::add_qi() {
-  ::proto::PQi* _add = _internal_add_qi();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.qi)
-  return _add;
+    ::proto::PQi* _add = _internal_add_qi();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.qi)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PQi >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>&
 PRoundPatch::qi() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.qi)
-  return _internal_qi();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.qi)
+    return _internal_qi();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>&
 PRoundPatch::_internal_qi() const {
-  return _impl_.qi_;
+    return _impl_.qi_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PQi>*
 PRoundPatch::_internal_mutable_qi() {
-  return &_impl_.qi_;
+    return &_impl_.qi_;
 }
 
 // repeated .proto.PSkillChoice choices = 6;
 inline int PRoundPatch::_internal_choices_size() const {
-  return _impl_.choices_.size();
+    return _impl_.choices_.size();
 }
 inline int PRoundPatch::choices_size() const {
-  return _internal_choices_size();
+    return _internal_choices_size();
 }
 inline ::proto::PSkillChoice* PRoundPatch::mutable_choices(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.choices)
-  return _internal_mutable_choices()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.choices)
+    return _internal_mutable_choices()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillChoice >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>*
 PRoundPatch::mutable_choices() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.choices)
-  return _internal_mutable_choices();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.choices)
+    return _internal_mutable_choices();
 }
-inline const ::proto::PSkillChoice& PRoundPatch::_internal_choices(int index) const {
-  return _internal_choices().Get(index);
+inline const ::proto::PSkillChoice& PRoundPatch::_internal_choices(
+    int index) const {
+    return _internal_choices().Get(index);
 }
 inline const ::proto::PSkillChoice& PRoundPatch::choices(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.choices)
-  return _internal_choices(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.choices)
+    return _internal_choices(index);
 }
 inline ::proto::PSkillChoice* PRoundPatch::_internal_add_choices() {
-  return _internal_mutable_choices()->Add();
+    return _internal_mutable_choices()->Add();
 }
 inline ::proto::PSkillChoice* PRoundPatch::add_choices() {
-  ::proto::PSkillChoice* _add = _internal_add_choices();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.choices)
-  return _add;
+    ::proto::PSkillChoice* _add = _internal_add_choices();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.choices)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillChoice >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>&
 PRoundPatch::choices() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.choices)
-  return _internal_choices();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.choices)
+    return _internal_choices();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>&
 PRoundPatch::_internal_choices() const {
-  return _impl_.choices_;
+    return _impl_.choices_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillChoice>*
 PRoundPatch::_internal_mutable_choices() {
-  return &_impl_.choices_;
+    return &_impl_.choices_;
 }
 
 // repeated .proto.PTagDied tag_died = 7;
 inline int PRoundPatch::_internal_tag_died_size() const {
-  return _impl_.tag_died_.size();
+    return _impl_.tag_died_.size();
 }
 inline int PRoundPatch::tag_died_size() const {
-  return _internal_tag_died_size();
+    return _internal_tag_died_size();
 }
 inline ::proto::PTagDied* PRoundPatch::mutable_tag_died(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.tag_died)
-  return _internal_mutable_tag_died()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.tag_died)
+    return _internal_mutable_tag_died()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PTagDied >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>*
 PRoundPatch::mutable_tag_died() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.tag_died)
-  return _internal_mutable_tag_died();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.tag_died)
+    return _internal_mutable_tag_died();
 }
-inline const ::proto::PTagDied& PRoundPatch::_internal_tag_died(int index) const {
-  return _internal_tag_died().Get(index);
+inline const ::proto::PTagDied& PRoundPatch::_internal_tag_died(
+    int index) const {
+    return _internal_tag_died().Get(index);
 }
 inline const ::proto::PTagDied& PRoundPatch::tag_died(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.tag_died)
-  return _internal_tag_died(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.tag_died)
+    return _internal_tag_died(index);
 }
 inline ::proto::PTagDied* PRoundPatch::_internal_add_tag_died() {
-  return _internal_mutable_tag_died()->Add();
+    return _internal_mutable_tag_died()->Add();
 }
 inline ::proto::PTagDied* PRoundPatch::add_tag_died() {
-  ::proto::PTagDied* _add = _internal_add_tag_died();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.tag_died)
-  return _add;
+    ::proto::PTagDied* _add = _internal_add_tag_died();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.tag_died)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PTagDied >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>&
 PRoundPatch::tag_died() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.tag_died)
-  return _internal_tag_died();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.tag_died)
+    return _internal_tag_died();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>&
 PRoundPatch::_internal_tag_died() const {
-  return _impl_.tag_died_;
+    return _impl_.tag_died_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PTagDied>*
 PRoundPatch::_internal_mutable_tag_died() {
-  return &_impl_.tag_died_;
+    return &_impl_.tag_died_;
 }
 
 // repeated .proto.PSkillCount skl_count = 8;
 inline int PRoundPatch::_internal_skl_count_size() const {
-  return _impl_.skl_count_.size();
+    return _impl_.skl_count_.size();
 }
 inline int PRoundPatch::skl_count_size() const {
-  return _internal_skl_count_size();
+    return _internal_skl_count_size();
 }
 inline ::proto::PSkillCount* PRoundPatch::mutable_skl_count(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.skl_count)
-  return _internal_mutable_skl_count()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.skl_count)
+    return _internal_mutable_skl_count()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillCount >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>*
 PRoundPatch::mutable_skl_count() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.skl_count)
-  return _internal_mutable_skl_count();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.skl_count)
+    return _internal_mutable_skl_count();
 }
-inline const ::proto::PSkillCount& PRoundPatch::_internal_skl_count(int index) const {
-  return _internal_skl_count().Get(index);
+inline const ::proto::PSkillCount& PRoundPatch::_internal_skl_count(
+    int index) const {
+    return _internal_skl_count().Get(index);
 }
 inline const ::proto::PSkillCount& PRoundPatch::skl_count(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.skl_count)
-  return _internal_skl_count(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.skl_count)
+    return _internal_skl_count(index);
 }
 inline ::proto::PSkillCount* PRoundPatch::_internal_add_skl_count() {
-  return _internal_mutable_skl_count()->Add();
+    return _internal_mutable_skl_count()->Add();
 }
 inline ::proto::PSkillCount* PRoundPatch::add_skl_count() {
-  ::proto::PSkillCount* _add = _internal_add_skl_count();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.skl_count)
-  return _add;
+    ::proto::PSkillCount* _add = _internal_add_skl_count();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.skl_count)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillCount >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>&
 PRoundPatch::skl_count() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.skl_count)
-  return _internal_skl_count();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.skl_count)
+    return _internal_skl_count();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>&
 PRoundPatch::_internal_skl_count() const {
-  return _impl_.skl_count_;
+    return _impl_.skl_count_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillCount>*
 PRoundPatch::_internal_mutable_skl_count() {
-  return &_impl_.skl_count_;
+    return &_impl_.skl_count_;
 }
 
 // repeated .proto.PSkillUsed skill_used = 9;
 inline int PRoundPatch::_internal_skill_used_size() const {
-  return _impl_.skill_used_.size();
+    return _impl_.skill_used_.size();
 }
 inline int PRoundPatch::skill_used_size() const {
-  return _internal_skill_used_size();
+    return _internal_skill_used_size();
 }
 inline ::proto::PSkillUsed* PRoundPatch::mutable_skill_used(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.skill_used)
-  return _internal_mutable_skill_used()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.skill_used)
+    return _internal_mutable_skill_used()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillUsed >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>*
 PRoundPatch::mutable_skill_used() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.skill_used)
-  return _internal_mutable_skill_used();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.skill_used)
+    return _internal_mutable_skill_used();
 }
-inline const ::proto::PSkillUsed& PRoundPatch::_internal_skill_used(int index) const {
-  return _internal_skill_used().Get(index);
+inline const ::proto::PSkillUsed& PRoundPatch::_internal_skill_used(
+    int index) const {
+    return _internal_skill_used().Get(index);
 }
 inline const ::proto::PSkillUsed& PRoundPatch::skill_used(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.skill_used)
-  return _internal_skill_used(index);
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.skill_used)
+    return _internal_skill_used(index);
 }
 inline ::proto::PSkillUsed* PRoundPatch::_internal_add_skill_used() {
-  return _internal_mutable_skill_used()->Add();
+    return _internal_mutable_skill_used()->Add();
 }
 inline ::proto::PSkillUsed* PRoundPatch::add_skill_used() {
-  ::proto::PSkillUsed* _add = _internal_add_skill_used();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.skill_used)
-  return _add;
+    ::proto::PSkillUsed* _add = _internal_add_skill_used();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.skill_used)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkillUsed >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>&
 PRoundPatch::skill_used() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.skill_used)
-  return _internal_skill_used();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.skill_used)
+    return _internal_skill_used();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>&
 PRoundPatch::_internal_skill_used() const {
-  return _impl_.skill_used_;
+    return _impl_.skill_used_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkillUsed>*
 PRoundPatch::_internal_mutable_skill_used() {
-  return &_impl_.skill_used_;
+    return &_impl_.skill_used_;
 }
 
 // repeated .proto.PRoundPatch.map_int_bool delayed_players = 10;
 inline int PRoundPatch::_internal_delayed_players_size() const {
-  return _impl_.delayed_players_.size();
+    return _impl_.delayed_players_.size();
 }
 inline int PRoundPatch::delayed_players_size() const {
-  return _internal_delayed_players_size();
+    return _internal_delayed_players_size();
 }
 inline void PRoundPatch::clear_delayed_players() {
-  _internal_mutable_delayed_players()->Clear();
+    _internal_mutable_delayed_players()->Clear();
 }
-inline ::proto::PRoundPatch_map_int_bool* PRoundPatch::mutable_delayed_players(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.delayed_players)
-  return _internal_mutable_delayed_players()->Mutable(index);
+inline ::proto::PRoundPatch_map_int_bool* PRoundPatch::mutable_delayed_players(
+    int index) {
+    // @@protoc_insertion_point(field_mutable:proto.PRoundPatch.delayed_players)
+    return _internal_mutable_delayed_players()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PRoundPatch_map_int_bool >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+    ::proto::PRoundPatch_map_int_bool>*
 PRoundPatch::mutable_delayed_players() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.delayed_players)
-  return _internal_mutable_delayed_players();
+    // @@protoc_insertion_point(field_mutable_list:proto.PRoundPatch.delayed_players)
+    return _internal_mutable_delayed_players();
 }
-inline const ::proto::PRoundPatch_map_int_bool& PRoundPatch::_internal_delayed_players(int index) const {
-  return _internal_delayed_players().Get(index);
+inline const ::proto::PRoundPatch_map_int_bool&
+PRoundPatch::_internal_delayed_players(int index) const {
+    return _internal_delayed_players().Get(index);
 }
-inline const ::proto::PRoundPatch_map_int_bool& PRoundPatch::delayed_players(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.delayed_players)
-  return _internal_delayed_players(index);
+inline const ::proto::PRoundPatch_map_int_bool& PRoundPatch::delayed_players(
+    int index) const {
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.delayed_players)
+    return _internal_delayed_players(index);
 }
-inline ::proto::PRoundPatch_map_int_bool* PRoundPatch::_internal_add_delayed_players() {
-  return _internal_mutable_delayed_players()->Add();
+inline ::proto::PRoundPatch_map_int_bool*
+PRoundPatch::_internal_add_delayed_players() {
+    return _internal_mutable_delayed_players()->Add();
 }
 inline ::proto::PRoundPatch_map_int_bool* PRoundPatch::add_delayed_players() {
-  ::proto::PRoundPatch_map_int_bool* _add = _internal_add_delayed_players();
-  // @@protoc_insertion_point(field_add:proto.PRoundPatch.delayed_players)
-  return _add;
+    ::proto::PRoundPatch_map_int_bool* _add = _internal_add_delayed_players();
+    // @@protoc_insertion_point(field_add:proto.PRoundPatch.delayed_players)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PRoundPatch_map_int_bool >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+    ::proto::PRoundPatch_map_int_bool>&
 PRoundPatch::delayed_players() const {
-  // @@protoc_insertion_point(field_list:proto.PRoundPatch.delayed_players)
-  return _internal_delayed_players();
+    // @@protoc_insertion_point(field_list:proto.PRoundPatch.delayed_players)
+    return _internal_delayed_players();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PRoundPatch_map_int_bool>&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+    ::proto::PRoundPatch_map_int_bool>&
 PRoundPatch::_internal_delayed_players() const {
-  return _impl_.delayed_players_;
+    return _impl_.delayed_players_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PRoundPatch_map_int_bool>*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<
+    ::proto::PRoundPatch_map_int_bool>*
 PRoundPatch::_internal_mutable_delayed_players() {
-  return &_impl_.delayed_players_;
+    return &_impl_.delayed_players_;
 }
 
 // required bool judged = 11;
 inline bool PRoundPatch::has_judged() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+    return value;
 }
 inline void PRoundPatch::clear_judged() {
-  _impl_.judged_ = false;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+    _impl_.judged_ = false;
+    _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline bool PRoundPatch::judged() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.judged)
-  return _internal_judged();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.judged)
+    return _internal_judged();
 }
 inline void PRoundPatch::set_judged(bool value) {
-  _internal_set_judged(value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.judged)
+    _internal_set_judged(value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.judged)
 }
-inline bool PRoundPatch::_internal_judged() const {
-  return _impl_.judged_;
-}
+inline bool PRoundPatch::_internal_judged() const { return _impl_.judged_; }
 inline void PRoundPatch::_internal_set_judged(bool value) {
-  _impl_._has_bits_[0] |= 0x00000004u;
-  _impl_.judged_ = value;
+    _impl_._has_bits_[0] |= 0x00000004u;
+    _impl_.judged_ = value;
 }
 
 // required bool head = 12;
 inline bool PRoundPatch::has_head() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+    return value;
 }
 inline void PRoundPatch::clear_head() {
-  _impl_.head_ = false;
-  _impl_._has_bits_[0] &= ~0x00000008u;
+    _impl_.head_ = false;
+    _impl_._has_bits_[0] &= ~0x00000008u;
 }
 inline bool PRoundPatch::head() const {
-  // @@protoc_insertion_point(field_get:proto.PRoundPatch.head)
-  return _internal_head();
+    // @@protoc_insertion_point(field_get:proto.PRoundPatch.head)
+    return _internal_head();
 }
 inline void PRoundPatch::set_head(bool value) {
-  _internal_set_head(value);
-  // @@protoc_insertion_point(field_set:proto.PRoundPatch.head)
+    _internal_set_head(value);
+    // @@protoc_insertion_point(field_set:proto.PRoundPatch.head)
 }
-inline bool PRoundPatch::_internal_head() const {
-  return _impl_.head_;
-}
+inline bool PRoundPatch::_internal_head() const { return _impl_.head_; }
 inline void PRoundPatch::_internal_set_head(bool value) {
-  _impl_._has_bits_[0] |= 0x00000008u;
-  _impl_.head_ = value;
+    _impl_._has_bits_[0] |= 0x00000008u;
+    _impl_.head_ = value;
 }
 
 #ifdef __GNUC__
@@ -1323,7 +1400,6 @@ inline void PRoundPatch::_internal_set_head(bool value) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace proto
-
 
 // @@protoc_insertion_point(global_scope)
 

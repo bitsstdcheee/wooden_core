@@ -20,17 +20,17 @@
 #error "incompatible with your Protocol Buffer headers. Please"
 #error "regenerate this file with a newer version of protoc."
 #endif  // PROTOBUF_MIN_PROTOC_VERSION
-#include "google/protobuf/port_undef.inc"
-#include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/arena.h"
 #include "google/protobuf/arenastring.h"
-#include "google/protobuf/generated_message_util.h"
-#include "google/protobuf/metadata_lite.h"
-#include "google/protobuf/generated_message_reflection.h"
-#include "google/protobuf/message.h"
-#include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/extension_set.h"  // IWYU pragma: export
 #include "google/protobuf/generated_enum_reflection.h"
+#include "google/protobuf/generated_message_reflection.h"
+#include "google/protobuf/generated_message_util.h"
+#include "google/protobuf/io/coded_stream.h"
+#include "google/protobuf/message.h"
+#include "google/protobuf/metadata_lite.h"
+#include "google/protobuf/port_undef.inc"
+#include "google/protobuf/repeated_field.h"  // IWYU pragma: export
 #include "google/protobuf/unknown_field_set.h"
 // @@protoc_insertion_point(includes)
 
@@ -47,7 +47,7 @@ PROTOBUF_NAMESPACE_CLOSE
 
 // Internal implementation detail -- do not use these members.
 struct TableStruct_proto_2fSkill_2eproto {
-  static const ::uint32_t offsets[];
+    static const ::uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
     descriptor_table_proto_2fSkill_2eproto;
@@ -73,590 +73,620 @@ PROTOBUF_NAMESPACE_CLOSE
 
 namespace proto {
 enum Pskill : int {
-  none = 0,
-  clap = 1,
-  wooden_axe = 2,
-  normal_axe = 3,
-  diamond_axe = 4,
-  enchanted_axe = 5,
-  wooden_sword = 6,
-  yellow_sword = 7,
-  stone_sword = 8,
-  iron_sword = 9,
-  gold_sword = 10,
-  diamond_sword = 11,
-  enchanted_sword = 12,
-  defense = 13,
-  mid_defense = 14,
-  large_defense = 15,
-  ashiba = 16,
-  zd = 17,
-  hither = 18,
-  fist = 19,
-  palm = 20,
-  bo_sword = 21,
-  alpaca = 22,
-  tube = 23,
-  gulu = 24,
-  judge = 25,
-  fetch_fist = 26,
-  fetch_sword = 27,
-  fetch_bo = 28,
-  hands = 29,
-  yellow_sword_destoryed = 30,
-  tube_selected = 31,
+    none = 0,
+    clap = 1,
+    wooden_axe = 2,
+    normal_axe = 3,
+    diamond_axe = 4,
+    enchanted_axe = 5,
+    wooden_sword = 6,
+    yellow_sword = 7,
+    stone_sword = 8,
+    iron_sword = 9,
+    gold_sword = 10,
+    diamond_sword = 11,
+    enchanted_sword = 12,
+    defense = 13,
+    mid_defense = 14,
+    large_defense = 15,
+    ashiba = 16,
+    zd = 17,
+    hither = 18,
+    fist = 19,
+    palm = 20,
+    bo_sword = 21,
+    alpaca = 22,
+    tube = 23,
+    gulu = 24,
+    judge = 25,
+    fetch_fist = 26,
+    fetch_sword = 27,
+    fetch_bo = 28,
+    hands = 29,
+    yellow_sword_destoryed = 30,
+    tube_selected = 31,
 };
 
 bool Pskill_IsValid(int value);
 constexpr Pskill Pskill_MIN = static_cast<Pskill>(0);
 constexpr Pskill Pskill_MAX = static_cast<Pskill>(31);
 constexpr int Pskill_ARRAYSIZE = 31 + 1;
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-Pskill_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Pskill_descriptor();
 template <typename T>
 const std::string& Pskill_Name(T value) {
-  static_assert(std::is_same<T, Pskill>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to Pskill_Name().");
-  return Pskill_Name(static_cast<Pskill>(value));
+    static_assert(std::is_same<T, Pskill>::value || std::is_integral<T>::value,
+                  "Incorrect type passed to Pskill_Name().");
+    return Pskill_Name(static_cast<Pskill>(value));
 }
 template <>
 inline const std::string& Pskill_Name(Pskill value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfDenseEnum<Pskill_descriptor,
-                                                 0, 31>(
-      static_cast<int>(value));
+    return ::PROTOBUF_NAMESPACE_ID::internal::NameOfDenseEnum<Pskill_descriptor,
+                                                              0, 31>(
+        static_cast<int>(value));
 }
 inline bool Pskill_Parse(absl::string_view name, Pskill* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Pskill>(
-      Pskill_descriptor(), name, value);
+    return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Pskill>(
+        Pskill_descriptor(), name, value);
 }
 
 // ===================================================================
 
-
 // -------------------------------------------------------------------
 
-class PSkill final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkill) */ {
- public:
-  inline PSkill() : PSkill(nullptr) {}
-  ~PSkill() override;
-  template<typename = void>
-  explicit PROTOBUF_CONSTEXPR PSkill(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+class PSkill final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkill)
+                                                              */
+{
+   public:
+    inline PSkill() : PSkill(nullptr) {}
+    ~PSkill() override;
+    template <typename = void>
+    explicit PROTOBUF_CONSTEXPR PSkill(
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  PSkill(const PSkill& from);
-  PSkill(PSkill&& from) noexcept
-    : PSkill() {
-    *this = ::std::move(from);
-  }
+    PSkill(const PSkill& from);
+    PSkill(PSkill&& from) noexcept : PSkill() { *this = ::std::move(from); }
 
-  inline PSkill& operator=(const PSkill& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PSkill& operator=(PSkill&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline PSkill& operator=(const PSkill& from) {
+        CopyFrom(from);
+        return *this;
     }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PSkill& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PSkill* internal_default_instance() {
-    return reinterpret_cast<const PSkill*>(
-               &_PSkill_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(PSkill& a, PSkill& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PSkill* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    inline PSkill& operator=(PSkill&& from) noexcept {
+        if (this == &from) return *this;
+        if (GetOwningArena() == from.GetOwningArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+            && GetOwningArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+        ) {
+            InternalSwap(&from);
+        } else {
+            CopyFrom(from);
+        }
+        return *this;
     }
-  }
-  void UnsafeArenaSwap(PSkill* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
 
-  // implements Message ----------------------------------------------
-
-  PSkill* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PSkill>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PSkill& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PSkill& from) {
-    PSkill::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  ::size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PSkill* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() {
-    return "proto.PSkill";
-  }
-  protected:
-  explicit PSkill(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kSklFieldNumber = 1,
-    kTargetFieldNumber = 2,
-  };
-  // required .proto.Pskill skl = 1;
-  bool has_skl() const;
-  void clear_skl() ;
-  ::proto::Pskill skl() const;
-  void set_skl(::proto::Pskill value);
-
-  private:
-  ::proto::Pskill _internal_skl() const;
-  void _internal_set_skl(::proto::Pskill value);
-
-  public:
-  // required int32 target = 2;
-  bool has_target() const;
-  void clear_target() ;
-  ::int32_t target() const;
-  void set_target(::int32_t value);
-
-  private:
-  ::int32_t _internal_target() const;
-  void _internal_set_target(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:proto.PSkill)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  ::size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int skl_;
-    ::int32_t target_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_2fSkill_2eproto;
-};// -------------------------------------------------------------------
-
-class PSkillList final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkillList) */ {
- public:
-  inline PSkillList() : PSkillList(nullptr) {}
-  ~PSkillList() override;
-  template<typename = void>
-  explicit PROTOBUF_CONSTEXPR PSkillList(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PSkillList(const PSkillList& from);
-  PSkillList(PSkillList&& from) noexcept
-    : PSkillList() {
-    *this = ::std::move(from);
-  }
-
-  inline PSkillList& operator=(const PSkillList& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PSkillList& operator=(PSkillList&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields()
+        const {
+        return _internal_metadata_
+            .unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
+                ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
     }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PSkillList& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PSkillList* internal_default_instance() {
-    return reinterpret_cast<const PSkillList*>(
-               &_PSkillList_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(PSkillList& a, PSkillList& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PSkillList* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+        return _internal_metadata_
+            .mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
     }
-  }
-  void UnsafeArenaSwap(PSkillList* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
 
-  // implements Message ----------------------------------------------
-
-  PSkillList* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PSkillList>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PSkillList& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PSkillList& from) {
-    PSkillList::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  ::size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PSkillList* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() {
-    return "proto.PSkillList";
-  }
-  protected:
-  explicit PSkillList(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kListFieldNumber = 1,
-  };
-  // repeated .proto.PSkill list = 1;
-  int list_size() const;
-  private:
-  int _internal_list_size() const;
-
-  public:
-  void clear_list() ;
-  ::proto::PSkill* mutable_list(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkill >*
-      mutable_list();
-  private:
-  const ::proto::PSkill& _internal_list(int index) const;
-  ::proto::PSkill* _internal_add_list();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>& _internal_list() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>* _internal_mutable_list();
-  public:
-  const ::proto::PSkill& list(int index) const;
-  ::proto::PSkill* add_list();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkill >&
-      list() const;
-  // @@protoc_insertion_point(class_scope:proto.PSkillList)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkill > list_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_2fSkill_2eproto;
-};// -------------------------------------------------------------------
-
-class PSkillChoice final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkillChoice) */ {
- public:
-  inline PSkillChoice() : PSkillChoice(nullptr) {}
-  ~PSkillChoice() override;
-  template<typename = void>
-  explicit PROTOBUF_CONSTEXPR PSkillChoice(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  PSkillChoice(const PSkillChoice& from);
-  PSkillChoice(PSkillChoice&& from) noexcept
-    : PSkillChoice() {
-    *this = ::std::move(from);
-  }
-
-  inline PSkillChoice& operator=(const PSkillChoice& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline PSkillChoice& operator=(PSkillChoice&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+        return GetDescriptor();
     }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const PSkillChoice& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const PSkillChoice* internal_default_instance() {
-    return reinterpret_cast<const PSkillChoice*>(
-               &_PSkillChoice_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(PSkillChoice& a, PSkillChoice& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(PSkillChoice* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+        return default_instance().GetMetadata().descriptor;
     }
-  }
-  void UnsafeArenaSwap(PSkillChoice* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
+    static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+        return default_instance().GetMetadata().reflection;
+    }
+    static const PSkill& default_instance() {
+        return *internal_default_instance();
+    }
+    static inline const PSkill* internal_default_instance() {
+        return reinterpret_cast<const PSkill*>(&_PSkill_default_instance_);
+    }
+    static constexpr int kIndexInFileMessages = 0;
 
-  // implements Message ----------------------------------------------
+    friend void swap(PSkill& a, PSkill& b) { a.Swap(&b); }
+    inline void Swap(PSkill* other) {
+        if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() != nullptr &&
+            GetOwningArena() == other->GetOwningArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() == other->GetOwningArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+            InternalSwap(other);
+        } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+        }
+    }
+    void UnsafeArenaSwap(PSkill* other) {
+        if (other == this) return;
+        ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+        InternalSwap(other);
+    }
 
-  PSkillChoice* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<PSkillChoice>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const PSkillChoice& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const PSkillChoice& from) {
-    PSkillChoice::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
+    // implements Message ----------------------------------------------
 
-  ::size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+    PSkill* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+        return CreateMaybeMessage<PSkill>(arena);
+    }
+    using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+    void CopyFrom(const PSkill& from);
+    using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+    void MergeFrom(const PSkill& from) { PSkill::MergeImpl(*this, from); }
 
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(PSkillChoice* other);
+   private:
+    static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
+                          const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
 
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() {
-    return "proto.PSkillChoice";
-  }
-  protected:
-  explicit PSkillChoice(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
+   public:
+    PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+    bool IsInitialized() const final;
 
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+    ::size_t ByteSizeLong() const final;
+    const char* _InternalParse(
+        const char* ptr,
+        ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+    ::uint8_t* _InternalSerialize(
+        ::uint8_t* target,
+        ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+    int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
 
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+   private:
+    void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+    void SharedDtor();
+    void SetCachedSize(int size) const final;
+    void InternalSwap(PSkill* other);
 
-  // nested types ----------------------------------------------------
+   private:
+    friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+    static ::absl::string_view FullMessageName() { return "proto.PSkill"; }
 
-  // accessors -------------------------------------------------------
+   protected:
+    explicit PSkill(::PROTOBUF_NAMESPACE_ID::Arena* arena);
 
-  enum : int {
-    kSklFieldNumber = 2,
-    kIdFieldNumber = 1,
-  };
-  // required .proto.PSkillList skl = 2;
-  bool has_skl() const;
-  void clear_skl() ;
-  const ::proto::PSkillList& skl() const;
-  PROTOBUF_NODISCARD ::proto::PSkillList* release_skl();
-  ::proto::PSkillList* mutable_skl();
-  void set_allocated_skl(::proto::PSkillList* skl);
-  private:
-  const ::proto::PSkillList& _internal_skl() const;
-  ::proto::PSkillList* _internal_mutable_skl();
-  public:
-  void unsafe_arena_set_allocated_skl(
-      ::proto::PSkillList* skl);
-  ::proto::PSkillList* unsafe_arena_release_skl();
-  // required int32 id = 1;
-  bool has_id() const;
-  void clear_id() ;
-  ::int32_t id() const;
-  void set_id(::int32_t value);
+   public:
+    static const ClassData _class_data_;
+    const ::PROTOBUF_NAMESPACE_ID::Message::ClassData* GetClassData()
+        const final;
 
-  private:
-  ::int32_t _internal_id() const;
-  void _internal_set_id(::int32_t value);
+    ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
 
-  public:
-  // @@protoc_insertion_point(class_scope:proto.PSkillChoice)
- private:
-  class _Internal;
+    // nested types ----------------------------------------------------
 
-  // helper for ByteSizeLong()
-  ::size_t RequiredFieldsByteSizeFallback() const;
+    // accessors -------------------------------------------------------
 
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::proto::PSkillList* skl_;
-    ::int32_t id_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_proto_2fSkill_2eproto;
+    enum : int {
+        kSklFieldNumber = 1,
+        kTargetFieldNumber = 2,
+    };
+    // required .proto.Pskill skl = 1;
+    bool has_skl() const;
+    void clear_skl();
+    ::proto::Pskill skl() const;
+    void set_skl(::proto::Pskill value);
+
+   private:
+    ::proto::Pskill _internal_skl() const;
+    void _internal_set_skl(::proto::Pskill value);
+
+   public:
+    // required int32 target = 2;
+    bool has_target() const;
+    void clear_target();
+    ::int32_t target() const;
+    void set_target(::int32_t value);
+
+   private:
+    ::int32_t _internal_target() const;
+    void _internal_set_target(::int32_t value);
+
+   public:
+    // @@protoc_insertion_point(class_scope:proto.PSkill)
+   private:
+    class _Internal;
+
+    // helper for ByteSizeLong()
+    ::size_t RequiredFieldsByteSizeFallback() const;
+
+    template <typename T>
+    friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+    typedef void InternalArenaConstructable_;
+    typedef void DestructorSkippable_;
+    struct Impl_ {
+        ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+        mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+        int skl_;
+        ::int32_t target_;
+    };
+    union {
+        Impl_ _impl_;
+    };
+    friend struct ::TableStruct_proto_2fSkill_2eproto;
+};  // -------------------------------------------------------------------
+
+class PSkillList final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkillList)
+                                                                  */
+{
+   public:
+    inline PSkillList() : PSkillList(nullptr) {}
+    ~PSkillList() override;
+    template <typename = void>
+    explicit PROTOBUF_CONSTEXPR PSkillList(
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+    PSkillList(const PSkillList& from);
+    PSkillList(PSkillList&& from) noexcept : PSkillList() {
+        *this = ::std::move(from);
+    }
+
+    inline PSkillList& operator=(const PSkillList& from) {
+        CopyFrom(from);
+        return *this;
+    }
+    inline PSkillList& operator=(PSkillList&& from) noexcept {
+        if (this == &from) return *this;
+        if (GetOwningArena() == from.GetOwningArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+            && GetOwningArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+        ) {
+            InternalSwap(&from);
+        } else {
+            CopyFrom(from);
+        }
+        return *this;
+    }
+
+    inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields()
+        const {
+        return _internal_metadata_
+            .unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
+                ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+    }
+    inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+        return _internal_metadata_
+            .mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+    }
+
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+        return GetDescriptor();
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+        return default_instance().GetMetadata().descriptor;
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+        return default_instance().GetMetadata().reflection;
+    }
+    static const PSkillList& default_instance() {
+        return *internal_default_instance();
+    }
+    static inline const PSkillList* internal_default_instance() {
+        return reinterpret_cast<const PSkillList*>(
+            &_PSkillList_default_instance_);
+    }
+    static constexpr int kIndexInFileMessages = 1;
+
+    friend void swap(PSkillList& a, PSkillList& b) { a.Swap(&b); }
+    inline void Swap(PSkillList* other) {
+        if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() != nullptr &&
+            GetOwningArena() == other->GetOwningArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() == other->GetOwningArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+            InternalSwap(other);
+        } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+        }
+    }
+    void UnsafeArenaSwap(PSkillList* other) {
+        if (other == this) return;
+        ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+        InternalSwap(other);
+    }
+
+    // implements Message ----------------------------------------------
+
+    PSkillList* New(
+        ::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+        return CreateMaybeMessage<PSkillList>(arena);
+    }
+    using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+    void CopyFrom(const PSkillList& from);
+    using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+    void MergeFrom(const PSkillList& from) {
+        PSkillList::MergeImpl(*this, from);
+    }
+
+   private:
+    static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
+                          const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+
+   public:
+    PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+    bool IsInitialized() const final;
+
+    ::size_t ByteSizeLong() const final;
+    const char* _InternalParse(
+        const char* ptr,
+        ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+    ::uint8_t* _InternalSerialize(
+        ::uint8_t* target,
+        ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+    int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+   private:
+    void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+    void SharedDtor();
+    void SetCachedSize(int size) const final;
+    void InternalSwap(PSkillList* other);
+
+   private:
+    friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+    static ::absl::string_view FullMessageName() { return "proto.PSkillList"; }
+
+   protected:
+    explicit PSkillList(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+
+   public:
+    static const ClassData _class_data_;
+    const ::PROTOBUF_NAMESPACE_ID::Message::ClassData* GetClassData()
+        const final;
+
+    ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+    // nested types ----------------------------------------------------
+
+    // accessors -------------------------------------------------------
+
+    enum : int {
+        kListFieldNumber = 1,
+    };
+    // repeated .proto.PSkill list = 1;
+    int list_size() const;
+
+   private:
+    int _internal_list_size() const;
+
+   public:
+    void clear_list();
+    ::proto::PSkill* mutable_list(int index);
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>* mutable_list();
+
+   private:
+    const ::proto::PSkill& _internal_list(int index) const;
+    ::proto::PSkill* _internal_add_list();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>&
+    _internal_list() const;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>*
+    _internal_mutable_list();
+
+   public:
+    const ::proto::PSkill& list(int index) const;
+    ::proto::PSkill* add_list();
+    const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>& list()
+        const;
+    // @@protoc_insertion_point(class_scope:proto.PSkillList)
+   private:
+    class _Internal;
+
+    template <typename T>
+    friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+    typedef void InternalArenaConstructable_;
+    typedef void DestructorSkippable_;
+    struct Impl_ {
+        ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill> list_;
+        mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    };
+    union {
+        Impl_ _impl_;
+    };
+    friend struct ::TableStruct_proto_2fSkill_2eproto;
+};  // -------------------------------------------------------------------
+
+class PSkillChoice final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:proto.PSkillChoice)
+                                                                    */
+{
+   public:
+    inline PSkillChoice() : PSkillChoice(nullptr) {}
+    ~PSkillChoice() override;
+    template <typename = void>
+    explicit PROTOBUF_CONSTEXPR PSkillChoice(
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+    PSkillChoice(const PSkillChoice& from);
+    PSkillChoice(PSkillChoice&& from) noexcept : PSkillChoice() {
+        *this = ::std::move(from);
+    }
+
+    inline PSkillChoice& operator=(const PSkillChoice& from) {
+        CopyFrom(from);
+        return *this;
+    }
+    inline PSkillChoice& operator=(PSkillChoice&& from) noexcept {
+        if (this == &from) return *this;
+        if (GetOwningArena() == from.GetOwningArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+            && GetOwningArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+        ) {
+            InternalSwap(&from);
+        } else {
+            CopyFrom(from);
+        }
+        return *this;
+    }
+
+    inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields()
+        const {
+        return _internal_metadata_
+            .unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(
+                ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+    }
+    inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+        return _internal_metadata_
+            .mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+    }
+
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+        return GetDescriptor();
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+        return default_instance().GetMetadata().descriptor;
+    }
+    static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+        return default_instance().GetMetadata().reflection;
+    }
+    static const PSkillChoice& default_instance() {
+        return *internal_default_instance();
+    }
+    static inline const PSkillChoice* internal_default_instance() {
+        return reinterpret_cast<const PSkillChoice*>(
+            &_PSkillChoice_default_instance_);
+    }
+    static constexpr int kIndexInFileMessages = 2;
+
+    friend void swap(PSkillChoice& a, PSkillChoice& b) { a.Swap(&b); }
+    inline void Swap(PSkillChoice* other) {
+        if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() != nullptr &&
+            GetOwningArena() == other->GetOwningArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+        if (GetOwningArena() == other->GetOwningArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+            InternalSwap(other);
+        } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+        }
+    }
+    void UnsafeArenaSwap(PSkillChoice* other) {
+        if (other == this) return;
+        ABSL_DCHECK(GetOwningArena() == other->GetOwningArena());
+        InternalSwap(other);
+    }
+
+    // implements Message ----------------------------------------------
+
+    PSkillChoice* New(
+        ::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+        return CreateMaybeMessage<PSkillChoice>(arena);
+    }
+    using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+    void CopyFrom(const PSkillChoice& from);
+    using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+    void MergeFrom(const PSkillChoice& from) {
+        PSkillChoice::MergeImpl(*this, from);
+    }
+
+   private:
+    static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
+                          const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+
+   public:
+    PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+    bool IsInitialized() const final;
+
+    ::size_t ByteSizeLong() const final;
+    const char* _InternalParse(
+        const char* ptr,
+        ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+    ::uint8_t* _InternalSerialize(
+        ::uint8_t* target,
+        ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+    int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+   private:
+    void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+    void SharedDtor();
+    void SetCachedSize(int size) const final;
+    void InternalSwap(PSkillChoice* other);
+
+   private:
+    friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+    static ::absl::string_view FullMessageName() {
+        return "proto.PSkillChoice";
+    }
+
+   protected:
+    explicit PSkillChoice(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+
+   public:
+    static const ClassData _class_data_;
+    const ::PROTOBUF_NAMESPACE_ID::Message::ClassData* GetClassData()
+        const final;
+
+    ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+    // nested types ----------------------------------------------------
+
+    // accessors -------------------------------------------------------
+
+    enum : int {
+        kSklFieldNumber = 2,
+        kIdFieldNumber = 1,
+    };
+    // required .proto.PSkillList skl = 2;
+    bool has_skl() const;
+    void clear_skl();
+    const ::proto::PSkillList& skl() const;
+    PROTOBUF_NODISCARD ::proto::PSkillList* release_skl();
+    ::proto::PSkillList* mutable_skl();
+    void set_allocated_skl(::proto::PSkillList* skl);
+
+   private:
+    const ::proto::PSkillList& _internal_skl() const;
+    ::proto::PSkillList* _internal_mutable_skl();
+
+   public:
+    void unsafe_arena_set_allocated_skl(::proto::PSkillList* skl);
+    ::proto::PSkillList* unsafe_arena_release_skl();
+    // required int32 id = 1;
+    bool has_id() const;
+    void clear_id();
+    ::int32_t id() const;
+    void set_id(::int32_t value);
+
+   private:
+    ::int32_t _internal_id() const;
+    void _internal_set_id(::int32_t value);
+
+   public:
+    // @@protoc_insertion_point(class_scope:proto.PSkillChoice)
+   private:
+    class _Internal;
+
+    // helper for ByteSizeLong()
+    ::size_t RequiredFieldsByteSizeFallback() const;
+
+    template <typename T>
+    friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+    typedef void InternalArenaConstructable_;
+    typedef void DestructorSkippable_;
+    struct Impl_ {
+        ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+        mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+        ::proto::PSkillList* skl_;
+        ::int32_t id_;
+    };
+    union {
+        Impl_ _impl_;
+    };
+    friend struct ::TableStruct_proto_2fSkill_2eproto;
 };
 
 // ===================================================================
 
-
-
-
 // ===================================================================
-
 
 #ifdef __GNUC__
 #pragma GCC diagnostic push
@@ -668,53 +698,51 @@ class PSkillChoice final :
 
 // required .proto.Pskill skl = 1;
 inline bool PSkill::has_skl() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+    return value;
 }
 inline void PSkill::clear_skl() {
-  _impl_.skl_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000001u;
+    _impl_.skl_ = 0;
+    _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::proto::Pskill PSkill::skl() const {
-  // @@protoc_insertion_point(field_get:proto.PSkill.skl)
-  return _internal_skl();
+    // @@protoc_insertion_point(field_get:proto.PSkill.skl)
+    return _internal_skl();
 }
 inline void PSkill::set_skl(::proto::Pskill value) {
-   _internal_set_skl(value);
-  // @@protoc_insertion_point(field_set:proto.PSkill.skl)
+    _internal_set_skl(value);
+    // @@protoc_insertion_point(field_set:proto.PSkill.skl)
 }
 inline ::proto::Pskill PSkill::_internal_skl() const {
-  return static_cast<::proto::Pskill>(_impl_.skl_);
+    return static_cast<::proto::Pskill>(_impl_.skl_);
 }
 inline void PSkill::_internal_set_skl(::proto::Pskill value) {
-  assert(::proto::Pskill_IsValid(value));
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.skl_ = value;
+    assert(::proto::Pskill_IsValid(value));
+    _impl_._has_bits_[0] |= 0x00000001u;
+    _impl_.skl_ = value;
 }
 
 // required int32 target = 2;
 inline bool PSkill::has_target() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+    return value;
 }
 inline void PSkill::clear_target() {
-  _impl_.target_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_.target_ = 0;
+    _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline ::int32_t PSkill::target() const {
-  // @@protoc_insertion_point(field_get:proto.PSkill.target)
-  return _internal_target();
+    // @@protoc_insertion_point(field_get:proto.PSkill.target)
+    return _internal_target();
 }
 inline void PSkill::set_target(::int32_t value) {
-  _internal_set_target(value);
-  // @@protoc_insertion_point(field_set:proto.PSkill.target)
+    _internal_set_target(value);
+    // @@protoc_insertion_point(field_set:proto.PSkill.target)
 }
-inline ::int32_t PSkill::_internal_target() const {
-  return _impl_.target_;
-}
+inline ::int32_t PSkill::_internal_target() const { return _impl_.target_; }
 inline void PSkill::_internal_set_target(::int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.target_ = value;
+    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_.target_ = value;
 }
 
 // -------------------------------------------------------------------
@@ -723,50 +751,46 @@ inline void PSkill::_internal_set_target(::int32_t value) {
 
 // repeated .proto.PSkill list = 1;
 inline int PSkillList::_internal_list_size() const {
-  return _impl_.list_.size();
+    return _impl_.list_.size();
 }
-inline int PSkillList::list_size() const {
-  return _internal_list_size();
-}
-inline void PSkillList::clear_list() {
-  _internal_mutable_list()->Clear();
-}
+inline int PSkillList::list_size() const { return _internal_list_size(); }
+inline void PSkillList::clear_list() { _internal_mutable_list()->Clear(); }
 inline ::proto::PSkill* PSkillList::mutable_list(int index) {
-  // @@protoc_insertion_point(field_mutable:proto.PSkillList.list)
-  return _internal_mutable_list()->Mutable(index);
+    // @@protoc_insertion_point(field_mutable:proto.PSkillList.list)
+    return _internal_mutable_list()->Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkill >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>*
 PSkillList::mutable_list() {
-  // @@protoc_insertion_point(field_mutable_list:proto.PSkillList.list)
-  return _internal_mutable_list();
+    // @@protoc_insertion_point(field_mutable_list:proto.PSkillList.list)
+    return _internal_mutable_list();
 }
 inline const ::proto::PSkill& PSkillList::_internal_list(int index) const {
-  return _internal_list().Get(index);
+    return _internal_list().Get(index);
 }
 inline const ::proto::PSkill& PSkillList::list(int index) const {
-  // @@protoc_insertion_point(field_get:proto.PSkillList.list)
-  return _internal_list(index);
+    // @@protoc_insertion_point(field_get:proto.PSkillList.list)
+    return _internal_list(index);
 }
 inline ::proto::PSkill* PSkillList::_internal_add_list() {
-  return _internal_mutable_list()->Add();
+    return _internal_mutable_list()->Add();
 }
 inline ::proto::PSkill* PSkillList::add_list() {
-  ::proto::PSkill* _add = _internal_add_list();
-  // @@protoc_insertion_point(field_add:proto.PSkillList.list)
-  return _add;
+    ::proto::PSkill* _add = _internal_add_list();
+    // @@protoc_insertion_point(field_add:proto.PSkillList.list)
+    return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::proto::PSkill >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>&
 PSkillList::list() const {
-  // @@protoc_insertion_point(field_list:proto.PSkillList.list)
-  return _internal_list();
+    // @@protoc_insertion_point(field_list:proto.PSkillList.list)
+    return _internal_list();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>&
 PSkillList::_internal_list() const {
-  return _impl_.list_;
+    return _impl_.list_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<::proto::PSkill>*
 PSkillList::_internal_mutable_list() {
-  return &_impl_.list_;
+    return &_impl_.list_;
 }
 
 // -------------------------------------------------------------------
@@ -775,114 +799,117 @@ PSkillList::_internal_mutable_list() {
 
 // required int32 id = 1;
 inline bool PSkillChoice::has_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+    return value;
 }
 inline void PSkillChoice::clear_id() {
-  _impl_.id_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_.id_ = 0;
+    _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline ::int32_t PSkillChoice::id() const {
-  // @@protoc_insertion_point(field_get:proto.PSkillChoice.id)
-  return _internal_id();
+    // @@protoc_insertion_point(field_get:proto.PSkillChoice.id)
+    return _internal_id();
 }
 inline void PSkillChoice::set_id(::int32_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:proto.PSkillChoice.id)
+    _internal_set_id(value);
+    // @@protoc_insertion_point(field_set:proto.PSkillChoice.id)
 }
-inline ::int32_t PSkillChoice::_internal_id() const {
-  return _impl_.id_;
-}
+inline ::int32_t PSkillChoice::_internal_id() const { return _impl_.id_; }
 inline void PSkillChoice::_internal_set_id(::int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  _impl_.id_ = value;
+    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_.id_ = value;
 }
 
 // required .proto.PSkillList skl = 2;
 inline bool PSkillChoice::has_skl() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.skl_ != nullptr);
-  return value;
+    bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+    PROTOBUF_ASSUME(!value || _impl_.skl_ != nullptr);
+    return value;
 }
 inline void PSkillChoice::clear_skl() {
-  if (_impl_.skl_ != nullptr) _impl_.skl_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
+    if (_impl_.skl_ != nullptr) _impl_.skl_->Clear();
+    _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline const ::proto::PSkillList& PSkillChoice::_internal_skl() const {
-  const ::proto::PSkillList* p = _impl_.skl_;
-  return p != nullptr ? *p : reinterpret_cast<const ::proto::PSkillList&>(
-      ::proto::_PSkillList_default_instance_);
+    const ::proto::PSkillList* p = _impl_.skl_;
+    return p != nullptr ? *p
+                        : reinterpret_cast<const ::proto::PSkillList&>(
+                              ::proto::_PSkillList_default_instance_);
 }
 inline const ::proto::PSkillList& PSkillChoice::skl() const {
-  // @@protoc_insertion_point(field_get:proto.PSkillChoice.skl)
-  return _internal_skl();
+    // @@protoc_insertion_point(field_get:proto.PSkillChoice.skl)
+    return _internal_skl();
 }
 inline void PSkillChoice::unsafe_arena_set_allocated_skl(
     ::proto::PSkillList* skl) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.skl_);
-  }
-  _impl_.skl_ = skl;
-  if (skl) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:proto.PSkillChoice.skl)
+    if (GetArenaForAllocation() == nullptr) {
+        delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(
+            _impl_.skl_);
+    }
+    _impl_.skl_ = skl;
+    if (skl) {
+        _impl_._has_bits_[0] |= 0x00000001u;
+    } else {
+        _impl_._has_bits_[0] &= ~0x00000001u;
+    }
+    // @@protoc_insertion_point(field_unsafe_arena_set_allocated:proto.PSkillChoice.skl)
 }
 inline ::proto::PSkillList* PSkillChoice::release_skl() {
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::proto::PSkillList* temp = _impl_.skl_;
-  _impl_.skl_ = nullptr;
+    _impl_._has_bits_[0] &= ~0x00000001u;
+    ::proto::PSkillList* temp = _impl_.skl_;
+    _impl_.skl_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
-  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  if (GetArenaForAllocation() == nullptr) { delete old; }
-#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArenaForAllocation() != nullptr) {
+    auto* old = reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
+    if (GetArenaForAllocation() == nullptr) {
+        delete old;
+    }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+    if (GetArenaForAllocation() != nullptr) {
+        temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return temp;
+    return temp;
 }
 inline ::proto::PSkillList* PSkillChoice::unsafe_arena_release_skl() {
-  // @@protoc_insertion_point(field_release:proto.PSkillChoice.skl)
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::proto::PSkillList* temp = _impl_.skl_;
-  _impl_.skl_ = nullptr;
-  return temp;
+    // @@protoc_insertion_point(field_release:proto.PSkillChoice.skl)
+    _impl_._has_bits_[0] &= ~0x00000001u;
+    ::proto::PSkillList* temp = _impl_.skl_;
+    _impl_.skl_ = nullptr;
+    return temp;
 }
 inline ::proto::PSkillList* PSkillChoice::_internal_mutable_skl() {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  if (_impl_.skl_ == nullptr) {
-    auto* p = CreateMaybeMessage<::proto::PSkillList>(GetArenaForAllocation());
-    _impl_.skl_ = p;
-  }
-  return _impl_.skl_;
+    _impl_._has_bits_[0] |= 0x00000001u;
+    if (_impl_.skl_ == nullptr) {
+        auto* p =
+            CreateMaybeMessage<::proto::PSkillList>(GetArenaForAllocation());
+        _impl_.skl_ = p;
+    }
+    return _impl_.skl_;
 }
 inline ::proto::PSkillList* PSkillChoice::mutable_skl() {
-  ::proto::PSkillList* _msg = _internal_mutable_skl();
-  // @@protoc_insertion_point(field_mutable:proto.PSkillChoice.skl)
-  return _msg;
+    ::proto::PSkillList* _msg = _internal_mutable_skl();
+    // @@protoc_insertion_point(field_mutable:proto.PSkillChoice.skl)
+    return _msg;
 }
 inline void PSkillChoice::set_allocated_skl(::proto::PSkillList* skl) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete _impl_.skl_;
-  }
-  if (skl) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(skl);
-    if (message_arena != submessage_arena) {
-      skl = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, skl, submessage_arena);
+    ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+    if (message_arena == nullptr) {
+        delete _impl_.skl_;
     }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.skl_ = skl;
-  // @@protoc_insertion_point(field_set_allocated:proto.PSkillChoice.skl)
+    if (skl) {
+        ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+            ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(skl);
+        if (message_arena != submessage_arena) {
+            skl = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+                message_arena, skl, submessage_arena);
+        }
+        _impl_._has_bits_[0] |= 0x00000001u;
+    } else {
+        _impl_._has_bits_[0] &= ~0x00000001u;
+    }
+    _impl_.skl_ = skl;
+    // @@protoc_insertion_point(field_set_allocated:proto.PSkillChoice.skl)
 }
 
 #ifdef __GNUC__
@@ -892,14 +919,13 @@ inline void PSkillChoice::set_allocated_skl(::proto::PSkillList* skl) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace proto
 
-
 PROTOBUF_NAMESPACE_OPEN
 
 template <>
 struct is_proto_enum<::proto::Pskill> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::proto::Pskill>() {
-  return ::proto::Pskill_descriptor();
+    return ::proto::Pskill_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
