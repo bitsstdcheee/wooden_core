@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+package proto;
+
+import public "proto/Skill.proto";
+import public "proto/Qi.proto";
+import public "proto/TagDied.proto";
+import public "proto/SkillCount.proto";
+import public "proto/SkillUsed.proto";
+
+message PRoundPatch {
+    required string id = 1;
+    optional string prev_patch = 2; 
+    repeated int32 players = 3;
+    repeated string next_patch = 4;
+    repeated PQi qi = 5;
+    repeated PSkillChoice choices = 6;
+    repeated PTagDied tag_died = 7;
+    repeated PSkillCount skl_count = 8;
+    repeated PSkillUsed skill_used = 9;
+    message map_int_bool {
+        required int32 key = 1;
+        required bool value = 2;
+    }
+    repeated map_int_bool delayed_players = 10;
+    required bool judged = 11;
+    required bool head = 12;
+}

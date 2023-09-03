@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package proto;
+
+message PQi {
+    repeated int32 id = 1;
+    repeated int32 qi = 2;
+}

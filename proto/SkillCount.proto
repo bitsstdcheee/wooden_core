@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package proto;
+
+message PSkillCountSingle {
+    required int32 skl = 1;
+    required int32 count = 2;
+}
+
+message PSkillCount {
+    required int32 id = 1;
+    repeated PSkillCountSingle list = 2;
+}

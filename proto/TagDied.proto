@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package proto;
+
+message PTagDied {
+    required int32 id = 1;
+    required bool tag = 2;
+}
