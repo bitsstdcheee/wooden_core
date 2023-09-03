@@ -131,7 +131,7 @@ set(GLOBAL_SOURCES "${SOURCES}")
 set(GLOBAL_SOURCES_CORE "${SOURCES}")
 list(REMOVE_ITEM GLOBAL_SOURCES_CORE ${CORE_EXCLUDED_SOURCES})
 set(GLOBAL_HEADERS "${HEADERS}")
-set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/src")
+set(GLOBAL_INCLUDE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR};${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/src;${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/third_party/abseil-cpp;${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/third_party/googletest;${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/third_party/jsoncpp;${CMAKE_CURRENT_SOURCE_DIR}/third-party/protobuf/third_party/utf8_range")
 INCLUDE_DIRECTORIES(${GLOBAL_INCLUDE_DIRECTORY})
 
 # .cpp 生成可执行文件
@@ -172,4 +172,4 @@ set(protobuf_BUILD_TESTS off)
 set(ABSL_PROPAGATE_CXX_STD on)
 add_subdirectory(${PROTOBUF_SOURCE_ROOT_DIR})
 
-target_link_libraries(${PROJECT_NAME} libprotobuf)
+# target_link_libraries(${PROJECT_NAME} libprotobuf)
