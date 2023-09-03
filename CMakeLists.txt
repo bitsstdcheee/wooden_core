@@ -118,7 +118,7 @@ enable_testing()
 file (GLOB SOURCES
     *.cpp
     third-party/protobuf/src/*
-    proto/proto/*
+    proto/*
 )
 file(GLOB CORE_EXCLUDED_SOURCES
     wooden_core.cpp
@@ -172,4 +172,9 @@ set(protobuf_BUILD_TESTS off)
 set(ABSL_PROPAGATE_CXX_STD on)
 add_subdirectory(${PROTOBUF_SOURCE_ROOT_DIR})
 
-# target_link_libraries(${PROJECT_NAME} libprotobuf)
+if (${DISABLE_STATIC_LINK})
+    link_directories(${CMAKE_CURRENT_BINARY_DIR})
+    target_link_libraries(${PROJECT_NAME} libprotobuf)
+else()
+    target_link_libraries(${PROJECT_NAME} libprotobuf)
+endif()
