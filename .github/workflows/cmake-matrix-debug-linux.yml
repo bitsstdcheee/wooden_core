@@ -108,10 +108,12 @@ jobs:
         verbose: true
         name: debug - ${{ matrix.os }} - ${{ matrix.profile }}
         token: ${{ secrets.CODECOV_TOKEN }}
+    - name: 打包 Artifact
+      if: always()
+      run: tar -zcf wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}.tar.gz --exclude=build/_deps build
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
       with:
         name: wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}
-        path:
-          build/
+        path: wooden_core-*.tar.gz
