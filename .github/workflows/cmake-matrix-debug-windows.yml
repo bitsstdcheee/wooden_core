@@ -89,7 +89,7 @@ jobs:
       if: always()
       run: |
         7z a -ttar wooden_core_tmp.tar build -x!build/_deps
-        7z a -tgzip wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}.tar.gz wooden_core_tmp.tar
+        7z a -tgzip "wooden_core-${{ matrix.build_type }}-${{ matrix.os }}-${{ matrix.profile }}.tar.gz" wooden_core_tmp.tar
     - name: 上传 Artifact
       if: always()
       uses: actions/upload-artifact@v3.1.2
